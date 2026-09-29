@@ -1,0 +1,1010 @@
+<title>Wish Fulfilled Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm column — the page is today's page. Write at the top, then the practice built from it unfolds below. Vault + Month are side rooms. */
+:root {
+  --bg: #eef1f5;          /* pre-dawn sky */
+  --surface: #ffffff;
+  --surface-2: #e3e8ef;
+  --ink: #141b2e;         /* night ink */
+  --ink-2: #4a5470;
+  --ink-3: #7a839b;
+  --line: #d3d9e3;
+  --gold: #9a6200;        /* first light, deep enough for text on pale */
+  --gold-soft: #f6e6c4;
+  --gold-fill: #d99a26;
+  --rose: #b0324f;
+  --ok: #2c7a4b;
+  --font-display: "Gloock", "Georgia", "Times New Roman", serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(20,27,46,.06), 0 8px 24px -12px rgba(20,27,46,.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1120; --surface: #141b2e; --surface-2: #1c2440; --ink: #e8ebf3; --ink-2: #aab2c8; --ink-3: #7d869f;
+    --line: #26304d; --gold: #eab456; --gold-soft: #33290f; --gold-fill: #d99a26; --rose: #ef7d97; --ok: #6cc793;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1120; --surface: #141b2e; --surface-2: #1c2440; --ink: #e8ebf3; --ink-2: #aab2c8; --ink-3: #7d869f;
+  --line: #26304d; --gold: #eab456; --gold-soft: #33290f; --gold-fill: #d99a26; --rose: #ef7d97; --ok: #6cc793;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; padding-block: 0 140px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; margin: 0; letter-spacing: -0.005em; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 6px; }
+
+/* top bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.bar-in { max-width: 760px; margin: 0 auto; padding-inline: 20px; padding-block: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 20px; }
+.sun { width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle at 50% 70%, var(--gold-fill) 0 45%, transparent 46%); border-bottom: 2px solid var(--ink); }
+.tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 999px; }
+.tab { border: 0; background: transparent; padding: 6px 14px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
+
+.notice { margin-top: 16px; padding: 10px 14px; border-radius: 10px; background: var(--gold-soft); color: var(--ink); font-size: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+
+/* today header */
+.dayhead { padding-block: 36px 18px; display: grid; gap: 8px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 0; display: flex; gap: 14px; flex-wrap: wrap; }
+.eyebrow b { color: var(--gold); font-weight: 500; }
+.dayhead h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; }
+.lede { margin: 0; color: var(--ink-2); max-width: 60ch; }
+
+/* journal */
+.journal { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.journal textarea { display: block; width: 100%; min-height: 320px; resize: vertical; border: 0; background: transparent; color: var(--ink); padding: 22px 22px 12px; font: 400 18px/1.7 var(--font-body); outline: none; background-image: linear-gradient(to bottom, transparent calc(1.7em - 1px), var(--line) calc(1.7em - 1px), var(--line) 1.7em, transparent 1.7em); background-size: 100% 1.7em; background-attachment: local; background-position: 0 22px; }
+.journal textarea::placeholder { color: var(--ink-3); }
+.jfoot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--surface-2); }
+.meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); display: flex; gap: 14px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.meta .saved { color: var(--ok); }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 8px 14px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600; }
+.btn:hover { border-color: var(--ink-3); }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); padding: 10px 18px; font-size: 15px; }
+.btn.primary:hover { background: color-mix(in srgb, var(--ink) 88%, var(--gold)); }
+.btn.small { padding: 5px 11px; font-size: 13px; }
+.btn.ghost { background: transparent; }
+
+.status { margin-top: 14px; font-size: 14px; color: var(--ink-2); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--gold-fill); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; transform: scale(.7); } }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+
+/* practice */
+.kit { display: grid; gap: 28px; margin-top: 40px; }
+.planner { position: relative; padding: 30px 26px 22px; border-radius: var(--radius); background: var(--ink); color: var(--bg); overflow: hidden; }
+.planner::before { content: ""; position: absolute; right: -60px; bottom: -120px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--gold-fill) 55%, transparent) 0%, transparent 65%); pointer-events: none; }
+.planner .label { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-fill); }
+.planner blockquote { margin: 10px 0 12px; font-family: var(--font-display); font-size: clamp(26px, 4.6vw, 36px); line-height: 1.18; position: relative; }
+.planner p { margin: 0 0 16px; color: color-mix(in srgb, var(--bg) 70%, var(--ink)); font-size: 14px; max-width: 58ch; position: relative; }
+.planner .row { display: flex; gap: 8px; flex-wrap: wrap; position: relative; }
+.planner .btn { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 35%, transparent); }
+
+.sect { display: grid; gap: 12px; }
+.sect-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.sect-h h2 { font-size: 26px; }
+.sect-h .hint { font-size: 13px; color: var(--ink-3); }
+.sect-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.aff { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.aff li { display: flex; gap: 12px; align-items: flex-start; padding: 10px 4px; border-bottom: 1px dashed var(--line); font-size: 18px; line-height: 1.45; }
+.aff li:last-child { border-bottom: 0; }
+.aff li span { flex: 1; min-width: 0; }
+.heart { flex: none; border: 0; background: transparent; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: var(--ink-3); margin-top: -3px; }
+.heart:hover { background: var(--surface-2); }
+.heart[aria-pressed="true"] { color: var(--rose); }
+.heart svg { width: 18px; height: 18px; }
+
+.auto { display: grid; gap: 10px; }
+.auto-item { padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.auto-item q { font-family: var(--font-display); font-size: 21px; quotes: "“" "”"; display: block; }
+.auto-item small { display: block; color: var(--ink-2); font-size: 14px; margin-top: 4px; }
+
+.scenes { display: grid; gap: 14px; }
+.scene { padding: 18px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; display: grid; gap: 8px; }
+.scene h3 { font-size: 21px; }
+.scene p { margin: 0; color: var(--ink); max-width: 64ch; }
+.scene dl { margin: 4px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; }
+.scene dt { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); padding-top: 3px; }
+.scene dd { margin: 0; color: var(--ink-2); }
+
+.tracks { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.track { padding: 18px 20px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); display: grid; gap: 8px; align-content: start; }
+.track .kind { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+.track h3 { font-size: 22px; }
+.track p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.track details { font-size: 14px; color: var(--ink-2); }
+.track details summary { cursor: pointer; color: var(--ink-3); }
+.track details div { margin-top: 8px; max-height: 260px; overflow: auto; display: grid; gap: 6px; }
+.track .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 999px; background: var(--surface-2); font-size: 13px; color: var(--ink); }
+.chip.gold { background: var(--gold-soft); }
+.chip em { font-style: normal; font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); margin-left: 4px; }
+.mirror { display: grid; gap: 14px; padding: 18px 20px; border-radius: 12px; background: var(--surface-2); }
+.mirror h4 { margin: 0 0 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+.mirror p { margin: 0; color: var(--ink-2); }
+
+/* empty preview */
+.preview { margin-top: 40px; display: grid; gap: 10px; }
+.preview h2 { font-size: 22px; }
+.preview ol { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.preview li { padding: 14px 16px; border: 1px dashed var(--line); border-radius: 12px; color: var(--ink-2); font-size: 14px; }
+.preview li b { display: block; color: var(--ink); font-family: var(--font-display); font-weight: 400; font-size: 18px; margin-bottom: 2px; }
+
+/* vault & report */
+.vhead { padding-block: 36px 8px; display: grid; gap: 8px; }
+.vhead h1 { font-size: clamp(32px, 5.5vw, 44px); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 18px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.stat b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 30px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.stat span { font-size: 13px; color: var(--ink-3); }
+.panel { margin-top: 28px; display: grid; gap: 12px; }
+.panel h2 { font-size: 24px; }
+.panel .sub { margin: 0; color: var(--ink-3); font-size: 14px; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.two > * { min-width: 0; }
+
+.freq { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.freq li { display: grid; grid-template-columns: minmax(0, 9em) 1fr 3ch; gap: 10px; align-items: center; font-size: 14px; padding: 2px 0; border-radius: 6px; }
+.freq li:hover { background: var(--surface-2); }
+.freq .w { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.freq .track-bar { height: 10px; background: transparent; }
+.freq .fill { height: 100%; background: var(--gold-fill); border-radius: 0 4px 4px 0; min-width: 2px; }
+.freq .n { font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); text-align: right; font-variant-numeric: tabular-nums; }
+
+.areas { display: grid; gap: 16px; }
+.area h3 { font-size: 18px; margin-bottom: 6px; display: flex; gap: 8px; align-items: baseline; }
+.area h3 em { font-style: normal; font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+.area ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; color: var(--ink-2); }
+.area li small { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); margin-left: 6px; }
+
+.landed { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.landed li { padding: 10px 14px; border-left: 3px solid var(--rose); background: var(--surface); border-radius: 0 10px 10px 0; font-family: var(--font-display); font-size: 18px; }
+
+.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.entries button { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 12px 16px; cursor: pointer; display: grid; gap: 2px; }
+.entries button:hover { border-color: var(--ink-3); }
+.entries .d { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+.entries .m { font-family: var(--font-display); font-size: 18px; }
+.entries .x { font-size: 14px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.dayview { margin-top: 24px; padding: 20px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--bg); display: grid; gap: 16px; }
+.dayview .raw { white-space: pre-wrap; background: var(--surface); padding: 16px 18px; border-radius: 12px; border: 1px solid var(--line); max-height: 320px; overflow: auto; font-size: 15px; }
+.dayview .kit { margin-top: 8px; }
+
+.monthpick { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+select { font: inherit; font-size: 15px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.narr { display: grid; gap: 18px; padding: 22px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
+.narr .headline { font-family: var(--font-display); font-size: clamp(24px, 4vw, 32px); line-height: 1.2; margin: 0; }
+.narr h3 { font-size: 19px; margin-bottom: 6px; }
+.narr p { margin: 0; color: var(--ink-2); max-width: 64ch; }
+.narr ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--ink-2); }
+.narr ul b { color: var(--ink); font-weight: 600; }
+.empty { padding: 24px; border: 1px dashed var(--line); border-radius: var(--radius); color: var(--ink-2); text-align: left; }
+.empty b { color: var(--ink); }
+
+/* player */
+.player { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: var(--ink); color: var(--bg); padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -10px 30px -10px rgba(0,0,0,.4); }
+.player-in { max-width: 760px; margin: 0 auto; display: grid; gap: 8px; }
+.player .top { display: flex; justify-content: space-between; gap: 10px; align-items: center; flex-wrap: wrap; }
+.player .ttl { font-family: var(--font-display); font-size: 18px; }
+.player .now { font-size: 15px; color: color-mix(in srgb, var(--bg) 78%, var(--ink)); min-height: 1.5em; }
+.player .prog { height: 3px; background: color-mix(in srgb, var(--bg) 18%, transparent); border-radius: 2px; overflow: hidden; }
+.player .prog div { height: 100%; width: 0; background: var(--gold-fill); transition: width .4s; }
+.player .ctl { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 13px; }
+.player .btn { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 35%, transparent); }
+.player select { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 35%, transparent); font-size: 13px; padding: 5px 8px; max-width: 200px; }
+.player select option { color: var(--ink); background: var(--surface); }
+.player label { display: inline-flex; gap: 6px; align-items: center; }
+.player input[type=range] { width: 90px; accent-color: var(--gold-fill); }
+
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-size: 14px; z-index: 40; box-shadow: var(--shadow); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand"><span class="sun" aria-hidden="true"></span>Wish Fulfilled</div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="tab-today" aria-selected="true" data-view="today">Today</button>
+      <button class="tab" role="tab" id="tab-vault" aria-selected="false" data-view="vault">Vault</button>
+      <button class="tab" role="tab" id="tab-report" aria-selected="false" data-view="report">Month</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="notice" class="notice" hidden></div>
+
+  <!-- TODAY -->
+  <section id="view-today">
+    <div class="dayhead">
+      <p class="eyebrow"><span id="todayLabel">Today</span><span id="streakLabel"></span></p>
+      <h1>Unload everything.</h1>
+      <p class="lede">Your goals, your vision, who you are becoming, next week and ten years out. Don't edit, don't organize. Write it all as it comes, then build today's practice from it.</p>
+    </div>
+
+    <div class="journal">
+      <label class="sr" for="journal">Today's journal</label>
+      <textarea id="journal" placeholder="This morning I'm thinking about…"></textarea>
+      <div class="jfoot">
+        <div class="meta"><span id="wordCount">0 words</span><span id="saveState">Not saved yet</span></div>
+        <button class="btn primary" id="buildBtn" type="button">Build today's practice</button>
+      </div>
+    </div>
+    <div id="genStatus" class="status" hidden></div>
+
+    <div id="todayKit"></div>
+  </section>
+
+  <!-- VAULT -->
+  <section id="view-vault" hidden>
+    <div class="vhead">
+      <p class="eyebrow">Master folder · every entry, every dream</p>
+      <h1>Your vault</h1>
+      <p class="lede">Everything you've written, and the language that keeps coming back. Today's page starts fresh each morning; nothing gets lost here.</p>
+    </div>
+    <div id="vaultBody"></div>
+  </section>
+
+  <!-- MONTH -->
+  <section id="view-report" hidden>
+    <div class="vhead">
+      <p class="eyebrow">Monthly report</p>
+      <h1>What you keep coming back to</h1>
+      <p class="lede">The desires you repeat, the words that carry feeling, and the images you see most clearly, pulled from one month of entries.</p>
+    </div>
+    <div class="monthpick" style="margin-top:14px">
+      <label for="monthSel" class="sr">Month</label>
+      <select id="monthSel"></select>
+      <button class="btn" id="reportBtn" type="button">Write this month's report</button>
+    </div>
+    <div id="reportStatus" class="status" hidden></div>
+    <div id="reportBody"></div>
+  </section>
+</main>
+
+<div class="player" id="player" hidden>
+  <div class="player-in">
+    <div class="top">
+      <div class="ttl" id="plTitle">Track</div>
+      <div class="ctl">
+        <button class="btn small" id="plPlay" type="button">Pause</button>
+        <button class="btn small" id="plStop" type="button">Close</button>
+      </div>
+    </div>
+    <div class="now" id="plNow" aria-live="polite"></div>
+    <div class="prog"><div id="plProg"></div></div>
+    <div class="ctl">
+      <label>Voice <select id="plVoice"></select></label>
+      <label>Pace <input type="range" id="plRate" min="0.6" max="1.1" step="0.05" value="0.85"></label>
+      <label><input type="checkbox" id="plTone"> Theta tone (headphones)</label>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+"use strict";
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pad = (n) => String(n).padStart(2, "0");
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const parseKey = (k) => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmtDay = (k, opts = { weekday: "long", month: "long", day: "numeric", year: "numeric" }) => parseKey(k).toLocaleDateString(undefined, opts);
+const fmtMonth = (m) => { const [y, mo] = m.split("-").map(Number); return new Date(y, mo - 1, 1).toLocaleDateString(undefined, { month: "long", year: "numeric" }); };
+const wordsIn = (t) => (String(t || "").match(/[A-Za-z0-9'’]+/g) || []).length;
+const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+let toastT;
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2600); }
+const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>';
+const HEART_O = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 20s-7-4.3-9-8.6C1.6 8.3 3.5 5 6.8 5c2 0 3.4 1.1 4.1 2.3h2.2C13.8 6.1 15.2 5 17.2 5c3.3 0 5.2 3.3 3.8 6.4C19 15.7 12 20 12 20z"/></svg>';
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); toast("Copied"); }
+  catch { toast("Copy blocked here. Select the text and copy it by hand."); }
+}
+
+/* ---------- storage: claude db, with a browser-only fallback ---------- */
+const state = { entries: {}, reports: {}, mode: "loading", today: dayKey(), vaultOpen: null };
+let db = null, sample = null, downloads = null;
+const writeChains = {};
+function queueWrite(path, fn) {
+  const prev = writeChains[path] || Promise.resolve();
+  const next = prev.catch(() => {}).then(fn);
+  writeChains[path] = next;
+  return next;
+}
+async function saveEntry(entry) {
+  entry.updatedAt = Date.now();
+  state.entries[entry.date] = entry;
+  if (state.mode === "db") {
+    return queueWrite("entries/" + entry.date, () => db.doc("entries/" + entry.date).set(JSON.parse(JSON.stringify(entry))));
+  }
+  lsSet("wfj.entries", state.entries);
+}
+async function saveReport(rep) {
+  state.reports[rep.month] = rep;
+  if (state.mode === "db") return queueWrite("reports/" + rep.month, () => db.doc("reports/" + rep.month).set(JSON.parse(JSON.stringify(rep))));
+  lsSet("wfj.reports", state.reports);
+}
+
+function useLocal(reason) {
+  state.mode = "local";
+  state.entries = lsGet("wfj.entries", {});
+  state.reports = lsGet("wfj.reports", {});
+  const n = $("#notice");
+  n.hidden = false;
+  n.textContent = reason || "Your vault isn't connected in this view, so entries are saved in this browser only. Open the page on claude.ai to save them to your vault.";
+  renderAll();
+}
+
+async function initStore() {
+  if (!window.claude || typeof window.claude.use !== "function") return useLocal();
+  const [d, s, dl] = await Promise.all([
+    window.claude.use("db").catch(() => null),
+    window.claude.use("sample").catch(() => null),
+    window.claude.use("downloads").catch(() => null),
+  ]);
+  sample = s; downloads = dl;
+  if (!d) return useLocal();
+  db = d; state.mode = "db";
+  let firstEntries = true;
+  db.collection("entries").onSnapshot((snap) => {
+    const next = {};
+    for (const doc of snap.docs) { const v = doc.data(); if (v && v.date) next[v.date] = JSON.parse(JSON.stringify(v)); }
+    // don't overwrite text the person is typing right now
+    const mine = state.entries[state.today];
+    if (mine && dirty && next[state.today]) next[state.today].text = mine.text;
+    else if (mine && dirty && !next[state.today]) next[state.today] = mine;
+    state.entries = next;
+    if (firstEntries) { firstEntries = false; offerLocalImport(); loadToday(); }
+    renderAll();
+  }, (e) => { if (e.code === "revoked") useLocal("Your vault connection was closed. New writing is kept in this browser until you reload."); });
+  db.collection("reports").onSnapshot((snap) => {
+    const next = {};
+    for (const doc of snap.docs) { const v = doc.data(); if (v && v.month) next[v.month] = JSON.parse(JSON.stringify(v)); }
+    state.reports = next;
+    if (currentView === "report") renderReport();
+  }, () => {});
+}
+
+function offerLocalImport() {
+  const local = lsGet("wfj.entries", {});
+  const missing = Object.values(local).filter(e => e && e.date && e.text && !state.entries[e.date]);
+  if (!missing.length) return;
+  const n = $("#notice");
+  n.hidden = false;
+  n.innerHTML = `<span>${missing.length} ${missing.length === 1 ? "entry was" : "entries were"} written while your vault was offline.</span><button class="btn small" id="importBtn" type="button">Move ${missing.length === 1 ? "it" : "them"} into your vault</button>`;
+  $("#importBtn").onclick = async () => {
+    for (const e of missing) await saveEntry(e);
+    lsSet("wfj.entries", {});
+    n.hidden = true;
+    toast("Moved into your vault");
+  };
+}
+
+/* ---------- text analysis (runs locally over the whole vault) ---------- */
+const STOP = new Set(("a about above after again against all also am an and any are aren't as at be because been before being below between both but by can can't cannot could couldn't did didn't do does doesn't doing don't down during each few for from further get gets getting got had hadn't has hasn't have haven't having he he'd he'll he's her here here's hers herself him himself his how how's i i'd i'll i'm i've if in into is isn't it it's its itself just let's me more most mustn't my myself no nor not now of off on once only or other ought our ours ourselves out over own really same shan't she she'd she'll she's should shouldn't so some such than that that's the their theirs them themselves then there there's these they they'd they'll they're they've this those through to too under until up upon us very was wasn't we we'd we'll we're we've were weren't what what's when when's where where's which while who who's whom why why's will with won't would wouldn't you you'd you'll you're you've your yours yourself yourselves im ive dont cant wont its thats theres id ill youre lot lots thing things stuff way ways want wants wanted need needs going gonna go goes went know think thinking thought make makes made much many every even still something anything everything one two also like really actually maybe just well kind sort today morning day able right back yes yeah okay ok sure etc").split(/\s+/));
+function tokens(text) { return (String(text || "").toLowerCase().replace(/’/g, "'").match(/[a-z][a-z']*/g) || []).map(w => w.replace(/'s$/, "").replace(/^'+|'+$/g, "")); }
+function countWords(texts) {
+  const m = new Map();
+  for (const t of texts) for (const w of tokens(t)) if (w.length > 2 && !STOP.has(w)) m.set(w, (m.get(w) || 0) + 1);
+  return [...m.entries()].sort((a, b) => b[1] - a[1]);
+}
+function countPhrases(texts) {
+  const m = new Map();
+  for (const t of texts) {
+    for (const sentence of String(t || "").split(/[.!?\n;:,]+/)) {
+      const tk = tokens(sentence);
+      for (let n = 2; n <= 4; n++) for (let i = 0; i + n <= tk.length; i++) {
+        const g = tk.slice(i, i + n);
+        if (STOP.has(g[0]) || STOP.has(g[n - 1]) || g.some(w => w.length < 2)) continue;
+        const k = g.join(" ");
+        m.set(k, (m.get(k) || 0) + 1);
+      }
+    }
+  }
+  // keep phrases said at least twice, drop ones fully contained in a longer phrase with the same count
+  const arr = [...m.entries()].filter(([, c]) => c >= 2).sort((a, b) => b[1] - a[1] || b[0].length - a[0].length);
+  const out = [];
+  for (const [k, c] of arr) { if (out.some(([o, oc]) => oc === c && o.includes(k))) continue; out.push([k, c]); }
+  return out;
+}
+function tally(list) {
+  const m = new Map(), shown = new Map();
+  for (const raw of list) { const s = String(raw || "").trim(); if (!s) continue; const k = s.toLowerCase(); m.set(k, (m.get(k) || 0) + 1); if (!shown.has(k)) shown.set(k, s); }
+  return [...m.entries()].sort((a, b) => b[1] - a[1]).map(([k, c]) => [shown.get(k), c]);
+}
+function aggregate(entries) {
+  const texts = entries.map(e => e.text || "");
+  const an = entries.map(e => e.kit && e.kit.analysis).filter(Boolean);
+  const desires = [];
+  for (const e of entries) for (const d of (e.kit?.analysis?.desires || [])) desires.push({ ...d, date: e.date });
+  return {
+    days: entries.length,
+    words: texts.reduce((a, t) => a + wordsIn(t), 0),
+    topWords: countWords(texts),
+    phrases: countPhrases(texts),
+    power: tally(an.flatMap(a => a.powerWords || [])),
+    images: tally(an.flatMap(a => a.mentalImages || [])),
+    themes: tally(an.flatMap(a => a.themes || [])),
+    desires,
+    hearts: entries.flatMap(e => (e.hearts || []).map(h => ({ text: h, date: e.date }))),
+  };
+}
+function streak() {
+  let n = 0; const d = new Date();
+  if (!state.entries[dayKey(d)]?.text) d.setDate(d.getDate() - 1);
+  while (state.entries[dayKey(d)]?.text) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
+/* ---------- today ---------- */
+let dirty = false, saveTimer = null;
+const ta = $("#journal");
+function todayEntry() {
+  return state.entries[state.today] || (state.entries[state.today] = { date: state.today, text: "", hearts: [], kit: null, audio: null, createdAt: Date.now() });
+}
+function loadToday() {
+  state.today = dayKey();
+  const e = state.entries[state.today];
+  const draft = lsGet("wfj.draft", null);
+  let text = e?.text || "";
+  if (draft && draft.date === state.today && (draft.text || "").length > text.length) text = draft.text; // unsaved typing survives a reload
+  if (document.activeElement !== ta || !dirty) ta.value = text;
+  $("#todayLabel").textContent = fmtDay(state.today);
+  updateMeta();
+  renderToday();
+}
+function updateMeta() {
+  const w = wordsIn(ta.value);
+  $("#wordCount").textContent = `${w.toLocaleString()} ${w === 1 ? "word" : "words"}`;
+  const s = streak();
+  $("#streakLabel").innerHTML = s > 1 ? `<b>${s}-day streak</b>` : "";
+}
+function setSaveState(txt, ok) { const el = $("#saveState"); el.textContent = txt; el.className = ok ? "saved" : ""; }
+ta.addEventListener("input", () => {
+  dirty = true; updateMeta(); setSaveState("Writing…");
+  lsSet("wfj.draft", { date: state.today, text: ta.value });
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(persistText, 1800);
+});
+ta.addEventListener("blur", () => { if (dirty) { clearTimeout(saveTimer); persistText(); } });
+async function persistText() {
+  if (dayKey() !== state.today) { rollDay(); return; }
+  const e = todayEntry();
+  if (e.text === ta.value && !dirty) return;
+  e.text = ta.value;
+  e.words = wordsIn(e.text);
+  try {
+    await saveEntry(e);
+    dirty = false;
+    setSaveState(state.mode === "db" ? "Saved to your vault" : "Saved in this browser", true);
+  } catch (err) {
+    setSaveState(err?.code === "quota_exceeded" ? "Vault is full. Export, then clear old entries." : "Couldn't save. Your words are kept in this browser.");
+  }
+}
+function rollDay() {
+  // a new morning: the page resets, yesterday stays in the vault
+  dirty = false; ta.value = ""; lsSet("wfj.draft", null);
+  loadToday(); renderAll();
+  toast("New day. Yesterday is safe in your vault.");
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden && dayKey() !== state.today) rollDay(); });
+
+/* ---------- generation ---------- */
+function lexiconContext() {
+  const past = Object.values(state.entries).filter(e => e.date !== state.today && e.text);
+  if (!past.length) return "";
+  const a = aggregate(past);
+  const parts = [];
+  if (a.power.length) parts.push("Words that carry emotional charge for them (most repeated first): " + a.power.slice(0, 25).map(([w, c]) => `${w} (${c})`).join(", "));
+  if (a.images.length) parts.push("Mental images they return to: " + a.images.slice(0, 12).map(([w]) => w).join("; "));
+  if (a.hearts.length) parts.push("Lines they hearted because they landed hard:\n" + a.hearts.slice(-15).map(h => "- " + h.text).join("\n"));
+  const recurring = tally(a.desires.map(d => d.text)).filter(([, c]) => c > 1).slice(0, 10);
+  if (recurring.length) parts.push("Desires they keep repeating: " + recurring.map(([t, c]) => `${t} (${c}x)`).join("; "));
+  if (a.phrases.length) parts.push("Their own recurring phrases: " + a.phrases.slice(0, 15).map(([p]) => `"${p}"`).join(", "));
+  return parts.length ? `\n\nWHAT YOU KNOW ABOUT THEIR LANGUAGE FROM ${past.length} PAST ENTRIES (use it: echo these words and images where they fit today's entry, and model the new lines on the ones they hearted):\n${parts.join("\n")}` : "";
+}
+
+const FRAME = `You are a master manifestation coach who works in the tradition of Neville Goddard ("assume the feeling of the wish fulfilled", "live in the end"), Emile Coué's autosuggestion, Napoleon Hill's burning desire, and modern guided imagery and hypnotherapy. A person has just written their unfiltered morning journal about their goals and vision for their life. Build their practice for today from it.
+
+Rules for everything you write:
+- Use THEIR words, names, numbers, places and images. Specific beats generic. If they said "a white house on the water in Tampa", say exactly that, not "my dream home".
+- First person, present tense, as already done and real ("I am", "I have", "I love that"), with feeling. Never "I will", "I hope", "I want", or "I am trying".
+- Emotion and senses over abstractions: what they see, hear, touch, and how it feels in the body.
+- Warm, grounded, powerful. No clichés, no hashtags, no emojis.`;
+
+function kitPrompt(text) {
+  return `${FRAME}
+
+TODAY'S JOURNAL (${fmtDay(state.today)}):
+"""
+${text.slice(0, 40000)}
+"""${lexiconContext()}
+
+Reply with only a JSON object in exactly this shape:
+{
+  "plannerLine": "ONE sentence, 8-16 words, for their paper planner. Memorable, rhythmic, easy to repeat all day, fired up, spoken from the wish already fulfilled.",
+  "plannerWhy": "one short sentence on why this line, pointing to what they wrote",
+  "affirmations": ["8 to 10 affirmations, each one sentence, built from today's entry"],
+  "autosuggestions": [{"phrase": "a short rhythmic phrase of 4-10 words made to be repeated many times", "practice": "exactly when and how to repeat it today, e.g. 20 times on waking, whispered, counting on fingers"}],
+  "scenes": [{"title": "2-5 words", "scene": "a 90-140 word first-person present-tense scene that IMPLIES the wish is already fulfilled, lived from inside the body, with sight, sound, touch and a line someone says to them", "feeling": "the one feeling to hold", "anchor": "a small physical gesture or cue to trigger this state during the day"}],
+  "analysis": {
+    "themes": ["3-6 short theme labels"],
+    "powerWords": ["8-15 words or short phrases taken from THEIR text that carry the most emotional charge"],
+    "mentalImages": ["3-8 concrete vivid images they described or clearly pictured, in a few words each"],
+    "desires": [{"text": "one desire in a few words", "area": "one of Self, Health, Wealth, Career, Relationships, Family, Spirit, Lifestyle, Contribution", "horizon": "short or long"}],
+    "tone": "one sentence reflecting back the emotional tone of today's entry"
+  }
+}
+Give 3-4 autosuggestions and exactly 3 scenes.`;
+}
+function audioPrompt(text, kit) {
+  const anchor = kit ? `\nTheir planner line today: "${kit.plannerLine}"\nKey affirmations: ${(kit.affirmations || []).slice(0, 5).join(" | ")}\nScenes: ${(kit.scenes || []).map(s => s.title + ": " + s.scene).join("\n")}` : "";
+  return `${FRAME}
+
+TODAY'S JOURNAL:
+"""
+${text.slice(0, 30000)}
+"""${anchor}${lexiconContext()}
+
+Write two scripts that will be read aloud slowly by a text-to-speech voice. Break each into short segments of one or two sentences. After each segment give a pause in seconds (1-20) for breathing or imagining. Write only words to be spoken: no stage directions, no headings, no "[pause]" markers, no ellipses.
+
+1) "meditation": a 4-5 minute morning meditation (about 450 words spoken): settle the breath, arrive in the body, then step into the feeling of today's wish fulfilled, end energized and ready to act.
+2) "hypnosis": a 9-10 minute self-hypnosis session (about 900 words spoken): progressive relaxation induction, a deepener counting down from 10 to 1, then direct suggestions woven from their own words and images, a scene lived from inside where the wish is fulfilled (Neville's state akin to sleep), a post-hypnotic anchor tied to their planner line, and an emergence counting up from 1 to 5, awake, alert and fired up.
+
+Reply with only JSON:
+{"meditation": {"title": "3-6 words", "segments": [{"say": "…", "pause": 4}]}, "hypnosis": {"title": "3-6 words", "segments": [{"say": "…", "pause": 6}]}}`;
+}
+
+const ERR = {
+  not_granted: "Claude access wasn't allowed for this page, so the practice can't be generated. Your writing is still saved.",
+  sampling_disabled: "Claude isn't available for this account, so the practice can't be generated. Your writing is still saved.",
+  rate_limited: "You've hit a usage limit for now. Your writing is saved. Try again a little later.",
+  refused: "Claude declined to work with this entry. Try rewording anything that might read as harmful.",
+  invalid_json: "The practice came back malformed. Try again.",
+  prompt_too_large: "This entry is too long to process at once. Trim it and try again.",
+  session_expired: "Your claude.ai session expired. Sign in again, then try again.",
+};
+const errMsg = (e) => ERR[e?.code] || "Something interrupted the connection. Your writing is saved. Try again.";
+
+let building = false;
+$("#buildBtn").addEventListener("click", build);
+async function build() {
+  const text = ta.value.trim();
+  if (wordsIn(text) < 15) { toast("Write a little more first. Even a few sentences is enough."); ta.focus(); return; }
+  if (building) return;
+  if (!sample) {
+    showStatus($("#genStatus"), "Claude isn't reachable in this view, so the practice can't be built here. Open this page on claude.ai. Your writing is saved.");
+    return;
+  }
+  building = true;
+  clearTimeout(saveTimer); dirty = true; await persistText();
+  const btn = $("#buildBtn"); btn.disabled = true;
+  const st = $("#genStatus");
+  showStatus(st, "Reading your entry and building your practice… (about a minute)", true);
+  const e = todayEntry();
+  e.generatedFromWords = wordsIn(text);
+  try {
+    let chars = 0;
+    const kit = await sample.json(kitPrompt(text), { cache: false, onText: ({ text: t }) => { chars = t.length; showStatus(st, `Writing your affirmations and scenes… ${chars.toLocaleString()} characters`, true); } });
+    if (!kit || typeof kit !== "object" || !kit.plannerLine) throw { code: "invalid_json" };
+    e.kit = kit; e.hearts = []; e.generatedAt = Date.now(); e.audio = null;
+    await saveEntry(e);
+    renderToday();
+    showStatus(st, "Recording your meditation and hypnosis scripts…", true);
+    try {
+      const audio = await sample.json(audioPrompt(text, kit), { cache: false });
+      if (audio?.meditation?.segments && audio?.hypnosis?.segments) { e.audio = audio; await saveEntry(e); }
+      st.hidden = true;
+    } catch (err) {
+      showStatus(st, "Your practice is ready, but the audio scripts didn't finish. " + errMsg(err));
+      renderToday();
+      return;
+    }
+    renderToday();
+    toast("Today's practice is ready");
+    $("#todayKit").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  } catch (err) {
+    showStatus(st, errMsg(err));
+  } finally {
+    building = false; btn.disabled = false;
+  }
+}
+function showStatus(el, msg, busy) { el.hidden = false; el.innerHTML = (busy ? '<span class="pulse" aria-hidden="true"></span>' : "") + `<span>${esc(msg)}</span>`; }
+
+/* ---------- render the practice ---------- */
+function renderKit(entry, opts = {}) {
+  const k = entry.kit;
+  if (!k) return "";
+  const hearts = new Set(entry.hearts || []);
+  const a = k.analysis || {};
+  const aff = (k.affirmations || []).map((t, i) => `<li><span>${esc(t)}</span><button class="heart" type="button" data-heart="${i}" data-date="${entry.date}" aria-pressed="${hearts.has(t)}" aria-label="${hearts.has(t) ? "Unheart" : "Heart"} this line" title="Heart the lines that land. The vault learns from them.">${hearts.has(t) ? HEART : HEART_O}</button></li>`).join("");
+  const auto = (k.autosuggestions || []).map(s => `<div class="auto-item"><q>${esc(s.phrase)}</q><small>${esc(s.practice)}</small></div>`).join("");
+  const scenes = (k.scenes || []).map((s, i) => `<article class="scene"><h3>${esc(s.title)}</h3><p>${esc(s.scene)}</p><dl><dt>Feel</dt><dd>${esc(s.feeling)}</dd><dt>Anchor</dt><dd>${esc(s.anchor)}</dd></dl><div><button class="btn small" type="button" data-play="scene" data-i="${i}" data-date="${entry.date}">Read it to me</button></div></article>`).join("");
+  const au = entry.audio;
+  const trackCard = (key, kind, fallback, desc) => {
+    const t = au?.[key];
+    if (!t) return `<div class="track"><span class="kind">${kind}</span><h3>${fallback}</h3><p>${opts.today && building ? "Being written now…" : "Not recorded for this day."}</p>${opts.today && !building ? `<div class="row"><button class="btn small" type="button" data-regen-audio="1">Write the audio scripts</button></div>` : ""}</div>`;
+    const words = t.segments.reduce((n, s) => n + wordsIn(s.say), 0);
+    const secs = t.segments.reduce((n, s) => n + (Number(s.pause) || 0), 0) + words / 2.1;
+    return `<div class="track"><span class="kind">${kind} · ~${Math.max(1, Math.round(secs / 60))} min</span><h3>${esc(t.title)}</h3><p>${desc}</p><div class="row"><button class="btn small" type="button" data-play="${key}" data-date="${entry.date}">Play</button></div><details><summary>Read the script</summary><div>${t.segments.map(s => `<span>${esc(s.say)}</span>`).join("")}</div></details></div>`;
+  };
+  return `<div class="kit">
+    <section class="planner" aria-labelledby="pl-${entry.date}">
+      <div class="label" id="pl-${entry.date}">Planner line · write it, memorize it, repeat it all day</div>
+      <blockquote>${esc(k.plannerLine)}</blockquote>
+      ${k.plannerWhy ? `<p>${esc(k.plannerWhy)}</p>` : ""}
+      <div class="row"><button class="btn small" type="button" data-copy="planner" data-date="${entry.date}">Copy</button><button class="btn small" type="button" data-play="planner" data-date="${entry.date}">Hear it 7 times</button></div>
+    </section>
+
+    <section class="sect">
+      <div class="sect-h"><h2>Affirmations</h2><div class="sect-actions"><button class="btn small" type="button" data-play="aff" data-date="${entry.date}">Listen</button><button class="btn small ghost" type="button" data-copy="aff" data-date="${entry.date}">Copy all</button></div></div>
+      <span class="hint" style="font-size:13px;color:var(--ink-3)">Heart the lines that hit hardest. Future practices get built from your hearted lines.</span>
+      <ul class="aff">${aff}</ul>
+    </section>
+
+    <section class="sect">
+      <div class="sect-h"><h2>Autosuggestion</h2><div class="sect-actions"><button class="btn small" type="button" data-play="auto" data-date="${entry.date}">Repeat with me</button></div></div>
+      <div class="auto">${auto}</div>
+    </section>
+
+    <section class="sect">
+      <div class="sect-h"><h2>Scenes of the wish fulfilled</h2><span class="hint">Close your eyes and live one from the inside</span></div>
+      <div class="scenes">${scenes}</div>
+    </section>
+
+    <section class="sect">
+      <div class="sect-h"><h2>Listen</h2><span class="hint">Read aloud by your device's voice</span></div>
+      <div class="tracks">
+        ${trackCard("meditation", "Morning meditation", "Morning meditation", "Eyes closed, sitting up. Use it right after you journal.")}
+        ${trackCard("hypnosis", "Self-hypnosis", "Self-hypnosis", "Lying down or reclined, headphones on. Never while driving.")}
+      </div>
+    </section>
+
+    ${(a.themes?.length || a.powerWords?.length) ? `<section class="mirror">
+      ${a.tone ? `<div><h4>What your entry says</h4><p>${esc(a.tone)}</p></div>` : ""}
+      ${a.themes?.length ? `<div><h4>Themes</h4><div class="chips">${a.themes.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div></div>` : ""}
+      ${a.powerWords?.length ? `<div><h4>Your power words today</h4><div class="chips">${a.powerWords.map(t => `<span class="chip gold">${esc(t)}</span>`).join("")}</div></div>` : ""}
+    </section>` : ""}
+    ${opts.today ? `<div><button class="btn" type="button" id="rebuildBtn">Rebuild from my latest writing</button></div>` : ""}
+  </div>`;
+}
+
+function renderToday() {
+  const e = state.entries[state.today];
+  const box = $("#todayKit");
+  if (e?.kit) { box.innerHTML = renderKit(e, { today: true }); const rb = $("#rebuildBtn"); if (rb) rb.onclick = build; return; }
+  box.innerHTML = `<section class="preview">
+    <h2>What today's practice will hold</h2>
+    <ol>
+      <li><b>Planner line</b>One sentence to write down, memorize and repeat all day.</li>
+      <li><b>Affirmations</b>Built from your own words, present tense, already done.</li>
+      <li><b>Autosuggestion</b>Short phrases with exactly when and how to repeat them.</li>
+      <li><b>Three scenes</b>Moments that only happen once your wish is fulfilled.</li>
+      <li><b>Morning meditation</b>About 5 minutes, read aloud.</li>
+      <li><b>Self-hypnosis</b>About 10 minutes: induction, suggestion, emergence.</li>
+    </ol>
+  </section>`;
+}
+
+/* event delegation for practice buttons (today + vault day view) */
+document.addEventListener("click", async (ev) => {
+  const b = ev.target.closest("button");
+  if (!b) return;
+  const e = b.dataset.date ? state.entries[b.dataset.date] : null;
+  if (b.dataset.heart != null && e) {
+    const line = e.kit.affirmations[+b.dataset.heart];
+    const set = new Set(e.hearts || []);
+    set.has(line) ? set.delete(line) : set.add(line);
+    e.hearts = [...set];
+    const on = set.has(line);
+    b.setAttribute("aria-pressed", on); b.innerHTML = on ? HEART : HEART_O; b.setAttribute("aria-label", (on ? "Unheart" : "Heart") + " this line");
+    try { await saveEntry(e); } catch { toast("Couldn't save that heart"); }
+    return;
+  }
+  if (b.dataset.copy && e) {
+    if (b.dataset.copy === "planner") copyText(e.kit.plannerLine);
+    else copyText(e.kit.affirmations.join("\n"));
+    return;
+  }
+  if (b.dataset.regenAudio) { regenAudio(); return; }
+  if (b.dataset.play && e) {
+    const k = e.kit, p = b.dataset.play;
+    if (p === "planner") return play("Planner line", Array.from({ length: 7 }, (_, i) => ({ say: k.plannerLine, pause: i < 6 ? 3 : 0 })));
+    if (p === "aff") return play("Affirmations", k.affirmations.map(t => ({ say: t, pause: 4 })));
+    if (p === "auto") return play("Autosuggestion", k.autosuggestions.flatMap(s => Array.from({ length: 5 }, () => ({ say: s.phrase, pause: 2 }))));
+    if (p === "scene") { const s = k.scenes[+b.dataset.i]; return play(s.title, s.scene.split(/(?<=[.!?])\s+/).map(t => ({ say: t, pause: 2 })).concat([{ say: "Stay here. Feel " + s.feeling + ".", pause: 15 }])); }
+    if (e.audio?.[p]) return play(e.audio[p].title, e.audio[p].segments, p === "hypnosis" ? 0.8 : null);
+  }
+});
+async function regenAudio() {
+  const e = state.entries[state.today];
+  if (!e?.kit || !sample || building) return;
+  building = true; renderToday();
+  const st = $("#genStatus");
+  showStatus(st, "Writing your meditation and hypnosis scripts…", true);
+  try {
+    const audio = await sample.json(audioPrompt(e.text, e.kit), { cache: false });
+    if (!audio?.meditation?.segments) throw { code: "invalid_json" };
+    e.audio = audio; await saveEntry(e); st.hidden = true;
+  } catch (err) { showStatus(st, errMsg(err)); }
+  building = false; renderToday();
+}
+
+/* ---------- player (speech synthesis) ---------- */
+const synth = window.speechSynthesis;
+const pl = { segs: [], i: 0, playing: false, timer: null, rateOverride: null, ctx: null, osc: [] };
+function voices() { try { return synth ? synth.getVoices().filter(v => /^en/i.test(v.lang)) : []; } catch { return []; } }
+function fillVoices() {
+  const sel = $("#plVoice"); const vs = voices(); const saved = lsGet("wfj.voice", "");
+  sel.innerHTML = vs.map(v => `<option value="${esc(v.name)}"${v.name === saved ? " selected" : ""}>${esc(v.name.replace(/Microsoft |Google |\(.*\)/g, "").trim() || v.name)}</option>`).join("");
+  if (!saved) { const pref = vs.find(v => /natural|samantha|daniel|serena|aria|guy|jenny|google uk english male/i.test(v.name)); if (pref) sel.value = pref.name; }
+}
+if (synth) { fillVoices(); synth.onvoiceschanged = fillVoices; }
+$("#plVoice").onchange = (e) => lsSet("wfj.voice", e.target.value);
+$("#plRate").value = lsGet("wfj.rate", 0.85);
+$("#plRate").onchange = (e) => lsSet("wfj.rate", +e.target.value);
+function play(title, segs, rate) {
+  if (!synth) { toast("This browser can't read aloud. Open the script and read it slowly to yourself."); return; }
+  stopSpeech();
+  pl.segs = segs.filter(s => s && s.say); pl.i = 0; pl.rateOverride = rate; pl.playing = true;
+  $("#plTitle").textContent = title; $("#player").hidden = false; $("#plPlay").textContent = "Pause";
+  keepAwake(true);
+  if ($("#plTone").checked) tone(true);
+  step();
+}
+function step() {
+  if (!pl.playing) return;
+  if (pl.i >= pl.segs.length) { finish(); return; }
+  const s = pl.segs[pl.i];
+  $("#plNow").textContent = s.say;
+  $("#plProg").style.width = (100 * pl.i / pl.segs.length) + "%";
+  const u = new SpeechSynthesisUtterance(s.say);
+  const v = voices().find(v => v.name === $("#plVoice").value); if (v) u.voice = v;
+  const base = +$("#plRate").value || 0.85;
+  u.rate = pl.rateOverride ? Math.min(base, pl.rateOverride) : base;
+  u.pitch = 0.92;
+  u.onend = () => { if (!pl.playing) return; pl.i++; pl.timer = setTimeout(step, Math.max(0.6, Math.min(20, Number(s.pause) || 1)) * 1000); };
+  u.onerror = u.onend;
+  synth.speak(u);
+}
+function finish() { pl.playing = false; $("#plProg").style.width = "100%"; $("#plNow").textContent = "Complete. Carry the feeling with you."; $("#plPlay").textContent = "Play again"; tone(false); keepAwake(false); }
+function stopSpeech() { pl.playing = false; clearTimeout(pl.timer); try { synth && synth.cancel(); } catch {} }
+$("#plPlay").onclick = () => {
+  if (pl.playing) { stopSpeech(); $("#plPlay").textContent = "Resume"; return; }
+  if (pl.i >= pl.segs.length) pl.i = 0;
+  pl.playing = true; $("#plPlay").textContent = "Pause"; if ($("#plTone").checked) tone(true); step();
+};
+$("#plStop").onclick = () => { stopSpeech(); tone(false); keepAwake(false); $("#player").hidden = true; };
+$("#plTone").onchange = (e) => tone(e.target.checked && pl.playing);
+function tone(on) {
+  // a quiet 6 Hz binaural beat (200 Hz left, 206 Hz right) — theta range
+  try {
+    if (!on) { pl.osc.forEach(o => { try { o.stop(); } catch {} }); pl.osc = []; return; }
+    if (pl.osc.length) return;
+    pl.ctx = pl.ctx || new (window.AudioContext || window.webkitAudioContext)();
+    const g = pl.ctx.createGain(); g.gain.value = 0.035; g.connect(pl.ctx.destination);
+    [[200, -1], [206, 1]].forEach(([f, p]) => {
+      const o = pl.ctx.createOscillator(); o.frequency.value = f;
+      const pan = pl.ctx.createStereoPanner(); pan.pan.value = p;
+      o.connect(pan).connect(g); o.start(); pl.osc.push(o);
+    });
+  } catch {}
+}
+let wakeLock = null;
+async function keepAwake(on) { try { if (on && navigator.wakeLock && !wakeLock) wakeLock = await navigator.wakeLock.request("screen"); else if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; } } catch { wakeLock = null; } }
+
+/* ---------- vault ---------- */
+function bars(list, n = 15) {
+  if (!list.length) return `<p class="sub">Nothing yet.</p>`;
+  const top = list.slice(0, n), max = top[0][1];
+  return `<ul class="freq">${top.map(([w, c]) => `<li title="${esc(w)}: ${c} ${c === 1 ? "time" : "times"}"><span class="w">${esc(w)}</span><span class="track-bar"><div class="fill" style="width:${(100 * c / max).toFixed(1)}%"></div></span><span class="n">${c}</span></li>`).join("")}</ul>`;
+}
+const AREAS = ["Self", "Health", "Wealth", "Career", "Relationships", "Family", "Spirit", "Lifestyle", "Contribution"];
+function desiresByArea(desires) {
+  const by = {};
+  for (const d of desires) { const a = AREAS.includes(d.area) ? d.area : "Self"; (by[a] ||= []).push(d); }
+  const blocks = Object.entries(by).sort((a, b) => b[1].length - a[1].length).map(([area, ds]) => {
+    const t = tally(ds.map(d => d.text)).slice(0, 8);
+    return `<div class="area"><h3>${area}<em>${ds.length} mention${ds.length === 1 ? "" : "s"}</em></h3><ul>${t.map(([x, c]) => `<li>${esc(x)}${c > 1 ? `<small>×${c}</small>` : ""}</li>`).join("")}</ul></div>`;
+  });
+  return blocks.length ? `<div class="areas two">${blocks.join("")}</div>` : `<p class="sub">Build a practice to start sorting your desires by area.</p>`;
+}
+function renderVault() {
+  const all = Object.values(state.entries).filter(e => e.text && e.text.trim()).sort((a, b) => b.date.localeCompare(a.date));
+  const body = $("#vaultBody");
+  if (state.mode === "loading") { body.innerHTML = `<div class="empty">Opening your vault…</div>`; return; }
+  if (!all.length) { body.innerHTML = `<div class="empty" style="margin-top:20px"><b>Your vault is empty.</b> Write this morning's entry on the Today tab. Every day you write gets filed here, and your most repeated words, phrases, images and desires build up over time.</div>`; return; }
+  const a = aggregate(all);
+  body.innerHTML = `
+    <div class="stats">
+      <div class="stat"><b>${a.days}</b><span>days written</span></div>
+      <div class="stat"><b>${a.words.toLocaleString()}</b><span>words unloaded</span></div>
+      <div class="stat"><b>${streak()}</b><span>day streak</span></div>
+      <div class="stat"><b>${a.hearts.length}</b><span>lines hearted</span></div>
+    </div>
+    <div class="panel"><div class="sect-actions"><button class="btn small" type="button" id="exportBtn">Export the whole vault</button></div></div>
+    <section class="panel two">
+      <div><h2>Your most-used words</h2><p class="sub">Across every entry, filler words removed.</p>${bars(a.topWords, 18)}</div>
+      <div><h2>Your power words</h2><p class="sub">Words Claude flagged as carrying emotional charge, counted by day.</p>${bars(a.power, 18)}</div>
+    </section>
+    <section class="panel"><h2>Phrases you repeat</h2><p class="sub">Said two or more times, in your exact words.</p>${bars(a.phrases, 14)}</section>
+    <section class="panel"><h2>Dreams and desires</h2><p class="sub">Every desire you've named, sorted by area of life.</p>${desiresByArea(a.desires)}</section>
+    ${a.images.length ? `<section class="panel"><h2>The images you see</h2><p class="sub">Pictures that keep showing up in your writing.</p><div class="chips">${a.images.slice(0, 30).map(([t, c]) => `<span class="chip gold">${esc(t)}${c > 1 ? `<em>×${c}</em>` : ""}</span>`).join("")}</div></section>` : ""}
+    ${a.hearts.length ? `<section class="panel"><h2>Lines that landed</h2><p class="sub">Everything you've hearted, newest first.</p><ul class="landed">${a.hearts.slice().reverse().slice(0, 30).map(h => `<li>${esc(h.text)}</li>`).join("")}</ul></section>` : ""}
+    <section class="panel"><h2>Every entry</h2><ul class="entries">${all.map(e => `<li><button type="button" data-open="${e.date}"><span class="d">${fmtDay(e.date, { weekday: "short", month: "short", day: "numeric", year: "numeric" })} · ${wordsIn(e.text).toLocaleString()} words</span>${e.kit ? `<span class="m">${esc(e.kit.plannerLine)}</span>` : ""}<span class="x">${esc(e.text.slice(0, 160))}</span></button></li>`).join("")}</ul><div id="dayview"></div></section>`;
+  $("#exportBtn").onclick = exportVault;
+  body.querySelectorAll("[data-open]").forEach(b => b.onclick = () => openDay(b.dataset.open));
+  if (state.vaultOpen) openDay(state.vaultOpen, true);
+}
+function openDay(date, quiet) {
+  const e = state.entries[date]; if (!e) return;
+  state.vaultOpen = date;
+  const box = $("#dayview");
+  box.innerHTML = `<div class="dayview"><div class="sect-h"><h2>${fmtDay(date)}</h2><button class="btn small ghost" type="button" id="closeDay">Close</button></div><div class="raw">${esc(e.text)}</div>${e.kit ? renderKit(e) : `<p class="sub">No practice was built this day.</p>`}</div>`;
+  $("#closeDay").onclick = () => { state.vaultOpen = null; box.innerHTML = ""; };
+  if (!quiet) box.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+async function exportVault() {
+  const all = Object.values(state.entries).filter(e => e.text).sort((a, b) => a.date.localeCompare(b.date));
+  const md = ["# Wish Fulfilled Journal — master folder", `Exported ${fmtDay(dayKey())}`, ""];
+  for (const e of all) {
+    md.push(`## ${fmtDay(e.date)}`, "", e.text.trim(), "");
+    if (e.kit) {
+      md.push(`**Planner line:** ${e.kit.plannerLine}`, "", "**Affirmations**", ...e.kit.affirmations.map(a => `- ${a}${(e.hearts || []).includes(a) ? " ♥" : ""}`), "");
+      md.push("**Autosuggestion**", ...(e.kit.autosuggestions || []).map(s => `- "${s.phrase}" — ${s.practice}`), "");
+      md.push("**Scenes**", ...(e.kit.scenes || []).map(s => `- *${s.title}*: ${s.scene}`), "");
+    }
+  }
+  const data = md.join("\n");
+  const filename = `wish-fulfilled-vault-${dayKey()}.md`;
+  if (downloads) {
+    try { const r = await downloads.save({ filename, data }); if (r.status === "saved") toast("Vault exported"); return; }
+    catch (err) { if (err?.code === "declined") return; }
+  }
+  copyText(data);
+}
+
+/* ---------- monthly report ---------- */
+function monthsAvailable() {
+  const ms = new Set(Object.values(state.entries).filter(e => e.text).map(e => e.date.slice(0, 7)));
+  ms.add(state.today.slice(0, 7));
+  return [...ms].sort().reverse();
+}
+function fillMonths() {
+  const sel = $("#monthSel"); const cur = sel.value;
+  sel.innerHTML = monthsAvailable().map(m => `<option value="${m}">${fmtMonth(m)}</option>`).join("");
+  if (cur && [...sel.options].some(o => o.value === cur)) sel.value = cur;
+}
+$("#monthSel").onchange = renderReport;
+function monthEntries(m) { return Object.values(state.entries).filter(e => e.text && e.date.startsWith(m)).sort((a, b) => a.date.localeCompare(b.date)); }
+function renderReport() {
+  fillMonths();
+  const m = $("#monthSel").value; const es = monthEntries(m); const body = $("#reportBody");
+  if (!es.length) { body.innerHTML = `<div class="empty" style="margin-top:20px"><b>No entries in ${fmtMonth(m)} yet.</b> Each morning you write adds to this month's report.</div>`; $("#reportBtn").disabled = true; return; }
+  $("#reportBtn").disabled = false;
+  const a = aggregate(es); const rep = state.reports[m];
+  $("#reportBtn").textContent = rep ? "Rewrite this month's report" : "Write this month's report";
+  body.innerHTML = `
+    <div class="stats">
+      <div class="stat"><b>${a.days}</b><span>days written in ${fmtMonth(m).split(" ")[0]}</span></div>
+      <div class="stat"><b>${a.words.toLocaleString()}</b><span>words unloaded</span></div>
+      <div class="stat"><b>${a.desires.length}</b><span>desires named</span></div>
+      <div class="stat"><b>${a.hearts.length}</b><span>lines hearted</span></div>
+    </div>
+    ${rep ? renderNarrative(rep) : `<div class="empty" style="margin-top:24px"><b>The written report isn't made yet.</b> Tap "Write this month's report" and Claude will read every entry from ${fmtMonth(m)} to find your recurring desires, your heart language, and a master set of affirmations for next month. The counts below update live.</div>`}
+    <section class="panel two">
+      <div><h2>Most-used words</h2>${bars(a.topWords, 15)}</div>
+      <div><h2>Power words</h2>${bars(a.power, 15)}</div>
+    </section>
+    <section class="panel"><h2>Phrases you repeated</h2>${bars(a.phrases, 12)}</section>
+    <section class="panel"><h2>Desires this month</h2>${desiresByArea(a.desires)}</section>`;
+}
+function renderNarrative(r) {
+  const list = (xs, f) => xs?.length ? `<ul>${xs.map(f).join("")}</ul>` : "";
+  return `<section class="narr" style="margin-top:24px">
+    <p class="eyebrow">Written ${new Date(r.createdAt).toLocaleDateString()} from ${r.days} entries</p>
+    <p class="headline">${esc(r.headline)}</p>
+    <p>${esc(r.summary)}</p>
+    ${r.recurringDesires?.length ? `<div><h3>What you're repeating most</h3>${list(r.recurringDesires, d => `<li><b>${esc(d.desire)}</b> ${d.mentions ? `(${esc(d.mentions)} days)` : ""} ${esc(d.note || "")}</li>`)}</div>` : ""}
+    ${r.heartLanguage?.length ? `<div><h3>Your heart language</h3>${list(r.heartLanguage, d => `<li><b>${esc(d.word)}</b>: ${esc(d.why)}</li>`)}</div>` : ""}
+    ${r.clearestImages?.length ? `<div><h3>Your clearest images</h3><div class="chips">${r.clearestImages.map(t => `<span class="chip gold">${esc(t)}</span>`).join("")}</div></div>` : ""}
+    ${r.evolution ? `<div><h3>How your vision moved</h3><p>${esc(r.evolution)}</p></div>` : ""}
+    ${r.masterAffirmations?.length ? `<div><h3>Master affirmations for next month</h3>${list(r.masterAffirmations, t => `<li>${esc(t)}</li>`)}</div>` : ""}
+    ${r.masterPlannerLine ? `<div class="planner"><div class="label">Next month's planner line</div><blockquote>${esc(r.masterPlannerLine)}</blockquote><div class="row"><button class="btn small" type="button" data-copytext="${esc(r.masterPlannerLine)}">Copy</button></div></div>` : ""}
+    ${r.focus ? `<div><h3>Focus for next month</h3><p>${esc(r.focus)}</p></div>` : ""}
+  </section>`;
+}
+document.addEventListener("click", (ev) => { const b = ev.target.closest("[data-copytext]"); if (b) copyText(b.dataset.copytext); });
+$("#reportBtn").onclick = async () => {
+  const m = $("#monthSel").value; const es = monthEntries(m); const st = $("#reportStatus");
+  if (!es.length) return;
+  if (!sample) { showStatus(st, "Claude isn't reachable in this view. Open this page on claude.ai to write the report."); return; }
+  const a = aggregate(es);
+  const budget = 120000;
+  const journal = es.map(e => { const t = e.text.slice(0, Math.max(800, Math.floor(budget / es.length))); return `--- ${e.date} ---\n${t}${e.hearts?.length ? `\n[hearted lines: ${e.hearts.join(" | ")}]` : ""}`; }).join("\n\n");
+  const prompt = `${FRAME}
+
+Now you are writing their MONTHLY REPORT for ${fmtMonth(m)}. Below are all ${es.length} morning entries from the month, followed by counts computed from them. Find what they repeat most, which words clearly evoke emotion and vivid pictures for them, and how their vision changed across the month.
+
+ENTRIES:
+${journal}
+
+COUNTS:
+Most-used words: ${a.topWords.slice(0, 40).map(([w, c]) => `${w} ${c}`).join(", ")}
+Repeated phrases: ${a.phrases.slice(0, 25).map(([w, c]) => `"${w}" ${c}`).join(", ")}
+Power words flagged per day: ${a.power.slice(0, 30).map(([w, c]) => `${w} ${c}`).join(", ")}
+Images: ${a.images.slice(0, 20).map(([w]) => w).join("; ")}
+
+Reply with only JSON:
+{"headline": "one sentence naming the heart of this month",
+ "summary": "a 3-5 sentence paragraph speaking directly to them (you)",
+ "recurringDesires": [{"desire": "…", "mentions": "number of days it appeared", "note": "one sentence"}],
+ "heartLanguage": [{"word": "a word or phrase of theirs", "why": "why it carries feeling for them, citing how they used it"}],
+ "clearestImages": ["5-10 of their most vivid mental images"],
+ "evolution": "2-4 sentences on how their desires or beliefs shifted from the start to the end of the month",
+ "masterAffirmations": ["7 affirmations made from their most potent words this month"],
+ "masterPlannerLine": "one sentence, 8-16 words, for next month",
+ "focus": "2-3 sentences of focus for next month"}
+Give 5-8 recurringDesires and 8-12 heartLanguage items.`;
+  $("#reportBtn").disabled = true;
+  showStatus(st, `Reading ${es.length} entries from ${fmtMonth(m)}… (a minute or two)`, true);
+  try {
+    const r = await sample.json(prompt, { cache: false, modelTier: "complex" });
+    if (!r?.headline) throw { code: "invalid_json" };
+    await saveReport({ ...r, month: m, days: es.length, createdAt: Date.now() });
+    st.hidden = true; renderReport(); toast("Report saved");
+  } catch (err) { showStatus(st, errMsg(err)); }
+  $("#reportBtn").disabled = false;
+};
+
+/* ---------- views ---------- */
+let currentView = "today";
+function show(view) {
+  currentView = view;
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", t.dataset.view === view));
+  $("#view-today").hidden = view !== "today"; $("#view-vault").hidden = view !== "vault"; $("#view-report").hidden = view !== "report";
+  if (view === "vault") renderVault();
+  if (view === "report") renderReport();
+  try { history.replaceState(null, "", "#" + view); } catch {}
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => show(t.dataset.view));
+function renderAll() {
+  updateMeta();
+  if (currentView === "vault") renderVault();
+  if (currentView === "report") renderReport();
+  if (!building && state.entries[state.today]?.kit && !$("#todayKit .kit")) renderToday();
+}
+
+/* ---------- boot ---------- */
+$("#todayLabel").textContent = fmtDay(state.today);
+renderToday();
+const h = (location.hash || "").slice(1);
+if (h === "vault" || h === "report") show(h);
+initStore().then(() => { if (state.mode === "local") loadToday(); });
+})();
+</script>
