@@ -214,6 +214,15 @@ select { font: inherit; font-size: 15px; padding: 8px 12px; border-radius: 10px;
 .player label { display: inline-flex; gap: 6px; align-items: center; }
 .player input[type=range] { width: 90px; accent-color: var(--gold-fill); }
 
+.pvnote { font-size: 13px; color: color-mix(in srgb, var(--bg) 72%, var(--ink)); }
+.pvnote b { color: var(--gold-fill); font-weight: 600; }
+.reader { position: fixed; inset: 0; z-index: 50; background: var(--bg); overflow-y: auto; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.reader-bar { position: sticky; top: 0; display: flex; justify-content: flex-end; padding: 12px 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.reader-in { max-width: 680px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 80px; display: grid; gap: 14px; }
+.reader-in h2 { font-size: clamp(28px, 5vw, 38px); }
+.rd-hint { margin: 0; font-size: 14px; color: var(--ink-2); background: var(--surface-2); padding: 12px 14px; border-radius: 10px; }
+.rd-text { display: grid; gap: 1.1em; font-size: 22px; line-height: 1.6; }
+.rd-text p { margin: 0; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-size: 14px; z-index: 40; box-shadow: var(--shadow); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
@@ -296,8 +305,20 @@ select { font: inherit; font-size: 15px; padding: 8px 12px; border-radius: 10px;
       <label>Pace <input type="range" id="plRate" min="0.6" max="1.1" step="0.05" value="0.85"></label>
       <label><input type="checkbox" id="plTone"> Theta tone (headphones)</label>
     </div>
+    <div class="pvnote" id="plVoiceNote" hidden></div>
   </div>
 </div>
+<section class="reader" id="reader" hidden aria-labelledby="rdTitle">
+  <div class="reader-bar">
+    <button class="btn small" type="button" id="rdClose">Done</button>
+  </div>
+  <div class="reader-in">
+    <p class="eyebrow">Read in your own voice</p>
+    <h2 id="rdTitle">Script</h2>
+    <p class="rd-hint">On iPhone: swipe down from the top of the screen with two fingers to start <b>Speak Screen</b>. It reads this page in the voice set in Settings → Accessibility → Spoken Content → Voices, so pick your Personal Voice there. Or read it aloud yourself, slowly.</p>
+    <div class="rd-text" id="rdText"></div>
+  </div>
+</section>
 <div class="toast" id="toast" hidden></div>
 
 <script>
@@ -643,31 +664,31 @@ function renderKit(entry, opts = {}) {
   const a = k.analysis || {};
   const aff = (k.affirmations || []).map((t, i) => `<li><span>${esc(t)}</span><button class="heart" type="button" data-heart="${i}" data-date="${entry.date}" aria-pressed="${hearts.has(t)}" aria-label="${hearts.has(t) ? "Unheart" : "Heart"} this line" title="Heart the lines that land. The vault learns from them.">${hearts.has(t) ? HEART : HEART_O}</button></li>`).join("");
   const auto = (k.autosuggestions || []).map(s => `<div class="auto-item"><q>${esc(s.phrase)}</q><small>${esc(s.practice)}</small></div>`).join("");
-  const scenes = (k.scenes || []).map((s, i) => `<article class="scene"><h3>${esc(s.title)}</h3><p>${esc(s.scene)}</p><dl><dt>Feel</dt><dd>${esc(s.feeling)}</dd><dt>Anchor</dt><dd>${esc(s.anchor)}</dd></dl><div><button class="btn small" type="button" data-play="scene" data-i="${i}" data-date="${entry.date}">Read it to me</button></div></article>`).join("");
+  const scenes = (k.scenes || []).map((s, i) => `<article class="scene"><h3>${esc(s.title)}</h3><p>${esc(s.scene)}</p><dl><dt>Feel</dt><dd>${esc(s.feeling)}</dd><dt>Anchor</dt><dd>${esc(s.anchor)}</dd></dl><div><button class="btn small" type="button" data-play="scene" data-i="${i}" data-date="${entry.date}">Read it to me</button> <button class="btn small ghost" type="button" data-read="scene" data-i="${i}" data-date="${entry.date}">Read in my voice</button></div></article>`).join("");
   const au = entry.audio;
   const trackCard = (key, kind, fallback, desc) => {
     const t = au?.[key];
     if (!t) return `<div class="track"><span class="kind">${kind}</span><h3>${fallback}</h3><p>${opts.today && building ? "Being written now…" : "Not recorded for this day."}</p>${opts.today && !building ? `<div class="row"><button class="btn small" type="button" data-regen-audio="1">Write the audio scripts</button></div>` : ""}</div>`;
     const words = t.segments.reduce((n, s) => n + wordsIn(s.say), 0);
     const secs = t.segments.reduce((n, s) => n + (Number(s.pause) || 0), 0) + words / 2.1;
-    return `<div class="track"><span class="kind">${kind} · ~${Math.max(1, Math.round(secs / 60))} min</span><h3>${esc(t.title)}</h3><p>${desc}</p><div class="row"><button class="btn small" type="button" data-play="${key}" data-date="${entry.date}">Play</button></div><details><summary>Read the script</summary><div>${t.segments.map(s => `<span>${esc(s.say)}</span>`).join("")}</div></details></div>`;
+    return `<div class="track"><span class="kind">${kind} · ~${Math.max(1, Math.round(secs / 60))} min</span><h3>${esc(t.title)}</h3><p>${desc}</p><div class="row"><button class="btn small" type="button" data-play="${key}" data-date="${entry.date}">Play</button><button class="btn small ghost" type="button" data-read="${key}" data-date="${entry.date}">Read in my voice</button></div><details><summary>Read the script</summary><div>${t.segments.map(s => `<span>${esc(s.say)}</span>`).join("")}</div></details></div>`;
   };
   return `<div class="kit">
     <section class="planner" aria-labelledby="pl-${entry.date}">
       <div class="label" id="pl-${entry.date}">Planner line · write it, memorize it, repeat it all day</div>
       <blockquote>${esc(k.plannerLine)}</blockquote>
       ${k.plannerWhy ? `<p>${esc(k.plannerWhy)}</p>` : ""}
-      <div class="row"><button class="btn small" type="button" data-copy="planner" data-date="${entry.date}">Copy</button><button class="btn small" type="button" data-play="planner" data-date="${entry.date}">Hear it 7 times</button></div>
+      <div class="row"><button class="btn small" type="button" data-copy="planner" data-date="${entry.date}">Copy</button><button class="btn small" type="button" data-play="planner" data-date="${entry.date}">Hear it 7 times</button><button class="btn small" type="button" data-read="planner" data-date="${entry.date}">Read in my voice</button></div>
     </section>
 
     <section class="sect">
-      <div class="sect-h"><h2>Affirmations</h2><div class="sect-actions"><button class="btn small" type="button" data-play="aff" data-date="${entry.date}">Listen</button><button class="btn small ghost" type="button" data-copy="aff" data-date="${entry.date}">Copy all</button></div></div>
+      <div class="sect-h"><h2>Affirmations</h2><div class="sect-actions"><button class="btn small" type="button" data-play="aff" data-date="${entry.date}">Listen</button><button class="btn small ghost" type="button" data-read="aff" data-date="${entry.date}">Read in my voice</button><button class="btn small ghost" type="button" data-copy="aff" data-date="${entry.date}">Copy all</button></div></div>
       <span class="hint" style="font-size:13px;color:var(--ink-3)">Heart the lines that hit hardest. Future practices get built from your hearted lines.</span>
       <ul class="aff">${aff}</ul>
     </section>
 
     <section class="sect">
-      <div class="sect-h"><h2>Autosuggestion</h2><div class="sect-actions"><button class="btn small" type="button" data-play="auto" data-date="${entry.date}">Repeat with me</button></div></div>
+      <div class="sect-h"><h2>Autosuggestion</h2><div class="sect-actions"><button class="btn small" type="button" data-play="auto" data-date="${entry.date}">Repeat with me</button><button class="btn small ghost" type="button" data-read="auto" data-date="${entry.date}">Read in my voice</button></div></div>
       <div class="auto">${auto}</div>
     </section>
 
@@ -731,6 +752,14 @@ document.addEventListener("click", async (ev) => {
     return;
   }
   if (b.dataset.regenAudio) { regenAudio(); return; }
+  if (b.dataset.read && e) {
+    const k = e.kit, r = b.dataset.read;
+    if (r === "planner") return openReader("Planner line", Array(7).fill(k.plannerLine));
+    if (r === "aff") return openReader("Affirmations", k.affirmations);
+    if (r === "auto") return openReader("Autosuggestion", k.autosuggestions.flatMap(s => Array(5).fill(s.phrase)));
+    if (r === "scene") { const s = k.scenes[+b.dataset.i]; return openReader(s.title, [s.scene, "Stay here. Feel " + s.feeling + "."]); }
+    if (e.audio?.[r]) return openReader(e.audio[r].title, e.audio[r].segments.map(s => s.say));
+  }
   if (b.dataset.play && e) {
     const k = e.kit, p = b.dataset.play;
     if (p === "planner") return play("Planner line", Array.from({ length: 7 }, (_, i) => ({ say: k.plannerLine, pause: i < 6 ? 3 : 0 })));
@@ -754,14 +783,39 @@ async function regenAudio() {
   building = false; renderToday();
 }
 
+/* ---------- reader: clean full-screen text for iPhone Speak Screen ---------- */
+let readerReturn = null;
+function openReader(title, lines) {
+  stopSpeech();
+  readerReturn = document.activeElement;
+  $("#rdTitle").textContent = title;
+  $("#rdText").innerHTML = lines.filter(Boolean).map(t => `<p>${esc(t)}</p>`).join("");
+  $("#reader").hidden = false; $("#reader").scrollTop = 0;
+  document.body.style.overflow = "hidden";
+  $("#rdClose").focus();
+}
+function closeReader() { $("#reader").hidden = true; document.body.style.overflow = ""; readerReturn?.focus?.(); }
+$("#rdClose").onclick = closeReader;
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#reader").hidden) closeReader(); });
+
 /* ---------- player (speech synthesis) ---------- */
 const synth = window.speechSynthesis;
 const pl = { segs: [], i: 0, playing: false, timer: null, rateOverride: null, ctx: null, osc: [] };
-function voices() { try { return synth ? synth.getVoices().filter(v => /^en/i.test(v.lang)) : []; } catch { return []; } }
+// Apple Personal Voice shows up here only if the browser/app exposes it; when it does, it wins.
+const PERSONAL = /personal voice|zach/i;
+function voices() { try { return synth ? synth.getVoices().filter(v => /^en/i.test(v.lang) || PERSONAL.test(v.name)) : []; } catch { return []; } }
 function fillVoices() {
   const sel = $("#plVoice"); const vs = voices(); const saved = lsGet("wfj.voice", "");
-  sel.innerHTML = vs.map(v => `<option value="${esc(v.name)}"${v.name === saved ? " selected" : ""}>${esc(v.name.replace(/Microsoft |Google |\(.*\)/g, "").trim() || v.name)}</option>`).join("");
-  if (!saved) { const pref = vs.find(v => /natural|samantha|daniel|serena|aria|guy|jenny|google uk english male/i.test(v.name)); if (pref) sel.value = pref.name; }
+  const mine = vs.find(v => PERSONAL.test(v.name));
+  const ordered = mine ? [mine, ...vs.filter(v => v !== mine)] : vs;
+  sel.innerHTML = ordered.map(v => `<option value="${esc(v.name)}">${esc(v === mine ? v.name + " (you)" : (v.name.replace(/Microsoft |Google |\(.*\)/g, "").trim() || v.name))}</option>`).join("");
+  if (mine && (!saved || !PERSONAL.test(saved))) sel.value = mine.name;
+  else if (saved && vs.some(v => v.name === saved)) sel.value = saved;
+  else { const pref = vs.find(v => /natural|premium|enhanced|samantha|daniel|serena|aria|guy|jenny|google uk english male/i.test(v.name)); if (pref) sel.value = pref.name; }
+  const note = $("#plVoiceNote");
+  if (mine) { note.hidden = false; note.innerHTML = `Playing in <b>your Personal Voice</b>.`; }
+  else if (/iPhone|iPad|Macintosh/.test(navigator.userAgent)) { note.hidden = false; note.innerHTML = `Your Personal Voice isn't offered to web pages on this device. Tap <b>Read in my voice</b> on any practice to hear it in your voice with Speak Screen.`; }
+  else note.hidden = true;
 }
 if (synth) { fillVoices(); synth.onvoiceschanged = fillVoices; }
 $("#plVoice").onchange = (e) => lsSet("wfj.voice", e.target.value);
