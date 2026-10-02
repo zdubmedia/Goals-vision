@@ -1,0 +1,700 @@
+<title>D/ST Matchup Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Saira+Condensed:wght@600;700;800&display=swap">
+<style>
+/* Layout: turf header band, tab bar, then one wide data table per tab; tables scroll sideways on phones. */
+:root {
+  --bg: #F2F4F1;
+  --surface: #FFFFFF;
+  --surface-2: #F7F9F6;
+  --ink: #15201B;
+  --muted: #5B6A63;
+  --line: #DCE3DE;
+  --accent: #D9581A;
+  --accent-ink: #FFFFFF;
+  --good: #1E8857;
+  --bad: #C03C35;
+  --turf: #1F4E3B;
+  --turf-ink: #F4F8F5;
+  --font-display: "Saira Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1512; --surface: #151F1A; --surface-2: #1A2520; --ink: #E5ECE8; --muted: #93A49B;
+    --line: #283630; --accent: #FF7A3A; --accent-ink: #1A0D05; --good: #3DBE84; --bad: #F0675C;
+    --turf: #133528; --turf-ink: #EAF2EE; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1512; --surface: #151F1A; --surface-2: #1A2520; --ink: #E5ECE8; --muted: #93A49B;
+  --line: #283630; --accent: #FF7A3A; --accent-ink: #1A0D05; --good: #3DBE84; --bad: #F0675C;
+  --turf: #133528; --turf-ink: #EAF2EE; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 16px; }
+
+/* Header: the one bold element. Yard lines every 10% like a field. */
+header.band {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(10% - 2px), rgb(255 255 255 / .09) calc(10% - 2px) 10%),
+    var(--turf);
+  color: var(--turf-ink);
+  padding-block: 22px 18px;
+}
+.band .wrap { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: end; justify-content: space-between; }
+.band h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 5vw, 44px); line-height: .95; margin: 0; letter-spacing: .01em; text-transform: uppercase; text-wrap: balance; }
+.band h1 span { color: var(--accent); }
+.band .sub { margin: 6px 0 0; opacity: .85; font-size: 13px; }
+.status { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(255 255 255 / .28); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.pill.warn { border-color: var(--accent); }
+
+nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+nav.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs button { font: 600 13px/1 var(--font-body); color: var(--muted); background: none; border: 0; border-bottom: 3px solid transparent; padding: 14px 10px 11px; cursor: pointer; white-space: nowrap; }
+nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+nav.tabs button:hover { color: var(--ink); }
+button:focus-visible, select:focus-visible, input:focus-visible, .team:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+main { padding-block: 20px 48px; }
+section.view { display: grid; gap: 16px; }
+.view h2 { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1.05; margin: 0; text-transform: uppercase; letter-spacing: .02em; text-wrap: balance; }
+.lede { margin: 4px 0 0; color: var(--muted); max-width: 70ch; }
+.head-row { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; justify-content: space-between; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.ctl { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+select, input[type="number"] { font: 500 14px var(--font-body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button { font: 600 12px var(--font-body); color: var(--muted); background: none; border: 0; padding: 7px 10px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.chk { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--ink); cursor: pointer; }
+
+.tablebox { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow-x: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { padding: 8px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+tbody tr:last-child td { border-bottom: 0; }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; background: var(--surface-2); position: sticky; top: 0; }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--ink); }
+th[aria-sort="descending"]::after { content: " ▼"; color: var(--accent); }
+th[aria-sort="ascending"]::after { content: " ▲"; color: var(--accent); }
+th.l, td.l { text-align: left; }
+td.rank { color: var(--muted); font-weight: 600; width: 1%; }
+td.big { font-family: var(--font-display); font-size: 19px; font-weight: 700; }
+td.dim, span.dim { color: var(--muted); }
+tr.taken td { opacity: .45; }
+tbody tr:hover td { background: var(--surface-2); }
+.grp { border-left: 1px solid var(--line); }
+
+.team { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; text-align: left; }
+.badge { display: inline-grid; place-items: center; width: 34px; height: 22px; border-radius: 4px; font: 700 12px/1 var(--font-display); letter-spacing: .03em; color: #fff; flex: none; }
+.team .nm { font-weight: 600; }
+.team:hover .nm { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.opp { display: inline-flex; align-items: center; gap: 6px; }
+.at { color: var(--muted); font-size: 12px; width: 1.2em; text-align: right; }
+
+/* Matchup heat: diverging from the surface toward good / bad. */
+.heat { border-radius: 4px; padding: 3px 7px; font-weight: 700; display: inline-block; min-width: 44px; text-align: center; }
+.rk { font-size: 11px; color: var(--muted); font-weight: 600; }
+.bar { display: inline-flex; gap: 2px; align-items: end; height: 22px; vertical-align: middle; }
+.bar i { display: block; width: 6px; background: var(--muted); border-radius: 1px; opacity: .55; }
+.bar i.hi { background: var(--accent); opacity: 1; }
+.bar i.bye { background: none; border-bottom: 2px dotted var(--line); height: 2px !important; opacity: 1; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.pick { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 8px; min-width: 0; }
+.pick.top { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.pick .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; }
+.pick .num { font: 800 34px/1 var(--font-display); }
+.pick .why { font-size: 12.5px; color: var(--muted); }
+.pick .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.note { font-size: 12.5px; color: var(--muted); max-width: 90ch; }
+.note b { color: var(--ink); }
+.byes { font-size: 13px; color: var(--muted); }
+
+.grid-outlook td.cell { padding: 4px 5px; text-align: center; }
+.grid-outlook .heat { display: grid; gap: 1px; min-width: 52px; padding: 4px 6px; }
+.grid-outlook .heat small { font-size: 10.5px; font-weight: 600; opacity: .85; }
+
+.scoring { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 10px; min-width: 0; }
+.panel h3 { margin: 0; font: 700 18px var(--font-display); text-transform: uppercase; letter-spacing: .03em; }
+.field { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 8px; }
+.field label { font-size: 13.5px; }
+.field input { width: 84px; text-align: right; }
+.btn { font: 600 13px var(--font-body); border-radius: 6px; padding: 8px 12px; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.panel p, .panel li { margin: 0; color: var(--muted); font-size: 13px; }
+.panel ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+dialog { border: 1px solid var(--line); border-radius: 12px; padding: 0; background: var(--surface); color: var(--ink); width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 48px); }
+dialog::backdrop { background: rgb(0 0 0 / .45); }
+.dlg-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--surface); z-index: 1; }
+.dlg-head h3 { margin: 0; font: 800 24px/1 var(--font-display); text-transform: uppercase; }
+.dlg-body { padding: 16px; display: grid; gap: 16px; }
+.dlg-body h4 { margin: 0 0 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+.stat { border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+.stat .v { font: 800 24px/1.1 var(--font-display); }
+.stat .l { font-size: 11.5px; color: var(--muted); }
+footer { color: var(--muted); font-size: 12px; padding-block: 0 32px; }
+@media (max-width: 560px) {
+  th, td { padding: 7px 8px; }
+  .team .nm { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pick { transition: transform .15s ease; }
+  .pick:hover { transform: translateY(-1px); }
+}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div>
+      <h1>D/ST <span>Matchup</span> Board</h1>
+      <p class="sub" id="sub">Team defense &amp; special teams, scored with your league's settings</p>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap" role="tablist">
+    <button role="tab" id="tab-picks" data-view="picks" aria-selected="true">This week's picks</button>
+    <button role="tab" id="tab-rankings" data-view="rankings" aria-selected="false">Season rankings</button>
+    <button role="tab" id="tab-offenses" data-view="offenses" aria-selected="false">Offenses to target</button>
+    <button role="tab" id="tab-outlook" data-view="outlook" aria-selected="false">Schedule outlook</button>
+    <button role="tab" id="tab-scoring" data-view="scoring" aria-selected="false">Scoring &amp; method</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section class="view" id="view-picks">
+    <div class="head-row">
+      <div>
+        <h2 id="picks-title">Week picks</h2>
+        <p class="lede">Every defense ranked by its matchup: how many points it scores, blended with how many points its opponent gives up to defenses.</p>
+      </div>
+      <div class="controls">
+        <label class="ctl" for="pick-week">Week <select id="pick-week"></select></label>
+        <span class="ctl">Form
+          <span class="seg" data-ctl="window">
+            <button type="button" data-v="season" aria-pressed="true">Season</button>
+            <button type="button" data-v="last3" aria-pressed="false">Last 3</button>
+          </span>
+        </span>
+        <label class="chk" for="hide-taken"><input type="checkbox" id="hide-taken"> Hide taken</label>
+      </div>
+    </div>
+    <div class="cards" id="pick-cards"></div>
+    <div class="tablebox"><table id="picks-table"></table></div>
+    <p class="byes" id="byes"></p>
+    <p class="note">Tap <b>Taken</b> on any defense already rostered in your league; it stays marked on this device so the list shows only what you can pick up. <b>Opp implied</b> is the points the betting line expects the opponent to score; fewer is better for a defense.</p>
+  </section>
+
+  <section class="view" id="view-rankings" hidden>
+    <div class="head-row">
+      <div>
+        <h2>Season rankings</h2>
+        <p class="lede">Total fantasy points by every D/ST so far, with the raw stats behind them. Click a column to sort, or a team for its game log.</p>
+      </div>
+      <div class="controls">
+        <span class="ctl">Show
+          <span class="seg" data-ctl="rankMode">
+            <button type="button" data-v="stats" aria-pressed="true">Stat totals</button>
+            <button type="button" data-v="points" aria-pressed="false">Points by stat</button>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="tablebox"><table id="rank-table"></table></div>
+  </section>
+
+  <section class="view" id="view-offenses" hidden>
+    <div class="head-row">
+      <div>
+        <h2>Offenses to target</h2>
+        <p class="lede">What opposing defenses have scored against each team. The higher an offense ranks here, the better it is to start the defense facing it.</p>
+      </div>
+      <div class="controls">
+        <span class="ctl">Form
+          <span class="seg" data-ctl="window">
+            <button type="button" data-v="season" aria-pressed="true">Season</button>
+            <button type="button" data-v="last3" aria-pressed="false">Last 3</button>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="tablebox"><table id="off-table"></table></div>
+  </section>
+
+  <section class="view" id="view-outlook" hidden>
+    <div class="head-row">
+      <div>
+        <h2>Schedule outlook</h2>
+        <p class="lede">Each defense's projected matchup score for the coming weeks. Green is a soft opponent, red a tough one. Useful for picking a defense to hold or stream.</p>
+      </div>
+      <div class="controls">
+        <label class="ctl" for="look-n">Weeks <select id="look-n"><option value="3">Next 3</option><option value="4" selected>Next 4</option><option value="6">Next 6</option><option value="8">Next 8</option></select></label>
+        <span class="ctl">Form
+          <span class="seg" data-ctl="window">
+            <button type="button" data-v="season" aria-pressed="true">Season</button>
+            <button type="button" data-v="last3" aria-pressed="false">Last 3</button>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="tablebox"><table id="look-table" class="grid-outlook"></table></div>
+  </section>
+
+  <section class="view" id="view-scoring" hidden>
+    <div>
+      <h2>Scoring &amp; method</h2>
+      <p class="lede">These are your league's Defense/Special Teams values. Change any of them and every table re-scores on this device.</p>
+    </div>
+    <div class="scoring">
+      <form class="panel" id="score-form">
+        <h3>Defense / Special Teams</h3>
+        <div id="score-fields"></div>
+        <div class="controls"><button type="button" class="btn" id="score-reset">Reset to league values</button></div>
+      </form>
+      <div class="panel">
+        <h3>How it's counted</h3>
+        <ul>
+          <li><b>Points allowed</b> leaves out points the team's own offense gave up (pick-sixes, fumble-return TDs and safeties), the same way Yahoo does. Kick and punt return TDs allowed still count.</li>
+          <li><b>Return yards</b> are kickoff and punt return yards. Each yard is worth 1/10 of a point, so 87 yards is 8.7.</li>
+          <li><b>Touchdown</b> covers interception, fumble and blocked-kick return TDs. Kick and punt return TDs are counted separately.</li>
+          <li><b>4th down stops</b> are failed 4th-down runs and passes; a 4th-down turnover is scored as the turnover only.</li>
+          <li><b>Extra point returned</b> is a blocked PAT or stopped two-point try returned for 2.</li>
+        </ul>
+        <h3>Matchup score</h3>
+        <p>Half the defense's average points per game, plus half the average points its opponent has given up to defenses. "Last 3" uses only each team's three most recent games for both halves.</p>
+        <h3>Where the numbers come from</h3>
+        <p>Play-by-play and schedules from the public nflverse data project. The page is rebuilt every Tuesday after Monday Night Football, once that week's play-by-play is posted. Totals can differ from Yahoo by a point now and then when a stat correction lands.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" id="foot"></footer>
+
+<dialog id="team-dlg" aria-labelledby="dlg-title">
+  <div class="dlg-head"><h3 id="dlg-title"></h3><button class="btn" type="button" id="dlg-close">Close</button></div>
+  <div class="dlg-body" id="dlg-body"></div>
+</dialog>
+
+<script>
+const D = /*__DATA__*/null;
+
+const STAT_DEFS = [
+  { k: "sack", label: "Sack", short: "Sck" },
+  { k: "int", label: "Interception", short: "INT" },
+  { k: "fr", label: "Fumble recovery", short: "FR" },
+  { k: "td", label: "Touchdown", short: "TD" },
+  { k: "sfty", label: "Safety", short: "Sfty" },
+  { k: "blk", label: "Block kick", short: "Blk" },
+  { k: "ret_yds", label: "Return yards", short: "Ret yds", per: true },
+  { k: "ret_td", label: "Kickoff & punt return TD", short: "Ret TD" },
+  { k: "fourth", label: "4th down stop", short: "4th" },
+  { k: "xpr", label: "Extra point returned", short: "XP ret" },
+];
+const PA_TIERS = [
+  { label: "0 points", max: 0 }, { label: "1–6 points", max: 6 }, { label: "7–13 points", max: 13 },
+  { label: "14–20 points", max: 20 }, { label: "21–27 points", max: 27 }, { label: "28–34 points", max: 34 },
+  { label: "35+ points", max: Infinity },
+];
+const LEAGUE = { sack: 1, int: 2, fr: 2, td: 6, sfty: 2, blk: 2, ret_yds: 10, ret_td: 6, fourth: 3, xpr: 2, pa: [10, 7, 4, 1, 0, -1, -4] };
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("dst:" + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("dst:" + k, JSON.stringify(v)); } catch {} },
+};
+let S = Object.assign({}, LEAGUE, store.get("scoring", {}));
+if (!Array.isArray(S.pa) || S.pa.length !== 7) S.pa = LEAGUE.pa.slice();
+const state = {
+  view: "picks",
+  window: store.get("window", "season"),
+  week: null,
+  taken: new Set(store.get("taken", [])),
+  hideTaken: store.get("hideTaken", false),
+  rankMode: "stats",
+  sort: { rankings: ["total", -1], offenses: ["allowed", -1], picks: ["proj", -1], outlook: ["avg", -1] },
+  lookN: 4,
+};
+
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const f1 = x => (x == null || isNaN(x)) ? "–" : (Math.round(x * 10) / 10).toFixed(1);
+const mean = a => a.length ? a.reduce((s, x) => s + x, 0) / a.length : null;
+const TEAMS = Object.keys(D.teams).sort();
+
+function paPoints(pa) { const i = PA_TIERS.findIndex(t => pa <= t.max); return S.pa[i]; }
+function score(row) {
+  // Returns {total, parts:{stat:points}, pending}
+  const parts = {};
+  if (!row.st) { parts.pa = paPoints(row.pa_only); return { total: parts.pa, parts, pending: true }; }
+  let total = 0;
+  for (const d of STAT_DEFS) {
+    const v = row.st[d.k] || 0;
+    const p = d.per ? (S.ret_yds > 0 ? v / S.ret_yds : 0) : v * S[d.k];
+    parts[d.k] = p; total += p;
+  }
+  parts.pa = paPoints(row.st.pa); total += parts.pa;
+  return { total, parts, pending: false };
+}
+
+let G = {}; // per-team derived numbers
+function derive() {
+  G = {};
+  for (const t of TEAMS) G[t] = { games: [], allowedGames: [] };
+  const scored = D.tg.map(r => ({ ...r, sc: score(r) })).sort((a, b) => a.wk - b.wk);
+  for (const r of scored) { G[r.t].games.push(r); G[r.opp].allowedGames.push(r); }
+  for (const t of TEAMS) {
+    const g = G[t], last = a => state.window === "last3" ? a.slice(-3) : a;
+    g.total = g.games.reduce((s, r) => s + r.sc.total, 0);
+    g.avgSeason = mean(g.games.map(r => r.sc.total));
+    g.avgLast3 = mean(g.games.slice(-3).map(r => r.sc.total));
+    g.avgFor = mean(last(g.games).map(r => r.sc.total));
+    g.avgAllowed = mean(last(g.allowedGames).map(r => r.sc.total));
+    g.sum = {}; g.pts = {};
+    for (const d of STAT_DEFS) {
+      g.sum[d.k] = g.games.reduce((s, r) => s + (r.st ? r.st[d.k] : 0), 0);
+      g.pts[d.k] = g.games.reduce((s, r) => s + (r.sc.parts[d.k] || 0), 0);
+    }
+    g.paAvg = mean(g.games.map(r => r.st ? r.st.pa : r.pa_only));
+    g.pts.pa = g.games.reduce((s, r) => s + r.sc.parts.pa, 0);
+    // "allowed" side: what this team's offense coughed up to opposing defenses
+    const ag = last(g.allowedGames);
+    g.allow = {};
+    for (const d of STAT_DEFS) g.allow[d.k] = mean(ag.filter(r => r.st).map(r => r.st[d.k]));
+    g.allow.pf = mean(ag.map(r => r.pa_raw));
+    g.allow.n = ag.length;
+  }
+  const rank = (key, dir = -1) => {
+    const order = TEAMS.filter(t => G[t][key] != null).sort((a, b) => dir * (G[a][key] - G[b][key]));
+    order.forEach((t, i) => G[t][key + "Rank"] = i + 1);
+  };
+  rank("total"); rank("avgFor"); rank("avgAllowed");
+  const all = D.tg.length ? scored.map(r => r.sc.total) : [];
+  G._league = mean(all) || 0;
+}
+
+function gameFor(team, wk) {
+  return D.games.find(g => g.wk === wk && (g.home === team || g.away === team)) || null;
+}
+function matchup(team, wk) {
+  const g = gameFor(team, wk);
+  if (!g) return null;
+  const home = g.home === team, opp = home ? g.away : g.home;
+  const a = G[team].avgFor, b = G[opp].avgAllowed;
+  const proj = a == null || b == null ? (a ?? b) : 0.5 * a + 0.5 * b;
+  let implied = null;
+  if (g.total != null && g.spread != null) implied = home ? (g.total - g.spread) / 2 : (g.total + g.spread) / 2;
+  return { g, home, opp, proj, implied, final: g.as != null };
+}
+
+const maxWeek = Math.max(...D.games.map(g => g.wk));
+const upcomingWeeks = [...new Set(D.games.filter(g => g.as == null).map(g => g.wk))].sort((a, b) => a - b);
+
+/* ---------- rendering helpers ---------- */
+function badge(t) {
+  const c = D.teams[t] || {};
+  return `<span class="badge" style="background:${esc(c.c1 || "#555")}">${esc(t)}</span>`;
+}
+function teamBtn(t, showName = true) {
+  const c = D.teams[t] || {};
+  return `<button class="team" type="button" data-team="${t}">${badge(t)}${showName ? `<span class="nm">${esc(c.nick || t)}</span>` : ""}</button>`;
+}
+function heatStyle(v, center, spread) {
+  if (v == null) return "";
+  const z = Math.max(-1, Math.min(1, (v - center) / (spread || 1)));
+  const pct = Math.round(Math.abs(z) * 55);
+  const col = z >= 0 ? "var(--good)" : "var(--bad)";
+  return `background:color-mix(in oklab, ${col} ${pct}%, var(--surface));${Math.abs(z) > .7 ? "color:#fff;" : ""}`;
+}
+function spreadOf(vals) {
+  const v = vals.filter(x => x != null); if (v.length < 2) return 1;
+  const m = mean(v); return Math.sqrt(mean(v.map(x => (x - m) ** 2))) * 1.6 || 1;
+}
+function gameTime(g) {
+  const d = new Date(g.day + "T12:00:00");
+  const day = d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+  let t = "";
+  if (g.time) { const [h, m] = g.time.split(":").map(Number); t = ` ${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")}${h < 12 ? "a" : "p"} ET`; }
+  return day + t;
+}
+function sparkBars(t) {
+  const max = Math.max(1, ...D.tg.map(r => score(r).total));
+  const lw = D.lastWeek || 0; let out = "";
+  const best = Math.max(...G[t].games.map(r => r.sc.total));
+  for (let w = 1; w <= lw; w++) {
+    const r = G[t].games.find(x => x.wk === w);
+    if (!r) { out += `<i class="bye" title="Week ${w}: bye or not played yet"></i>`; continue; }
+    const h = Math.max(2, Math.round(22 * Math.max(0, r.sc.total) / max));
+    out += `<i class="${r.sc.total === best ? "hi" : ""}" style="height:${h}px" title="Week ${w} vs ${r.opp}: ${f1(r.sc.total)} pts"></i>`;
+  }
+  return `<span class="bar" aria-hidden="true">${out}</span>`;
+}
+function sortRows(rows, key, dir) {
+  return rows.sort((a, b) => {
+    const x = a[key], y = b[key];
+    if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
+    return typeof x === "string" ? dir * x.localeCompare(y) : dir * (x - y);
+  });
+}
+function th(view, key, label, cls = "", title = "") {
+  const [k, d] = state.sort[view];
+  const sorted = k === key ? ` aria-sort="${d < 0 ? "descending" : "ascending"}"` : "";
+  return `<th class="sortable ${cls}" data-sort="${view}:${key}"${sorted}${title ? ` title="${esc(title)}"` : ""}>${label}</th>`;
+}
+
+/* ---------- views ---------- */
+function renderHeader() {
+  const built = new Date(D.built);
+  const counted = new Set(D.tg.map(r => r.g)).size;
+  $("#sub").textContent = `${D.season} season, scored with your league's D/ST settings`;
+  const pills = [
+    `<span class="pill">Stats through Week ${D.lastWeek || 0} · ${counted} games</span>`,
+    `<span class="pill">Updated ${built.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}</span>`,
+  ];
+  if (D.pendingPbp.length) pills.push(`<span class="pill warn" title="Final score is in, play-by-play not posted yet. Only points allowed is counted for now.">${D.pendingPbp.length} game${D.pendingPbp.length > 1 ? "s" : ""} pending stats</span>`);
+  $("#status").innerHTML = pills.join("");
+  $("#foot").innerHTML = `Data: nflverse play-by-play and schedules. Built ${esc(built.toLocaleString())}. Rebuilt every Tuesday after Monday Night Football.`;
+}
+
+function renderPicks() {
+  const wk = state.week;
+  $("#picks-title").textContent = `Week ${wk} picks`;
+  let rows = TEAMS.map(t => {
+    const m = matchup(t, wk); if (!m) return null;
+    return { t, m, proj: m.proj, avg: G[t].avgFor, oppAllowed: G[m.opp].avgAllowed, oppRank: G[m.opp].avgAllowedRank,
+      implied: m.implied, rank: G[t].totalRank, taken: state.taken.has(t), opp: m.opp };
+  }).filter(Boolean);
+  const byes = TEAMS.filter(t => !gameFor(t, wk));
+  const [sk, sd] = state.sort.picks;
+  sortRows(rows, sk, sd);
+  rows.sort((a, b) => a.taken - b.taken);
+  const visible = state.hideTaken ? rows.filter(r => !r.taken) : rows;
+  const projVals = rows.map(r => r.proj), center = mean(projVals), sp = spreadOf(projVals);
+  const allowVals = TEAMS.map(t => G[t].avgAllowed), aC = mean(allowVals.filter(x => x != null)), aS = spreadOf(allowVals);
+
+  const best = [...rows].filter(r => !r.taken && r.proj != null).sort((a, b) => b.proj - a.proj).slice(0, 4);
+  $("#pick-cards").innerHTML = best.length ? best.map((r, i) => `
+    <article class="pick${i === 0 ? " top" : ""}">
+      <div class="row"><span class="k">${i === 0 ? "Top available" : "#" + (i + 1) + " available"}</span><span class="k">${r.m.home ? "vs" : "at"} ${esc(r.opp)}</span></div>
+      <div class="row">${teamBtn(r.t)}<span class="num">${f1(r.proj)}</span></div>
+      <div class="why">Scores ${f1(r.avg)} a game (#${G[r.t].avgForRank}). ${esc(D.teams[r.opp].nick)} give up ${f1(r.oppAllowed)} to defenses (#${r.oppRank} most)${r.implied != null ? `; line projects them for ${f1(r.implied)} points` : ""}.</div>
+    </article>`).join("") : `<p class="note">No games scheduled this week.</p>`;
+
+  $("#picks-table").innerHTML = `<thead><tr>
+      <th class="l">#</th>${th("picks", "t", "Defense", "l")}
+      ${th("picks", "opp", "Opponent", "l")}<th class="l">Kickoff</th>
+      ${th("picks", "proj", "Matchup", "", "Blend of this defense's scoring and the opponent's points allowed to defenses")}
+      ${th("picks", "avg", state.window === "last3" ? "D/ST avg (L3)" : "D/ST avg", "grp")}
+      ${th("picks", "oppAllowed", "Opp gives up", "", "Average fantasy points this opponent allows to defenses")}
+      ${th("picks", "implied", "Opp implied", "", "Points the betting line expects the opponent to score")}
+      ${th("picks", "rank", "Season rk", "grp")}<th>Status</th>
+    </tr></thead><tbody>${visible.map((r, i) => `
+    <tr class="${r.taken ? "taken" : ""}">
+      <td class="rank l">${r.taken ? "–" : i + 1}</td>
+      <td class="l">${teamBtn(r.t)}</td>
+      <td class="l"><span class="opp"><span class="at">${r.m.home ? "vs" : "@"}</span>${teamBtn(r.opp, false)}</span></td>
+      <td class="l dim">${r.m.final ? "Final" : esc(gameTime(r.m.g))}</td>
+      <td><span class="heat" style="${heatStyle(r.proj, center, sp)}">${f1(r.proj)}</span></td>
+      <td class="grp">${f1(r.avg)}</td>
+      <td><span class="heat" style="${heatStyle(r.oppAllowed, aC, aS)}">${f1(r.oppAllowed)}</span> <span class="rk">#${r.oppRank ?? "–"}</span></td>
+      <td>${r.implied == null ? "<span class=dim>–</span>" : f1(r.implied)}</td>
+      <td class="grp dim">#${r.rank}</td>
+      <td><button class="btn" type="button" data-take="${r.t}" aria-pressed="${r.taken}" style="padding:4px 8px">${r.taken ? "Taken ✓" : "Taken"}</button></td>
+    </tr>`).join("")}</tbody>`;
+  $("#byes").textContent = byes.length ? `On bye in Week ${wk}: ${byes.map(t => D.teams[t].nick).join(", ")}.` : "";
+}
+
+function renderRankings() {
+  const pts = state.rankMode === "points";
+  let rows = TEAMS.map(t => {
+    const g = G[t], r = { t, gp: g.games.length, total: g.total, avg: g.avgSeason, l3: g.avgLast3, pa: g.paAvg, paPts: g.pts.pa };
+    for (const d of STAT_DEFS) r[d.k] = pts ? g.pts[d.k] : g.sum[d.k];
+    const nw = D.nextWeek ? matchup(t, D.nextWeek) : null;
+    r.next = nw ? nw.opp : null; r.nextHome = nw?.home; r.nextAllowRank = nw ? G[nw.opp].avgAllowedRank : null;
+    return r;
+  });
+  const [sk, sd] = state.sort.rankings;
+  sortRows(rows, sk, sd);
+  const fmt = (v, d) => pts ? f1(v) : (d && d.per ? Math.round(v) : v);
+  $("#rank-table").innerHTML = `<thead><tr>
+      <th class="l">#</th>${th("rankings", "t", "Defense", "l")}${th("rankings", "gp", "GP")}
+      ${th("rankings", "total", "Total")}${th("rankings", "avg", "Avg")}${th("rankings", "l3", "Last 3")}<th class="l">Weekly</th>
+      ${STAT_DEFS.map((d, i) => th("rankings", d.k, d.short, i === 0 ? "grp" : "", d.label)).join("")}
+      ${pts ? th("rankings", "paPts", "PA pts", "grp", "Points from the points-allowed tiers") : th("rankings", "pa", "PA/G", "grp", "Points allowed per game (Yahoo-style, excluding offense-allowed scores)")}
+      ${th("rankings", "nextAllowRank", D.nextWeek ? `Wk ${D.nextWeek} opp` : "Next", "grp l", "Next opponent and where it ranks in points allowed to defenses")}
+    </tr></thead><tbody>${rows.map((r, i) => `
+    <tr>
+      <td class="rank l">${i + 1}</td><td class="l">${teamBtn(r.t)}</td><td>${r.gp}</td>
+      <td class="big">${f1(r.total)}</td><td>${f1(r.avg)}</td><td>${f1(r.l3)}</td><td class="l">${sparkBars(r.t)}</td>
+      ${STAT_DEFS.map((d, j) => `<td class="${j === 0 ? "grp" : ""}${!pts && !r[d.k] ? " dim" : ""}">${fmt(r[d.k], d)}</td>`).join("")}
+      <td class="grp">${pts ? f1(r.paPts) : f1(r.pa)}</td>
+      <td class="grp l">${r.next ? `<span class="opp"><span class="at">${r.nextHome ? "vs" : "@"}</span>${teamBtn(r.next, false)} <span class="rk">#${r.nextAllowRank}</span></span>` : `<span class="dim">Bye</span>`}</td>
+    </tr>`).join("")}</tbody>`;
+}
+
+function renderOffenses() {
+  let rows = TEAMS.map(t => {
+    const g = G[t], a = g.allow, nw = D.nextWeek ? matchup(t, D.nextWeek) : null;
+    return { t, n: a.n, allowed: g.avgAllowed, pf: a.pf, sack: a.sack, int: a.int, fr: a.fr, td: a.td, ret_yds: a.ret_yds, fourth: a.fourth, nextDef: nw ? nw.opp : null, nextHome: nw ? !nw.home : null };
+  });
+  const [sk, sd] = state.sort.offenses;
+  sortRows(rows, sk, sd);
+  const vals = rows.map(r => r.allowed), c = mean(vals.filter(x => x != null)), sp = spreadOf(vals);
+  $("#off-table").innerHTML = `<thead><tr>
+      <th class="l">#</th>${th("offenses", "t", "Offense", "l")}${th("offenses", "n", "GP")}
+      ${th("offenses", "allowed", "D/ST pts allowed", "", "Average fantasy points opposing defenses scored against this team")}
+      ${th("offenses", "pf", "Pts scored", "grp", "Points this team scores per game")}
+      ${th("offenses", "sack", "Sacks taken")}${th("offenses", "int", "INT thrown")}${th("offenses", "fr", "Fumbles lost")}
+      ${th("offenses", "td", "D/ST TDs", "", "Defensive and blocked-kick TDs allowed per game")}${th("offenses", "fourth", "4th stops")}
+      ${th("offenses", "ret_yds", "Ret yds", "", "Kick and punt return yards allowed per game")}
+      ${th("offenses", "nextDef", D.nextWeek ? `Faces in Wk ${D.nextWeek}` : "Next", "grp l", "The defense that gets to play this offense next")}
+    </tr></thead><tbody>${rows.map((r, i) => `
+    <tr>
+      <td class="rank l">${i + 1}</td><td class="l">${teamBtn(r.t)}</td><td>${r.n}</td>
+      <td><span class="heat" style="${heatStyle(r.allowed, c, sp)}">${f1(r.allowed)}</span></td>
+      <td class="grp">${f1(r.pf)}</td><td>${f1(r.sack)}</td><td>${f1(r.int)}</td><td>${f1(r.fr)}</td><td>${f1(r.td)}</td><td>${f1(r.fourth)}</td><td>${f1(r.ret_yds)}</td>
+      <td class="grp l">${r.nextDef ? `<span class="opp"><span class="at">${r.nextHome ? "vs" : "@"}</span>${teamBtn(r.nextDef)}</span>` : `<span class="dim">Bye</span>`}</td>
+    </tr>`).join("")}</tbody>`;
+}
+
+function renderOutlook() {
+  const weeks = upcomingWeeks.slice(0, state.lookN);
+  let rows = TEAMS.map(t => {
+    const ms = weeks.map(w => matchup(t, w));
+    const projs = ms.filter(Boolean).map(m => m.proj).filter(x => x != null);
+    return { t, ms, avg: mean(projs), sum: projs.reduce((s, x) => s + x, 0), now: G[t].avgFor };
+  });
+  const [sk, sd] = state.sort.outlook;
+  sortRows(rows, sk, sd);
+  const all = rows.flatMap(r => r.ms.filter(Boolean).map(m => m.proj)), c = mean(all.filter(x => x != null)), sp = spreadOf(all);
+  $("#look-table").innerHTML = `<thead><tr>
+      <th class="l">#</th>${th("outlook", "t", "Defense", "l")}${th("outlook", "now", "D/ST avg")}
+      ${th("outlook", "avg", `Avg next ${weeks.length}`, "grp", "Average matchup score over these weeks, byes skipped")}
+      ${weeks.map(w => `<th class="${w === weeks[0] ? "grp" : ""}" style="text-align:center">Wk ${w}</th>`).join("")}
+    </tr></thead><tbody>${rows.map((r, i) => `
+    <tr>
+      <td class="rank l">${i + 1}</td><td class="l">${teamBtn(r.t)}</td><td>${f1(r.now)}</td>
+      <td class="grp big">${f1(r.avg)}</td>
+      ${r.ms.map((m, j) => `<td class="cell${j === 0 ? " grp" : ""}">${m
+        ? `<span class="heat" style="${heatStyle(m.proj, c, sp)}" title="${m.home ? "vs" : "at"} ${esc(D.teams[m.opp].name)}: ${f1(m.proj)}">${m.home ? "" : "@"}${m.opp}<small>${f1(m.proj)}</small></span>`
+        : `<span class="dim">BYE</span>`}</td>`).join("")}
+    </tr>`).join("")}</tbody>`;
+}
+
+function renderScoringForm() {
+  const f = $("#score-fields");
+  const field = (id, label, val, step = 1) => `<div class="field"><label for="${id}">${label}</label><input type="number" id="${id}" step="${step}" value="${val}"></div>`;
+  f.innerHTML = STAT_DEFS.map(d => d.per
+      ? field("s-" + d.k, `${d.label} <span class="dim">(yards per point)</span>`, S[d.k], 1)
+      : field("s-" + d.k, d.label, S[d.k], 0.5)).join("")
+    + PA_TIERS.map((t, i) => field("s-pa" + i, `Points allowed ${t.label}`, S.pa[i], 1)).join("");
+}
+function readScoringForm() {
+  for (const d of STAT_DEFS) { const v = parseFloat($("#s-" + d.k).value); if (!isNaN(v)) S[d.k] = v; }
+  PA_TIERS.forEach((t, i) => { const v = parseFloat($("#s-pa" + i).value); if (!isNaN(v)) S.pa[i] = v; });
+  store.set("scoring", S);
+  refresh(false);
+}
+
+function openTeam(t) {
+  const g = G[t], c = D.teams[t];
+  $("#dlg-title").innerHTML = `${badge(t)} ${esc(c.name)}`;
+  const log = g.games.map(r => {
+    const s = r.st, bits = [];
+    if (s) {
+      for (const d of STAT_DEFS) if (s[d.k] && !d.per) bits.push(`${s[d.k]} ${d.short}`);
+      bits.push(`${s.ret_yds} ret yds`, `PA ${s.pa}${r.off_given ? ` <span class="dim">(of ${r.pa_raw})</span>` : ""}`);
+    } else bits.push(`PA ${r.pa_only} · play-by-play pending`);
+    return `<tr><td class="l">Wk ${r.wk}</td><td class="l"><span class="opp"><span class="at">${r.home ? "vs" : "@"}</span>${badge(r.opp)}</span></td>
+      <td class="l dim">${r.pf}–${r.pa_raw}</td><td class="l" style="white-space:normal">${bits.join(" · ")}</td><td class="big">${f1(r.sc.total)}</td></tr>`;
+  }).join("");
+  const next = upcomingWeeks.slice(0, 6).map(w => {
+    const m = matchup(t, w);
+    if (!m) return `<tr><td class="l">Wk ${w}</td><td class="l dim" colspan="4">Bye</td></tr>`;
+    return `<tr><td class="l">Wk ${w}</td><td class="l"><span class="opp"><span class="at">${m.home ? "vs" : "@"}</span>${badge(m.opp)}</span></td>
+      <td class="l dim">${esc(gameTime(m.g))}</td><td>gives up ${f1(G[m.opp].avgAllowed)} <span class="rk">#${G[m.opp].avgAllowedRank}</span></td><td class="big">${f1(m.proj)}</td></tr>`;
+  }).join("");
+  $("#dlg-body").innerHTML = `
+    <div class="stats">
+      <div class="stat"><div class="v">${f1(g.total)}</div><div class="l">Total pts · #${g.totalRank}</div></div>
+      <div class="stat"><div class="v">${f1(g.avgSeason)}</div><div class="l">Per game</div></div>
+      <div class="stat"><div class="v">${f1(g.avgLast3)}</div><div class="l">Last 3 games</div></div>
+      <div class="stat"><div class="v">${f1(g.avgAllowed)}</div><div class="l">Allowed to opposing D/ST</div></div>
+    </div>
+    <div><h4>Game log</h4><div class="tablebox"><table><tbody>${log || `<tr><td class="l dim">No games yet.</td></tr>`}</tbody></table></div></div>
+    <div><h4>Coming up</h4><div class="tablebox"><table><thead><tr><th class="l">Week</th><th class="l">Opp</th><th class="l">Kickoff</th><th>Opp vs D/ST</th><th>Matchup</th></tr></thead><tbody>${next || `<tr><td class="l dim">Season complete.</td></tr>`}</tbody></table></div></div>`;
+  const dlg = $("#team-dlg");
+  if (typeof dlg.showModal === "function") { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute("open", "");
+}
+
+function syncSegs() {
+  document.querySelectorAll(".seg").forEach(seg => {
+    const key = seg.dataset.ctl;
+    seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === state[key])));
+  });
+}
+function refresh(rederive = true) {
+  derive();
+  renderHeader(); renderPicks(); renderRankings(); renderOffenses(); renderOutlook(); syncSegs();
+}
+function show(view) {
+  state.view = view;
+  document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.view === view)));
+  document.querySelectorAll("section.view").forEach(s => s.hidden = s.id !== "view-" + view);
+  try { history.replaceState(null, "", "#" + view); } catch {}
+}
+
+/* ---------- wiring ---------- */
+function init() {
+  const weeks = upcomingWeeks.length ? upcomingWeeks : [maxWeek];
+  state.week = weeks[0];
+  $("#pick-week").innerHTML = weeks.map(w => `<option value="${w}">Week ${w}</option>`).join("");
+  $("#hide-taken").checked = state.hideTaken;
+  renderScoringForm();
+  refresh();
+  const h = (location.hash || "").slice(1);
+  if (["picks", "rankings", "offenses", "outlook", "scoring"].includes(h)) show(h);
+
+  document.addEventListener("click", e => {
+    const tab = e.target.closest("nav.tabs button"); if (tab) return show(tab.dataset.view);
+    const seg = e.target.closest(".seg button");
+    if (seg) {
+      const key = seg.parentElement.dataset.ctl; state[key] = seg.dataset.v;
+      if (key === "window") store.set("window", state.window);
+      return refresh();
+    }
+    const take = e.target.closest("[data-take]");
+    if (take) {
+      const t = take.dataset.take; state.taken.has(t) ? state.taken.delete(t) : state.taken.add(t);
+      store.set("taken", [...state.taken]); return renderPicks();
+    }
+    const team = e.target.closest("[data-team]"); if (team) return openTeam(team.dataset.team);
+    const s = e.target.closest("th[data-sort]");
+    if (s) {
+      const [view, key] = s.dataset.sort.split(":"), cur = state.sort[view];
+      state.sort[view] = cur[0] === key ? [key, -cur[1]] : [key, key === "t" || key === "opp" || key === "nextDef" || key.endsWith("Rank") || key === "rank" || key === "implied" ? 1 : -1];
+      return refresh();
+    }
+  });
+  $("#pick-week").addEventListener("change", e => { state.week = +e.target.value; renderPicks(); });
+  $("#hide-taken").addEventListener("change", e => { state.hideTaken = e.target.checked; store.set("hideTaken", state.hideTaken); renderPicks(); });
+  $("#look-n").addEventListener("change", e => { state.lookN = +e.target.value; renderOutlook(); });
+  $("#score-form").addEventListener("input", readScoringForm);
+  $("#score-form").addEventListener("submit", e => e.preventDefault());
+  $("#score-reset").addEventListener("click", () => { S = JSON.parse(JSON.stringify(LEAGUE)); store.set("scoring", S); renderScoringForm(); refresh(); });
+  $("#dlg-close").addEventListener("click", () => $("#team-dlg").close());
+  $("#team-dlg").addEventListener("click", e => { if (e.target.id === "team-dlg") e.target.close(); });
+}
+init();
+</script>
