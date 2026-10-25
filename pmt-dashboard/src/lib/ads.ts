@@ -173,6 +173,23 @@ export function pickDaily(data: EffectiveData, level: Level, breakdown: Breakdow
   return { rows, summary: null, mode: 'daily', range, exact: true };
 }
 
+/**
+ * Daily rows for a range, taking each day from the most summarised level that
+ * has it (campaign, then ad set, then ad). Lets an older campaign-level file and
+ * a newer ad-set-level file cover different days without double counting.
+ */
+export function pickDailyMixed(data: EffectiveData, levels: Level[], breakdown: BreakdownType, range: DateRange): Picked | null {
+  const covers = levels.map((l) => data.dailyCoverage[signature({ level: l, breakdown, daily: true })]);
+  const dayLevel = new Map<ISODate, Level>();
+  for (const d of eachDay(range.start, range.end)) {
+    const i = covers.findIndex((c) => c?.has(d));
+    if (i < 0) return null;
+    dayLevel.set(d, levels[i]);
+  }
+  const rows = data.rows.filter((r) => r.daily && !r.isSummary && r.breakdown === breakdown && dayLevel.get(r.start) === r.level);
+  return { rows, summary: null, mode: 'daily', range, exact: true };
+}
+
 export function pickAggregate(data: EffectiveData, level: Level, breakdown: BreakdownType, range: DateRange): Picked | null {
   const windows = new Map<string, DateRange>();
   for (const r of data.rows) {
@@ -260,11 +277,7 @@ function aggregateTotal(p: Picked): { m: Metrics; reachQuality: ReachQuality } {
  */
 export function totals(data: EffectiveData, range: DateRange, adSets: string[] | null = null): Totals | null {
   const levels = adSets ? LEVELS.slice(1) : LEVELS;
-  let daily: Picked | null = null;
-  for (const l of levels) {
-    daily = pickDaily(data, l, 'none', range);
-    if (daily) break;
-  }
+  let daily = pickDailyMixed(data, levels, 'none', range);
   let agg: Picked | null = null;
   for (const l of levels) {
     const p = pickAggregate(data, l, 'none', range);
@@ -290,6 +303,11 @@ export function totals(data: EffectiveData, range: DateRange, adSets: string[] |
       metrics.reach = aggTotal.m.reach;
       metrics.ctrAllReported = aggTotal.m.ctrAllReported;
       reachQuality = aggTotal.reachQuality;
+      reachRange = agg.range;
+    } else if (agg && aggTotal && aggTotal.m.reach !== null && rangeSimilarity(agg.range, range) >= 0.8) {
+      // A summary file for nearly the same dates: show its reach, labelled with its dates.
+      metrics.reach = aggTotal.m.reach;
+      reachQuality = 'otherRange';
       reachRange = agg.range;
     }
   } else if (agg && aggTotal) {
@@ -337,6 +355,15 @@ export function byEntity(data: EffectiveData, range: DateRange, entity: 'adset' 
   daily?.rows.forEach((r) => add(r, 'daily'));
   agg?.rows.forEach((r) => add(r, 'agg'));
 
+  // Status is "now", so it comes from the newest row for the entity in any file.
+  const status = new Map<string, { end: ISODate; status: string }>();
+  for (const r of data.rows) {
+    const k = keyOf(r);
+    if (!k || r.level !== entity || !r.deliveryStatus) continue;
+    const cur = status.get(k);
+    if (!cur || r.end >= cur.end) status.set(k, { end: r.end, status: r.deliveryStatus });
+  }
+
   const out: EntityRow[] = [];
   for (const [key, g] of groups) {
     const first = g.agg[0] ?? g.daily[0];
@@ -359,14 +386,13 @@ export function byEntity(data: EffectiveData, range: DateRange, entity: 'adset' 
       rRange = agg.range;
       exact = agg.exact;
     } else continue;
-    const latest = [...g.daily, ...g.agg].sort((a, b) => (a.end < b.end ? 1 : -1))[0];
     out.push({
       key,
       adSet: first.adSet,
       ad: first.ad,
       campaign: first.campaign,
       metrics,
-      deliveryStatus: latest?.deliveryStatus,
+      deliveryStatus: status.get(key)?.status,
       range: rRange,
       exact,
     });
@@ -451,31 +477,24 @@ export interface DailyPoint {
 
 /** Day-by-day numbers. Needs a report broken down by Day. */
 export function dailySeries(data: EffectiveData, range: DateRange, adSets: string[] | null = null): DailyPoint[] | null {
-  const levels = adSets ? LEVELS.slice(1) : LEVELS;
-  for (const l of levels) {
-    const p = pickDaily(data, l, 'none', range);
-    if (!p) continue;
-    const rows = adSets ? p.rows.filter((r) => adSets.includes(r.adSet)) : p.rows;
-    return eachDay(range.start, range.end).map((date) => {
-      const day = rows.filter((r) => r.start === date);
-      const m = day.length ? sumMetrics(day) : { ...EMPTY_METRICS, spend: 0, results: 0, linkClicks: 0, impressions: 0, clicksAll: 0 };
-      if (day.length > 1) m.reach = null;
-      return { date, metrics: m };
-    });
-  }
-  return null;
+  const p = pickDailyMixed(data, adSets ? LEVELS.slice(1) : LEVELS, 'none', range);
+  if (!p) return null;
+  const rows = adSets ? p.rows.filter((r) => adSets.includes(r.adSet)) : p.rows;
+  return eachDay(range.start, range.end).map((date) => {
+    const day = rows.filter((r) => r.start === date);
+    const m = day.length ? sumMetrics(day) : { ...EMPTY_METRICS, spend: 0, results: 0, linkClicks: 0, impressions: 0, clicksAll: 0 };
+    if (day.length > 1) m.reach = null;
+    return { date, metrics: m };
+  });
 }
 
 export function dailyAvailableRange(data: EffectiveData, adSetLevel = false): DateRange | null {
   const levels = adSetLevel ? LEVELS.slice(1) : LEVELS;
-  for (const l of levels) {
-    const cover = data.dailyCoverage[signature({ level: l, breakdown: 'none', daily: true })];
-    if (cover?.size) {
-      const days = [...cover].sort();
-      return { start: days[0], end: days[days.length - 1] };
-    }
-  }
-  return null;
+  const days = new Set<ISODate>();
+  for (const l of levels) for (const d of data.dailyCoverage[signature({ level: l, breakdown: 'none', daily: true })] ?? []) days.add(d);
+  if (!days.size) return null;
+  const sorted = [...days].sort();
+  return { start: sorted[0], end: sorted[sorted.length - 1] };
 }
 
 export function rangeDays(r: DateRange): number {

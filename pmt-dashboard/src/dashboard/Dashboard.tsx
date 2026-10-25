@@ -51,14 +51,16 @@ export function Dashboard({
   access,
   banner,
   adminBar,
+  initialFilters,
 }: {
   state: AppState;
   mode: 'client' | 'admin';
   access: FileAccess;
   banner?: ReactNode;
   adminBar?: ReactNode;
+  initialFilters?: Filters;
 }) {
-  const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  const [filters, setFilters] = useState<Filters>(initialFilters ?? DEFAULT_FILTERS);
   const [glossary, setGlossary] = useState(false);
   const [pref, setPref] = useThemePref();
   const colors = useChartColors();

@@ -134,6 +134,30 @@ describe('Seed totals tie to the brief', () => {
   });
 });
 
+describe('Mixing report levels', () => {
+  it('stitches campaign-level days and newer ad-set-level days together', () => {
+    const adsetDay = upload(
+      'adset-day',
+      `Day,Ad set name,Result type,Results,Amount spent (USD),Link clicks
+,,Landing page views,140,40.00,180
+2026-10-24,Woodland beginner class oct7/26,Landing page views,50,12.00,60
+2026-10-24,WOOD IRC OCT7 PUSH 2 OCT24,Landing page views,30,10.00,40
+2026-10-24,Eureka BRC oct726 push1,Landing page views,35,9.00,45
+2026-10-24,Cloverdale BRC OCT726 push1,Landing page views,25,9.00,35
+`,
+      '2026-10-25T00:00:00Z',
+    );
+    const d = effectiveData([...seed.uploads, adsetDay]);
+    const t = totals(d, { start: '2026-10-07', end: '2026-10-24' })!;
+    expect(t.metrics.spend).toBeCloseTo(485.04 + 40, 2);
+    expect(t.metrics.results).toBe(1553 + 140);
+    expect(dailySeries(d, { start: '2026-10-07', end: '2026-10-24' })).toHaveLength(18);
+    // Reach comes from the Oct 7–23 total, labelled as such, because it covers nearly the same days.
+    expect(t.metrics.reach).toBe(39326);
+    expect(t.reachQuality).toBe('otherRange');
+  });
+});
+
 describe('Re-uploads replace instead of double counting', () => {
   it('replaces overlapping days from a newer daily file', () => {
     const first = upload('first', CAMPAIGN_DAILY_CSV, '2026-10-24T00:00:00Z');

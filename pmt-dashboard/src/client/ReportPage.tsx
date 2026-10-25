@@ -112,7 +112,16 @@ export function ReportPage() {
     </div>
   );
 
-  return <Dashboard state={state} mode="client" access={{ kind: 'client', t: token, k }} banner={banner} />;
+  return (
+    <Dashboard
+      key={archiveId ?? 'live'}
+      state={state}
+      mode="client"
+      access={{ kind: 'client', t: token, k }}
+      banner={banner}
+      initialFilters={archived ? { preset: 'custom', custom: archived.range, locations: null } : undefined}
+    />
+  );
 }
 
 function PasswordGate({ onUnlock }: { onUnlock: (pw: string) => Promise<void> }) {

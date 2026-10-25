@@ -9,7 +9,7 @@ export function MoneySection({ m, state, hidden }: SectionProps & { hidden: bool
   const per = (n: number | null | undefined) => (t?.spend && n !== null && n !== undefined ? (n / t.spend) * 100 : null);
   const b = state.settings.benchmarks;
   const items: { label: string; value: number | null; term: TermKey; fmt: (n: number | null) => string }[] = [
-    { label: 'people reached', value: m.totals?.reachQuality === 'exact' ? per(t?.reach) : null, term: 'reach', fmt: compact },
+    { label: 'people reached', value: m.totals?.reachQuality === 'exact' || m.totals?.reachQuality === 'atLeast' ? per(t?.reach) : null, term: 'reach', fmt: compact },
     { label: 'ad views', value: per(t?.impressions), term: 'impressions', fmt: compact },
     { label: 'clicks to the website', value: per(t?.linkClicks), term: 'linkClicks', fmt: int },
     { label: 'website visits', value: per(t?.results), term: 'results', fmt: int },

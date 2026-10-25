@@ -118,7 +118,7 @@ export function Section({
           </h2>
           {subtitle && <p className="mt-1.5 max-w-3xl text-sm text-ink2">{subtitle}</p>}
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="no-print flex flex-wrap items-center gap-2">
           {hiddenForClient && <Badge tone="neutral" icon="eyeOff">Hidden from PMT</Badge>}
           {actions}
         </div>
