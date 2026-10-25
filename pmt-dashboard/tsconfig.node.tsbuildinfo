@@ -1,0 +1,1 @@
+{"root":["./vite.config.ts","./server/auth.ts","./server/devStore.ts","./server/handler.test.ts","./server/handler.ts","./server/store.ts","./server/vision.ts","./netlify/functions/api.mts","./netlify/functions/login.mts"],"version":"5.9.3"}

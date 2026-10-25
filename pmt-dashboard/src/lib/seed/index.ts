@@ -183,7 +183,7 @@ function seedOrganic(): OrganicEntry[] {
 
 export const SEED_INSIGHTS = `<h3>What worked</h3>
 <ul>
-<li><strong>Website visits came in cheap.</strong> The ads sent 1,553 people to the class registration pages for $0.31 each. Local ads usually cost $0.50–$1.50 per visit.</li>
+<li><strong>Website visits came in cheap.</strong> The ads brought 1,553 visits to the class registration pages, at $0.31 each. Local ads usually cost $0.50–$1.50 per visit.</li>
 <li><strong>Woodland's beginner ad performed best</strong> at $0.24 per visit (628 visits from $151).</li>
 <li><strong>Classes filled up.</strong> About 39 seats were booked between Oct 6 and Oct 23. The Woodland Oct 24–25 afternoon class sold out, and afternoon classes usually fill only about half.</li>
 <li><strong>Eureka's Oct 24–25 morning class</strong> went from 10 open seats to 2.</li>

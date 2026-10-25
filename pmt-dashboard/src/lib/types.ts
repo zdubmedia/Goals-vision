@@ -264,3 +264,21 @@ export interface AppState {
   share?: ShareSettings;
   adminNotes?: string;
 }
+
+// ---------- Screenshot reading ----------
+
+/** What Claude read from a registration-page screenshot. */
+export interface VisionClass {
+  title: string;
+  dates: string;
+  time: 'AM' | 'PM' | '';
+  seatsLeft: number | null;
+  seatsTotal: number | null;
+  soldOut: boolean;
+}
+
+export interface VisionResult {
+  location: string | null;
+  classes: VisionClass[];
+  notes: string;
+}

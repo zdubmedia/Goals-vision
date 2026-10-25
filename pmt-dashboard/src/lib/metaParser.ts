@@ -73,7 +73,7 @@ export function parseMetaTable(table: Table): MetaParseResult {
   if (errors.length) return empty;
 
   const nameCol = NAME_COLUMNS[level];
-  const bdCols = BREAKDOWN_COLUMNS.find(([t]) => t === breakdown)?.[1] ?? [];
+  const bdCols = breakdown === 'placement' && has('Platform') ? ['Platform', 'Placement'] : BREAKDOWN_COLUMNS.find(([t]) => t === breakdown)?.[1] ?? [];
   const convCols = table.headers.filter((h) => CONVERSION_PATTERN.test(h));
   const rows: AdRow[] = [];
   let summary: AdRow | null = null;

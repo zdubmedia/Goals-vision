@@ -1,0 +1,149 @@
+@import '@fontsource/open-sans/400.css';
+@import '@fontsource/open-sans/600.css';
+@import '@fontsource/open-sans/700.css';
+@import '@fontsource/bebas-neue/400.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* PMT brand tokens (from the PMT Master Brand Guide) as RGB triplets. */
+:root {
+  color-scheme: light;
+  --page: 244 246 249;
+  --surface: 255 255 255;
+  --surface-2: 248 250 252;
+  --ink: 16 24 40;
+  --ink-2: 71 84 103;
+  --muted: 102 112 133;
+  --line: 228 231 236;
+  --navy: 49 81 115;        /* PMT Navy #315173 */
+  --navy-deep: 41 67 95;    /* Deep Navy #29435F */
+  --accent: 255 93 48;      /* Signal Orange #FF5D30 — "the thing that matters" */
+  --accent-ink: 196 62 22;  /* readable orange text */
+  --gold: 247 181 18;       /* Pacific Gold #F7B512 */
+  --good: 12 163 12;
+  --good-ink: 0 99 0;
+  --warn: 250 178 25;
+  --bad: 208 59 59;
+  --bad-ink: 180 35 35;
+
+  /* Chart tokens (validated: dataviz palette, colorblind-safe for the 3 locations) */
+  --c-loc-1: #2a78d6;
+  --c-loc-2: #1baf7a;
+  --c-loc-3: #eda100;
+  --c-accent: #ff5d30;
+  --c-accent-soft: rgba(255, 93, 48, 0.12);
+  --c-muted-mark: #b8c0cc;
+  --c-grid: #e1e0d9;
+  --c-axis: #898781;
+  --c-surface: #ffffff;
+  --c-before: #c7ced9;
+}
+
+[data-dark='true'] {
+  color-scheme: dark;
+  --page: 12 17 24;
+  --surface: 21 29 39;
+  --surface-2: 27 37 49;
+  --ink: 238 242 246;
+  --ink-2: 182 194 207;
+  --muted: 140 153 168;
+  --line: 40 52 67;
+  --navy: 30 50 74;
+  --navy-deep: 22 37 56;
+  --accent: 255 112 72;
+  --accent-ink: 255 138 101;
+  --gold: 247 181 18;
+  --good: 12 163 12;
+  --good-ink: 52 199 89;
+  --warn: 250 178 25;
+  --bad: 230 103 103;
+  --bad-ink: 240 128 128;
+
+  --c-loc-1: #3987e5;
+  --c-loc-2: #199e70;
+  --c-loc-3: #c98500;
+  --c-accent: #ff7048;
+  --c-accent-soft: rgba(255, 112, 72, 0.16);
+  --c-muted-mark: #4a5868;
+  --c-grid: #2c2c2a;
+  --c-axis: #898781;
+  --c-surface: #151d27;
+  --c-before: #3d4a5a;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  @apply bg-page text-ink font-sans antialiased;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+.speedlines::before,
+.speedlines::after {
+  content: '';
+  display: inline-block;
+  width: 1.1em;
+  height: 0.42em;
+  border-top: 2px solid rgb(var(--gold));
+  border-bottom: 2px solid rgb(var(--gold));
+  vertical-align: middle;
+}
+.speedlines::before {
+  margin-right: 0.5em;
+}
+.speedlines::after {
+  display: none;
+}
+.prose-insights h3 {
+  @apply mt-5 mb-2 text-base font-semibold text-ink first:mt-0;
+}
+.prose-insights p {
+  @apply my-2 text-ink2 leading-relaxed;
+}
+.prose-insights ul {
+  @apply my-2 list-disc space-y-2 pl-5 text-ink2 leading-relaxed;
+}
+.prose-insights ol {
+  @apply my-2 list-decimal space-y-2 pl-5 text-ink2;
+}
+.prose-insights strong {
+  @apply font-semibold text-ink;
+}
+.prose-insights a {
+  @apply text-accentink underline;
+}
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface;
+}
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}
+
+@media print {
+  [data-dark='true'] {
+    color-scheme: light;
+  }
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-break-avoid {
+    break-inside: avoid;
+  }
+  .print-only {
+    display: block !important;
+  }
+  @page {
+    margin: 12mm;
+  }
+}
+.print-only {
+  display: none;
+}
