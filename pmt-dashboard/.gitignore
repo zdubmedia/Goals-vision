@@ -4,3 +4,4 @@ dist
 .localdata
 *.log
 test-results
+*.tsbuildinfo
