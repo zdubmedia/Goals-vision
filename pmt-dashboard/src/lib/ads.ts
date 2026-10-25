@@ -3,7 +3,7 @@ import type { AdMetrics, AdRow, BreakdownType, Level, LocationSetting, MetaUploa
 
 export type Metrics = Omit<AdMetrics, 'conversions'>;
 
-const ADDITIVE = ['spend', 'impressions', 'results', 'linkClicks', 'clicksAll', 'views'] as const;
+const ADDITIVE = ['spend', 'impressions', 'results', 'linkClicks', 'clicksAll', 'views', 'igProfileVisits', 'postEngagements'] as const;
 type AdditiveKey = (typeof ADDITIVE)[number];
 
 export const EMPTY_METRICS: Metrics = {
@@ -14,6 +14,8 @@ export const EMPTY_METRICS: Metrics = {
   linkClicks: null,
   clicksAll: null,
   views: null,
+  igProfileVisits: null,
+  postEngagements: null,
   ctrAllReported: null,
 };
 
@@ -65,7 +67,7 @@ export function derive(m: Metrics): Derived {
   return {
     costPerResult: div(m.spend, m.results),
     linkCtr: div(m.linkClicks, m.impressions),
-    ctrAll: m.impressions ? div(m.clicksAll, m.impressions) : m.ctrAllReported !== null ? m.ctrAllReported / 100 : null,
+    ctrAll: m.impressions && m.clicksAll !== null ? div(m.clicksAll, m.impressions) : m.ctrAllReported !== null ? m.ctrAllReported / 100 : null,
     cpc: div(m.spend, m.linkClicks),
     cpcAll: div(m.spend, m.clicksAll),
     cpm: div(m.spend, m.impressions, 1000),
@@ -320,7 +322,7 @@ export function totals(data: EffectiveData, range: DateRange, adSets: string[] |
     return null;
   }
   const missing = (Object.keys(metrics) as (keyof Metrics)[]).filter(
-    (k) => metrics[k] === null && k !== 'ctrAllReported' && k !== 'views',
+    (k) => metrics[k] === null && !['ctrAllReported', 'views', 'igProfileVisits', 'postEngagements'].includes(k),
   );
   return { metrics, range: outRange, exact, reachQuality, reachRange, missing };
 }

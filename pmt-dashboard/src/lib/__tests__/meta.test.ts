@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { byBreakdown, byEntity, dailySeries, derive, effectiveData, totals } from '../ads';
 import { parseMetaTable } from '../metaParser';
 import { buildSeedState } from '../seed';
-import { ADSET_TOTAL_CSV, CAMPAIGN_DAILY_CSV, PLACEMENT_CSV } from '../seed/metaCsv';
+import { ADSET_DAILY_CSV, ADSET_TOTAL_CSV, PLACEMENT_CSV } from '../seed/metaCsv';
 import { tableFromCsv } from '../tabular';
 import type { MetaUpload } from '../types';
 
@@ -34,23 +34,26 @@ describe('Meta export parser', () => {
     expect(p.breakdown).toBe('none');
     expect(p.daily).toBe(false);
     expect(p.rows).toHaveLength(4);
-    expect(p.summary?.spend).toBe(485.04);
-    expect(p.summary?.reach).toBe(39326);
+    expect(p.summary?.spend).toBe(503.36);
+    expect(p.summary?.reach).toBe(40928);
+    expect(p.rows[0].rankings?.conversion).toBe('Bottom 10%');
+    expect(p.rows[0].igProfileVisits).toBe(134);
     expect(p.start).toBe('2026-10-07');
     expect(p.end).toBe('2026-10-23');
   });
 
   it('detects a daily export', () => {
-    const p = parseMetaTable(tableFromCsv(CAMPAIGN_DAILY_CSV));
+    const p = parseMetaTable(tableFromCsv(ADSET_DAILY_CSV));
     expect(p.daily).toBe(true);
-    expect(p.rows).toHaveLength(17);
-    expect(p.summary?.results).toBe(1553);
+    expect(p.level).toBe('adset');
+    expect(p.rows).toHaveLength(64); // Cloverdale stopped after Oct 19
+    expect(p.summary?.results).toBe(1583);
   });
 
   it('flags rows that do not add up to Meta\'s total', () => {
     const p = parseMetaTable(tableFromCsv(PLACEMENT_CSV));
     expect(p.breakdown).toBe('placement');
-    expect(p.warnings.join(' ')).toMatch(/\$3\.94 less/);
+    expect(p.warnings.join(' ')).toMatch(/\$0\.31 less/);
   });
 
   it('rejects files that are not Meta exports, with a clear message', () => {
@@ -69,42 +72,44 @@ describe('Meta export parser', () => {
   });
 });
 
-describe('Seed totals tie to the brief', () => {
+describe('Seed totals tie to the final Oct 7–23 report', () => {
   it('campaign totals Oct 7–23', () => {
     const t = totals(data, FULL)!;
-    expect(t.metrics.spend).toBe(485.04);
-    expect(t.metrics.results).toBe(1553);
-    expect(t.metrics.linkClicks).toBe(2051);
-    expect(t.metrics.impressions).toBe(79751);
-    expect(t.metrics.clicksAll).toBe(3215);
-    expect(t.metrics.reach).toBe(39326);
+    expect(t.metrics.spend).toBe(503.36);
+    expect(t.metrics.results).toBe(1583);
+    expect(t.metrics.linkClicks).toBe(2090);
+    expect(t.metrics.impressions).toBe(82465);
+    expect(t.metrics.clicksAll).toBe(3271);
+    expect(t.metrics.reach).toBe(40928);
+    expect(t.metrics.igProfileVisits).toBe(222);
+    expect(t.metrics.postEngagements).toBe(7106);
     expect(t.reachQuality).toBe('exact');
     const d = derive(t.metrics);
-    expect(d.costPerResult).toBeCloseTo(0.3123, 3);
-    expect(d.linkCtr).toBeCloseTo(2051 / 79751, 6);
-    expect(d.cpm).toBeCloseTo(6.08, 2);
-    expect(d.frequency).toBeCloseTo(2.03, 2);
-    expect(d.ctrAll).toBeCloseTo(0.0403, 3);
+    expect(d.costPerResult).toBeCloseTo(0.318, 3);
+    expect(d.linkCtr).toBeCloseTo(0.0253, 4);
+    expect(d.cpm).toBeCloseTo(6.1, 2);
+    expect(d.frequency).toBeCloseTo(2.01, 2);
+    expect(d.ctrAll).toBeCloseTo(0.0397, 4);
   });
 
   it('never adds reach across ad sets', () => {
     const rows = byEntity(data, FULL, 'adset');
     const summed = rows.reduce((s, r) => s + (r.metrics.reach ?? 0), 0);
-    expect(summed).toBe(43145); // the overlap-inflated number
-    expect(totals(data, FULL)!.metrics.reach).toBe(39326);
+    expect(summed).toBe(44329); // the overlap-inflated number
+    expect(totals(data, FULL)!.metrics.reach).toBe(40928);
     // Woodland has two ad sets: reach is "at least" the larger one, not their sum.
     const wood = totals(data, FULL, ['Woodland beginner class oct7/26', 'WOOD IRC OCT7 PUSH 2 OCT24'])!;
     expect(wood.metrics.reach).toBe(15594);
     expect(wood.reachQuality).toBe('atLeast');
-    expect(wood.metrics.spend).toBe(304.33);
-    expect(wood.metrics.results).toBe(995);
+    expect(wood.metrics.spend).toBe(318.75);
+    expect(wood.metrics.results).toBe(1021);
   });
 
   it('ad sets add up to the campaign', () => {
     const rows = byEntity(data, FULL, 'adset');
     expect(rows).toHaveLength(4);
     const spend = rows.reduce((s, r) => s + (r.metrics.spend ?? 0), 0);
-    expect(spend).toBeCloseTo(485.04, 2);
+    expect(spend).toBeCloseTo(503.36, 2);
     const best = rows.sort((a, b) => derive(a.metrics).costPerResult! - derive(b.metrics).costPerResult!)[0];
     expect(best.key).toBe('Woodland beginner class oct7/26');
   });
@@ -112,73 +117,72 @@ describe('Seed totals tie to the brief', () => {
   it('daily series sums to the totals', () => {
     const days = dailySeries(data, FULL)!;
     expect(days).toHaveLength(17);
-    expect(days.reduce((s, d) => s + d.metrics.spend!, 0)).toBeCloseTo(485.04, 2);
-    expect(days.reduce((s, d) => s + d.metrics.results!, 0)).toBe(1553);
+    expect(days.reduce((s, d) => s + d.metrics.spend!, 0)).toBeCloseTo(503.36, 2);
+    expect(days.reduce((s, d) => s + d.metrics.results!, 0)).toBe(1583);
+    expect(days.reduce((s, d) => s + d.metrics.impressions!, 0)).toBe(82465);
   });
 
   it('a partial range uses daily numbers and leaves reach unknown', () => {
     const t = totals(data, { start: '2026-10-17', end: '2026-10-23' })!;
-    expect(t.metrics.spend).toBeCloseTo(215.98, 2);
-    expect(t.metrics.results).toBe(519);
-    expect(t.metrics.reach).toBeNull();
-    expect(t.metrics.impressions).toBeNull();
+    expect(t.metrics.spend).toBeCloseTo(234.3, 2);
+    expect(t.metrics.results).toBe(549);
+    expect(t.metrics.impressions).toBe(35025);
+    expect(t.metrics.reach).toBeNull(); // daily reach can't be added up
   });
 
   it('breakdowns add an "Other" row for unlisted placements', () => {
     const b = byBreakdown(data, 'placement', FULL)!;
     const other = b.rows.find((r) => r.isOther)!;
-    expect(other.metrics.spend).toBeCloseTo(3.94, 2);
-    expect(other.metrics.results).toBe(9);
+    expect(other.metrics.spend).toBeCloseTo(0.31, 2);
+    expect(other.metrics.results).toBe(1);
     const g = byBreakdown(data, 'gender', FULL)!;
-    expect(g.rows.find((r) => r.isOther)).toBeUndefined(); // $0.10 over is rounding, not a gap
+    expect(g.rows.find((r) => r.isOther)).toBeUndefined(); // $0.04 over is rounding, not a gap
+    expect(derive(g.rows.find((r) => r.key === 'female')!.metrics).linkCtr).toBeCloseTo(379 / 12433, 6);
   });
 });
 
 describe('Mixing report levels', () => {
-  it('stitches campaign-level days and newer ad-set-level days together', () => {
-    const adsetDay = upload(
-      'adset-day',
-      `Day,Ad set name,Result type,Results,Amount spent (USD),Link clicks
+  it('stitches ad-set-level days and a newer campaign-level day together', () => {
+    const campaignDay = upload(
+      'campaign-day',
+      `Day,Campaign name,Result type,Results,Amount spent (USD),Link clicks
 ,,Landing page views,140,40.00,180
-2026-10-24,Woodland beginner class oct7/26,Landing page views,50,12.00,60
-2026-10-24,WOOD IRC OCT7 PUSH 2 OCT24,Landing page views,30,10.00,40
-2026-10-24,Eureka BRC oct726 push1,Landing page views,35,9.00,45
-2026-10-24,Cloverdale BRC OCT726 push1,Landing page views,25,9.00,35
+2026-10-24,PMT October 3 Location push 1,Landing page views,140,40.00,180
 `,
       '2026-10-25T00:00:00Z',
     );
-    const d = effectiveData([...seed.uploads, adsetDay]);
+    const d = effectiveData([...seed.uploads, campaignDay]);
     const t = totals(d, { start: '2026-10-07', end: '2026-10-24' })!;
-    expect(t.metrics.spend).toBeCloseTo(485.04 + 40, 2);
-    expect(t.metrics.results).toBe(1553 + 140);
+    expect(t.metrics.spend).toBeCloseTo(503.36 + 40, 2);
+    expect(t.metrics.results).toBe(1583 + 140);
     expect(dailySeries(d, { start: '2026-10-07', end: '2026-10-24' })).toHaveLength(18);
     // Reach comes from the Oct 7–23 total, labelled as such, because it covers nearly the same days.
-    expect(t.metrics.reach).toBe(39326);
+    expect(t.metrics.reach).toBe(40928);
     expect(t.reachQuality).toBe('otherRange');
   });
 });
 
 describe('Re-uploads replace instead of double counting', () => {
   it('replaces overlapping days from a newer daily file', () => {
-    const first = upload('first', CAMPAIGN_DAILY_CSV, '2026-10-24T00:00:00Z');
-    const again = upload('again', CAMPAIGN_DAILY_CSV, '2026-10-25T00:00:00Z');
+    const first = upload('first', ADSET_DAILY_CSV, '2026-10-24T00:00:00Z');
+    const again = upload('again', ADSET_DAILY_CSV, '2026-10-25T00:00:00Z');
     const d = effectiveData([first, again]);
-    expect(totals(d, FULL)!.metrics.spend).toBe(485.04);
+    expect(totals(d, FULL)!.metrics.spend).toBe(503.36);
     expect(d.replacedBy.first).toBe('again');
   });
 
   it('keeps the older days a newer file does not cover', () => {
-    const older = upload('older', CAMPAIGN_DAILY_CSV, '2026-10-24T00:00:00Z');
-    const lastTwo = CAMPAIGN_DAILY_CSV.split('\n')
-      .filter((l) => l.startsWith('Day') || l.startsWith('2026-10-22') || l.startsWith('2026-10-23'))
+    const older = upload('older', ADSET_DAILY_CSV, '2026-10-24T00:00:00Z');
+    const lastTwo = ADSET_DAILY_CSV.split('\n')
+      .filter((l: string) => l.startsWith('Day') || l.startsWith('2026-10-22') || l.startsWith('2026-10-23'))
       .join('\n')
-      .replace('2026-10-23,PMT October 3 Location push 1,Landing page views,39,16.09,40', '2026-10-23,PMT October 3 Location push 1,Landing page views,60,30.00,70');
+      .replace('2026-10-23,Woodland beginner class oct7/26,Landing page views,4,0.76,', '2026-10-23,Woodland beginner class oct7/26,Landing page views,10,5.00,');
     const newer = upload('newer', lastTwo, '2026-10-25T00:00:00Z');
     const d = effectiveData([older, newer]);
     const t = totals(d, FULL)!;
-    // Oct 23 updated from $16.09 to $30.00; everything else unchanged.
-    expect(t.metrics.spend).toBeCloseTo(485.04 - 16.09 + 30, 2);
-    expect(t.metrics.results).toBe(1553 - 39 + 60);
+    // Woodland's Oct 23 updated from $0.76 to $5.00; everything else unchanged.
+    expect(t.metrics.spend).toBeCloseTo(503.36 - 0.76 + 5, 2);
+    expect(t.metrics.results).toBe(1583 - 4 + 10);
     expect(d.replacedBy.older).toBeUndefined();
   });
 
@@ -187,7 +191,7 @@ describe('Re-uploads replace instead of double counting', () => {
     const b = upload('b', ADSET_TOTAL_CSV, '2026-10-25T00:00:00Z');
     const d = effectiveData([a, b]);
     expect(byEntity(d, FULL, 'adset')).toHaveLength(4);
-    expect(totals(d, FULL)!.metrics.spend).toBe(485.04);
+    expect(totals(d, FULL)!.metrics.spend).toBe(503.36);
     expect(d.replacedBy.a).toBe('b');
   });
 });

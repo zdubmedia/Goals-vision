@@ -103,6 +103,17 @@ export function LocationsSection({ m, state, colors, hidden }: SectionProps & { 
     },
   ];
 
+  if (rows.some((r) => r.metrics.igProfileVisits !== null && r.metrics.igProfileVisits !== undefined)) {
+    columns.splice(columns.length - 1, 0, {
+      key: 'igv',
+      label: 'IG profile visits',
+      term: 'igProfileVisits',
+      align: 'right',
+      render: (r) => int(r.metrics.igProfileVisits),
+      sort: (r) => r.metrics.igProfileVisits ?? null,
+      csv: (r) => r.metrics.igProfileVisits ?? '',
+    });
+  }
   if (rows.some((r) => r.deliveryStatus)) {
     columns.splice(1, 0, { key: 'status', label: 'Status', render: (r) => <StatusBadge status={r.deliveryStatus} />, csv: (r) => r.deliveryStatus ?? '' });
   }

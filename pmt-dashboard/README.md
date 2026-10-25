@@ -136,22 +136,24 @@ The upload pipeline (`parseMetaTable` → `MetaUpload`) is the single entry poin
 
 Automated (`npm test`: 47 tests):
 
-- [x] Campaign totals tie to the brief:
-  - $485.04 spend
-  - 1,553 website visits
-  - 2,051 link clicks
-  - 79,751 impressions
-  - 3,215 clicks (all)
-  - 39,326 reach
-- [x] Cost per visit $0.31, CPM $6.08 and frequency 2.03 are recomputed from raw counts.
+- [x] Campaign totals tie to the final Oct 7–23 Meta report (pulled Oct 24):
+  - $503.36 spend
+  - 1,583 website visits
+  - 2,090 link clicks
+  - 82,465 impressions
+  - 3,271 clicks (all)
+  - 40,928 reach
+  - 222 Instagram profile visits and 7,106 post engagements from the ads
+- [x] Cost per visit $0.32, CPM $6.10 and frequency 2.01 are recomputed from raw counts. The day-by-day ad set rows add up to the totals to the cent.
 - [x] Reach is not double counted:
-  - the ad sets add up to 43,145, but campaign reach stays 39,326
+  - the ad sets add up to 44,329, but campaign reach stays 40,928
   - Woodland's two ad sets show "at least 15,594"
 - [x] The four ad sets add up to the campaign spend. Woodland beginner ($0.24/visit) is the best performer.
-- [x] Daily rows add up to the totals. "Last 7 days" (Oct 17–23) = $215.98 and 519 visits.
-- [x] Placement "Other" row = the $3.94 / 9 visits missing from the listed rows. The gender rows' $0.10 rounding is not flagged.
+- [x] Daily rows add up to the totals. "Last 7 days" (Oct 17–23) = $234.30, 549 visits and 35,025 ad views.
+- [x] Placement "Other" row = the $0.31 / 1 visit missing from the listed rows. The age and gender rows' $0.04 rounding is not flagged.
+- [x] Health alerts flag Cloverdale's ad (no spend after Oct 19), the cost-per-visit rise (+78% last week) and Meta's "Bottom 10%" conversion ranking (admin only).
 - [x] Re-uploading the same daily file doesn't double the numbers. A newer file for some days replaces only those days. A newer totals file replaces the older one.
-- [x] Campaign-level days and newer ad-set-level days stitch together without double counting.
+- [x] Ad-set-level days and a newer campaign-level day stitch together without double counting.
 - [x] Capacity rules: 12 by default, 10 when sharing the range with Intermediate, 6 for each of IRC and 1DPC. Overrides work.
 - [x] Seats sold Oct 6–23:
   - **39 in total** (Woodland 19, Eureka 12, Cloverdale 8), ≈ $16,575

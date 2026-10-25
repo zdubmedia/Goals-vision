@@ -70,13 +70,34 @@ export function healthAlerts(data: EffectiveData, settings: Settings, range: Dat
         if (day < addDays(dailyAdsets.end, -1)) {
           alerts.push({
             id: `quiet-${name}`,
-            severity: 'critical',
+            severity: 'warning',
             title: `Stopped spending: ${name}`,
-            detail: `No spend since ${fmtDate(day)} (data runs to ${fmtDate(dailyAdsets.end)}).`,
+            detail: `No spend since ${fmtDate(day)} (data runs to ${fmtDate(dailyAdsets.end)}). Turned off on purpose? If not, check it in Ads Manager.`,
           });
         }
       }
     }
+  }
+
+  // Meta's relevance rankings (newest summary file).
+  const ranked = new Map<string, { end: string; conversion?: string; quality?: string }>();
+  for (const r of data.rows) {
+    if (r.level !== 'adset' || r.isSummary || !r.rankings) continue;
+    const cur = ranked.get(r.adSet);
+    if (!cur || r.end >= cur.end) ranked.set(r.adSet, { end: r.end, conversion: r.rankings.conversion, quality: r.rankings.quality });
+  }
+  const lowConv = [...ranked].filter(([, v]) => /bottom|below/i.test(v.conversion ?? ''));
+  if (lowConv.length) {
+    alerts.push({
+      id: 'rank-conversion',
+      severity: 'info',
+      title: `Conversion rate ranking is low on ${lowConv.length === ranked.size ? 'every ad set' : lowConv.map(([k]) => k).join(', ')}`,
+      detail: `Meta ranks it "${lowConv[0][1].conversion}" against ads with the same goal. These ads are optimized for page views, so Meta can't see bookings yet. Once the Pixel is on the registration page, test a campaign optimized for completed registrations.`,
+    });
+  }
+  const lowQuality = [...ranked].filter(([, v]) => /bottom|below/i.test(v.quality ?? ''));
+  for (const [k, v] of lowQuality) {
+    alerts.push({ id: `rank-quality-${k}`, severity: 'warning', title: `Low quality ranking: ${k}`, detail: `Meta ranks the ad's quality "${v.quality}". Try a new image or clearer headline.` });
   }
 
   // Cost per visit: last 7 days vs the 7 before.

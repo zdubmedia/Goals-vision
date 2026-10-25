@@ -23,6 +23,9 @@ export function OrganicSection({ m, state, colors, hidden }: SectionProps & { hi
   const series = igSeries.length >= 3 ? { name: 'Instagram', data: igSeries } : fbSeries.length >= 3 ? { name: 'Facebook', data: fbSeries } : null;
   const highlight = ig.find((o) => o.metric === 'link_taps') ?? ig.find((o) => o.metric === 'profile_visits') ?? m.organic[0];
   const extras = Object.entries(m.extras);
+  const igv = m.totals?.metrics.igProfileVisits ?? null;
+  const eng = m.totals?.metrics.postEngagements ?? null;
+  const fromAds = igv !== null || eng !== null;
 
   return (
     <Section
@@ -31,11 +34,34 @@ export function OrganicSection({ m, state, colors, hidden }: SectionProps & { hi
       subtitle="Ads also send people to PMT's Instagram and Facebook. These numbers compare the most recent period with the same length of time before it."
       hiddenForClient={hidden}
     >
-      {!m.organic.length && !extras.length ? (
+      {!m.organic.length && !extras.length && !fromAds ? (
         <Note>No Instagram or Facebook page numbers have been added yet.</Note>
       ) : (
         <div className="space-y-4">
-          {m.adSets && <Note>Social numbers are for the whole business, not one location.</Note>}
+          {fromAds && (
+            <Card>
+              <p className="text-sm font-semibold text-ink2">Straight from the ads ({fmtRange(m.totals!.range, false)})</p>
+              <dl className="mt-3 grid grid-cols-2 gap-4">
+                {igv !== null && (
+                  <div>
+                    <dd className="text-[32px] font-semibold leading-none">{int(igv)}</dd>
+                    <dt className="mt-1 flex items-center gap-1 text-sm text-ink2">
+                      Instagram profile visits <InfoTip term="igProfileVisits" />
+                    </dt>
+                  </div>
+                )}
+                {eng !== null && (
+                  <div>
+                    <dd className="text-[32px] font-semibold leading-none">{compact(eng)}</dd>
+                    <dt className="mt-1 flex items-center gap-1 text-sm text-ink2">
+                      Likes, comments, shares &amp; clicks <InfoTip term="postEngagements" />
+                    </dt>
+                  </div>
+                )}
+              </dl>
+            </Card>
+          )}
+          {m.adSets && m.organic.length > 0 && <Note>Instagram and Facebook page numbers are for the whole business, not one location.</Note>}
           {highlight && highlight.comparison.baseline && highlight.comparison.lift !== null && (
             <Card className="!border-gold/60 !bg-gold/15">
               <p className="text-sm text-ink2">Biggest change</p>

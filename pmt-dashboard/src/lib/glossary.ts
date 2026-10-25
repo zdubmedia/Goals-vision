@@ -63,6 +63,16 @@ export const GLOSSARY = {
     label: 'Break-even',
     plain: 'The number of students the ads need to bring in to pay for themselves.',
   },
+  igProfileVisits: {
+    label: 'Instagram profile visits from ads',
+    technical: 'Instagram profile visits',
+    plain: 'People who tapped through from an ad to PMT’s Instagram profile, a sign they wanted to know more.',
+  },
+  postEngagements: {
+    label: 'Engagement on the ads',
+    technical: 'Post engagements',
+    plain: 'Likes, comments, shares, saves and clicks on the ads themselves.',
+  },
   profileVisits: { label: 'Profile visits', technical: 'Profile visits', plain: 'Times people opened the Instagram profile or Facebook Page.' },
   linkTaps: {
     label: 'Bio link taps',

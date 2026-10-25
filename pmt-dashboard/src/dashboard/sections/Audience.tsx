@@ -113,15 +113,18 @@ function BreakdownTable({ rows, name, csv }: { rows: BreakdownRow[]; name: strin
     { key: 'v', label: 'Visits', term: 'results', align: 'right', render: (r) => int(r.metrics.results), sort: (r) => r.metrics.results, csv: (r) => r.metrics.results },
     { key: 'cpv', label: 'Cost / visit', term: 'costPerResult', align: 'right', render: (r) => money(derive(r.metrics).costPerResult), sort: (r) => derive(r.metrics).costPerResult, csv: (r) => derive(r.metrics).costPerResult?.toFixed(2) ?? '' },
   ];
-  if (rows.some((r) => derive(r.metrics).ctrAll !== null && !r.isOther)) {
+  // Link click rate when the file has link clicks and impressions; Meta's all-click rate otherwise.
+  const useLink = rows.some((r) => derive(r.metrics).linkCtr !== null && !r.isOther);
+  const rate = (r: BreakdownRow) => (useLink ? derive(r.metrics).linkCtr : derive(r.metrics).ctrAll);
+  if (rows.some((r) => rate(r) !== null && !r.isOther)) {
     cols.push({
       key: 'ctr',
       label: 'Click rate',
-      term: 'ctrAll',
+      term: useLink ? 'linkCtr' : 'ctrAll',
       align: 'right',
-      render: (r) => pct(derive(r.metrics).ctrAll, 2),
-      sort: (r) => derive(r.metrics).ctrAll,
-      csv: (r) => derive(r.metrics).ctrAll?.toFixed(4) ?? '',
+      render: (r) => pct(rate(r), 2),
+      sort: (r) => rate(r),
+      csv: (r) => rate(r)?.toFixed(4) ?? '',
     });
   }
   return (

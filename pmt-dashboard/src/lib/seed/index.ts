@@ -45,7 +45,7 @@ export const DEFAULT_SETTINGS: Settings = {
   sections: Object.fromEntries(SECTION_KEYS.map((k) => [k, true])) as Settings['sections'],
 };
 
-const SEED_TIME = '2026-10-23T18:00:00.000Z';
+const SEED_TIME = '2026-10-24T04:30:00.000Z';
 
 function seedUploads(): MetaUpload[] {
   return SEED_FILES.map((f, i) => {
@@ -183,16 +183,17 @@ function seedOrganic(): OrganicEntry[] {
 
 export const SEED_INSIGHTS = `<h3>What worked</h3>
 <ul>
-<li><strong>Website visits came in cheap.</strong> The ads brought 1,553 visits to the class registration pages, at $0.31 each. Local ads usually cost $0.50–$1.50 per visit.</li>
+<li><strong>Website visits came in cheap.</strong> The ads brought 1,583 visits to the class registration pages, at $0.32 each. Local ads usually cost $0.50–$1.50 per visit.</li>
 <li><strong>Woodland's beginner ad performed best</strong> at $0.24 per visit (628 visits from $151).</li>
 <li><strong>Classes filled up.</strong> About 39 seats were booked between Oct 6 and Oct 23. The Woodland Oct 24–25 afternoon class sold out, and afternoon classes usually fill only about half.</li>
 <li><strong>Eureka's Oct 24–25 morning class</strong> went from 10 open seats to 2.</li>
-<li><strong>Instagram woke up.</strong> Over the last 30 days, views nearly tripled compared with the month before, and taps on the website link in the bio jumped from 6 to 35.</li>
+<li><strong>The ads grew Instagram too.</strong> They sent 222 people to PMT's Instagram profile and drew 7,106 likes, comments, shares and clicks. Over the last 30 days, views nearly tripled compared with the month before, and taps on the website link in the bio jumped from 6 to 35.</li>
 </ul>
 <h3>What we're changing next</h3>
 <ul>
-<li>The cost per visit went up last week (about $0.42, up from $0.24 the week before). That usually means people have seen the ads a lot, so we're refreshing the images and headlines.</li>
+<li>The cost per visit went up last week (about $0.43, up from $0.24 the week before). That usually means people have seen the ads a lot, so we're refreshing the images and headlines.</li>
 <li>Eureka's ad has been seen about 2.4 times per person, close to the point where people stop noticing it. New creative is next there too.</li>
+<li>Cloverdale's ad ran through Oct 19 (252 visits at $0.35 each).</li>
 <li>To count bookings from ads exactly, we'll link Instagram to the Facebook Page and add Meta's tracking code (the Pixel) to the registration pages.</li>
 </ul>`;
 

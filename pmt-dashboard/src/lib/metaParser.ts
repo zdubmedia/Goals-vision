@@ -124,11 +124,23 @@ export function parseMetaTable(table: Table): MetaParseResult {
       linkClicks: num('Link clicks'),
       clicksAll: num('Clicks (all)'),
       views: num('Views'),
-      ctrAllReported: has('Impressions') ? null : num('CTR (all)'),
+      igProfileVisits: num('Instagram profile visits'),
+      postEngagements: num('Post engagements'),
+      // Meta's CTR (all) only when there are no raw clicks to recompute it from.
+      ctrAllReported: has('Impressions') && has('Clicks (all)') ? null : num('CTR (all)'),
       ...(convCols.length ? { conversions } : {}),
       deliveryStatus: str('Delivery status') || undefined,
       resultType: str('Result type') || undefined,
       attribution: str('Attribution setting') || undefined,
+      ...(has('Quality ranking') || has('Engagement rate ranking') || has('Conversion rate ranking')
+        ? {
+            rankings: {
+              quality: str('Quality ranking') || undefined,
+              engagement: str('Engagement rate ranking') || undefined,
+              conversion: str('Conversion rate ranking') || undefined,
+            },
+          }
+        : {}),
     };
     if (row.resultType) resultTypes.add(row.resultType);
     if (isSummary) {

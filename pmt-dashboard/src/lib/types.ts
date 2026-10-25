@@ -14,6 +14,10 @@ export interface AdMetrics {
   linkClicks: number | null;
   clicksAll: number | null;
   views: number | null;
+  /** Instagram profile visits that came from the ads. */
+  igProfileVisits: number | null;
+  /** Likes, comments, shares, saves and clicks on the ads (Meta: post engagements). */
+  postEngagements: number | null;
   /** Meta's own CTR (all), kept only for rows that have no impressions to recompute from. */
   ctrAllReported: number | null;
   /** Extra conversion columns (e.g. "Website schedules"), for future true-booking tracking. */
@@ -36,6 +40,8 @@ export interface AdRow extends AdMetrics {
   deliveryStatus?: string;
   resultType?: string;
   attribution?: string;
+  /** Meta's relevance rankings (ad set / ad level). */
+  rankings?: { quality?: string; engagement?: string; conversion?: string };
 }
 
 export interface MetaUpload {
