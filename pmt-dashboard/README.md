@@ -82,7 +82,7 @@ On **Admin → Social**, pick the platform and what the number is. Then pick the
 
 | Name | Required | What it does |
 |---|---|---|
-| `ADMIN_PASSWORD` | yes | Your admin login. Mark it as secret. |
+| `ADMIN_PASSWORD` | yes | Your admin login. Set it as a plain variable with scope "All": on the free Netlify plan a variable marked secret is not saved. |
 | `SESSION_SECRET` | recommended | Any long random string. Signs login sessions. If you change it, everyone has to log in again. |
 | `ANTHROPIC_API_KEY` | optional | Turns on "Read seats with Claude" for screenshots. Costs a cent or so per screenshot. |
 
