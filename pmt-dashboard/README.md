@@ -58,6 +58,16 @@ On **Admin → Social**, pick the platform and what the number is. Then pick the
 - **What PMT sees**: on **Admin → Settings**, untick any section to hide it from PMT. You still see it, faded, with a "Hidden from PMT" tag.
 - **PDF**: the **PDF** button at the top of the report opens the print window. Choose "Save as PDF".
 
+### Feedback pages (new ad ideas, social posts)
+
+On **Admin → Feedback**:
+1. Choose **Ad ideas** (PMT taps ♥ on favorites) or **Social posts** (PMT picks Yes, post it / Needs changes / No), give it a name, and press **Create**.
+2. Add each ad or post: images and videos (several = PMT swipes through them), a label, and the text or caption. Press **Save**.
+3. **Copy** the link and text it to PMT. It only shows this batch, and it's separate from the results report.
+4. PMT's answers appear on the batch page, and you get an email when they press **Submit**. They can reopen the link, change answers and submit again; the newest answers count.
+
+**One-time email setup** (Netlify → your **pmt-results** project → **Forms** → **Form notifications** → **Add notification** → **Email notification**): event "New form submission", form **pmt-feedback**, email **zdubmedia@gmail.com**. Netlify's free plan includes 100 form submissions a month.
+
 ### What only you see
 
 - **Health alerts** at the top of your dashboard. They cover:

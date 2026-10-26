@@ -124,4 +124,64 @@ describe('API', () => {
     expect(r.status).toBe(200);
     expect((await r.json()).share).toBeUndefined();
   });
+
+  it('runs a feedback batch: create, fill, PMT answers, resubmits', async () => {
+    const { call, login } = setup();
+    const token = await login();
+    const round = await (await call('/api/reviews', { method: 'POST', token, body: JSON.stringify({ kind: 'posts', title: 'Nov posts' }) })).json();
+    const items = [
+      { id: 'a', title: 'Fri post', headline: '', text: 'Caption A', media: [], note: '' },
+      { id: 'b', title: 'Sat post', headline: '', text: 'Caption B', media: [], note: '' },
+    ];
+    await call(`/api/reviews/${round.id}`, { method: 'PUT', token, body: JSON.stringify({ title: 'Nov posts', intro: 'Hi', items }) });
+    expect((await call(`/api/review/wrong`)).status).toBe(404);
+    const pub = await (await call(`/api/review/${round.token}`)).json();
+    expect(pub.items).toHaveLength(2);
+    expect(pub.responses).toBeUndefined();
+    const sent = await call(`/api/review/${round.token}`, {
+      method: 'POST',
+      body: JSON.stringify({ name: 'Owner', overall: 'Looks great', answers: { a: { decision: 'yes' }, b: { decision: 'changes', comment: 'Use the Eureka photo' }, zzz: { decision: 'yes' } } }),
+    });
+    expect(sent.status).toBe(200);
+    await call(`/api/review/${round.token}`, { method: 'POST', body: JSON.stringify({ answers: { a: { decision: 'no' } } }) });
+    const full = await (await call(`/api/reviews/${round.id}`, { token })).json();
+    expect(full.responses).toHaveLength(2);
+    expect(full.responses[0].answers).toEqual({ a: { decision: 'yes' }, b: { decision: 'changes', comment: 'Use the Eureka photo' } });
+    expect((await (await call(`/api/review/${round.token}`)).json()).lastResponse.answers.a.decision).toBe('no');
+    const list = await (await call('/api/reviews', { token })).json();
+    expect(list[0]).toMatchObject({ id: round.id, responseCount: 2, itemCount: 2 });
+    // A new link stops the old one.
+    await call(`/api/reviews/${round.id}/link`, { method: 'POST', token });
+    expect((await call(`/api/review/${round.token}`)).status).toBe(404);
+  });
+
+  it('uploads a video in pieces and streams it back by range', async () => {
+    const { call, login } = setup();
+    const token = await login();
+    const size = 4_000_000 + 1234;
+    const bytes = new Uint8Array(size).map((_, i) => i % 251);
+    const start = await (await call('/api/uploads', { method: 'POST', token, body: JSON.stringify({ contentType: 'video/mp4', size }) })).json();
+    expect(start.parts).toBe(2);
+    for (let n = 0; n < start.parts; n++) {
+      const r = await call(`/api/uploads/${start.id}/${n}`, { method: 'PUT', token, body: bytes.slice(n * start.chunkSize, (n + 1) * start.chunkSize) });
+      expect(r.status).toBe(200);
+    }
+    const { key } = await (await call(`/api/uploads/${start.id}/done`, { method: 'POST', token })).json();
+    const fileId = key.replace('files/', '');
+    // Only admins, or PMT's feedback link when the video is part of that batch.
+    expect((await call(`/api/files/${fileId}`)).status).toBe(404);
+    const round = await (await call('/api/reviews', { method: 'POST', token, body: JSON.stringify({ kind: 'ads', title: 'x' }) })).json();
+    await call(`/api/reviews/${round.id}`, {
+      method: 'PUT',
+      token,
+      body: JSON.stringify({ title: 'x', intro: '', items: [{ id: 'v', title: 'V', headline: '', text: '', note: '', media: [{ key, type: 'video' }] }] }),
+    });
+    const r = await call(`/api/files/${fileId}?r=${round.token}`, { headers: { range: 'bytes=3999990-4000010' } });
+    expect(r.status).toBe(206);
+    expect(r.headers.get('content-range')).toBe(`bytes 3999990-3999999/${size}`);
+    expect([...new Uint8Array(await r.arrayBuffer())]).toEqual([...bytes.slice(3999990, 4000000)]);
+    const tail = await call(`/api/files/${fileId}?r=${round.token}`, { headers: { range: 'bytes=4000000-' } });
+    expect(tail.headers.get('content-range')).toBe(`bytes 4000000-${size - 1}/${size}`);
+    expect((await tail.arrayBuffer()).byteLength).toBe(1234);
+  });
 });

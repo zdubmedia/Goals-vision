@@ -1,3 +1,4 @@
+import type { PublicRound, ReviewKind, ReviewMeta, ReviewResponse, ReviewRound } from './lib/reviews';
 import type { AppState, ArchiveMeta, VisionResult } from './lib/types';
 
 export class ApiError extends Error {
@@ -75,15 +76,57 @@ export const api = {
   unlock: (t: string, password: string) => call<{ k: string }>('/api/report/unlock', { method: 'POST', body: JSON.stringify({ t, password }) }, false),
   archive: (id: string, t: string, k: string | null) =>
     call<AppState>(`/api/archive/${id}?t=${encodeURIComponent(t)}${k ? `&k=${encodeURIComponent(k)}` : ''}`, {}, false),
+
+  // Feedback batches
+  listReviews: () => call<ReviewMeta[]>('/api/reviews'),
+  createReview: (kind: ReviewKind, title: string) => call<ReviewRound>('/api/reviews', { method: 'POST', body: JSON.stringify({ kind, title }) }),
+  getReview: (id: string) => call<ReviewRound>(`/api/reviews/${id}`),
+  saveReview: (id: string, edits: Pick<ReviewRound, 'title' | 'intro' | 'items'>) =>
+    call<ReviewRound>(`/api/reviews/${id}`, { method: 'PUT', body: JSON.stringify(edits) }),
+  newReviewLink: (id: string) => call<ReviewRound>(`/api/reviews/${id}/link`, { method: 'POST' }),
+  deleteReview: (id: string) => call<{ ok: boolean }>(`/api/reviews/${id}`, { method: 'DELETE' }),
+  publicReview: (token: string) => call<PublicRound>(`/api/review/${encodeURIComponent(token)}`, {}, false),
+  submitReview: (token: string, body: Pick<ReviewResponse, 'name' | 'overall' | 'answers'>) =>
+    call<{ ok: boolean; response: ReviewResponse }>(`/api/review/${encodeURIComponent(token)}`, { method: 'POST', body: JSON.stringify(body) }, false),
+
+  /** Uploads a video in pieces, reporting progress from 0 to 1. */
+  uploadVideo: async (file: File, onProgress: (share: number) => void): Promise<{ key: string }> => {
+    const start = await call<{ id: string; chunkSize: number; parts: number }>('/api/uploads', {
+      method: 'POST',
+      body: JSON.stringify({ contentType: videoType(file), size: file.size }),
+    });
+    for (let n = 0; n < start.parts; n++) {
+      const piece = file.slice(n * start.chunkSize, (n + 1) * start.chunkSize);
+      let tries = 0;
+      for (;;) {
+        try {
+          await call(`/api/uploads/${start.id}/${n}`, { method: 'PUT', body: piece, headers: { 'content-type': 'application/octet-stream' } });
+          break;
+        } catch (e) {
+          if (++tries >= 3 || (e instanceof ApiError && e.status && e.status < 500)) throw e;
+        }
+      }
+      onProgress((n + 1) / start.parts);
+    }
+    return call<{ key: string }>(`/api/uploads/${start.id}/done`, { method: 'POST' });
+  },
 };
 
+function videoType(file: File): string {
+  if (file.type) return file.type;
+  if (/\.mov$/i.test(file.name)) return 'video/quicktime';
+  if (/\.webm$/i.test(file.name)) return 'video/webm';
+  return 'video/mp4';
+}
+
 /** How images are loaded: with the admin token, or the client's share link. */
-export type FileAccess = { kind: 'admin' } | { kind: 'client'; t: string; k: string | null };
+export type FileAccess = { kind: 'admin' } | { kind: 'client'; t: string; k: string | null } | { kind: 'review'; r: string };
 
 export function fileUrl(key: string | undefined | null, access: FileAccess): string | null {
   if (!key) return null;
   if (key.startsWith('/')) return key; // bundled asset
   const id = key.replace(/^files\//, '');
   if (access.kind === 'admin') return `/api/files/${id}?a=${encodeURIComponent(adminToken() ?? '')}`;
+  if (access.kind === 'review') return `/api/files/${id}?r=${encodeURIComponent(access.r)}`;
   return `/api/files/${id}?t=${encodeURIComponent(access.t)}${access.k ? `&k=${encodeURIComponent(access.k)}` : ''}`;
 }

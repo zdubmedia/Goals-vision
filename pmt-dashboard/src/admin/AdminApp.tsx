@@ -8,6 +8,7 @@ import { Icon } from '../ui/Icon';
 import { Button, cx, inputClass } from '../ui/ui';
 import { BookingsPanel } from './BookingsPanel';
 import { ContentPanel } from './ContentPanel';
+import { FeedbackPanel } from './FeedbackPanel';
 import { OrganicPanel } from './OrganicPanel';
 import { SettingsPanel } from './SettingsPanel';
 import { SharePanel } from './SharePanel';
@@ -98,6 +99,7 @@ export default function AdminApp() {
     ['bookings', 'Bookings', <BookingsPanel key="b" />],
     ['social', 'Social', <OrganicPanel key="o" />],
     ['content', 'Ads & notes', <ContentPanel key="c" />],
+    ['feedback', 'Feedback', <FeedbackPanel key="f" />],
     ['settings', 'Settings', <SettingsPanel key="s" />],
     ['share', 'Share', <SharePanel key="sh" />],
   ];
@@ -112,7 +114,7 @@ export default function AdminApp() {
               <NavLink
                 key={path}
                 to={`/admin/${path}`}
-                end
+                end={path === ''}
                 className={({ isActive }) =>
                   cx('focus-ring whitespace-nowrap rounded-md px-3 py-1.5 text-[13px] font-semibold', isActive ? 'bg-white text-[#0b1420]' : 'text-white/80 hover:bg-white/10')
                 }
@@ -137,7 +139,7 @@ export default function AdminApp() {
       </div>
       <Routes>
         {tabs.map(([path, , node]) => (
-          <Route key={path} path={path === '' ? '/' : path} element={path === '' ? node : <AdminPage>{node}</AdminPage>} />
+          <Route key={path} path={path === '' ? '/' : `${path}/*`} element={path === '' ? node : <AdminPage>{node}</AdminPage>} />
         ))}
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>

@@ -2,6 +2,7 @@
 // Vite dev server locally; both hand it a web Request and a Store.
 
 import { buildSeedState } from '../src/lib/seed';
+import type { PublicRound, ReviewKind, ReviewRound } from '../src/lib/reviews';
 import type { AppState, ArchiveMeta } from '../src/lib/types';
 import {
   checkPassword,
@@ -13,6 +14,7 @@ import {
   sessionSecret,
   verifyAdminToken,
 } from './auth';
+import { createRound, deleteRound, getRound, listRounds, newRoundLink, roundByToken, roundHasFile, saveRound, submitResponse } from './reviews';
 import type { Store } from './store';
 import { readSeatsFromScreenshot, type VisionMediaType } from './vision';
 
@@ -24,6 +26,10 @@ export interface Deps {
 const STATE_KEY = 'state';
 const MAX_FILE_BYTES = 4 * 1024 * 1024;
 const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const VIDEO_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
+/** Videos arrive in pieces this size (under the 4.5 MB a function request can carry). */
+export const CHUNK_BYTES = 4_000_000;
+const MAX_VIDEO_BYTES = 300 * 1024 * 1024;
 const FILE_TYPES = [...IMAGE_TYPES, 'text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/octet-stream'];
 
 class HttpError extends Error {
@@ -88,7 +94,7 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
 async function route(req: Request, { store, env }: Deps): Promise<Response> {
   const url = new URL(req.url);
   const parts = url.pathname.replace(/^\/api\/?/, '').split('/').filter(Boolean);
-  const [resource, id] = parts;
+  const [resource, id, sub] = parts;
   const method = req.method.toUpperCase();
   const secret = await sessionSecret(env);
 
@@ -231,26 +237,131 @@ async function route(req: Request, { store, env }: Deps): Promise<Response> {
     }
     if (id && method === 'GET') {
       const key = `files/${id}`;
+      let viaReview = false;
       if (!isAdmin) {
-        const { state } = await loadState(store);
-        if (!(await clientAllowed(state))) throw new HttpError(404, 'Not found.');
+        const r = url.searchParams.get('r');
+        if (r) {
+          const round = await roundByToken(store, r);
+          if (!round || !roundHasFile(round, key)) throw new HttpError(404, 'Not found.');
+          viaReview = true;
+        } else {
+          const { state } = await loadState(store);
+          if (!(await clientAllowed(state))) throw new HttpError(404, 'Not found.');
+        }
       }
       const file = await store.getBinary(key);
-      if (!file) throw new HttpError(404, 'That file was deleted.');
-      if (!isAdmin && !IMAGE_TYPES.includes(file.contentType)) throw new HttpError(404, 'Not found.');
+      if (!file) {
+        const meta = await store.getJSON<ChunkedMeta>(`${key}.meta`);
+        if (!meta?.value.complete) throw new HttpError(404, 'That file was deleted.');
+        return serveChunked(store, key, meta.value, req.headers.get('range'));
+      }
+      if (!isAdmin && !IMAGE_TYPES.includes(file.contentType) && !(viaReview && VIDEO_TYPES.includes(file.contentType))) throw new HttpError(404, 'Not found.');
       return new Response(file.data, {
         headers: {
           'content-type': file.contentType,
           'cache-control': 'private, max-age=86400',
           'x-content-type-options': 'nosniff',
-          ...(IMAGE_TYPES.includes(file.contentType) ? {} : { 'content-disposition': 'attachment' }),
+          ...(IMAGE_TYPES.includes(file.contentType) || VIDEO_TYPES.includes(file.contentType) ? {} : { 'content-disposition': 'attachment' }),
         },
       });
     }
     if (id && method === 'DELETE') {
       requireAdmin();
-      await store.delete(`files/${id}`);
+      const key = `files/${id}`;
+      const meta = await store.getJSON<ChunkedMeta>(`${key}.meta`);
+      if (meta) {
+        for (let n = 0; n < meta.value.parts; n++) await store.delete(`${key}/part-${n}`);
+        await store.delete(`${key}.meta`);
+      }
+      await store.delete(key);
       return json({ ok: true });
+    }
+  }
+
+  // Large videos: start → send each piece → finish.
+  if (resource === 'uploads') {
+    requireAdmin();
+    if (method === 'POST' && !id) {
+      const { contentType, size } = await readJson<{ contentType?: string; size?: number }>(req);
+      if (!contentType || !VIDEO_TYPES.includes(contentType)) throw new HttpError(415, 'Videos must be MP4, MOV or WebM.');
+      if (typeof size !== 'number' || size <= 0) throw new HttpError(400, 'Missing file size.');
+      if (size > MAX_VIDEO_BYTES) throw new HttpError(413, 'That video is over 300 MB. Export a smaller version (1080p is plenty).');
+      const fileId = randomToken(18);
+      const meta: ChunkedMeta = { contentType, size, chunkSize: CHUNK_BYTES, parts: Math.ceil(size / CHUNK_BYTES), complete: false };
+      await store.setJSON(`files/${fileId}.meta`, meta);
+      return json({ id: fileId, chunkSize: CHUNK_BYTES, parts: meta.parts });
+    }
+    const meta = id ? await store.getJSON<ChunkedMeta>(`files/${id}.meta`) : null;
+    if (!meta) throw new HttpError(404, 'That upload was not started.');
+    if (method === 'PUT' && sub !== undefined) {
+      const n = Number(sub);
+      if (!Number.isInteger(n) || n < 0 || n >= meta.value.parts) throw new HttpError(400, 'Bad piece number.');
+      const data = await req.arrayBuffer();
+      const expected = n === meta.value.parts - 1 ? meta.value.size - n * meta.value.chunkSize : meta.value.chunkSize;
+      if (data.byteLength !== expected) throw new HttpError(400, 'A piece of the video arrived damaged. Please try again.');
+      await store.setBinary(`files/${id}/part-${n}`, data, 'application/octet-stream');
+      return json({ ok: true });
+    }
+    if (method === 'POST' && sub === 'done') {
+      for (let n = 0; n < meta.value.parts; n++) {
+        if (!(await store.getBinary(`files/${id}/part-${n}`))) throw new HttpError(400, 'Part of the video is missing. Please upload it again.');
+      }
+      await store.setJSON(`files/${id}.meta`, { ...meta.value, complete: true });
+      return json({ key: `files/${id}` });
+    }
+  }
+
+  // Feedback batches (admin).
+  if (resource === 'reviews') {
+    requireAdmin();
+    if (method === 'GET' && !id) return json(await listRounds(store));
+    if (method === 'POST' && !id) {
+      const { kind, title } = await readJson<{ kind?: ReviewKind; title?: string }>(req);
+      if (kind !== 'ads' && kind !== 'posts') throw new HttpError(400, 'Choose ad ideas or social posts.');
+      return json(await createRound(store, kind, String(title ?? '')));
+    }
+    if (id && method === 'GET' && !sub) {
+      const r = await getRound(store, id);
+      if (!r) throw new HttpError(404, 'That feedback batch was deleted.');
+      return json(r.round);
+    }
+    if (id && method === 'PUT') {
+      const body = await readJson<Pick<ReviewRound, 'title' | 'intro' | 'items'>>(req);
+      const r = await saveRound(store, id, body);
+      if (!r) throw new HttpError(404, 'That feedback batch was deleted.');
+      return json(r);
+    }
+    if (id && method === 'POST' && sub === 'link') {
+      const r = await newRoundLink(store, id);
+      if (!r) throw new HttpError(404, 'That feedback batch was deleted.');
+      return json(r);
+    }
+    if (id && method === 'DELETE') {
+      await deleteRound(store, id);
+      return json({ ok: true });
+    }
+  }
+
+  // Feedback page (PMT's link).
+  if (resource === 'review' && id) {
+    if (method === 'GET') {
+      const round = await roundByToken(store, id);
+      if (!round) throw new HttpError(404, 'This feedback link is no longer active. Ask your agency for the new one.');
+      const { state } = await loadState(store);
+      const out: PublicRound = {
+        kind: round.kind,
+        title: round.title,
+        intro: round.intro,
+        items: round.items,
+        lastResponse: round.responses[round.responses.length - 1] ?? null,
+        clientName: state.settings.clientShortName,
+      };
+      return json(out);
+    }
+    if (method === 'POST') {
+      const result = await submitResponse(store, id, await readJson<unknown>(req));
+      if (!result) throw new HttpError(404, 'This feedback link is no longer active. Ask your agency for the new one.');
+      return json({ ok: true, response: result.response });
     }
   }
 
@@ -271,4 +382,46 @@ async function route(req: Request, { store, env }: Deps): Promise<Response> {
   }
 
   throw new HttpError(404, 'Not found.');
+}
+
+interface ChunkedMeta {
+  contentType: string;
+  size: number;
+  chunkSize: number;
+  parts: number;
+  complete: boolean;
+}
+
+/** Serves a stored video one piece at a time, answering the range requests video players make. */
+async function serveChunked(store: Store, key: string, meta: ChunkedMeta, range: string | null): Promise<Response> {
+  const m = range ? /bytes=(\d*)-(\d*)/.exec(range) : null;
+  let start = 0;
+  let end = meta.size - 1;
+  if (m) {
+    if (m[1] === '' && m[2] !== '') start = Math.max(0, meta.size - Number(m[2]));
+    else {
+      start = Number(m[1] || 0);
+      if (m[2] !== '') end = Math.min(meta.size - 1, Number(m[2]));
+    }
+  }
+  if (start >= meta.size || start > end) {
+    return new Response(null, { status: 416, headers: { 'content-range': `bytes */${meta.size}` } });
+  }
+  const part = Math.floor(start / meta.chunkSize);
+  const partStart = part * meta.chunkSize;
+  end = Math.min(end, partStart + meta.chunkSize - 1);
+  const piece = await store.getBinary(`${key}/part-${part}`);
+  if (!piece) throw new HttpError(404, 'Part of that video is missing.');
+  const body = piece.data.slice(start - partStart, end - partStart + 1);
+  return new Response(body, {
+    status: 206,
+    headers: {
+      'content-type': meta.contentType,
+      'content-range': `bytes ${start}-${end}/${meta.size}`,
+      'content-length': String(end - start + 1),
+      'accept-ranges': 'bytes',
+      'cache-control': 'private, max-age=86400',
+      'x-content-type-options': 'nosniff',
+    },
+  });
 }

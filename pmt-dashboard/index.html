@@ -19,6 +19,16 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Lets Netlify Forms email PMT's feedback (see src/lib/notify.ts). -->
+    <form name="pmt-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input name="subject" />
+      <input name="batch" />
+      <textarea name="summary"></textarea>
+      <textarea name="feedback"></textarea>
+      <input name="name" />
+      <input name="link" />
+      <input name="bot-field" />
+    </form>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

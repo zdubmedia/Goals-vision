@@ -5,6 +5,8 @@ import { cx } from './ui';
 export interface Slide {
   src: string;
   alt: string;
+  video?: boolean;
+  poster?: string;
 }
 
 /**
@@ -61,7 +63,9 @@ export function Carousel({
       >
         {slides.map((s, i) => (
           <div key={s.src} className="h-full w-full shrink-0 snap-center" aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}`}>
-            {onOpen ? (
+            {s.video ? (
+              <video src={s.src} poster={s.poster} controls playsInline preload="metadata" className="h-full w-full bg-black object-contain" aria-label={s.alt} />
+            ) : onOpen ? (
               <button type="button" className="focus-ring block h-full w-full" onClick={() => onOpen(i)} aria-label={`Open image ${i + 1} larger`}>
                 <img src={s.src} alt={s.alt} className={cx('h-full w-full', fit === 'cover' ? 'object-cover' : 'object-contain')} loading="lazy" draggable={false} />
               </button>
@@ -94,7 +98,8 @@ export function Carousel({
           >
             <Icon name="chevron" className="h-4 w-4 -rotate-90" />
           </button>
-          <div className="absolute inset-x-0 bottom-2 flex justify-center gap-1.5">
+          {/* On a video the dots move to the top so they don't cover its play controls. */}
+          <div className={cx('absolute inset-x-0 flex justify-center gap-1.5', slides[index]?.video ? 'top-3' : 'bottom-2')}>
             {slides.map((s, i) => (
               <button
                 key={s.src}

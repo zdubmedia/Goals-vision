@@ -52,3 +52,35 @@ export function nowLocal(d = new Date()): string {
 export function fileTime(file: File): string {
   return nowLocal(new Date(file.lastModified || Date.now()));
 }
+
+/** A still frame from a video, used as its cover image. Null if the browser can't read the video. */
+export async function videoPoster(file: File): Promise<Blob | null> {
+  const url = URL.createObjectURL(file);
+  try {
+    const v = document.createElement('video');
+    v.muted = true;
+    v.playsInline = true;
+    v.preload = 'auto';
+    v.src = url;
+    await new Promise<void>((resolve, reject) => {
+      v.onloadeddata = () => resolve();
+      v.onerror = () => reject(new Error('unreadable'));
+      setTimeout(() => reject(new Error('timeout')), 10_000);
+    });
+    v.currentTime = Math.min(0.5, (v.duration || 1) / 2);
+    await new Promise<void>((resolve) => {
+      v.onseeked = () => resolve();
+      setTimeout(resolve, 3000);
+    });
+    const scale = Math.min(1, 1280 / Math.max(v.videoWidth, v.videoHeight));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(v.videoWidth * scale);
+    canvas.height = Math.round(v.videoHeight * scale);
+    canvas.getContext('2d')!.drawImage(v, 0, 0, canvas.width, canvas.height);
+    return await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.85));
+  } catch {
+    return null;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
