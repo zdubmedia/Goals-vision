@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#315173" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>PMT Ad Results</title>
+    <script>
+      try {
+        var t = null;
+        try { t = localStorage.getItem('theme'); } catch (e) {}
+        var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.dark = dark ? 'true' : 'false';
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Lets Netlify Forms email PMT's feedback (see src/lib/notify.ts). -->
+    <form name="pmt-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input name="subject" />
+      <input name="batch" />
+      <textarea name="summary"></textarea>
+      <textarea name="feedback"></textarea>
+      <input name="name" />
+      <input name="link" />
+      <input name="bot-field" />
+    </form>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
