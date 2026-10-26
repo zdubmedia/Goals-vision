@@ -59,6 +59,7 @@ export function ReviewPage() {
   if (!round) return <Loading label="Loading…" />;
 
   const isAds = round.kind === 'ads';
+  const submitLabel = sending ? 'Sending…' : sent ? 'Submit again' : 'Submit';
   const setAnswer = (id: string, patch: ItemAnswer) => setAnswers((a) => ({ ...a, [id]: { ...a[id], ...patch } }));
 
   const submit = async () => {
@@ -126,14 +127,19 @@ export function ReviewPage() {
           </label>
           <input id="name" className={`${inputClass} mt-1 sm:w-64`} value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
         </Card>
+
+        <Button variant="primary" className="w-full py-3.5 text-base" onClick={() => void submit()} disabled={sending}>
+          {submitLabel}
+        </Button>
       </main>
 
+      {/* Submit sits on the left: Netlify's "Powered by Netlify" badge covers the bottom-right corner. */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <span className="text-sm text-ink2">{progress}</span>
+        <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3 sm:px-6">
           <Button variant="primary" className="px-6 py-3 text-base" onClick={() => void submit()} disabled={sending}>
-            {sending ? 'Sending…' : sent ? 'Submit again' : 'Submit'}
+            {submitLabel}
           </Button>
+          <span className="text-sm text-ink2">{progress}</span>
         </div>
       </div>
     </div>
