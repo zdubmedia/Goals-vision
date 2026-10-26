@@ -3,12 +3,13 @@ import { fileUrl } from '../../api';
 import { derive, type EntityRow } from '../../lib/ads';
 import { int, money, pct } from '../../lib/format';
 import { adSetLocation } from '../../lib/model';
-import type { Creative } from '../../lib/types';
+import { creativeImages, type Creative } from '../../lib/types';
+import { Carousel, type Slide } from '../../ui/Carousel';
 import { Badge, Card, Modal, Note, Section, Swatch } from '../../ui/ui';
 import type { SectionProps } from '../Dashboard';
 
 export function CreativesSection({ m, state, colors, access, hidden }: SectionProps & { hidden: boolean }) {
-  const [zoom, setZoom] = useState<{ src: string; alt: string } | null>(null);
+  const [zoom, setZoom] = useState<{ slides: Slide[]; index: number; title: string } | null>(null);
   const rowsByAd = new Map(m.adRows.map((r) => [r.key, r]));
   const rowsByAdSet = new Map(m.adSetRows.map((r) => [r.key, r]));
   const creatives: { c: Creative; row: EntityRow | null }[] = state.creatives
@@ -29,14 +30,16 @@ export function CreativesSection({ m, state, colors, access, hidden }: SectionPr
           {ranked.map(({ c, row }, i) => {
             const loc = adSetLocation(c.adSet, state);
             const li = state.settings.locations.findIndex((l) => l.name === loc);
-            const src = fileUrl(c.imageKey, access);
+            const slides = creativeImages(c).flatMap((k, n) => {
+              const src = fileUrl(k, access);
+              return src ? [{ src, alt: `Ad image ${n + 1}: ${c.headline || c.adName}` }] : [];
+            });
+            const title = c.headline || c.adName;
             return (
               <Card key={c.adName} pad={false} className="flex flex-col overflow-hidden">
                 <div className="relative aspect-[4/3] bg-navy sm:aspect-square">
-                  {src ? (
-                    <button type="button" className="focus-ring block h-full w-full" onClick={() => setZoom({ src, alt: c.headline || c.adName })}>
-                      <img src={src} alt={`Ad: ${c.headline || c.adName}`} className="h-full w-full object-cover" loading="lazy" />
-                    </button>
+                  {slides.length ? (
+                    <Carousel slides={slides} className="h-full" label={`Images for ${title}`} onOpen={(index) => setZoom({ slides, index, title })} />
                   ) : (
                     <div className="flex h-full flex-col justify-end bg-gradient-to-br from-navy to-navydeep p-4">
                       <p className="font-display text-2xl leading-[1.05] tracking-wide text-white">{c.headline || c.adName}</p>
@@ -52,6 +55,7 @@ export function CreativesSection({ m, state, colors, access, hidden }: SectionPr
                   </p>
                   {c.headline && <p className="mt-1.5 font-semibold leading-snug">“{c.headline}”</p>}
                   {c.primaryText && <PrimaryText text={c.primaryText} />}
+                  {slides.length > 1 && <p className="mt-1.5 text-xs text-muted">{slides.length} images ran with this text · swipe to see them all</p>}
                   <dl className="mt-auto grid grid-cols-2 gap-x-3 gap-y-2 pt-4 text-sm">
                     <Stat k="Website visits" v={int(row?.metrics.results)} strong />
                     <Stat k="Cost / visit" v={money(cpv(row))} strong />
@@ -71,8 +75,8 @@ export function CreativesSection({ m, state, colors, access, hidden }: SectionPr
           })}
         </div>
       )}
-      <Modal open={!!zoom} onClose={() => setZoom(null)} title={zoom?.alt ?? ''} wide>
-        {zoom && <img src={zoom.src} alt={zoom.alt} className="mx-auto max-h-[70vh] w-auto rounded-lg" />}
+      <Modal open={!!zoom} onClose={() => setZoom(null)} title={zoom?.title ?? ''} wide>
+        {zoom && <Carousel slides={zoom.slides} startIndex={zoom.index} fit="contain" className="h-[70vh] rounded-lg bg-black/5" label={`Images for ${zoom.title}`} />}
       </Modal>
     </Section>
   );

@@ -3,7 +3,7 @@ import { api, fileUrl } from '../api';
 import { effectiveData } from '../lib/ads';
 import { fmtDate, todayISO } from '../lib/dates';
 import { fmtDateTime } from '../lib/format';
-import type { Annotation, Creative } from '../lib/types';
+import { creativeImages, type Annotation, type Creative } from '../lib/types';
 import { sanitize } from '../dashboard/sections/Insights';
 import { Icon, type IconName } from '../ui/Icon';
 import { Button, Card, Field, inputClass } from '../ui/ui';
@@ -108,7 +108,7 @@ function InsightsEditor() {
 }
 
 function Creatives() {
-  const { state, save, toast } = useAdmin();
+  const { state, save } = useAdmin();
   const adNames = useMemo(() => {
     const eff = effectiveData(state.uploads);
     const m = new Map<string, string>();
@@ -123,7 +123,10 @@ function Creatives() {
   return (
     <Card>
       <h2 className="text-base font-semibold">Ad gallery</h2>
-      <p className="mt-1 text-sm text-ink2">Add each ad's image (or a still from the video) and its text. The numbers come from the Meta files automatically.</p>
+      <p className="mt-1 text-sm text-ink2">
+        Add each ad's images (or stills from the video) and its text. Add several images when the same text ran with different pictures: PMT swipes through
+        them. The first image is the cover. The numbers come from the Meta files automatically.
+      </p>
       {missing.length > 0 && (
         <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
           <span>Ads in your data without a card:</span>
@@ -136,26 +139,8 @@ function Creatives() {
       )}
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
         {state.creatives.map((c) => (
-          <div key={c.adName} className="grid grid-cols-[96px,minmax(0,1fr)] gap-3 rounded-lg border border-line p-3">
-            <label className="relative flex aspect-square cursor-pointer items-center justify-center overflow-hidden rounded-md bg-navy text-center text-[11px] text-white/80">
-              {c.imageKey ? <img src={fileUrl(c.imageKey, { kind: 'admin' })!} alt="" className="h-full w-full object-cover" /> : <span className="px-1">Add image</span>}
-              <input
-                type="file"
-                accept="image/*"
-                className="sr-only"
-                onChange={async (e) => {
-                  const f = e.target.files?.[0];
-                  if (!f) return;
-                  try {
-                    const { key } = await api.uploadFile(await compressImage(f, 1400), 'image/jpeg');
-                    const old = c.imageKey;
-                    if (await update(c.adName, { imageKey: key }, 'Image saved.')) if (old) api.deleteFile(old).catch(() => {});
-                  } catch (x) {
-                    toast(x instanceof Error ? x.message : 'Upload failed.', 'error');
-                  }
-                }}
-              />
-            </label>
+          <div key={c.adName} className="space-y-3 rounded-lg border border-line p-3">
+            <AdImages creative={c} onChange={(imageKeys, msg) => update(c.adName, { imageKeys, imageKey: undefined }, msg)} />
             <div className="min-w-0 space-y-2">
               <p className="truncate text-xs text-muted">
                 {c.adName} · {c.adSet}
@@ -241,5 +226,77 @@ function Annotations() {
         ))}
       </ul>
     </Card>
+  );
+}
+
+function AdImages({ creative, onChange }: { creative: Creative; onChange: (keys: string[], msg: string) => Promise<boolean> }) {
+  const { toast } = useAdmin();
+  const [busy, setBusy] = useState(false);
+  const keys = creativeImages(creative);
+  const move = (i: number, d: -1 | 1) => {
+    const next = [...keys];
+    [next[i], next[i + d]] = [next[i + d], next[i]];
+    void onChange(next, d < 0 && i === 1 ? 'Cover image changed.' : 'Order saved.');
+  };
+  return (
+    <div>
+      <ul className="flex gap-2 overflow-x-auto pb-1">
+        {keys.map((k, i) => (
+          <li key={k} className="w-24 shrink-0">
+            <div className="relative aspect-square overflow-hidden rounded-md bg-navy">
+              <img src={fileUrl(k, { kind: 'admin' })!} alt={`Image ${i + 1}`} className="h-full w-full object-cover" />
+              {i === 0 && <span className="absolute left-1 top-1 rounded bg-black/60 px-1.5 text-[10px] font-semibold text-white">Cover</span>}
+            </div>
+            <div className="mt-1 flex justify-between">
+              <button type="button" className="focus-ring rounded px-1 text-xs text-ink2 hover:text-ink disabled:opacity-30" disabled={i === 0} onClick={() => move(i, -1)} aria-label={`Move image ${i + 1} left`}>
+                ←
+              </button>
+              <button
+                type="button"
+                className="focus-ring rounded px-1 text-xs text-muted hover:text-badink"
+                aria-label={`Remove image ${i + 1}`}
+                onClick={async () => {
+                  if (!window.confirm('Remove this image?')) return;
+                  if (await onChange(keys.filter((x) => x !== k), 'Image removed.')) api.deleteFile(k).catch(() => {});
+                }}
+              >
+                Remove
+              </button>
+              <button type="button" className="focus-ring rounded px-1 text-xs text-ink2 hover:text-ink disabled:opacity-30" disabled={i === keys.length - 1} onClick={() => move(i, 1)} aria-label={`Move image ${i + 1} right`}>
+                →
+              </button>
+            </div>
+          </li>
+        ))}
+        <li className="w-24 shrink-0">
+          <label className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed border-line text-center text-[11px] font-semibold text-ink2 hover:border-ink2">
+            <Icon name="plus" className="h-4 w-4" />
+            {busy ? 'Uploading…' : keys.length ? 'Add more' : 'Add images'}
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              disabled={busy}
+              onChange={async (e) => {
+                const files = [...(e.target.files ?? [])];
+                e.target.value = '';
+                if (!files.length) return;
+                setBusy(true);
+                try {
+                  const added: string[] = [];
+                  for (const f of files) added.push((await api.uploadFile(await compressImage(f, 1400), 'image/jpeg')).key);
+                  await onChange([...keys, ...added], `${added.length} image${added.length === 1 ? '' : 's'} added.`);
+                } catch (x) {
+                  toast(x instanceof Error ? x.message : 'Upload failed.', 'error');
+                } finally {
+                  setBusy(false);
+                }
+              }}
+            />
+          </label>
+        </li>
+      </ul>
+    </div>
   );
 }

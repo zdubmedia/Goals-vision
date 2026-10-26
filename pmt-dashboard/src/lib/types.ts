@@ -166,6 +166,9 @@ export interface Creative {
   adSet: string;
   headline: string;
   primaryText: string;
+  /** Ad images in display order (the first is the cover). */
+  imageKeys?: string[];
+  /** Older single-image field, still read for saved data. */
   imageKey?: string;
 }
 
@@ -287,4 +290,9 @@ export interface VisionResult {
   location: string | null;
   classes: VisionClass[];
   notes: string;
+}
+
+/** A creative's images, oldest single-image data included. */
+export function creativeImages(c: Creative): string[] {
+  return c.imageKeys?.length ? c.imageKeys : c.imageKey ? [c.imageKey] : [];
 }
