@@ -44,7 +44,10 @@ export function folderStore(root: string): Store {
       await write(meta(key), JSON.stringify({ contentType }));
     },
     async delete(key) {
-      await rm(path(key), { force: true });
+      // A key can also be a folder holding other keys (a large file's pieces); that's not this key's data.
+      await rm(path(key), { force: true }).catch((e: NodeJS.ErrnoException) => {
+        if (e.code !== 'ERR_FS_EISDIR' && e.code !== 'EISDIR') throw e;
+      });
       await rm(meta(key), { force: true });
     },
   };

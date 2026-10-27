@@ -3,7 +3,8 @@
 
 import { buildSeedState } from '../src/lib/seed';
 import type { PublicRound, ReviewKind, ReviewRound } from '../src/lib/reviews';
-import type { AppState, ArchiveMeta } from '../src/lib/types';
+import type { AppState, ArchiveMeta, Resource } from '../src/lib/types';
+import { upgradeState } from '../src/lib/upgrade';
 import {
   checkPassword,
   clientAccessKey,
@@ -30,6 +31,15 @@ const VIDEO_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
 /** Videos arrive in pieces this size (under the 4.5 MB a function request can carry). */
 export const CHUNK_BYTES = 4_000_000;
 const MAX_VIDEO_BYTES = 300 * 1024 * 1024;
+/** Files shared with the client besides images and videos. */
+const DOC_TYPES = [
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+];
+/** Whole files (not videos) are sent back in one go, which Netlify caps at about 20 MB. */
+const MAX_DOC_BYTES = 20 * 1024 * 1024;
 const FILE_TYPES = [...IMAGE_TYPES, 'text/csv', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/octet-stream'];
 
 class HttpError extends Error {
@@ -55,7 +65,7 @@ async function loadState(store: Store): Promise<{ state: AppState; etag: string 
     cur = await store.getJSON<AppState>(STATE_KEY);
   }
   if (!cur) throw new HttpError(500, 'Could not create the starting data.');
-  return { state: cur.value, etag: cur.etag };
+  return { state: upgradeState(cur.value), etag: cur.etag };
 }
 
 /** What a client may see: no share settings, admin notes or raw-file links. */
@@ -211,7 +221,7 @@ async function route(req: Request, { store, env }: Deps): Promise<Response> {
       if (!isAdmin && !(await clientAllowed(state))) throw new HttpError(404, 'Not found.');
       const snap = await store.getJSON<AppState>(`archive/${id}`);
       if (!snap) throw new HttpError(404, 'That saved report was deleted.');
-      return json(snap.value);
+      return json(upgradeState(snap.value));
     }
     if (method === 'DELETE' && id) {
       requireAdmin();
@@ -237,33 +247,42 @@ async function route(req: Request, { store, env }: Deps): Promise<Response> {
     }
     if (id && method === 'GET') {
       const key = `files/${id}`;
-      let viaReview = false;
+      let state: AppState | null = null;
+      const getState = async () => (state ??= (await loadState(store)).state);
+      let via: 'admin' | 'review' | 'client' = 'admin';
       if (!isAdmin) {
         const r = url.searchParams.get('r');
         if (r) {
           const round = await roundByToken(store, r);
           if (!round || !roundHasFile(round, key)) throw new HttpError(404, 'Not found.');
-          viaReview = true;
+          via = 'review';
         } else {
-          const { state } = await loadState(store);
-          if (!(await clientAllowed(state))) throw new HttpError(404, 'Not found.');
+          if (!(await clientAllowed(await getState()))) throw new HttpError(404, 'Not found.');
+          via = 'client';
         }
       }
       const file = await store.getBinary(key);
-      if (!file) {
-        const meta = await store.getJSON<ChunkedMeta>(`${key}.meta`);
-        if (!meta?.value.complete) throw new HttpError(404, 'That file was deleted.');
-        return serveChunked(store, key, meta.value, req.headers.get('range'));
-      }
-      if (!isAdmin && !IMAGE_TYPES.includes(file.contentType) && !(viaReview && VIDEO_TYPES.includes(file.contentType))) throw new HttpError(404, 'Not found.');
-      return new Response(file.data, {
-        headers: {
-          'content-type': file.contentType,
-          'cache-control': 'private, max-age=86400',
-          'x-content-type-options': 'nosniff',
-          ...(IMAGE_TYPES.includes(file.contentType) || VIDEO_TYPES.includes(file.contentType) ? {} : { 'content-disposition': 'attachment' }),
-        },
-      });
+      const chunked = file ? null : ((await store.getJSON<ChunkedMeta>(`${key}.meta`))?.value ?? null);
+      if (!file && !chunked?.complete) throw new HttpError(404, 'That file was deleted.');
+      const type = file?.contentType ?? chunked!.contentType;
+      const isImage = IMAGE_TYPES.includes(type);
+      const download = url.searchParams.has('dl');
+      const shared: Resource | undefined = !isImage || download ? (await getState()).resources.find((x) => x.key === key) : undefined;
+      // Clients see images, plus the files shared with them; feedback links see their own images and videos.
+      if (via === 'client' && !isImage && !shared) throw new HttpError(404, 'Not found.');
+      if (via === 'review' && !isImage && !VIDEO_TYPES.includes(type)) throw new HttpError(404, 'Not found.');
+
+      const inline = !download && (isImage || VIDEO_TYPES.includes(type) || type === 'application/pdf');
+      const disposition = shared || !inline ? `${inline ? 'inline' : 'attachment'}${shared ? `; filename*=UTF-8''${encodeURIComponent(shared.fileName)}` : ''}` : null;
+      const headers: Record<string, string> = {
+        'content-type': type,
+        'cache-control': 'private, max-age=86400',
+        'x-content-type-options': 'nosniff',
+        ...(disposition ? { 'content-disposition': disposition } : {}),
+      };
+      if (file) return new Response(file.data, { headers });
+      const range = req.headers.get('range');
+      return range ? serveChunked(store, key, chunked!, range, headers) : streamChunked(store, key, chunked!, headers);
     }
     if (id && method === 'DELETE') {
       requireAdmin();
@@ -278,14 +297,18 @@ async function route(req: Request, { store, env }: Deps): Promise<Response> {
     }
   }
 
-  // Large videos: start → send each piece → finish.
+  // Large files (videos, PDFs, ...): start → send each piece → finish.
   if (resource === 'uploads') {
     requireAdmin();
     if (method === 'POST' && !id) {
       const { contentType, size } = await readJson<{ contentType?: string; size?: number }>(req);
-      if (!contentType || !VIDEO_TYPES.includes(contentType)) throw new HttpError(415, 'Videos must be MP4, MOV or WebM.');
+      const isVideo = !!contentType && VIDEO_TYPES.includes(contentType);
+      if (!contentType || (!isVideo && !DOC_TYPES.includes(contentType) && !IMAGE_TYPES.includes(contentType))) {
+        throw new HttpError(415, 'That kind of file can’t be stored. Use a PDF, Word, PowerPoint or Excel file, an image, or an MP4, MOV or WebM video.');
+      }
       if (typeof size !== 'number' || size <= 0) throw new HttpError(400, 'Missing file size.');
-      if (size > MAX_VIDEO_BYTES) throw new HttpError(413, 'That video is over 300 MB. Export a smaller version (1080p is plenty).');
+      if (isVideo && size > MAX_VIDEO_BYTES) throw new HttpError(413, 'That video is over 300 MB. Export a smaller version (1080p is plenty).');
+      if (!isVideo && size > MAX_DOC_BYTES) throw new HttpError(413, 'That file is over 20 MB. Save a smaller copy (for a PDF, choose “compress” or standard quality when exporting).');
       const fileId = randomToken(18);
       const meta: ChunkedMeta = { contentType, size, chunkSize: CHUNK_BYTES, parts: Math.ceil(size / CHUNK_BYTES), complete: false };
       await store.setJSON(`files/${fileId}.meta`, meta);
@@ -298,13 +321,13 @@ async function route(req: Request, { store, env }: Deps): Promise<Response> {
       if (!Number.isInteger(n) || n < 0 || n >= meta.value.parts) throw new HttpError(400, 'Bad piece number.');
       const data = await req.arrayBuffer();
       const expected = n === meta.value.parts - 1 ? meta.value.size - n * meta.value.chunkSize : meta.value.chunkSize;
-      if (data.byteLength !== expected) throw new HttpError(400, 'A piece of the video arrived damaged. Please try again.');
+      if (data.byteLength !== expected) throw new HttpError(400, 'A piece of the file arrived damaged. Please try again.');
       await store.setBinary(`files/${id}/part-${n}`, data, 'application/octet-stream');
       return json({ ok: true });
     }
     if (method === 'POST' && sub === 'done') {
       for (let n = 0; n < meta.value.parts; n++) {
-        if (!(await store.getBinary(`files/${id}/part-${n}`))) throw new HttpError(400, 'Part of the video is missing. Please upload it again.');
+        if (!(await store.getBinary(`files/${id}/part-${n}`))) throw new HttpError(400, 'Part of the file is missing. Please upload it again.');
       }
       await store.setJSON(`files/${id}.meta`, { ...meta.value, complete: true });
       return json({ key: `files/${id}` });
@@ -392,9 +415,23 @@ interface ChunkedMeta {
   complete: boolean;
 }
 
-/** Serves a stored video one piece at a time, answering the range requests video players make. */
-async function serveChunked(store: Store, key: string, meta: ChunkedMeta, range: string | null): Promise<Response> {
-  const m = range ? /bytes=(\d*)-(\d*)/.exec(range) : null;
+/** Sends a whole file stored in pieces, one piece after another. */
+function streamChunked(store: Store, key: string, meta: ChunkedMeta, headers: Record<string, string>): Response {
+  let n = 0;
+  const body = new ReadableStream<Uint8Array>({
+    async pull(controller) {
+      if (n >= meta.parts) return controller.close();
+      const piece = await store.getBinary(`${key}/part-${n++}`);
+      if (!piece) return controller.error(new Error(`Missing part ${n - 1} of ${key}`));
+      controller.enqueue(new Uint8Array(piece.data));
+    },
+  });
+  return new Response(body, { headers: { ...headers, 'content-length': String(meta.size), 'accept-ranges': 'bytes' } });
+}
+
+/** Serves a stored file one piece at a time, answering the range requests video players make. */
+async function serveChunked(store: Store, key: string, meta: ChunkedMeta, range: string, headers: Record<string, string>): Promise<Response> {
+  const m = /bytes=(\d*)-(\d*)/.exec(range);
   let start = 0;
   let end = meta.size - 1;
   if (m) {
@@ -411,17 +448,15 @@ async function serveChunked(store: Store, key: string, meta: ChunkedMeta, range:
   const partStart = part * meta.chunkSize;
   end = Math.min(end, partStart + meta.chunkSize - 1);
   const piece = await store.getBinary(`${key}/part-${part}`);
-  if (!piece) throw new HttpError(404, 'Part of that video is missing.');
+  if (!piece) throw new HttpError(404, 'Part of that file is missing.');
   const body = piece.data.slice(start - partStart, end - partStart + 1);
   return new Response(body, {
     status: 206,
     headers: {
-      'content-type': meta.contentType,
+      ...headers,
       'content-range': `bytes ${start}-${end}/${meta.size}`,
       'content-length': String(end - start + 1),
       'accept-ranges': 'bytes',
-      'cache-control': 'private, max-age=86400',
-      'x-content-type-options': 'nosniff',
     },
   });
 }

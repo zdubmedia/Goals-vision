@@ -327,7 +327,7 @@ function MediaEditor({ media, onChange }: { media: ReviewMedia[]; onChange: (m: 
           setProgress(`Uploading video ${label} … 0%`);
           const poster = await videoPoster(f);
           const posterKey = poster ? (await api.uploadFile(poster, 'image/jpeg')).key : undefined;
-          const { key } = await api.uploadVideo(f, (p) => setProgress(`Uploading video ${label} … ${Math.round(p * 100)}%`));
+          const { key } = await api.uploadInPieces(f, (p) => setProgress(`Uploading video ${label} … ${Math.round(p * 100)}%`));
           added.push({ key, type: 'video', posterKey });
         } else {
           setProgress(`Uploading image ${label}…`);

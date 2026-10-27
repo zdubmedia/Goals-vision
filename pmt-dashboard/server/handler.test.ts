@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { handle } from './handler';
+import { buildSeedState } from '../src/lib/seed';
 import { memoryStore } from './store';
 
 function setup(env: Record<string, string> = { ADMIN_PASSWORD: 'ride-safe-2026' }) {
-  const deps = { store: memoryStore(), env: (k: string) => env[k] };
+  const store = memoryStore();
+  const deps = { store, env: (k: string) => env[k] };
   const call = (path: string, init: RequestInit & { token?: string } = {}) => {
     const headers = new Headers(init.headers);
     if (init.token) headers.set('authorization', `Bearer ${init.token}`);
@@ -13,7 +15,7 @@ function setup(env: Record<string, string> = { ADMIN_PASSWORD: 'ride-safe-2026' 
     const r = await call('/api/login', { method: 'POST', body: JSON.stringify({ password: 'ride-safe-2026' }) });
     return ((await r.json()) as { token: string }).token;
   };
-  return { call, login };
+  return { call, login, store };
 }
 
 describe('API', () => {
@@ -183,5 +185,54 @@ describe('API', () => {
     const tail = await call(`/api/files/${fileId}?r=${round.token}`, { headers: { range: 'bytes=4000000-' } });
     expect(tail.headers.get('content-range')).toBe(`bytes 4000000-${size - 1}/${size}`);
     expect((await tail.arrayBuffer()).byteLength).toBe(1234);
+  });
+
+  it('brings older saved data up to date: 14% margin, a careful 10% from the ads, no files yet', async () => {
+    const { call, login, store } = setup();
+    const old = buildSeedState('tok') as unknown as Record<string, unknown> & { settings: Record<string, unknown> };
+    delete old.settings.profitMargin;
+    old.settings.adCreditShare = 1;
+    delete old.resources;
+    delete (old.settings.sections as Record<string, boolean>).resources;
+    await store.setJSON('state', old);
+    const s = await (await call('/api/state', { token: await login() })).json();
+    expect(s.settings.profitMargin).toBe(0.14);
+    expect(s.settings.adCreditShare).toBe(0.1);
+    expect(s.settings.sections.resources).toBe(true);
+    expect(s.resources).toEqual([]);
+  });
+
+  it('shares a PDF with the client only once it is listed as a file for them', async () => {
+    const { call, login } = setup();
+    const token = await login();
+    const size = 4_000_000 + 10;
+    const bytes = new Uint8Array(size).map((_, i) => (i * 7) % 256);
+    const start = await (await call('/api/uploads', { method: 'POST', token, body: JSON.stringify({ contentType: 'application/pdf', size }) })).json();
+    for (let n = 0; n < start.parts; n++) {
+      await call(`/api/uploads/${start.id}/${n}`, { method: 'PUT', token, body: bytes.slice(n * start.chunkSize, (n + 1) * start.chunkSize) });
+    }
+    const { key } = await (await call(`/api/uploads/${start.id}/done`, { method: 'POST', token })).json();
+    const id = key.replace('files/', '');
+    const s = await (await call('/api/state', { token })).json();
+    expect((await call(`/api/files/${id}?t=${s.share.token}`)).status).toBe(404);
+
+    s.resources = [{ id: 'r1', title: 'Social ideas', description: '', key, fileName: 'Social ideas guide.pdf', contentType: 'application/pdf', size, addedAt: s.updatedAt }];
+    await call('/api/state', { method: 'PUT', token, body: JSON.stringify({ state: s, baseVersion: s.version }) });
+    const whole = await call(`/api/files/${id}?t=${s.share.token}`);
+    expect(whole.status).toBe(200);
+    expect(whole.headers.get('content-type')).toBe('application/pdf');
+    expect(whole.headers.get('content-disposition')).toBe("inline; filename*=UTF-8''Social%20ideas%20guide.pdf");
+    expect(Buffer.from(await whole.arrayBuffer()).equals(Buffer.from(bytes))).toBe(true);
+    const dl = await call(`/api/files/${id}?t=${s.share.token}&dl=1`);
+    expect(dl.headers.get('content-disposition')).toMatch(/^attachment;/);
+  });
+
+  it('refuses file types and sizes it cannot keep', async () => {
+    const { call, login } = setup();
+    const token = await login();
+    const start = (contentType: string, size: number) => call('/api/uploads', { method: 'POST', token, body: JSON.stringify({ contentType, size }) });
+    expect((await start('text/html', 100)).status).toBe(415);
+    expect((await start('application/pdf', 21 * 1024 * 1024)).status).toBe(413);
+    expect((await start('video/mp4', 21 * 1024 * 1024)).status).toBe(200);
   });
 });

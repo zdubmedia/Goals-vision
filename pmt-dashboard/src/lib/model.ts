@@ -58,13 +58,18 @@ export interface Model {
   bookings: BookingSummary;
   prevBookings: BookingSummary | null;
   tracked: { count: number; revenue: number | null } | null;
-  /** Bookings used for ROI: tracked when available, otherwise the screenshot estimate. */
-  bookingsForRoi: number;
-  revenueForRoi: number;
-  roas: number | null;
-  costPerBooking: number | null;
-  breakEvenStudents: number | null;
+  /** Average class fee of the seats sold. */
   avgPrice: number;
+  /** PMT's profit share of each class fee (0–1). */
+  profitMargin: number;
+  /** PMT's profit on one average seat. */
+  profitPerStudent: number;
+  /** PMT's profit on every seat sold this period, from all sources. */
+  profitAllSeats: number;
+  /** Students the ads must bring in for PMT's profit on them to cover the ad spend. */
+  breakEvenStudents: number | null;
+  /** Break-even as a share of the seats sold (can be over 1). */
+  breakEvenShare: number | null;
   organic: OrganicCard[];
   extras: Record<string, number>;
   annotations: AppState['annotations'];
@@ -136,9 +141,10 @@ export function buildModel(state: AppState, f: Filters): Model {
     : null;
 
   const avgPrice = bookings.soldInPeriod ? bookings.revenue / bookings.soldInPeriod : s.prices.Basic;
-  const bookingsForRoi = tracked ? tracked.count : bookings.soldInPeriod * s.adCreditShare;
-  const revenueForRoi = tracked ? tracked.revenue ?? tracked.count * avgPrice : bookings.revenue * s.adCreditShare;
+  const profitMargin = s.profitMargin;
+  const profitPerStudent = avgPrice * profitMargin;
   const spend = t?.metrics.spend ?? null;
+  const breakEvenStudents = spend && profitPerStudent ? Math.ceil(spend / profitPerStudent - 1e-9) : null;
 
   const organic: OrganicCard[] = [];
   for (const [platform, metric] of ORGANIC_CARDS) {
@@ -173,12 +179,12 @@ export function buildModel(state: AppState, f: Filters): Model {
     bookings,
     prevBookings,
     tracked,
-    bookingsForRoi,
-    revenueForRoi,
-    roas: spend ? revenueForRoi / spend : null,
-    costPerBooking: spend && bookingsForRoi ? spend / bookingsForRoi : null,
-    breakEvenStudents: spend ? Math.ceil(spend / avgPrice) : null,
     avgPrice,
+    profitMargin,
+    profitPerStudent,
+    profitAllSeats: bookings.revenue * profitMargin,
+    breakEvenStudents,
+    breakEvenShare: breakEvenStudents !== null && bookings.soldInPeriod ? breakEvenStudents / bookings.soldInPeriod : null,
     organic,
     extras,
     annotations: state.annotations.filter((a) => a.date >= range.start && a.date <= addDays(range.end, 1)),

@@ -16,9 +16,10 @@ const SECTION_LABELS: Record<SectionKey, string> = {
   audience: 'Who saw and clicked (age, gender, placement)',
   organic: 'The halo effect (Instagram & Facebook)',
   bookings: 'Bookings tracker',
-  roi: 'Did the ads pay for themselves? (ROI)',
+  roi: 'Did the ads pay for themselves? (profit & ROI)',
   insights: 'Insights & next steps',
   tracking: 'Exact booking tracking (coming next)',
+  resources: 'Files for PMT (guides, ad layouts)',
 };
 
 const pctIn = (v: number | null) => (v === null ? '' : String(Math.round(v * 100)));
@@ -95,8 +96,11 @@ export function SettingsPanel() {
         <Field label="Seats each for IRC and 1DPC">
           <input type="number" min={1} className={inputClass} value={s.intermediateSplitSeats} onChange={(e) => set({ intermediateSplitSeats: Number(e.target.value) })} />
         </Field>
-        <Field label="Share of bookings credited to ads (%)" hint="Used for ROI. 100% = count every booking. Lower it to be conservative.">
-          <input type="number" min={0} max={100} className={inputClass} value={Math.round(s.adCreditShare * 100)} onChange={(e) => set({ adCreditShare: Math.max(0, Math.min(100, Number(e.target.value))) / 100 })} />
+        <Field label="PMT profit margin (%)" hint="PMT's profit on each class fee. 14% of $425 = $59.50 a student.">
+          <input type="number" min={0} max={100} step={0.5} className={inputClass} value={Math.round(s.profitMargin * 1000) / 10} onChange={(e) => set({ profitMargin: Math.max(0, Math.min(100, Number(e.target.value))) / 100 })} />
+        </Field>
+        <Field label="Sign-ups from the ads, starting guess (%)" hint="Where the ROI slider starts. Until the Pixel tracks sign-ups, nobody knows which came from the ads, so keep it conservative.">
+          <input type="number" min={0} max={100} step={5} className={inputClass} value={Math.round(s.adCreditShare * 100)} onChange={(e) => set({ adCreditShare: Math.max(0, Math.min(100, Number(e.target.value))) / 100 })} />
         </Field>
       </Group>
 

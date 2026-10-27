@@ -52,16 +52,19 @@ export const GLOSSARY = {
     technical: 'Seats sold, from registration-page screenshots',
     plain: 'Seats that sold during this period, worked out from the "seats left" on the registration pages. This counts every booking, not only people who came from the ads.',
   },
-  revenue: { label: 'Estimated class revenue', technical: 'Estimated bookings × class price', plain: 'Estimated bookings multiplied by the class price.' },
-  roas: {
-    label: 'Return on ad spend',
-    technical: 'ROAS (estimated revenue ÷ spend)',
-    plain: 'Estimated class revenue for every $1 of ads. 5× means $5 of classes for each $1 spent. It is an estimate because bookings are not yet tracked back to the ads one by one.',
+  revenue: { label: 'Class fees', technical: 'Seats sold × class price', plain: 'Seats sold multiplied by the class price. This is money taken in, before PMT’s costs.' },
+  profit: {
+    label: 'PMT profit',
+    technical: 'Class fees × profit margin',
+    plain: 'What PMT keeps from class fees after its own costs (instructors, range, bikes and so on). PMT’s margin is about 14%, so a $425 class leaves about $59.50 of profit.',
   },
-  costPerBooking: { label: 'Cost per booking', technical: 'Spend ÷ estimated bookings', plain: 'Ad spend divided by estimated bookings.' },
+  adShare: {
+    label: 'Sign-ups from the ads',
+    plain: 'How many of the sign-ups we credit to the ads. Until the Meta Pixel tracks sign-ups, nobody can see which students came from an ad, so this is a careful guess you can change with the slider.',
+  },
   breakEven: {
     label: 'Break-even',
-    plain: 'The number of students the ads need to bring in to pay for themselves.',
+    plain: 'How many students the ads need to bring in so that PMT’s profit on them covers what the ads cost.',
   },
   igProfileVisits: {
     label: 'Instagram profile visits from ads',

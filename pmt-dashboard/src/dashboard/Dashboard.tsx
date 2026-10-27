@@ -19,6 +19,7 @@ import { LocationsSection } from './sections/Locations';
 import { MoneySection } from './sections/Money';
 import { OrganicSection } from './sections/Organic';
 import { OverTimeSection } from './sections/OverTime';
+import { ResourcesSection } from './sections/Resources';
 import { RoiSection } from './sections/Roi';
 import { TrackingSection } from './sections/Tracking';
 
@@ -43,6 +44,7 @@ const NAV: { key: SectionKey; id: string; label: string }[] = [
   { key: 'roi', id: 'roi', label: 'ROI' },
   { key: 'insights', id: 'insights', label: 'Next steps' },
   { key: 'tracking', id: 'tracking', label: 'Tracking' },
+  { key: 'resources', id: 'files', label: 'Files' },
 ];
 
 export function Dashboard({
@@ -66,7 +68,7 @@ export function Dashboard({
   const colors = useChartColors();
   const m = useMemo(() => buildModel(state, filters), [state, filters]);
   const s = state.settings;
-  const visible = (k: SectionKey) => mode === 'admin' || s.sections[k];
+  const visible = (k: SectionKey) => mode === 'admin' || (s.sections[k] && (k !== 'resources' || state.resources.length > 0));
   const hidden = (k: SectionKey) => mode === 'admin' && !s.sections[k];
   const props: SectionProps = { m, state, colors, access, mode };
   const alerts = useMemo(() => (mode === 'admin' ? healthAlerts(m.data, s, m.range) : []), [mode, m, s]);
@@ -86,6 +88,7 @@ export function Dashboard({
     ['roi', <RoiSection key="r" {...props} hidden={hidden('roi')} />],
     ['insights', <InsightsSection key="i" {...props} hidden={hidden('insights')} />],
     ['tracking', <TrackingSection key="t" {...props} hidden={hidden('tracking')} />],
+    ['resources', <ResourcesSection key="res" {...props} hidden={hidden('resources')} />],
   ];
 
   return (

@@ -68,6 +68,16 @@ On **Admin → Feedback**:
 
 **One-time email setup** (Netlify → your **pmt-results** project → **Forms** → **Form notifications** → **Add notification** → **Email notification**): event "New form submission", form **pmt-feedback**, email **zdubmedia@gmail.com**. Netlify's free plan includes 100 form submissions a month.
 
+### Files for PMT (guides, ad layouts)
+
+On **Admin → Files for PMT**, press **Choose files to add** and pick one or more files: PDF, Word, PowerPoint, Excel or images up to 20 MB, or videos up to 300 MB. They appear right away in a **Files from ZDub Media** section at the bottom of PMT's dashboard, where PMT can open or download them. Change the title PMT sees, add a short description, reorder with **Up**/**Down**, or **Remove** a file. The section stays hidden from PMT while there are no files.
+
+### Profit and "did the ads pay for themselves?"
+
+- PMT's **profit margin** (Settings, default **14%**) turns class fees into profit: $425 × 14% = **$59.50 a student**. Break-even is the number of students whose profit covers the ad spend.
+- Sign-ups can't be traced to the ads until the Meta Pixel is on the registration "thank you" page. So the ROI section has a **slider for the share of sign-ups that came from the ads**. It starts at the conservative guess set in Settings (default **10%**), and PMT can move it.
+- Once tracked bookings are entered, the slider is replaced by the exact count.
+
 ### What only you see
 
 - **Health alerts** at the top of your dashboard. They cover:
@@ -75,6 +85,7 @@ On **Admin → Feedback**:
   - cost per visit up more than 40% vs the week before
   - an ad set spending under 70% of its daily budget
   - an ad set that stopped delivering
+- **Every class in detail** (seat maps and screenshots) under the bookings list. PMT sees the simple list: seats booked per class in the chosen dates, with classes that had none left off.
 - The admin pages themselves.
 
 ---
@@ -134,7 +145,10 @@ Local data is saved in `.localdata/` (git-ignored). Delete that folder to reset 
 - **Seats sold** in a period = seats left going into the period − seats left at the end. A class first seen during the period starts from its first screenshot. "Booked before tracking" = capacity − first seats-left value.
 - **"Normal"** compares a class within a week of its date (or sold out) with the typical fill set per location in Settings (default: mornings full, afternoons half).
 - **Organic rolling windows** (e.g. last 30/60/90 days) are turned into non-overlapping periods by subtraction (60 − 30 = the 30 days before).
+- **Profit** = class fees × the profit margin in Settings. **Break-even** = ad spend ÷ profit per student, rounded up. In the ROI section, students from the ads = seats sold × the slider's share, rounded to whole students.
 - **True conversion tracking**: once bookings tracked from the ads are entered (Admin → Social → "Bookings confirmed from ads"), they replace the screenshot estimates in the KPI, funnel and ROI sections.
+- **Older saved data** is brought up to date when it loads (`src/lib/upgrade.ts`): new settings get their defaults, and new sections start switched on.
+- **Shared files** larger than 4 MB are uploaded in 4 MB pieces. Videos are played back piece by piece (range requests); other files are sent whole, which Netlify caps at about 20 MB, hence that limit. A client can only open images and the files listed in Files for PMT.
 
 ### Phase 2: automatic Meta sync (not built yet)
 
@@ -144,7 +158,7 @@ The upload pipeline (`parseMetaTable` → `MetaUpload`) is the single entry poin
 
 ## Test checklist (run before each release)
 
-Automated (`npm test`: 47 tests):
+Automated (`npm test`: 54 tests):
 
 - [x] Campaign totals tie to the final Oct 7–23 Meta report (pulled Oct 24):
   - $503.36 spend
@@ -170,6 +184,9 @@ Automated (`npm test`: 47 tests):
   - 32 seats booked before the campaign
 - [x] Running total matches the brief from Oct 9 on: 16, 17, 18, 22, 23, 24, 29, 39. Oct 7 shows **9**, not the 8 in the brief, because both "10/7" and "10/7 eve" readings are dated Oct 7 and there are no 10/8 screenshots.
 - [x] A class that dropped off the page keeps its last value and is flagged.
+- [x] Profit at 14%: $59.50 a student, $2,320.50 on the 39 seats, and $503.36 of ads breaks even at 9 students (23% of seats sold).
+- [x] Older saved data gets the 14% margin, the 10% starting share and the new Files section.
+- [x] A shared PDF can't be opened from PMT's link until it's listed in Files for PMT. Then it opens whole, with its file name; "Download" saves it. Unsupported types and PDFs over 20 MB are refused.
 - [x] Organic "month before" (60d − 30d):
   - views 6,758
   - net followers +25

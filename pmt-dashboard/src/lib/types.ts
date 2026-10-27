@@ -172,6 +172,20 @@ export interface Creative {
   imageKey?: string;
 }
 
+/** A file shared with the client (ad layout, ideas guide, ...). */
+export interface Resource {
+  id: string;
+  title: string;
+  description: string;
+  key: string;
+  fileName: string;
+  contentType: string;
+  size: number;
+  addedAt: string;
+  /** Cover image for videos. */
+  posterKey?: string;
+}
+
 export interface ArchiveMeta {
   id: string;
   label: string;
@@ -194,6 +208,7 @@ export const SECTION_KEYS = [
   'roi',
   'insights',
   'tracking',
+  'resources',
 ] as const;
 export type SectionKey = (typeof SECTION_KEYS)[number];
 
@@ -240,8 +255,10 @@ export interface Settings {
     costPerVisitRise: number;
     underspend: number;
   };
-  /** Share of estimated bookings to credit to ads in the ROI card (0–1). */
+  /** Where the "share of sign-ups from the ads" slider starts (0–1). */
   adCreditShare: number;
+  /** PMT's profit on each class fee (0–1). */
+  profitMargin: number;
   sections: Record<SectionKey, boolean>;
   pmtLogoKey?: string | null;
   agencyLogoKey?: string | null;
@@ -266,6 +283,7 @@ export interface AppState {
   extras: ExtraEntry[];
   conversions: ConversionEntry[];
   creatives: Creative[];
+  resources: Resource[];
   insightsHtml: string;
   insightsUpdatedAt: string;
   archive: ArchiveMeta[];

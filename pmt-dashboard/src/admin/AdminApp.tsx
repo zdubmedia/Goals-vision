@@ -10,6 +10,7 @@ import { BookingsPanel } from './BookingsPanel';
 import { ContentPanel } from './ContentPanel';
 import { FeedbackPanel } from './FeedbackPanel';
 import { OrganicPanel } from './OrganicPanel';
+import { ResourcesPanel } from './ResourcesPanel';
 import { SettingsPanel } from './SettingsPanel';
 import { SharePanel } from './SharePanel';
 import { UploadsPanel } from './UploadsPanel';
@@ -100,6 +101,7 @@ export default function AdminApp() {
     ['social', 'Social', <OrganicPanel key="o" />],
     ['content', 'Ads & notes', <ContentPanel key="c" />],
     ['feedback', 'Feedback', <FeedbackPanel key="f" />],
+    ['files', 'Files for PMT', <ResourcesPanel key="r" />],
     ['settings', 'Settings', <SettingsPanel key="s" />],
     ['share', 'Share', <SharePanel key="sh" />],
   ];

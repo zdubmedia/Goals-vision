@@ -9,7 +9,7 @@ import { Icon } from '../../ui/Icon';
 import { Badge, Card, cx, InfoTip, Modal, Note, Section, Swatch } from '../../ui/ui';
 import type { SectionProps } from '../Dashboard';
 
-export function BookingsSection({ m, state, colors, access, hidden }: SectionProps & { hidden: boolean }) {
+export function BookingsSection({ m, state, colors, access, mode, hidden }: SectionProps & { hidden: boolean }) {
   const [shot, setShot] = useState<{ src: string; title: string } | null>(null);
   const b = m.bookings;
   const groups = groupClasses(b.statuses);
@@ -43,7 +43,7 @@ export function BookingsSection({ m, state, colors, access, hidden }: SectionPro
               </div>
               <p className="mt-2 text-6xl font-semibold leading-none tracking-tight">{int(b.soldInPeriod)}</p>
               <p className="mt-2 text-sm text-ink2">
-                ≈ {money(b.revenue, 0)} in class fees · {int(b.bookedBeforeTracking)} seats were already booked when tracking started
+                ≈ {money(b.revenue, 0)} in class fees · ≈ {money(m.profitAllSeats, 0)} profit for {state.settings.clientShortName} ({Math.round(m.profitMargin * 1000) / 10}%)
               </p>
               <ul className="mt-4 space-y-2">
                 {locs
@@ -100,30 +100,109 @@ export function BookingsSection({ m, state, colors, access, hidden }: SectionPro
             </Card>
           </div>
 
-          {locs.map((l, li) => {
-            const lg = groups.filter((g) => g.location === l.name);
-            if (!lg.length) return null;
-            return (
-              <div key={l.name}>
-                <h3 className="mb-2 flex items-center gap-2 text-base font-semibold">
-                  <Swatch color={colors.loc[li % colors.loc.length]} className="h-3 w-3" /> {l.name}
-                  <span className="text-sm font-normal text-muted">· {int(b.byLocation[l.name] ?? 0)} seats sold</span>
-                </h3>
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {lg.map((g) => (
-                    <ClassCard key={g.key} g={g} asOf={asOf} colors={colors} onShot={(s, title) => setShot({ src: s, title })} access={access} />
-                  ))}
-                </div>
+          <ClassTotals groups={groups} locs={locs} colors={colors} range={fmtRange(m.bookingRange, false)} />
+          {mode === 'admin' && (
+            <details className="no-print group rounded-xl border border-line">
+              <summary className="focus-ring flex cursor-pointer list-none flex-wrap items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-ink2 hover:text-ink">
+                <Icon name="chevron" className="h-4 w-4 -rotate-90 transition group-open:rotate-0" />
+                Every class in detail (seat maps and screenshots)
+                <Badge tone="neutral" icon="eyeOff">
+                  Only you see this
+                </Badge>
+              </summary>
+              <div className="space-y-4 px-4 pb-4">
+              {locs.map((l, li) => {
+                const lg = groups.filter((g) => g.location === l.name);
+                if (!lg.length) return null;
+                return (
+                  <div key={l.name}>
+                    <h3 className="mb-2 flex items-center gap-2 text-base font-semibold">
+                      <Swatch color={colors.loc[li % colors.loc.length]} className="h-3 w-3" /> {l.name}
+                      <span className="text-sm font-normal text-muted">· {int(b.byLocation[l.name] ?? 0)} seats sold</span>
+                    </h3>
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+                      {lg.map((g) => (
+                        <ClassCard key={g.key} g={g} asOf={asOf} colors={colors} onShot={(s, title) => setShot({ src: s, title })} access={access} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+              <Legend colors={colors} />
               </div>
-            );
-          })}
-          <Legend colors={colors} />
+            </details>
+          )}
         </div>
       )}
       <Modal open={!!shot} onClose={() => setShot(null)} title={shot?.title ?? ''} wide>
         {shot && <img src={shot.src} alt={shot.title} className="mx-auto max-h-[75vh] w-auto rounded-lg" />}
       </Modal>
     </Section>
+  );
+}
+
+const TIME_LABEL = { AM: 'Morning', PM: 'Afternoon', '': '' } as const;
+
+/** Seats booked in the period, one line per class. Classes with none booked are left off. */
+function ClassTotals({
+  groups,
+  locs,
+  colors,
+  range,
+}: {
+  groups: ClassGroup[];
+  locs: SectionProps['state']['settings']['locations'];
+  colors: SectionProps['colors'];
+  range: string;
+}) {
+  const booked = groups.filter((g) => g.soldInPeriod > 0);
+  return (
+    <Card>
+      <h3 className="text-base font-semibold">Seats booked by class, {range}</h3>
+      {!booked.length ? (
+        <p className="mt-2 text-sm text-ink2">No seats were booked in these dates.</p>
+      ) : (
+        <div className="mt-3 grid grid-cols-1 gap-x-8 gap-y-5 md:grid-cols-2 xl:grid-cols-3">
+          {locs.map((l, li) => {
+            const lg = booked.filter((g) => g.location === l.name);
+            if (!lg.length) return null;
+            const total = lg.reduce((n, g) => n + g.soldInPeriod, 0);
+            return (
+              <div key={l.name}>
+                <p className="flex items-center gap-2 border-b border-line pb-1.5 text-sm font-semibold">
+                  <Swatch color={colors.loc[li % colors.loc.length]} className="h-3 w-3" /> {l.name}
+                  <span className="ml-auto tabular text-ink2">{int(total)} seats</span>
+                </p>
+                <ul className="divide-y divide-line">
+                  {lg.map((g) => {
+                    const first = g.members[0].cls;
+                    const name = g.kind === 'Intermediate' ? 'Intermediate (IRC + 1DPC)' : first.format === 'eMTC' ? 'Basic · online classroom' : 'Basic · in-person classroom';
+                    const when = [fmtRange({ start: g.startDate, end: g.endDate }, false), TIME_LABEL[g.time]].filter(Boolean).join(' · ');
+                    const split = g.members.length > 1 ? g.members.map((x) => `${x.cls.format} ${x.soldInPeriod}`).join(' · ') : '';
+                    return (
+                      <li key={g.key} className="flex items-center justify-between gap-3 py-2">
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold leading-tight">{name}</p>
+                          <p className="text-xs text-muted">
+                            {when}
+                            {split && ` · ${split}`}
+                          </p>
+                        </div>
+                        <div className="flex shrink-0 items-center gap-2">
+                          {g.seatsLeft === 0 && <Badge tone="accent">Sold out</Badge>}
+                          <span className="tabular text-lg font-semibold">{int(g.soldInPeriod)}</span>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <p className="mt-3 text-xs text-muted">Classes with no seats booked in these dates are left off.</p>
+    </Card>
   );
 }
 

@@ -5,7 +5,7 @@ import type { TermKey } from '../../lib/glossary';
 import { Badge, Card, cx, Delta, InfoTip, Note, Section } from '../../ui/ui';
 import type { SectionProps } from '../Dashboard';
 
-export function KpiSection({ m, hidden }: SectionProps & { hidden: boolean }) {
+export function KpiSection({ m, state, hidden }: SectionProps & { hidden: boolean }) {
   const t = m.totals?.metrics;
   const p = m.prevTotals?.metrics;
   const vs = m.prevRange ? fmtRange(m.prevRange, false) : '';
@@ -18,6 +18,8 @@ export function KpiSection({ m, hidden }: SectionProps & { hidden: boolean }) {
           ? 'Needs a Meta report for exactly these dates'
           : undefined;
   const estimated = m.tracked === null;
+  const shortName = state.settings.clientShortName;
+  const marginPct = Math.round(m.profitMargin * 1000) / 10;
 
   return (
     <Section id="results" title="Your results" subtitle={`What the Facebook and Instagram ads delivered, ${fmtRange(m.range)}.`} hiddenForClient={hidden}>
@@ -43,7 +45,7 @@ export function KpiSection({ m, hidden }: SectionProps & { hidden: boolean }) {
                 <strong className="text-white">{int(t?.results)}</strong> visits. That's <strong className="text-gold">{money(m.d?.costPerResult)}</strong> per visit
                 {m.bookings.soldInPeriod > 0 && (
                   <>
-                    , and <strong className="text-white">{int(m.bookings.soldInPeriod)} seats</strong> sold over the same stretch
+                    , and <strong className="text-white">{int(m.bookings.soldInPeriod)} seats</strong> sold over the same stretch (from all sources)
                   </>
                 )}
                 .
@@ -71,18 +73,24 @@ export function KpiSection({ m, hidden }: SectionProps & { hidden: boolean }) {
               note={estimated ? `Seats sold ${fmtRange(m.bookingRange, false)}, all sources` : undefined}
               delta={estimated && m.prevBookings ? <Delta value={change(m.bookings.soldInPeriod, m.prevBookings.soldInPeriod)} vs={vs} /> : undefined}
             />
-            <Tile term="revenue" label="Estimated class revenue" value={money(estimated ? m.bookings.revenue : m.revenueForRoi, 0)} estimate />
             <Tile
-              term="roas"
-              label="Return on ad spend"
-              value={m.roas !== null ? `${m.roas >= 10 ? Math.round(m.roas) : m.roas.toFixed(1)}×` : '—'}
-              estimate
-              note={m.breakEvenStudents !== null ? `Ads pay for themselves at ${m.breakEvenStudents} student${m.breakEvenStudents === 1 ? '' : 's'}` : undefined}
+              term="profit"
+              label={estimated ? `${shortName} profit on those seats` : `${shortName} profit (tracked)`}
+              value={money((estimated ? m.bookings.revenue : m.tracked!.revenue ?? m.tracked!.count * m.avgPrice) * m.profitMargin, 0)}
+              estimate={estimated}
+              note={estimated ? `${marginPct}% of ${money(m.bookings.revenue, 0)} in class fees` : `${marginPct}% of the class fees`}
+            />
+            <Tile
+              term="breakEven"
+              label="Ads pay for themselves at"
+              value={m.breakEvenStudents !== null ? `${m.breakEvenStudents} student${m.breakEvenStudents === 1 ? '' : 's'}` : '—'}
+              note={m.breakEvenStudents !== null ? `Each student is about ${money(m.profitPerStudent)} of profit` : undefined}
             />
           </div>
           {estimated && (
             <p className="mt-3 text-xs text-muted">
-              Bookings, revenue and return are estimates from the registration pages. They count every seat sold, not only seats from people who saw the ads.
+              Bookings and profit are estimates from the registration pages. They count every seat sold, not only seats from people who saw the ads. “Did the ads pay
+              for themselves?” below lets you choose how many came from the ads.
             </p>
           )}
         </>

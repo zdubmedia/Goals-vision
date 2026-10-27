@@ -89,11 +89,12 @@ export const api = {
   submitReview: (token: string, body: Pick<ReviewResponse, 'name' | 'overall' | 'answers'>) =>
     call<{ ok: boolean; response: ReviewResponse }>(`/api/review/${encodeURIComponent(token)}`, { method: 'POST', body: JSON.stringify(body) }, false),
 
-  /** Uploads a video in pieces, reporting progress from 0 to 1. */
-  uploadVideo: async (file: File, onProgress: (share: number) => void): Promise<{ key: string }> => {
+  /** Uploads a large file (video, PDF, ...) in pieces, reporting progress from 0 to 1. */
+  uploadInPieces: async (file: File, onProgress: (share: number) => void): Promise<{ key: string; contentType: string }> => {
+    const contentType = fileType(file);
     const start = await call<{ id: string; chunkSize: number; parts: number }>('/api/uploads', {
       method: 'POST',
-      body: JSON.stringify({ contentType: videoType(file), size: file.size }),
+      body: JSON.stringify({ contentType, size: file.size }),
     });
     for (let n = 0; n < start.parts; n++) {
       const piece = file.slice(n * start.chunkSize, (n + 1) * start.chunkSize);
@@ -108,15 +109,29 @@ export const api = {
       }
       onProgress((n + 1) / start.parts);
     }
-    return call<{ key: string }>(`/api/uploads/${start.id}/done`, { method: 'POST' });
+    const { key } = await call<{ key: string }>(`/api/uploads/${start.id}/done`, { method: 'POST' });
+    return { key, contentType };
   },
 };
 
-function videoType(file: File): string {
-  if (file.type) return file.type;
-  if (/\.mov$/i.test(file.name)) return 'video/quicktime';
-  if (/\.webm$/i.test(file.name)) return 'video/webm';
-  return 'video/mp4';
+const TYPE_BY_EXTENSION: Record<string, string> = {
+  pdf: 'application/pdf',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  mp4: 'video/mp4',
+  mov: 'video/quicktime',
+  webm: 'video/webm',
+};
+
+/** The file's type, from its name when the browser doesn't say. */
+export function fileType(file: File): string {
+  return file.type || TYPE_BY_EXTENSION[file.name.split('.').pop()?.toLowerCase() ?? ''] || 'application/octet-stream';
 }
 
 /** How images are loaded: with the admin token, or the client's share link. */

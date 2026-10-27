@@ -41,7 +41,8 @@ export const DEFAULT_SETTINGS: Settings = {
     linkCtr: { good: 0.015, typical: 0.009 },
   },
   alerts: { frequency: 2.5, costPerVisitRise: 0.4, underspend: 0.7 },
-  adCreditShare: 1,
+  adCreditShare: 0.1,
+  profitMargin: 0.14,
   sections: Object.fromEntries(SECTION_KEYS.map((k) => [k, true])) as Settings['sections'],
 };
 
@@ -232,6 +233,7 @@ export function buildSeedState(shareToken: string, now = SEED_TIME): AppState {
         primaryText: '',
       },
     ],
+    resources: [],
     insightsHtml: SEED_INSIGHTS,
     insightsUpdatedAt: SEED_TIME,
     archive: [],

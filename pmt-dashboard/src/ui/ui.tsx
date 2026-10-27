@@ -132,9 +132,9 @@ export function Card({ className, children, pad = true }: { className?: string; 
   return <div className={cx('print-break-avoid rounded-xl border border-line bg-surface shadow-card', pad && 'p-4 sm:p-5', className)}>{children}</div>;
 }
 
-export function Note({ children, tone = 'info' }: { children: ReactNode; tone?: 'info' | 'warn' }) {
+export function Note({ children, tone = 'info', className }: { children: ReactNode; tone?: 'info' | 'warn'; className?: string }) {
   return (
-    <p className={cx('flex items-start gap-2 rounded-lg px-3 py-2 text-[13px] leading-snug', tone === 'warn' ? 'bg-warn/15 text-ink' : 'bg-surface2 text-ink2')}>
+    <p className={cx('flex items-start gap-2 rounded-lg px-3 py-2 text-[13px] leading-snug', tone === 'warn' ? 'bg-warn/15 text-ink' : 'bg-surface2 text-ink2', className)}>
       <Icon name={tone === 'warn' ? 'alert' : 'info'} className="mt-0.5 h-3.5 w-3.5 shrink-0" />
       <span>{children}</span>
     </p>
