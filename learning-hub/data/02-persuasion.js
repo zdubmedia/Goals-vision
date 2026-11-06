@@ -978,6 +978,177 @@ HUB.tab({
         { q: "What should an origin story be about?", a: "A problem the founder saw customers suffer, not the founder's passion." }
       ]
     },
-    //@@MORE@@
+    {
+      id: "per-24",
+      part: "wom",
+      title: "STEPPS: the six reasons people share",
+      minutes: 14,
+      tags: ["Book", "Playbook", "Platform fact (re-check)"],
+      source: [
+        { doc: "ZDub Marketing Mastery Guide — Ch 7: Word of Mouth & Why Things Catch On", section: "Contagious: the six STEPPS; Example: STEPPS for a roofing company (pp. 71–74)", who: "Jonah Berger (Wharton), Contagious: Why Things Catch On (2013)" },
+        { doc: "The Ultimate Social Media Workbook (11/1/26)", section: "Module 7: Make it shareable with STEPPS; Exercises 7A, 7B, 7C (the send test)", who: "Social workbook (Jonah Berger framework; Adam Mosseri on sends)" },
+        { doc: "Social Media Marketing Playbook for ZDub Media (10/31/26)", section: "Key Findings 1; Design for sends; Instagram (2025–2026)", who: "Research playbook citing Adam Mosseri, Jan 2025 and Oct 2026" },
+        { doc: "ZDub Marketing Mastery Workbook — Ch 7", section: "Recall 7.1–7.6, 7.10; Drill D7.1 + Answer Key (pp. 52–55, 204–206)", who: "Workbook" }
+      ],
+      alsoIn: ["Social Media Workbook Mod 7", "Organic Social tab (designing posts for sends)"],
+      idea: "Jonah Berger, a Wharton marketing professor, studied why some products, ideas and videos spread while others don't. *Contagious* (2013) organizes the research into six principles that spell **STEPPS**. Use it as a checklist: most shareable ideas hit at least two or three.\n\n**S: Social currency.** We share things that make *us* look good: smart, cool, in-the-know, helpful. Three ways to mint it: **find inner remarkability** (something surprising, like a hot dog shop with a hidden speakeasy behind a phone booth), **leverage game mechanics** (levels, badges, milestones) and **make people feel like insiders** (secret menus, members-only events, early access).\n\n**T: Triggers.** Top of mind, tip of tongue. Cues in the environment bring things to mind. Mars bar sales reportedly rose when NASA's Pathfinder mission was in the news; Kit Kat tied itself to coffee breaks. **Link your product to something people encounter often** (a storm, a heat wave, the first sunny Saturday).\n\n**E: Emotion.** When we care, we share. Berger's study of the *New York Times* most-emailed list found **high-arousal emotions** (awe, excitement, amusement, and also anger and anxiety) get shared more than **low-arousal** ones (sadness, contentment).\n\n**P: Public.** Built to show, built to grow. People imitate what they can see: Apple's white earbuds, the Movember mustache. Make use visible: stickers, gear, yard signs, a “just graduated” photo.\n\n**P: Practical value.** News you can use: how-tos, tips, genuinely good deals. Berger's **Rule of 100:** under $100, a percentage discount looks bigger (“20% off a $50 helmet”); over $100, a dollar amount looks bigger (“$100 off a $500 course”).\n\n**S: Stories.** Information travels under the guise of idle chatter; stories are Trojan horses. But **the brand must be integral to the story.** Blendtec's “Will It Blend?” (the blender destroying an iPhone *is* the demo) works. A stunt nobody connects to the brand is “unvaluable virality.”\n\n**Two reality checks.** Most word of mouth happens **offline**; Berger estimates only about **7%** happens online, so don't judge it only by shares. And on Instagram, sends now matter a lot: Adam Mosseri named watch time, likes and sends as the top ranking signals (Jan 2025), and in October 2026 said Instagram weighs sends much more than comments (platform fact, re-check). Before you post, ask: **who would someone send this to, and why?**",
+      keyPoints: [
+        "Social currency, Triggers, Emotion, Public, Practical value, Stories",
+        "Most shareable ideas hit two or three principles at once",
+        "High-arousal emotions (awe, excitement, amusement, anger, anxiety) get shared",
+        "Rule of 100: % off under $100, $ off over $100",
+        "The brand must be integral to the story, or the virality is worthless",
+        "~7% of word of mouth is online; on Instagram, design every post for sends"
+      ],
+      why: "STEPPS turns “make it go viral” into a checklist ZDub can run on every client post, and the send test lines up with how Instagram now ranks content.",
+      table: {
+        head: ["Letter", "Short version", "Roofer (Guide)", "PMT (Workbook D7.1 answer)"],
+        rows: [
+          ["Social currency", "Makes the sharer look good", "Drone video of the homeowner's own roof (they'll show neighbors)", "A “First Ride Certificate” photo frame"],
+          ["Triggers", "Everyday cues bring you to mind", "Every big storm: “After last night's wind, here's the 60-second check”", "“Sunny Saturday?” posts on the first warm weekend of spring"],
+          ["Emotion", "High-arousal feelings get shared", "Awe at a dramatic before-and-after", "Slow-motion first-lap reactions"],
+          ["Public", "Visible things get copied", "A tasteful yard sign during the job", "Graduation stickers for helmets"],
+          ["Practical value", "Useful info gets passed on", "“3 signs your roof won't make it through winter”", "“The 5 pre-ride checks we teach on day one”"],
+          ["Stories", "The brand rides inside the story", "The crew saving a nest of baby owls in a gutter", "The student who learned to ride at 61"]
+        ]
+      },
+      example: {
+        title: "One idea, three letters",
+        body: "The PMT helmet sticker is **Public** (other riders see it on the road) and **Social currency** (it says “I did the training”). Film the moment it goes on at graduation and it's **Emotion** too. The best ideas combine principles (Workbook D7.1 answer)."
+      },
+      practice: [
+        {
+          prompt: "Social Media Workbook Exercise 7A / Drill D7.1: one post idea per letter for a client. Then circle the ideas that hit two or more letters.",
+          fields: ["Social currency", "Triggers", "Emotion", "Public", "Practical value", "Stories", "Which ideas hit 2+ letters?"],
+          rubric: ["Each idea is specific and filmable", "The brand is integral to the story idea", "The emotion idea is high-arousal", "At least one idea hits two or more letters"]
+        },
+        {
+          prompt: "Exercise 7C, the send test: pick your next planned post for PMT or a client.",
+          fields: ["The post", "Who would someone send this to?", "Why would they send it?", "If you can't answer, how will you change it?"],
+          rubric: ["Names a specific kind of person it would be sent to", "The reason is one of the STEPPS", "If it fails, the fix changes the content, not just the caption"]
+        }
+      ],
+      today: { task: "Exercise 7B: map local triggers for PMT. List at least five seasons, weather moments, events and calendar dates that make Sacramento riders think about riding or learning, each with one post idea.", output: "A 5+ row trigger map (moment → trigger → post idea)", minutes: 30, suggested: false },
+      check: [
+        { q: "What does STEPPS stand for? (7.1)", a: "Social currency, Triggers, Emotion, Public, Practical value, Stories." },
+        { q: "Using Berger's Rule of 100, which framing looks bigger for a $400 riding course: “$60 off” or “15% off”? (7.4)", a: "“$60 off.” Over $100 a dollar amount looks bigger; under $100 a percentage does. (They're the same discount.)" },
+        { q: "Blendtec's “Will It Blend?” videos are Berger's example of what? (7.6)", a: "A story where the brand is integral, so the message travels with it. If people remember the stunt but not the brand, the virality is worthless." }
+      ]
+    },
+    {
+      id: "per-25",
+      part: "wom",
+      title: "Be remarkable: design one moment of lagniappe",
+      minutes: 9,
+      tags: ["Book"],
+      source: [
+        { doc: "ZDub Marketing Mastery Guide — Ch 7: Word of Mouth & Why Things Catch On", section: "Remarkable: worth making a remark about; The delight factor: lagniappe; ZDub application (pp. 74–75)", who: "Seth Godin, This Is Marketing; Roy H. Williams, The Wizard of Ads" },
+        { doc: "ZDub Marketing Mastery Workbook — Ch 7", section: "Recall 7.7; Drill D7.2 + Answer Key (pp. 54–55, 205–206)", who: "Workbook" }
+      ],
+      alsoIn: ["Agency Ops tab (client delight)"],
+      idea: "**Remarkable means worth making a remark about.** Seth Godin has said for decades that the only marketing that reliably spreads is being remarkable. In *This Is Marketing* he ties it to the smallest viable market: when you delight a specific group, they spread the word to people like them, because **recommending you raises their own status.**\n\n**Remarkable doesn't mean “very good.” Very good is expected.** Remarkable means there's a story: something unexpected, extreme or delightful that people feel compelled to tell.\n\n**The delight factor: lagniappe.** Roy Williams tells of two produce sellers:\n\n- **Cecil** advertises the most accurate scales in town. Customers leave feeling they got exactly what they paid for: **even.**\n- Across the street, **Fat Charlie** weighs out your ten pounds of potatoes, then adds one more nice one on top with a smile and the Cajun word **“lagniappe”** (a little something extra). Customers leave feeling **ahead.**\n\nCharlie gets the word of mouth and the bigger average ticket. **“I was treated fairly” is not something anyone tells a friend.** Fairness is expected; delight is what people talk about. When experience beats expectation, word of mouth becomes your best advertising (Williams' Personal Experience Factor). And every person has a **“realm of association” of roughly 250 people,** so each deeply impressed customer reaches far beyond themselves.\n\n**ZDub application: design one lagniappe per client.** It must be **small, unexpected, on-brand, cheap, repeatable and filmable.** Then turn it into content, because the extra itself becomes social currency.\n\nAnd do it for ZDub's own clients: a surprise extra in month one (an unrequested reel, a handwritten card) is the agency version of Fat Charlie's potato.",
+      keyPoints: [
+        "Remarkable = worth a remark; very good is merely expected",
+        "Delighted customers spread you because it raises their status",
+        "Fair leaves people even; lagniappe leaves them ahead, and talking",
+        "Each impressed customer reaches a realm of ~250 people",
+        "One lagniappe per client: cheap, repeatable, filmable, then turned into content"
+      ],
+      why: "A filmable lagniappe gives a client word of mouth and a content series at the same time, for almost no cost.",
+      example: {
+        title: "Lagniappe ideas (Guide + Workbook D7.2 answer)",
+        body: "- **Training school:** a handwritten “first ride” card with a photo from class.\n- **Plumber:** fresh shoe covers and a printed “what we fixed and why” sheet, or a laminated “where your main water shut-off is” tag left on the valve.\n- **HVAC:** the tech replaces the smoke detector battery for free and leaves a note.\n- **Landscaper:** one free flowering shrub planted at every new client's home.\n\nEach costs little, surprises the customer, and is easy to film for a reel."
+      },
+      practice: [
+        {
+          prompt: "Drill D7.2: for three different clients, design one small, unexpected, on-brand extra. Each must be cheap, repeatable and filmable. Write how you'd turn it into content.",
+          fields: ["PMT: lagniappe + how it becomes content", "A trade client: lagniappe + content", "ZDub (for its own clients): lagniappe + content"],
+          rubric: ["Costs little per customer", "Actually unexpected in that niche", "Repeatable every time without heroics", "Filmable", "On-brand"]
+        }
+      ],
+      today: { task: "Pick the best PMT lagniappe idea and send PMT a 3-line pitch: what it is, what it costs per student, and how you'll film it.", output: "1 lagniappe pitch sent to PMT", minutes: 15, suggested: false },
+      check: [
+        { q: "In Williams' story of Cecil and Fat Charlie, why did Charlie get the word of mouth? (7.7)", a: "He added a little something extra, so customers felt ahead instead of even. “I was treated fairly” isn't something people tell friends." },
+        { q: "What's the difference between “very good” and “remarkable”?", a: "Very good is expected. Remarkable means there's a story worth telling: something unexpected, extreme or delightful." },
+        { q: "What is a “realm of association”?", a: "Williams' idea that each person has roughly 250 people they influence, so each deeply impressed customer reaches far beyond themselves." }
+      ]
+    },
+    {
+      id: "per-26",
+      part: "wom",
+      title: "Referral systems: ask, build it in, arm the referrer",
+      minutes: 9,
+      tags: ["Book"],
+      source: [
+        { doc: "ZDub Marketing Mastery Guide — Ch 7: Word of Mouth & Why Things Catch On", section: "Referral systems; Example: a referral text a client can send (pp. 75–76)", who: "Allan Dib, Lean Marketing and The 1-Page Marketing Plan; Alex Hormozi, $100M Leads (2023)" },
+        { doc: "ZDub Marketing Mastery Workbook — Ch 7", section: "Recall 7.9, 7.11; Drill D7.3 + Answer Key (pp. 54–55, 205–206)", who: "Workbook" }
+      ],
+      alsoIn: ["Getting Clients tab (referrals for ZDub itself)", "Funnels tab (follow-up)"],
+      idea: "Every local owner says “most of our business is word of mouth.” **Hoping for word of mouth isn't a strategy.** Allan Dib (*Lean Marketing*) gives three ways to orchestrate referrals:\n\n1. **Ask.** Most happy customers would refer you; they just don't think of it. **Ask at the moment of peak happiness:** right after the result, the graduation, the finished job. Not three weeks later.\n2. **Build referrals into the product.** Make sharing part of the experience: “bring a friend” pricing, group classes, gift certificates, a co-op discount for neighbors on the same street.\n3. **Arm your referrers.** Give them something easy to pass on: a card, a link, a short text they can forward, a gift for the friend.\n\nIn *The 1-Page Marketing Plan*, Dib adds the **“shock and awe” package:** a physical box or welcome kit sent to new leads or customers, with proof, useful material and a surprise, to make a huge first impression.\n\n**Hormozi's view** (*$100M Leads*): customer referrals are the **first and best “lead getter.”** His formula is simple: deliver results worth talking about, then systematically ask. **Referrals come from the quality of the experience multiplied by how often you ask.** Great service with no ask gets you very little; a constant ask with mediocre service gets you nothing.\n\n**Good referral asks** name the specific win, make sharing easy, and reward both sides, **without asking for a review in the same breath** (next lesson).\n\n**For ZDub itself:** the peak moment is right after a client sees a great report or a full calendar. That's when you ask, “Who else do you know who'd want this?”",
+      keyPoints: [
+        "Ask at the moment of peak happiness",
+        "Build sharing into the product (bring-a-friend, group pricing, gift certificates)",
+        "Arm referrers with a link, card or forwardable text",
+        "Shock-and-awe package: a physical kit with proof, value and a surprise",
+        "Referrals = quality of experience × how often you ask (Hormozi)"
+      ],
+      why: "Referrals are the cheapest, highest-trust leads any client (and ZDub) can get, and almost nobody asks systematically.",
+      example: {
+        title: "A referral text PMT can send (Guide Ch 7)",
+        body: "“Hey Jenna! It was awesome watching you nail the swerve drill Saturday. If you know anyone who's been wanting to learn, here's a link that gives them $25 off and gives you a free skills refresher session: [link]. No pressure, just figured you'd know someone!”\n\nIt names the specific win, makes sharing one tap, rewards both sides, and doesn't mention reviews. (The $25 and the refresher are the Guide's example; use PMT's real reward.)"
+      },
+      practice: [
+        {
+          prompt: "Drill D7.3: write a referral ask for three moments: in person, by text and by email. Each short, warm, and giving the referrer something easy to pass on.",
+          fields: ["In person (what the instructor or tech says)", "By text", "By email"],
+          rubric: ["Asked at a peak moment, naming the specific win", "Gives them something easy to pass on (link, card, text)", "Rewards both sides if there's a reward", "No review request in the same message", "Warm, no pressure"],
+          model: "Text (electrician): “Hi Marcus, thanks again for trusting us with the panel upgrade. If a neighbor ever mentions electrical trouble, here's a link that gets them priority scheduling and gets you a free smoke-detector check: [link]. No pressure at all!”"
+        }
+      ],
+      today: { task: "Design PMT's referral program on one page: the peak moment to ask, what the referrer gets, what the friend gets, and the forwardable text. Send it to PMT for approval.", output: "1-page referral program + forwardable text", minutes: 30, suggested: false },
+      check: [
+        { q: "According to Hormozi's $100M Leads, what is the first and best “lead getter”? (7.9)", a: "Customer referrals. They come from results worth talking about, multiplied by how often you systematically ask." },
+        { q: "What are Dib's three ways to orchestrate referrals, and what is a “shock and awe” package? (7.11)", a: "Ask (at peak happiness), build referrals into the product, and arm your referrers. Shock and awe is a physical box or welcome kit with proof, useful material and a surprise to make a huge first impression." },
+        { q: "When is the best moment to ask for a referral?", a: "The moment of peak happiness: right after the result, the graduation or the finished job." }
+      ]
+    },
+    {
+      id: "per-27",
+      part: "wom",
+      title: "The review engine, and measuring word of mouth",
+      minutes: 10,
+      tags: ["Book", "Platform fact (re-check)"],
+      source: [
+        { doc: "ZDub Marketing Mastery Guide — Ch 7: Word of Mouth & Why Things Catch On", section: "The review engine; Rules you must not break; Measuring word of mouth (pp. 77–78)", who: "Guide, citing Local Falcon's 2026 local search guide, Google review policies, FTC rule on fake reviews (2024)" },
+        { doc: "ZDub Marketing Mastery Workbook — Ch 7", section: "Recall 7.8, 7.12; Drill D7.4; Client Lab L7 + Answer Key (pp. 54–56, 205–206)", who: "Workbook" }
+      ],
+      alsoIn: ["Part 2 of this tab — social proof", "Agency Ops tab (reporting)"],
+      idea: "**Reviews are word of mouth that strangers can read.** For local businesses in 2026 they influence both buyers and Google's local rankings, and industry guides stress that **recent, detailed reviews that mention the specific service** carry more weight than an old pile of five-word reviews (platform fact, re-check).\n\n**The five-step review engine:**\n\n1. **Ask every satisfied customer at the peak moment.** Right after the win, not three weeks later.\n2. **Make it one tap.** A direct link or QR code to the Google review form.\n3. **Prompt for detail.** “It would really help if you mention which class you took and what you liked.”\n4. **Respond to every review,** especially negative ones, calmly and helpfully. A great reply to a bad review is itself proof.\n5. **Feed reviews into ads and content.** Screenshot reviews make strong native-style ads.\n\n**Rules you must not break:**\n\n- **Never buy, fake or write reviews.** The FTC's 2024 rule bans fake reviews and testimonials.\n- **No incentives in exchange for reviews.** Google's policies prohibit it.\n- **No review gating:** asking only happy customers to post publicly while steering unhappy ones elsewhere also violates platform rules.\n- **Keep referral rewards (allowed) completely separate from review requests (no incentives).**\n\n**Measuring word of mouth.** What gets measured gets managed. Add a **required “How did you hear about us?” field** to every booking and lead form, track referral codes or links, and log the source of every customer. Over a few months you'll see which clients' word of mouth is growing, and you can **show that brand-building content works even when nobody clicked an ad.** That's a retention argument for ZDub.\n\n**How to answer reviews** (Drill D7.4 answer): for a 5-star, thank them by name, mention the specific service and add one helpful tip. For a 2-star about price, thank them, acknowledge the surprise, explain briefly without defensiveness, and offer to walk through the invoice. For a 1-star no-show, apologize plainly, take responsibility, say what you've changed, and offer to make it right offline. **Never argue in public.**",
+      keyPoints: [
+        "Recent, detailed, service-specific reviews matter most (re-check yearly)",
+        "Ask at the peak moment, one tap, prompt for detail, reply to all, reuse in ads",
+        "Never fake, buy, incentivize or gate reviews",
+        "Referral rewards OK; review incentives never; keep them separate",
+        "Required “How did you hear about us?” field proves word of mouth is working"
+      ],
+      why: "A review engine is the most durable asset ZDub can install for a local client, and source tracking is how you prove value beyond ad clicks.",
+      example: {
+        title: "Peak-moment ask script for PMT",
+        body: "At graduation, the instructor says: “You crushed it today. If you've got 30 seconds, a Google review really helps other nervous beginners find us. Here's the QR code. It'd help a ton if you mention which class you took and what surprised you.”\n\nNo reward attached (that's the referral program's job), asked of everyone, one tap, with a detail prompt."
+      },
+      practice: [
+        {
+          prompt: "Drill D7.4: write responses to these three reviews for a hypothetical Sacramento HVAC company.",
+          fields: ["★★★★★ “Fast and friendly, fixed it same day.”", "★★ “Tech was nice but it cost more than I expected.”", "★ “Never showed up for my appointment. Nobody called.”"],
+          rubric: ["Thanks by name and mentions the specific service", "Acknowledges the issue without defensiveness", "Takes responsibility and moves the fix offline when needed", "Never argues in public", "Reads as proof to a future customer"]
+        }
+      ],
+      today: { task: "Client Lab L7 steps 1–2 for PMT: add a required “How did you hear about us?” field to PMT's GoHighLevel booking form, create the one-tap Google review link and QR code, and write the instructor's peak-moment ask script.", output: "Source field live + review link/QR + ask script", minutes: 40, suggested: false },
+      check: [
+        { q: "Which review practice is allowed? (7.8)", a: "Asking every customer at the peak moment, with a one-tap link and a prompt to mention the specific service. Incentivized reviews, gating and fake reviews all break platform rules (fake reviews also break the FTC's 2024 rule)." },
+        { q: "List the five steps of the review engine. (7.12)", a: "1) Ask every satisfied customer at the peak moment. 2) Make it one tap. 3) Prompt for detail. 4) Respond to every review, especially negative ones. 5) Feed reviews into ads and content." },
+        { q: "Why add a required “How did you hear about us?” field?", a: "To log the source of every customer, so over a few months you can see word of mouth growing and show brand-building works even when nobody clicked an ad." }
+      ]
+    }
   ]
 });

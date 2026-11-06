@@ -762,46 +762,6 @@ HUB.tab({
     },
     {
       id: "gc-18",
-      part: "walkin",
-      title: "Get past gatekeepers and silence",
-      minutes: 10,
-      tags: ["Mentor"],
-      date: "2026-10-30",
-      source: [
-        { doc: "ZDub_Guide_05 V2", section: "Step 5: Gatekeeper; Clayton's call script; Lusha; Outreach psychology: Follow-up", who: "LC SOP; Clayton Bell 8/26/26; Calum Tresham 8/28/26; LC teaching notes" },
-        { doc: "9 New Calls Study Guide", section: "Getting past gatekeepers and silence", who: "Tayt Shelman, 10/30/26" },
-        { doc: "ZDub_Guide_00 V2", section: "Principle 12: Follow up across channels", who: "Clayton Bell, 8/26/26" }
-      ],
-      alsoIn: ["Funnels tab (speed to lead and follow-up for client leads)"],
-      idea: "Two things stand between you and the owner: the person who answers the phone, and the owner's silence. Both are beaten by persistence across channels, done respectfully.\n\n**The gatekeeper (SOP).** “Hey, is [owner] around? ...[Name], I emailed him yesterday about the [website], just following up.” If pressed: “I'm local here... found something on the website I think [owner] would want to know.” **Never pitch the gatekeeper.** No name? “Who handles the website and marketing over there?” Student James' version (10/30): “who takes care of bringing in new jobs over there?”\n\nClayton (8/26): “Not sure who looks through your company email, but I sent over an email very specific to [business]... who would be best to talk to?”\n\n**Finding the owner directly.** BBB listings and state contractor license lookups often show the owner's cell (student Nicholas Noah, 10/30). Calum (8/28) mentioned Lusha, a tool that works with LinkedIn to find direct emails or phones, and acknowledged some argue it's not ethical. Optional.\n\n**Silence is not a no.** Tayt (10/30): text, call the receptionist, email, walk in, call again tomorrow. Use the gatekeeper as a bridge: “Hey Nick, I keep speaking to Emily, she keeps saying you're my man.” Roofers are the most-pitched owners around, and some deals take **one to two years** of follow-up. “The person that can just talk to them the most will get the worm.”\n\n**Principle 12 (Clayton, 8/26):** follow up across channels: email, call, in person. Never let a business “live and die” on one touch.\n\n**How to follow up (LC Outreach Psychology notes):**\n\n- **Cold follow-up:** short, light, costs nothing to ignore, never guilt-trip.\n- **Warm follow-up** (they've engaged): assume good faith, be persistent, make it easy to act. Most people give up on warm prospects too early.\n\nThe SOP's rhythm keeps it respectful: after the walk-in, move on and put them back on the list in about 90 days. Honor do-not-contact immediately and permanently.",
-      keyPoints: [
-        "Never pitch the gatekeeper; ask for the owner by name and reference your email.",
-        "No name? “Who handles the marketing / new jobs over there?”",
-        "Owner cells: BBB and contractor license lookups.",
-        "Silence isn't a no: switch channels (text, call, email, walk in).",
-        "Cold follow-up is light; warm follow-up is persistent. Honor do-not-contact."
-      ],
-      why: "The trades owners ZDub wants are on roofs and in attics all day. The office manager is the gate. Being polite, specific and persistent with her is how Zach gets the 2-minute window when the owner is actually in.",
-      example: {
-        title: "Bridging through the office manager (made-up example)",
-        body: "Call 1: “Hey, is Mike around? ... Totally fine. I'm local, I emailed him yesterday about the quote form on the website, just following up. When's he usually in?” Text 2 days later to the main line: “Hi, Zach from ZDub Media, local. Sent Mike a quick note about the website, no rush.” Walk-in Friday: leave the one-pager with Emily. Call next week: “Hey Mike, I keep speaking to Emily, she keeps saying you're my man.”"
-      },
-      practice: [
-        {
-          prompt: "Write a 5-touch sequence for a real prospect who hasn't responded, switching channels each time. Mark which touches are cold-light vs warm-persistent.",
-          fields: ["Prospect + owner name + gatekeeper name (if known)", "Touch 1 (channel + exact words)", "Touch 2", "Touch 3", "Touch 4", "Touch 5 (and when to stop and retry in ~90 days)"],
-          rubric: ["At least three different channels", "Never pitches the gatekeeper", "Each touch is short and costs nothing to ignore", "No guilt-trips (“just checking in,” “did you see my email?!”)", "Clear stop point"]
-        }
-      ],
-      today: { task: "Pick 3 stalled prospects and send each the next touch on a different channel than the last one (text if you emailed, walk-in if you called).", output: "3 channel-switched touches logged", minutes: 30, suggested: false },
-      check: [
-        { q: "What's the SOP's line when you don't know who to ask for?", a: "“Who handles the website and marketing over there?”" },
-        { q: "How long can roofer deals take, according to Tayt?", a: "One to two years of follow-up. “The person that can just talk to them the most will get the worm.”" },
-        { q: "How does cold follow-up differ from warm follow-up?", a: "Cold: short, light, costs nothing to ignore, never guilt-trip. Warm: assume good faith, be persistent, make it easy to act." }
-      ]
-    },
-    {
-      id: "gc-19",
       part: "calls",
       title: "Make the calls a habit you can measure",
       minutes: 9,
@@ -840,7 +800,7 @@ HUB.tab({
       ]
     },
     {
-      id: "gc-20",
+      id: "gc-19",
       part: "walkin",
       title: "The walk-in: “3 Things I Noticed”",
       minutes: 10,
@@ -876,6 +836,46 @@ HUB.tab({
         { q: "What goes on the SOP's walk-in one-pager?", a: "“3 Things I Noticed About [Business]”: the gap with a screenshot at top, two smaller findings, and “Want the fixes? 20 minutes.” with your name, phone and booking link or QR." },
         { q: "What do you do if the owner is out?", a: "Leave the sheet at the desk, get the owner's name and when they're in, send one short bump email that night, then leave them alone for about 90 days." },
         { q: "When should you walk in?", a: "Day 3–4 of the loop, in their slow window: trades mid-morning, med spas and offices mid-afternoon." }
+      ]
+    },
+    {
+      id: "gc-20",
+      part: "walkin",
+      title: "Get past gatekeepers and silence",
+      minutes: 10,
+      tags: ["Mentor"],
+      date: "2026-10-30",
+      source: [
+        { doc: "ZDub_Guide_05 V2", section: "Step 5: Gatekeeper; Clayton's call script; Lusha; Outreach psychology: Follow-up", who: "LC SOP; Clayton Bell 8/26/26; Calum Tresham 8/28/26; LC teaching notes" },
+        { doc: "9 New Calls Study Guide", section: "Getting past gatekeepers and silence", who: "Tayt Shelman, 10/30/26" },
+        { doc: "ZDub_Guide_00 V2", section: "Principle 12: Follow up across channels", who: "Clayton Bell, 8/26/26" }
+      ],
+      alsoIn: ["Funnels tab (speed to lead and follow-up for client leads)"],
+      idea: "Two things stand between you and the owner: the person who answers the phone, and the owner's silence. Both are beaten by persistence across channels, done respectfully.\n\n**The gatekeeper (SOP).** “Hey, is [owner] around? ...[Name], I emailed him yesterday about the [website], just following up.” If pressed: “I'm local here... found something on the website I think [owner] would want to know.” **Never pitch the gatekeeper.** No name? “Who handles the website and marketing over there?” Student James' version (10/30): “who takes care of bringing in new jobs over there?”\n\nClayton (8/26): “Not sure who looks through your company email, but I sent over an email very specific to [business]... who would be best to talk to?”\n\n**Finding the owner directly.** BBB listings and state contractor license lookups often show the owner's cell (student Nicholas Noah, 10/30). Calum (8/28) mentioned Lusha, a tool that works with LinkedIn to find direct emails or phones, and acknowledged some argue it's not ethical. Optional.\n\n**Silence is not a no.** Tayt (10/30): text, call the receptionist, email, walk in, call again tomorrow. Use the gatekeeper as a bridge: “Hey Nick, I keep speaking to Emily, she keeps saying you're my man.” Roofers are the most-pitched owners around, and some deals take **one to two years** of follow-up. “The person that can just talk to them the most will get the worm.”\n\n**Principle 12 (Clayton, 8/26):** follow up across channels: email, call, in person. Never let a business “live and die” on one touch.\n\n**How to follow up (LC Outreach Psychology notes):**\n\n- **Cold follow-up:** short, light, costs nothing to ignore, never guilt-trip.\n- **Warm follow-up** (they've engaged): assume good faith, be persistent, make it easy to act. Most people give up on warm prospects too early.\n\nThe SOP's rhythm keeps it respectful: after the walk-in, move on and put them back on the list in about 90 days. Honor do-not-contact immediately and permanently.",
+      keyPoints: [
+        "Never pitch the gatekeeper; ask for the owner by name and reference your email.",
+        "No name? “Who handles the marketing / new jobs over there?”",
+        "Owner cells: BBB and contractor license lookups.",
+        "Silence isn't a no: switch channels (text, call, email, walk in).",
+        "Cold follow-up is light; warm follow-up is persistent. Honor do-not-contact."
+      ],
+      why: "The trades owners ZDub wants are on roofs and in attics all day. The office manager is the gate. Being polite, specific and persistent with her is how Zach gets the 2-minute window when the owner is actually in.",
+      example: {
+        title: "Bridging through the office manager (made-up example)",
+        body: "Call 1: “Hey, is Mike around? ... Totally fine. I'm local, I emailed him yesterday about the quote form on the website, just following up. When's he usually in?” Text 2 days later to the main line: “Hi, Zach from ZDub Media, local. Sent Mike a quick note about the website, no rush.” Walk-in Friday: leave the one-pager with Emily. Call next week: “Hey Mike, I keep speaking to Emily, she keeps saying you're my man.”"
+      },
+      practice: [
+        {
+          prompt: "Write a 5-touch sequence for a real prospect who hasn't responded, switching channels each time. Mark which touches are cold-light vs warm-persistent.",
+          fields: ["Prospect + owner name + gatekeeper name (if known)", "Touch 1 (channel + exact words)", "Touch 2", "Touch 3", "Touch 4", "Touch 5 (and when to stop and retry in ~90 days)"],
+          rubric: ["At least three different channels", "Never pitches the gatekeeper", "Each touch is short and costs nothing to ignore", "No guilt-trips (“just checking in,” “did you see my email?!”)", "Clear stop point"]
+        }
+      ],
+      today: { task: "Pick 3 stalled prospects and send each the next touch on a different channel than the last one (text if you emailed, walk-in if you called).", output: "3 channel-switched touches logged", minutes: 30, suggested: false },
+      check: [
+        { q: "What's the SOP's line when you don't know who to ask for?", a: "“Who handles the website and marketing over there?”" },
+        { q: "How long can roofer deals take, according to Tayt?", a: "One to two years of follow-up. “The person that can just talk to them the most will get the worm.”" },
+        { q: "How does cold follow-up differ from warm follow-up?", a: "Cold: short, light, costs nothing to ignore, never guilt-trip. Warm: assume good faith, be persistent, make it easy to act." }
       ]
     },
     {
