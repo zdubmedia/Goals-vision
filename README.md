@@ -20,3 +20,9 @@ https://claude.ai/artifact/61YGUKTPutYyXooyPcTASS
 - If the database isn't reachable, entries fall back to the browser's localStorage, and the page offers to move them into the vault later.
 
 The file is written for the Artifact publisher, which adds the `<!doctype>`/`<head>`/`<body>` wrapper at publish time.
+
+---
+
+# ZDub Learning Hub
+
+`learning-hub/` holds a daily learning page for running ZDub Media. It has one tab per skill, with lessons you can read, practice and apply the same day, coach feedback, a bank of finished lessons and a reference section. See [learning-hub/README.md](learning-hub/README.md).
