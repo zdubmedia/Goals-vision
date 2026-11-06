@@ -285,6 +285,25 @@ HUB.reference({
             "4. Within 48 hours: use it. Write the ad, change the page, run the test.",
             "5. Weekly: add the best idea to a “swipe and steal” doc organized by chapter."
           ]
+        },
+        {
+          type: "list",
+          title: "AI Creative Playbook: recommended reading path",
+          items: [
+            "Ranked by value in The AI-Assisted Creative Playbook (10/30/26), Part 10. Used in the Ad Creative tab, Part 7.",
+            "1. Hey Whipple, Squeeze This (6th ed., Luke Sullivan with Edward Boches): concepting, headlines, simplicity. Essential.",
+            "2. 100 Things Every Designer Needs to Know About People (Susan Weinschenk), plus her blog posts on video ads and attention (100 MORE Things #146–147). Essential.",
+            "3. The Futur (Chris Do): positioning, brand strategy and his AI-in-design episodes.",
+            "4. PiXimperfect (Unmesh Dinda): Generative Fill limits, compositing and color matching.",
+            "5. Satori Graphics: hierarchy, typography, design thinking and the 2026 trends video (many AI videos are sponsored).",
+            "6. Meta Business Help Center (safe zones, AI info labeling, Advantage+ creative) and Jon Loomer on Andromeda.",
+            "7. Will Paterson: identity systems; his July 2026 AI-tools video (“AI does the dishes, not the cooking”).",
+            "8. The Wizard of Ads / Magical Worlds (Roy H. Williams, already owned): reread for vivid, concrete copy.",
+            "9. Theoretically Media and The AI Advantage: tool updates; check monthly, things change fast.",
+            "10. Neal Hettinger, Marketing Design Using AI (2025): a prompt idea bank, secondary.",
+            "11. Optional, low priority: Brajesh Kumar Singh's How to Manage Social Media Using AI (45-page primer), Abdelbasset Daly's Meta Ads Black Book 2026 (hype-heavy), Dennis Hunter's The AI Playbook for Advertising Professionals. A book titled exactly “The AI Advertising Playbook” could not be verified.",
+            "12. Jordan Platten: agency business and offers, not design craft."
+          ]
         }
       ]
     },

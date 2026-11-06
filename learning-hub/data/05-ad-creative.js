@@ -3,14 +3,15 @@ HUB.tab({
   title: "Ad Creative",
   icon: "spark",
   tagline: "What to make and why: ads that find the right people and give them a reason to act.",
-  intro: "On Meta in 2026 the ad you make does most of the work your targeting used to do. This tab teaches you what to put in front of people: how to concept an idea, map the real reasons someone buys, build statics with Paul's four zones and seven archetypes, script video ads with open loops, and multiply one winner into many. Work through it and you'll be able to brief, build and check a full PMT or trades ad set before anyone spends a dollar. For how to shoot, edit and design the pieces, see Content Production Craft; for reading results, see Meta Ads.",
+  intro: "On Meta in 2026 the ad you make does most of the work your targeting used to do. This tab teaches you what to put in front of people: how to concept an idea, map the real reasons someone buys, build statics with Paul's four zones and seven archetypes, script video ads with open loops, and multiply one winner into many. Work through it and you'll be able to brief, build and check a full PMT or trades ad set before anyone spends a dollar. Part 7 turns it into an AI-assisted workflow: AI makes the volume, you keep the strategy, the real proof and the polish. For how to shoot, edit and design the pieces, see Content Production Craft; for reading results, see Meta Ads.",
   parts: [
     { id: "why", title: "Part 1 · Why creative wins" },
     { id: "concept", title: "Part 2 · The idea before the design" },
     { id: "reasons", title: "Part 3 · Reasons to buy" },
     { id: "statics", title: "Part 4 · Static ads that stop and pay" },
     { id: "video", title: "Part 5 · Video ads that hold and convert" },
-    { id: "scale", title: "Part 6 · Multiply winners and keep the promise" }
+    { id: "scale", title: "Part 6 · Multiply winners and keep the promise" },
+    { id: "ai-workflow", title: "Part 7 · The AI-assisted creative workflow" }
   ],
   trackers: [],
   lessons: [
@@ -25,7 +26,8 @@ HUB.tab({
         { doc: "The Andromeda Ad Playbook (10/30/26)", section: "01 The big idea; 02 Principle 1 and Principle 5", who: "ZDub field guide compiled from a breakdown of Meta's 10/28/26 Andromeda article" },
         { doc: "King Kong Meta Ads Playbook (Meta-Ads-Playbook.txt)", section: "Part 1, Section 02 Meet Andromeda; Section 13 The One-Keyword Hack: Creative is the Targeting", who: "King Kong agency playbook" },
         { doc: "ZDub Guide 00 Master Index V2", section: "Core principle 6: Creative is the targeting", who: "Cam (10/15/26, 9/17/26), Paul Snowman (10/19/26)" },
-        { doc: "ZDub Guide 02 Meta Ads Setup V2", section: "4. Targeting", who: "Cam, 10/15/26" }
+        { doc: "ZDub Guide 02 Meta Ads Setup V2", section: "4. Targeting", who: "Cam, 10/15/26" },
+        { doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26", section: "Key Finding 1 (Meta's April 2025 guidance via Jon Loomer: creative diversification is the best lever; no official creative-count quota); Part 2 Principle 6", who: "Research playbook" }
       ],
       alsoIn: ["Mastery Guide Ch 18 (The big shift)", "Social Media Playbook TL;DR", "Guide 02 Meta Ads Setup", "Index principle 6"],
       idea: "Meta's ad delivery runs in stages. The first stage, called **Andromeda**, looks at a giant pile of ads and picks a short list of candidates for each person every time they open Facebook or Instagram. A second system then ranks that short list. The catch: **an ad that misses the shortlist can't win later**, no matter how good the offer or how strong its click-through rate would have been.\n\nHow does Andromeda decide? It reads your image, video, headline, copy and offer, then matches those signals against what Meta knows about each person's behavior, interests and current context. So whoever your ad *implies* is who Meta goes looking for. Show a nervous 40-year-old beginner in gear for the first time, say “never ridden before,” and Meta hunts for people who look like that. Show a generic bike on a white background and Meta has nothing to match.\n\nThat flips the old job. You used to stack interests in the ad set. Now the mentors set location and leave the rest open:\n\n- Cam (10/15): drop a pin and radius around the service area, leave age, gender and detailed targeting alone. “The more you specify, the more costs go up.” Let the creative do the targeting.\n- Cam (9/17): be direct. If you beat around the bush, Meta shows the ad to “the beat around the bush people.”\n- Paul (10/19): “The image stops and the copy pays.”\n\nThe Andromeda playbook (10/30/26) adds the practical rule: **give every ad clear context** — who it's for, what situation it speaks to, and why they'd buy. Say the product, the person and the situation out loud and on screen in the first few seconds. Vague ads give the system nothing to connect to.\n\nKing Kong's version is the **one-keyword hack**: duplicate a winner and swap one category word (“dental,” “Woodland,” “returning riders”) or the person in the image. Same skeleton, new signal, new pocket of buyers. For local businesses the strongest keyword is usually the place.\n\nThese are platform facts from the newest docs. Meta changes fast, so re-check in your own account.",
@@ -190,6 +192,7 @@ HUB.tab({
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 13 The Big Idea & Creative Concepting: Ogilvy: the Big Idea; Pete Barry: think now, design later", who: "David Ogilvy (Ogilvy on Advertising), Pete Barry (The Advertising Concept Book), Roy H. Williams" },
         { doc: "ZDub Marketing Mastery Workbook", section: "Ch 13 Recall 13.1–13.4; Drill D13.1 Three layers; Answer Key", who: "Workbook" }
       ],
+      alsoIn: ["AI-Assisted Creative Playbook (10/30/26) Part 1 (Hey Whipple: concept beats execution; a weak idea is not rescued by rendering)"],
       idea: "Most beginners jump straight to fonts, filters and editing. Pete Barry, an Ogilvy art director turned teacher, built *The Advertising Concept Book* on the opposite rule: **think now, design later.** He fills it with quick hand-drawn “roughs,” because an idea that only works when it's beautifully produced isn't an idea yet. His test: **a real concept can survive being drawn badly on a napkin.**\n\nBarry separates every ad into three layers, and you judge each one on its own:\n\n1. **Strategy (the what).** Is it saying the right thing to the right person? This is the brief.\n2. **Concept (the idea).** Is there a fresh, relevant, simple way to express that strategy?\n3. **Execution (the craft).** Is it well written, designed, shot and edited?\n\nMost bad ads fail at layer 1 or 2 and try to make up for it at layer 3. Roy Williams lists this among his classic mistakes: great production without great copy. Slick, clever and funny are poor substitutes for informative, believable, memorable and persuasive.\n\n**Ogilvy's five questions** help you recognize a big idea (paraphrased):\n\n1. Did it make me gasp when I first saw it?\n2. Do I wish I'd thought of it myself?\n3. Is it unique?\n4. Does it fit the strategy perfectly?\n5. Could it run for years?\n\nNote question 4: a big idea serves the strategy, it isn't just clever. Ogilvy also prized **story appeal**, a small mystery that makes people wonder “what's the story here?” His shirt model wore an eye patch, and millions looked twice.\n\nThe Workbook's lesson from scoring real ads: you'll often find beautiful execution (5/5) on a weak concept (2) with unclear strategy (2). A raw phone video with a great idea often beats a polished spot with none. That's good news for a one-person agency with an iPhone.",
       keyPoints: [
         "Concept before craft: if it only works with great production, it isn't a concept.",
@@ -229,6 +232,7 @@ HUB.tab({
         { doc: "ZDub Marketing Mastery Workbook", section: "Ch 13 Recall 13.12; Client Lab L13", who: "Workbook" },
         { doc: "The Andromeda Ad Playbook (10/30/26)", section: "02 Principle 2: Build a broader creative plan without losing discipline (five questions, ad brief template)", who: "ZDub field guide from a breakdown of Meta's 10/28/26 article" }
       ],
+      alsoIn: ["AI-Assisted Creative Playbook (10/30/26) Part 4A Step 2 (the brief, human-written and AI-assisted; see adc-29)"],
       idea: "Two briefs keep creative focused: one for the whole campaign and one for every single ad.\n\n**The campaign brief (Mastery Guide Ch 13, nine parts):**\n\n1. **The problem:** what business problem must the ads solve?\n2. **The audience:** who exactly, and at what awareness stage?\n3. **The insight:** what human truth about them can you build on?\n4. **The single-minded proposition:** the one thing to say.\n5. **The support:** proof and reasons to believe.\n6. **The desired response:** what they should think, feel and do.\n7. **Tone:** from the client's voice guide.\n8. **Mandatories:** offer, deadline, legal, brand assets.\n9. **Channels and formats:** where it runs, what sizes and lengths.\n\n**The ad-level filter (Andromeda Principle 2).** Testing more reasons to buy means making more ads, which can drift into random content. So before any ad gets made, answer five questions:\n\n1. **Who is this relevant to?** (which persona and ad set it belongs in)\n2. **What situation or problem does it address?** (the moment of relevance Andromeda reads)\n3. **What reason to buy does it introduce?** (a distinct hypothesis, not a reworded copy)\n4. **What evidence supports it?** (demo, testimonial, number, visual)\n5. **What will we learn from testing it?** (“If this wins, it tells us that ___ matters to ___.”)\n\n**Rule: if an ad can't answer all five, it doesn't get produced.**\n\nName every ad the same way so tests stay readable: **Persona_Bucket_Angle_Format_v1** (for example, FirstTimer_Objection_LookFoolish_TalkingHead_v1).\n\nThe Workbook's Client Lab adds one habit from Roy Williams: send the brief to anyone helping you 24 hours ahead, so the quiet thinkers arrive with ideas.",
       keyPoints: [
         "Campaign brief: problem, audience, insight, single-minded proposition, support, response, tone, mandatories, channels.",
@@ -271,6 +275,7 @@ HUB.tab({
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 13: Luke Sullivan: the creative process, honestly; Mario Pricken: creativity as technique; Roy Williams: ideas by connection; A repeatable creative process", who: "Luke Sullivan (Hey Whipple, Squeeze This), Mario Pricken (Creative Advertising), Roy H. Williams (The Wizard of Ads)" },
         { doc: "ZDub Marketing Mastery Workbook", section: "Ch 13 Recall 13.6–13.9, 13.11; Drill D13.2 Pricken triggers; Answer Key", who: "Workbook" }
       ],
+      alsoIn: ["AI-Assisted Creative Playbook (10/30/26) Part 1 (Hey Whipple: write many headlines and throw most away; let AI generate 50 angles, keep 3)"],
       idea: "Ideas aren't a gift. Mario Pricken analyzed 200+ award-winning ads and found roughly thirty repeatable techniques behind them. His **Kick-Start Catalogue** is a list of trigger questions you run a brief through to force new ideas. The Mastery Guide's set:\n\n- **Exaggerate:** take the benefit to an absurd extreme.\n- **Shrink or enlarge:** make the product or problem tiny or enormous.\n- **Change perspective:** the product's view, the pet's, the neighbor's, from above.\n- **Analogy and metaphor:** “A tune-up is a physical for your house.”\n- **Paradox and illusion:** a visual contradiction that makes people look twice.\n- **Absence:** show what happens when the product is missing.\n- **Before and after:** the most dramatic contrast you can show honestly.\n- **Swap the context:** put it somewhere it doesn't belong.\n- **Personify:** make the problem a character, a villain.\n- **Borrow a format:** breaking news, nature documentary, dating profile, movie trailer.\n- **Wordplay:** twist a familiar phrase.\n- **Humor:** the funny truth everyone in the category recognizes.\n\nLuke Sullivan's rules sit on top: **start with the truth**, keep it simple, keep it brief, use **conflict** (a villain or tension), and **generate volume, then edit**. Your first ten ideas are the clichés everyone else would think of. Push past them.\n\nRoy Williams adds two: creativity is **seeing connections** between unrelated things, and ideas stick when they're unpredictable (his Velcro image: the brain's hooks catch loops arranged randomly, not in tidy rows).\n\nThe repeatable process (8 steps): **brief → immerse → generate 30–50 rough ideas → incubate → select → make it a series → execute natively → present and protect.** This lesson is steps 2–4: know the product cold (ride along, read the reviews), then sketch, don't polish, and step away before you judge.",
       keyPoints: [
         "Creativity is technique: run every brief through trigger questions.",
@@ -396,7 +401,7 @@ HUB.tab({
       source: [
         { doc: "The Andromeda Ad Playbook (10/30/26)", section: "02 Principle 3: One person, many reasons, many formats (Matching angle type to format); 04 Applied to PMT: Objection to creative test; Sample campaign build", who: "ZDub field guide (note: the format pairings were added by the guide's author to round out the video's framework)" }
       ],
-      alsoIn: ["Meta Ads tab (1 persona = 1 ad set structure)"],
+      alsoIn: ["Meta Ads tab (1 persona = 1 ad set structure)", "AI-Assisted Creative Playbook (10/30/26) Part 4A Step 3 (concept matrix: angles × formats × personas; see adc-29)"],
       idea: "Once you have reasons to buy, the next question is how to show each one. The Andromeda playbook's rule: **the format follows the angle, not the other way around.** Don't decide “we're making a talking head” and then hunt for something to say. Decide the reason, then pick the format that explains it best.\n\n**General pairings** (the guide notes these are general guidance added to the video's framework):\n\n- **A fear or objection** (“what if I…”) → talking head that addresses it directly; customer testimonial.\n- **How something works or feels** → demo or POV footage; behind the scenes.\n- **Proof or credibility** → review screenshots, stats static, before/after, testimonial montage.\n- **Price or value** → static or carousel that breaks down what's included.\n- **A specific moment or situation** → a short scene or skit that recreates the moment, then the solution.\n\nThe structure that goes with it: **1 persona = 1 ad set = several angle ads inside**, each in its best format. You don't need a separate interest-targeted ad set per motivation; test motivations as different ads in one persona ad set, and log learnings at the persona level (“first-timers respond to X”). The playbook suggests **3 to 6 distinct angle ads per ad set** as a practical start. (Budget and campaign settings live in the Meta Ads tab.)\n\nFor PMT, the playbook mapped each first-timer objection to a creative test. Notice that no two use the same format for the same reason.",
       keyPoints: [
         "Pick the reason to buy first, then the format that explains it.",
@@ -433,7 +438,7 @@ HUB.tab({
         { doc: "The Andromeda Ad Playbook (10/30/26)", section: "02 Principle 4: Different-looking ads can still test the same idea (The two kinds of testing); 03 Launch playbook step 8", who: "ZDub field guide from a breakdown of Meta's 10/28/26 article" },
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 18, The big shift (consequence 3: creative variety is fuel)", who: "Book-based curriculum" }
       ],
-      alsoIn: ["Meta Ads tab (hook rate, hold rate and reading results)"],
+      alsoIn: ["Meta Ads tab (hook rate, hold rate and reading results)", "AI-Assisted Creative Playbook (10/30/26) Part 9 Mistake 3 (“fake diversity”: 20 tweaks of one concept)"],
       idea: "Picture three ads: “Make your morning routine easier” filmed in a bathroom, the same message filmed in a bedroom, and the same message with a different opening. They **look** different but test **one idea**. They can't tell you whether the idea works; they only help you improve how it's presented.\n\nSo the Andromeda playbook separates two kinds of testing:\n\n- **Concept testing.** Question: does this reason to buy work? What changes: the motivation, situation or objection. When: first, to find what resonates. Mistake to avoid: **killing a concept after one weak execution.**\n- **Iteration testing.** Question: what's the best way to present this winning reason? What changes: hook, opening line, setting, visuals, on-screen text, delivery, length. When: after a concept earns spend and results. Mistake to avoid: **calling three hook swaps “three new concepts.”**\n\nThe Mastery Guide adds a platform note: 2026 guides report that Meta groups near-identical ads together, so changing only a headline or button doesn't count as a new concept. Different people, settings, formats, angles and openings do.\n\n**Do this:**\n\n1. Before you rule out a promising angle, try it in **two or three different formats**. Ask: “Did I present this angle in the right format?”\n2. Once you have a winner, spin off **3 to 5 versions that change one element each**: the hook, the first frame, the setting, the speaker or the on-screen text.\n3. **Label** ads so you can tell concept tests from iterations at a glance (the naming convention helps: change the Angle field for concepts, the version number for iterations).\n\nHow to read which ads are winning (hook rate, hold rate, cost per result) is taught in the Meta Ads tab.",
       keyPoints: [
         "Concept test = a different reason to buy. Iteration = a different way to show the same reason.",
@@ -635,7 +640,7 @@ HUB.tab({
       source: [
         { doc: "ZDub Guide 03 Ad Creative V2", section: "7. Building statics with AI (Logan's reference-image method; The LC 5-layer Gemini workflow; Static template copy structure; QC at thumbnail size; Three angle variations); Where the mentors disagree (Image tool)", who: "Logan McKinney (10/9/26, 10/13/26), Paul Snowman (10/19/26), LC AI Static Image Ads module and Static Ad Pre-Writing template" }
       ],
-      alsoIn: ["Content Production Craft (Canva workflow)"],
+      alsoIn: ["Content Production Craft (Canva workflow)", "AI-Assisted Creative Playbook (10/30/26) Part 4A Step 5 and Part 5 (AI photo polish and the image prompt framework; see adc-31, adc-34)"],
       idea: "Two mentor-approved ways to make statics with AI. Both share one rule: **“Never let AI pull from thin air”** (Logan, 10/9). Feed it real context.\n\n**Logan's reference-image method (10/9, 10/13).** In Codex or ChatGPT, feed 5–10 statics you like (from Google, Pinterest or brands like AG1 and Hoka) plus the **client's real photo**, and ask it to “build a static ad campaign around this.” Codex makes about 5 images at once; Logan makes about 20 per barbershop client. Once it's locked in, save the prompt and systemize. For a $10/day trades client, make statics from the client's real job photos, post them organically, and test them in a campaign.\n\n**The LC 5-layer workflow (Gemini, about 30 minutes).** “90% of bad AI ads never decided who it's for.” Fill the brief first.\n\n1. **Brief:** city/area, audience, what you do in plain words, the offer (“too good to scroll past”), one CTA, company name, 2–3 colors, scene.\n2. **Logo:** refine in the same chat, remove the background, save logo.png.\n3. **Scene:** photorealistic, vertical 4:5 (1080×1350). Spell out scene, foreground, lighting, camera (35mm, f/4, natural depth of field), composition (empty space top third and lower right for text), no text or logos. Fix one thing at a time.\n4. **Brand the scene:** image-to-image, change nothing else. Save a clean background as a reusable canvas.\n5. **Copy:** *you* decide the offer; AI only formats it. No emojis or hype words.\n6. **Layout:** headline top third, offer card lower right, pill CTA, 60px from edges. Expect misspellings. **“AI generates the asset; you assemble the ad”** in Canva (Anton, Bebas Neue, Archivo Black).\n\n**QC at thumbnail size:** spelling; readable headline; location AND audience named; offer on the image (most people never read the caption); exactly one CTA; nothing in safe zones; hands, faces and clothing text normal at 200%; a claim you can deliver.\n\n**Paul's caution (10/19):** AI images are fine, but “if you can get images from the client though it is pretty much always better.” Logan (9/25): generate the flat photo and add numbers yourself; AI hallucinates numbers and text. Build a prompt library per client.",
       keyPoints: [
         "Never let AI pull from thin air: give it real photos, references and context.",
@@ -679,7 +684,7 @@ HUB.tab({
         { doc: "ZDub Guide 03 Ad Creative V2", section: "4. The 3x3x1 test and the 8 checks; 10. Study and inputs (Paul's homework)", who: "Paul Snowman, Static Ads Strategy (10/19/26)" },
         { doc: "NuAdd Mentor Lessons Study Guide: 9 New Calls", section: "Meta ads, testing and creative → Campaign structure and testing", who: "Paul Snowman (7/28/26)" }
       ],
-      alsoIn: ["Meta Ads tab (budgets, CBO, judging metrics)"],
+      alsoIn: ["Meta Ads tab (budgets, CBO, judging metrics)", "AI-Assisted Creative Playbook (10/30/26) Part 4A Step 6 (QA checklist for every asset; see adc-32)"],
       idea: "Paul's (10/19) static test is the **3x3x1 sprint**: **3 visuals × 3 headlines × 1 body = 9 ads in one ad set.** The three headlines come in three flavors:\n\n1. **Pain/warning** (“If your AC unit looks like this, read this before summer.”)\n2. **Mechanism** (why the usual fix fails and this works)\n3. **Speed** (how fast they get the result or the next step)\n\nBudget: ideally 2–3x target CPL per day. Judge each ad after it spends 3–5x target CPL. (How to read and act on the numbers lives in the Meta Ads tab.)\n\n**Older version, same mentor (7/28):** split ad sets by concept, 3 concepts × 3 hook variations = 9 ads at about $70/day, which Paul called “super healthy.” Variations are small changes, like a new hook or a different background on a static. Don't wait for one test to finish before launching more. The 10/19 version is newer; teach that, and note the earlier one.\n\n**The 8 yes/no checks** before anything launches:\n\n1. One idea?\n2. Stops at thumbnail size?\n3. Headline says who it's for (alien test)?\n4. Visible proof?\n5. CTA small and specific?\n6. Readable in one second on a phone?\n7. Looks like a post, not a banner?\n8. Every claim true and compliant?\n\n**Score: 8/8 launch. About 6, tweak and test. 5 or fewer, start over.**\n\nPaul's homework: run a 3x3x1 static test on your most frustrating campaign.",
       keyPoints: [
         "3 visuals × 3 headlines (pain, mechanism, speed) × 1 body = 9 ads.",
@@ -724,6 +729,7 @@ HUB.tab({
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 18, Policy: personal attributes", who: "Book-based curriculum" },
         { doc: "The Andromeda Ad Playbook (10/30/26)", section: "04 Applied to PMT: copy rules", who: "ZDub field guide" }
       ],
+      alsoIn: ["AI-Assisted Creative Playbook (10/30/26) Part 2 Principle 7 and Part 8 Trust layer (real proof outranks rendered beauty; see adc-28)"],
       idea: "Belief is the zone most ads skip. The mentors' data shows why it matters and how to do it honestly.\n\n**Paul's Sterling Mold diagnosis (10/19).** Prior agency: $92 CPL; Cam's team: about $23 average. The statics' CTR was strong, so **Zone 1 (Stop) worked**. But Zone 2 was weak (“black mold” doesn't say who or where), Zone 3 used **online photos instead of the client's real inspections**, and Zone 4 had no specific offer.\n\n**What Logan's winners share (9/25).** His scoreboard static (one barbershop client's real month: $92K across 3 shops) spent about $500 for 12 booked calls. His new-hire video (“Barbershop owners, if you just hired a barber and their book is empty, this is for you”) booked calls at about $57 each. Both:\n\n1. **Say exactly who they're for** (“shops doing $30k+ a month”).\n2. **Focus on one specific thing** (one shop's real month; one situation, a new barber with an empty book).\n3. **Show something checkable** (real spend, real sales).\n\nHe retired the scoreboard when the numbers went stale and relaunched with fresh ones, and he was honest: the results “are not typical” and “I can't attribute every single piece of the growth to my actual ads.”\n\n**Compliance and honesty rules (Paul 10/19; LC module):**\n\n- Never make up stats, results or reviews. Use the client's real numbers, or a sourced stat cited in the primary text. AI may invent numbers.\n- Don't imply the viewer has a health condition; keep health angles soft.\n- Rejected ads are usually **personal-attribute or claim problems**: remove “are you struggling with…,” income promises and before/after implications. The Mastery Guide: “Are you overweight?” or “Struggling with debt?” can get ads rejected; use “people who…” or “anyone who…”\n- Generic free advice in ads trains the market that the paid solution won't work (Paul, citing Hormozi).\n\n**PMT's copy rules** (Andromeda playbook): no jargon; no “coach,” “cheap,” “easy,” “discount” or “guaranteed”; no refund or money-back language; no promise of passing the endorsement.",
       keyPoints: [
         "Winning ads: exactly who it's for, one specific thing, something checkable.",
@@ -879,7 +885,7 @@ HUB.tab({
       source: [
         { doc: "ZDub Guide 03 Ad Creative V2", section: "New in V2: Modular shooting; Where the mentors disagree (How many creatives to make)", who: "Cam, Follow Ad call (9/17/26); Logan McKinney (9/25/26)" }
       ],
-      alsoIn: ["Content Production Craft (shooting and editing)", "Meta Ads tab (testing hooks on one body)"],
+      alsoIn: ["Content Production Craft (shooting and editing)", "Meta Ads tab (testing hooks on one body)", "AI-Assisted Creative Playbook (10/30/26) Part 4A Step 5 (three alternative hooks on the same body)"],
       idea: "Cam's (9/17) production trick: don't film whole ads, film **modules**.\n\n- Film **3 hooks + 1 body + 2 CTAs**: one organic CTA (“click the link in my bio”) and one ad CTA (“click the link below and fill out the form”).\n- With 3 bodies, that's 9 organic pieces and 9 ads: “18 pieces of content out of eight segments.”\n- At $11/day, test hook variations on one body (budget details in the Meta Ads tab).\n\n**Filming clients remotely:** FaceTime on the laptop while the client records selfie-style on their phone. Hooks in one take, bodies next, CTAs separately.\n\n**Teleprompter:** Instagram's reel camera has one built in. Without it, read lines to the client and have them repeat. Cam's trick: memorize one line, look at the lens, **freeze at the end of the line**, look back, continue. The cut barely shows.\n\n**How many to make? The mentors differ (Guide 03):**\n\n- **Cam (9/17):** at $11/day, 2–3 hooks on one body.\n- **Logan (9/25):** 5 minimum, 10 optimal; one video plus 5 hooks if that's all you can make.\n\nGuide 03's default is to make Logan's one-video-five-hooks batch and run what the budget can feed. Both agree on the method: one body, many hooks.\n\nGuide 03's applied note for ZDub: one session of 3 hooks, 2–3 bodies and both CTAs gives PMT or a contractor organic posts and ad tests from the same footage, which is exactly an organic-plus-paid offer.",
       keyPoints: [
         "Film 3 hooks + 1 body + 2 CTAs (organic and ad).",
@@ -1001,10 +1007,11 @@ HUB.tab({
       source: [
         { doc: "ZDub Guide 03 Ad Creative V2", section: "Where the mentors disagree: How many creatives to make", who: "Cam (9/17/26), Logan McKinney (9/25/26)" },
         { doc: "NuAdd Mentor Lessons Study Guide: 9 New Calls", section: "Meta ads, testing and creative; Where mentors disagree: Creative volume", who: "Paul Snowman (7/28/26), Tayt Shelman (10/30/26)" },
-        { doc: "King Kong Meta Ads Playbook (Meta-Ads-Playbook.txt)", section: "Section 09 (10–15 ads per launch); Section 14 (50–100 variants)", who: "King Kong agency playbook" }
+        { doc: "King Kong Meta Ads Playbook (Meta-Ads-Playbook.txt)", section: "Section 09 (10–15 ads per launch); Section 14 (50–100 variants)", who: "King Kong agency playbook" },
+        { doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26", section: "TL;DR; Key Finding 1; Part 4A Steps 3 and 7; Caveats", who: "Research playbook" }
       ],
       alsoIn: ["Meta Ads tab (budget and testing structure)"],
-      idea: "Everyone agrees you need multiple creatives and should let Meta pick. They don't agree on how many. Here are the positions side by side; your budget usually decides.\n\n- **Cam (9/17):** at $11/day, 2–3 hooks on one body.\n- **Logan (9/25):** 5 minimum, 10 optimal; one video plus 5 hooks if that's all you can make.\n- **Paul (7/28; 10/19):** many concepts × hook variations. 3 concepts × 3 hooks (7/28), then the 3x3x1 = 9 ads (10/19).\n- **Tayt (10/30):** makes fewer, more deliberate creatives for his own agency, and uses Paul's many-variation testing for clients. Test at least five creatives for one to two weeks. He admits Paul may disagree.\n- **King Kong playbook:** 10–15 ads per launch across formats; 50–100 AI variants into one campaign once you have a winner.\n\n**What the sources say about choosing:**\n\n- Guide 03's default: make Logan's one-video-five-hooks batch and run what your budget can feed.\n- The 9 New Calls guide notes Paul's method for client accounts, which Tayt also uses for clients.\n- King Kong's numbers come from big e-commerce budgets; mentor numbers come from local lead accounts like the ones ZDub runs.\n\nOne point everyone shares: **don't shut ads off too early.** Tayt (10/30): “People usually shut ads off before they get a result.” And don't force spend onto your favorite (Index principle 8: test, don't bet).\n\nThe budget math that decides how many ads a given spend can feed is in the Meta Ads tab.",
+      idea: "Everyone agrees you need multiple creatives and should let Meta pick. They don't agree on how many. Here are the positions side by side; your budget usually decides.\n\n- **Cam (9/17):** at $11/day, 2–3 hooks on one body.\n- **Logan (9/25):** 5 minimum, 10 optimal; one video plus 5 hooks if that's all you can make.\n- **Paul (7/28; 10/19):** many concepts × hook variations. 3 concepts × 3 hooks (7/28), then the 3x3x1 = 9 ads (10/19).\n- **Tayt (10/30):** makes fewer, more deliberate creatives for his own agency, and uses Paul's many-variation testing for clients. Test at least five creatives for one to two weeks. He admits Paul may disagree.\n- **King Kong playbook:** 10–15 ads per launch across formats; 50–100 AI variants into one campaign once you have a winner.\n- **AI-Assisted Creative Playbook (10/30/26):** 8–15 conceptually distinct ads; for a small local budget, 8–10 truly different concepts in one ad set. It notes Meta has published no official creative-count quota, so “you need 50 ads” claims are vendor opinion.\n\n**What the sources say about choosing:**\n\n- Guide 03's default: make Logan's one-video-five-hooks batch and run what your budget can feed.\n- The 9 New Calls guide notes Paul's method for client accounts, which Tayt also uses for clients.\n- King Kong's numbers come from big e-commerce budgets; mentor numbers come from local lead accounts like the ones ZDub runs.\n\nOne point everyone shares: **don't shut ads off too early.** Tayt (10/30): “People usually shut ads off before they get a result.” And don't force spend onto your favorite (Index principle 8: test, don't bet).\n\nThe budget math that decides how many ads a given spend can feed is in the Meta Ads tab.",
       keyPoints: [
         "Cam: 2–3 hooks at $11/day. Logan: 5 min, 10 optimal.",
         "Paul: concepts × hooks (9 ads). Tayt: at least 5 for 1–2 weeks; fewer, deliberate ones for himself.",
@@ -1020,7 +1027,8 @@ HUB.tab({
           ["Logan (9/25)", "5 min, 10 optimal", "Local lead ads"],
           ["Paul (7/28 → 10/19)", "9 ads (3×3, then 3x3x1)", "~$70/day; 2–3x CPL/day"],
           ["Tayt (10/30)", "At least 5, 1–2 weeks", "Clients; fewer for himself"],
-          ["King Kong", "10–15/launch; 50–100 variants", "Large e-com accounts"]
+          ["King Kong", "10–15/launch; 50–100 variants", "Large e-com accounts"],
+          ["AI Creative Playbook (10/30/26)", "8–15 distinct; 8–10 for small budgets", "No official Meta quota"]
         ]
       },
       example: {
@@ -1052,7 +1060,7 @@ HUB.tab({
         { doc: "NuAdd Mentor Lessons Study Guide: 9 New Calls", section: "What makes a creative convert (landing pages)", who: "Clayton Bell (8/5/26)" },
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 20 Websites & Landing Pages (tagline: the ad sells the click; the page has to deliver it)", who: "Book-based curriculum" }
       ],
-      alsoIn: ["Funnels tab (landing pages and forms)"],
+      alsoIn: ["Funnels tab (landing pages and forms)", "AI-Assisted Creative Playbook (10/30/26) Part 4A Step 6 (landing page matches the ad's promise and location); Part 1 Chris Do (design the whole journey)"],
       idea: "The ad sold the click on a specific promise. The landing page has to deliver **that same promise within about 0.4 seconds** of arrival. King Kong: break the “scent trail” and you lose about half your clicks before they read anything. Most advertisers put 90% of their effort into the ad and 10% into the page. That's backwards.\n\n**The rule: the ad headline and the landing page headline match, word for word or close to it.**\n\n**The scent test (do it now):**\n\n1. Open your top 3 ads.\n2. Click each one, like a prospect would.\n3. Read the landing page headline.\n4. Same words? Same promise? Same hook? If not, fix it today.\n\n**Use Meta as your split-testing tool.** Testing a page headline on organic traffic takes tens of thousands of visits. Your ad headlines get huge impressions for little money. So run many headline variants in ads, find the winner, then put the winning headline on the page: headline, subheadline, hero text, opening line. King Kong reports conversion lifts of 15–20% “at the floor.”\n\n**Three split tests rule:** keep multiple tests running at all times. Set a recurring Monday reminder: “Are at least 3 split tests running right now?”\n\nClayton (8/5) adds for local lead pages: **ask small questions first** (project, yard size, timeline) and contact info last.\n\nPage building and forms are taught in the Funnels tab. Your creative job: make sure every ad you ship has a matching page or form message, and that the visual on the page looks like the ad they clicked.",
       keyPoints: [
         "The page must deliver the ad's promise instantly; mismatches lose clicks.",
@@ -1080,6 +1088,616 @@ HUB.tab({
         { q: "What is the scent test?", a: "Click your top ads like a prospect and check that the landing page headline mirrors the ad's words, promise and hook." },
         { q: "How does King Kong use Meta to improve landing pages?", a: "Run many ad headline variants, find the winner, then put that headline on the page's headline, subhead and hero text." },
         { q: "What does Clayton say about lead-page questions?", a: "Ask small questions first (project, size, timeline) and contact info last." }
+      ]
+    },
+    {
+      id: "adc-27",
+      part: "ai-workflow",
+      title: "AI makes the volume; you keep strategy, proof and polish",
+      minutes: 10,
+      tags: ["Playbook", "Platform fact (re-check)"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Opening summary; TL;DR; Key Finding 4; Part 2: Unified Principles 1–9; Part 3: The AI + Manual Tool Stack",
+          who: "Research playbook (citing Luke Sullivan, Susan Weinschenk, Chris Do, Will Paterson, Satori Graphics)"
+        },
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 1: Books (Weinschenk: inattention blindness, faces and gaze); YouTube channels (The Futur, Will Paterson, Satori Graphics)",
+          who: "Research playbook"
+        }
+      ],
+      alsoIn: [
+        "adc-01 Creative is the targeting (principle 6)",
+        "Copywriting tab (hooks & the first 3 seconds, principle 2)",
+        "Content Production Craft (typography, safe zones, Canva workflow)",
+        "Meta Ads tab (hook rate, hold rate and the testing metrics, principle 9)"
+      ],
+      idea: "The playbook's whole argument fits in one line: **let AI make the volume and the variations, but keep strategy, real proof, typography and final polish in human hands.** Tools like Canva AI, Photoshop Generative Fill, Midjourney, CapCut, Submagic and OpusClip only speed up *how many* versions you can make. Classic principles decide *what to say*.\n\nThree design voices land in the same place. Chris Do (The Futur): “If your output is barely distinguishable from what an AI can produce, you are replaceable.” Will Paterson draws every logo by hand and uses AI daily for scripts, email and mockups: “I want AI to do the dishes, not the cooking.” Satori Graphics frames AI as removing friction, not replacing creativity.\n\n**The nine unified principles (Part 2):**\n\n1. **One message, one focal point, one action.** One idea (Sullivan), one dominant visual (Weinschenk: people miss things that are plainly on screen), one CTA.\n2. **Hook in 2–3 seconds** with joy, surprise or tension. Open on motion, a face or a payoff, not a logo.\n3. **Tangibilize the intangible.** Training is invisible until you show it: the range, the bikes, the gear, an instructor's hand on a clutch lever, a nervous student finishing a first figure-eight, the class schedule and a map pin. Concrete nouns and numbers beat adjectives.\n4. **Native beats polished for cold audiences; polish signals trust at decision time.** UGC-style and over-the-shoulder video to stop strangers; clean branded statics and carousels for retargeting and organic authority.\n5. **Design for the thumb.** High contrast, 3–7 words per overlay, big type, everything inside safe zones, checked at phone size.\n6. **Creative diversity is targeting.** Vary angle, persona, format and setting, not the button color.\n7. **Real proof outranks rendered beauty.** AI only for cleanup, extension, background tidying and variation.\n8. **Systemize the brand** so speed doesn't erode it: brand kit, locked templates, type scale, color rules, voice rules and banned words.\n9. **Measure each layer separately:** hook → hold → click → landing page view → booking. Fix the weakest layer first.\n\nOne detail you can use today: faces get processed before logic, and eye-tracking research the playbook cites found a face looking *toward* the text or product lifts attention to the message. If a rider is in a cold ad, have them look at the headline or CTA. Save direct-to-camera for warm instructor intros.\n\nThe table below is the playbook's split of jobs. Tool names and features changed during 2026, so re-check before client work.",
+      keyPoints: [
+        "AI makes volume and variations; you own strategy, real proof, typography and final polish.",
+        "One message, one focal point, one CTA per asset.",
+        "Tangibilize: show the range, bikes, gear, hands on controls, the schedule and a map pin.",
+        "Native for cold audiences; polished statics and carousels for retargeting and authority.",
+        "If your work is indistinguishable from AI output, you're replaceable (Chris Do)."
+      ],
+      why: "Every prospect can buy an AI image tool for a few dollars a month. What they can't buy is someone who knows what to say, has the real proof and makes it look like their brand. That is ZDub's job description.",
+      table: {
+        head: ["Job", "Tool (late 2026)", "AI does", "You do"],
+        rows: [
+          ["Strategy, angles, copy drafts", "ChatGPT / Claude", "30–50 angles, hooks, headline variants; summarize reviews", "Pick the angle, enforce voice and banned words, fact-check claims"],
+          ["Templates and bulk variants", "Canva AI (Bulk Create from CSV, Magic Layers), Figma", "Resize, bulk-fill copy, split flat images into layers", "Build master templates, type hierarchy and spacing by hand"],
+          ["Photo cleanup and extension", "Photoshop Remove, Generative Fill/Expand, Generative Upscale", "Remove distractions, extend 4:5 to 9:16, upscale", "Selections, color matching, grain, final crop"],
+          ["Concept images, mood boards", "Midjourney V8.2", "Explore looks, lock a style with --sref", "Decide whether an image belongs in a real-proof brand at all"],
+          ["Logo, icons, badges", "Illustrator (Kittl for quick type layouts)", "Draft icon variations", "Draw and finalize the mark by hand"],
+          ["Short-form edit and clips", "CapCut, Premiere, OpusClip, Submagic", "Auto-captions, silence removal, reframing, finding clip moments", "Story order, pacing, the first 3 seconds, fixing captions"],
+          ["Avatar video", "HeyGen", "Translations or FAQ explainers", "Use sparingly; never present an avatar as a real PMT instructor"]
+        ]
+      },
+      example: {
+        title: "PMT: AI-first vs proof-first",
+        before: "A glossy AI image of a lone rider on an empty mountain road at golden hour. “Freedom awaits” in thin script. Logo top-center.",
+        after: "A real phone photo of a PMT student's first clutch release at the range, instructor beside them, the student's gaze toward a bold overlay: “Never ridden? Start here.” Logo small and late. AI used only to remove a trash can and extend the frame to 9:16.",
+        body: "The first could be any brand anywhere and shows nothing true. The second follows principles 1, 3, 5 and 7: one idea, a concrete moment, thumb-sized text and real proof, with AI doing cleanup only. (The before/after lines come from the playbook's worked PMT example.)"
+      },
+      practice: [
+        {
+          prompt: "Audit one existing PMT (or prospect) ad against the nine principles, then split the rebuild into AI jobs and human jobs.",
+          fields: ["The ad you audited (describe it)", "Principles it passes (numbers)", "Principles it fails, and why", "What AI will do on the rebuild", "What you will do by hand"],
+          rubric: ["Every principle judged honestly", "The rebuild keeps one message, one focal point, one CTA", "AI's jobs are volume, cleanup or variation, never the proof", "Offer, typography and proof stay in human hands"]
+        },
+        {
+          prompt: "Tangibilize PMT: list 10 concrete, photographable things that make the training visible. Star the two you'd shoot first.",
+          fields: ["10 concrete moments or objects", "The 2 you'd shoot first, and which angle each feeds"],
+          rubric: ["Every item is a noun you could point a camera at", "No adjectives like “quality” or “best”", "At least three show a person learning, not just equipment"],
+          model: "Range at sunrise with cones in a curve; a row of training bikes; helmets on a rack; an instructor's gloved hand over a student's on the clutch lever; a first figure-eight; the gear check; the safety briefing circle; a student's face after the first loop; the class schedule screenshot; the Woodland map pin. First to shoot: the clutch-hand close-up (first-timer nerves) and the first-loop reaction (outcome)."
+        }
+      ],
+      today: {
+        task: "Write PMT's one-page “AI rules”: what AI may do (angles, hooks, review summaries, cleanup, extension, resizes, bulk variants), what it may never do (fake people, fake results, the logo, final type and offer), and PMT's banned words. Save it in PMT's client brain.",
+        output: "PMT AI rules page",
+        minutes: 25,
+        suggested: false
+      },
+      check: [
+        {
+          q: "What is the playbook's one rule for AI in creative?",
+          a: "Let AI make the volume and variations; keep strategy, real proof, typography and final polish in human hands."
+        },
+        {
+          q: "What does “tangibilize the intangible” mean for PMT?",
+          a: "Show the training with concrete things: the range, bikes, gear, an instructor's hand on a clutch, a first figure-eight, the schedule and a map pin. Concrete nouns and numbers beat adjectives."
+        },
+        {
+          q: "Where should a rider in a cold ad be looking?",
+          a: "Toward the headline or CTA; gaze toward the message lifts attention to it. Direct-to-camera suits warm instructor intros."
+        }
+      ]
+    },
+    {
+      id: "adc-28",
+      part: "ai-workflow",
+      title: "Never fake the people: AI labels and the trust rule",
+      minutes: 9,
+      tags: ["Playbook", "Platform fact (re-check)", "Mentor"],
+      date: "2026-10-19",
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Key Finding 2 (AI disclosure is automatic and public); Part 2 Principle 7; Part 3 Tool notes (Licensing); Part 4A Step 7 (REI example); Part 8 Trust layer; Part 9 Mistakes 1 and 8",
+          who: "Research playbook"
+        },
+        {
+          doc: "ZDub Guide 03 Ad Creative V2",
+          section: "7. Building statics with AI (Paul's caution on AI images vs client photos)",
+          who: "Paul Snowman (10/19/26)"
+        }
+      ],
+      alsoIn: ["adc-16 Build statics with AI (mentor methods)", "adc-18 Proof you can check, claims you can keep"],
+      idea: "For a trust-based service, the biggest AI risk isn't an ugly image. It's a fake one.\n\n**What Meta does now (re-check; this changed during 2026):**\n\n- Meta puts an **“AI info” label** on ads made with its own generative tools.\n- Since **June 1, 2026** it also detects third-party AI edits through **C2PA provenance metadata**. Its July 7, 2026 update named Photoshop and DALL-E as detected tools.\n- Ads with a **photorealistic AI-generated person** can get a label placed right next to “Sponsored.”\n- Mandatory self-disclosure applies to political and social-issue ads. For everyone else, the labeling simply happens, in public.\n\nSo the rule is simple: **never fake students, instructors or results.** An AI “student” grinning on a training bike would get labeled, and the label would undercut the exact thing PMT sells: real instructors who get real beginners riding. Honest AI edits (a removed trash can, an extended sky) may trigger the label too, so log every edit and expect it.\n\n**Meta's own AI can change your ads.** In July 2026 Business Insider reported that REI got an inaccurate AI image of a bike with *two handlebars* after being auto-enrolled in a Meta AI feature. Meta's spokesperson: “it is the advertiser's responsibility to review the AI outputs.” Use Advantage+ creative enhancements selectively, and turn off any generative enhancement that alters real photos in ways you can't approve.\n\n**PMT's trust layer (Part 8):** instructor names and faces, real review quotes (with permission), the number of locations, class schedule screenshots. Signed releases for any student on camera.\n\n**Licensing.** Adobe positions Firefly as trained on licensed content, the safer default for client work. For any generator: read the commercial-use terms, keep prompt and asset logs, and never prompt for real people, trademarks, motorcycle brand logos or other artists' styles. Avatar tools like HeyGen are fine for translations or FAQ explainers, never presented as a real PMT instructor.\n\n**Where the mentor stands.** Paul (10/19): AI images are fine, but “if you can get images from the client though it is pretty much always better.” The playbook goes one step further for PMT: use AI around real photos, never instead of them. The two agree on the direction; for PMT, follow the stricter version.",
+      keyPoints: [
+        "Meta labels AI-made ads automatically, and since 6/1/26 detects third-party AI edits via C2PA.",
+        "Photorealistic AI people can get a label next to “Sponsored.”",
+        "Never fake students, instructors or results; log every AI edit.",
+        "Review or switch off Advantage+ generative enhancements (the REI two-handlebar bike).",
+        "Trust layer: real instructor names and faces, real reviews, locations, schedules."
+      ],
+      why: "PMT's whole sale is trust. One labeled fake can cost more belief than a month of good ads builds, and it's ZDub's name on the work.",
+      example: {
+        title: "Which PMT ads are safe?",
+        body: "- **AI woman in gear smiling on a training bike, “Sarah got her M1 in a weekend!”** Fake person, fake result. Never ship.\n- **Real student (release on file), sky extended with Generative Expand to fit 9:16.** Honest, may get the AI info label. Log the edit.\n- **Midjourney range-at-sunrise background, no people, real instructor photo composited in, headline added in Canva.** Background is AI, proof is real. Log it and expect the label.\n- **Real instructor talking-head clip with corrected auto-captions.** No generative imagery. Safest of the four."
+      },
+      practice: [
+        {
+          prompt: "Build PMT's AI asset log and fill one row for an ad you've made or plan to make.",
+          fields: ["Asset name", "Real elements (who/what; release on file?)", "AI edits made (tool + what changed)", "Expect the AI info label? (yes / no / maybe)", "Advantage+ enhancements on or off, and why", "Approved by"],
+          rubric: ["No synthetic people or results", "Every AI edit is listed with its tool", "A release is noted for every real person", "Generative enhancements that alter photos are off or reviewed"]
+        },
+        {
+          prompt: "Rewrite this concept so it's honest: an AI image of a happy “student” holding a license card, headline “100% of our students pass!”",
+          fields: ["What's wrong (list every problem)", "Honest replacement visual", "Honest replacement headline", "Trust-layer element you'd add"],
+          rubric: [
+            "Names the fake person, the fake result and the unprovable claim",
+            "Replacement visual is a real PMT moment",
+            "Headline fits PMT's copy rules (no guaranteed, easy, cheap, discount, coach)",
+            "Adds a real trust element"
+          ],
+          model: "Wrong: a fake person, a fake result, a pass claim PMT can't promise, and it would likely be labeled. Visual: a real photo of a student mid-figure-eight with the instructor beside them. Headline: “Never ridden? Our instructors start you from zero.” Trust layer: the instructor's first name on screen and a real review quote used with permission."
+        }
+      ],
+      today: {
+        task: "Open PMT's ads (live or in draft). Check the Advantage+ creative enhancement settings on each and turn off any that generate or alter imagery you can't approve. Start the AI asset log with every live or planned PMT creative.",
+        output: "Reviewed enhancement settings + PMT AI asset log",
+        minutes: 20,
+        suggested: false
+      },
+      check: [
+        {
+          q: "Since when does Meta detect third-party AI edits, and how?",
+          a: "Since June 1, 2026, through C2PA provenance metadata; the July 7, 2026 update named Photoshop and DALL-E."
+        },
+        {
+          q: "What happened to REI, and what's the lesson?",
+          a: "An auto-enrolled Meta AI feature produced an inaccurate bike image with two handlebars, and Meta said reviewing AI outputs is the advertiser's job. Turn off generative enhancements you can't approve."
+        },
+        {
+          q: "What's in PMT's trust layer?",
+          a: "Instructor names and faces, real review quotes with permission, the number of locations and class schedule screenshots. Never AI students or instructors."
+        }
+      ]
+    },
+    {
+      id: "adc-29",
+      part: "ai-workflow",
+      title: "Workflow steps 1–3: research, brief and the concept matrix",
+      minutes: 10,
+      tags: ["Playbook"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 4A Paid ads workflow: Step 1 Research, Step 2 Brief, Step 3 Concept matrix; Part 8 Worked example (positioning and angles); Part 9 Mistake 3",
+          who: "Research playbook"
+        }
+      ],
+      alsoIn: ["adc-06 No brief, no ad (full brief templates)", "adc-09 Reason-to-buy map", "adc-10 Let the angle choose the format", "adc-07 Generate 40 ideas on purpose"],
+      idea: "The playbook's paid workflow has eight steps. The first three happen before you open Canva, and AI makes each faster without making the decisions.\n\n**Step 1: Research (60–90 minutes per campaign).**\n\n- **Meta Ad Library.** Search motorcycle training schools, driving schools and other local trainers in California. Note ads that have run for months. That's a practitioner heuristic for profit, *not proof*: advertisers sometimes leave losers running.\n- **TikTok Creative Center.** Trending hook formats in the education and automotive categories.\n- **Review mining.** Paste PMT's Google and Yelp reviews into ChatGPT or Claude and ask for clusters of objections and desired outcomes: **fears, surprises and outcomes** in customers' exact words. Those words become your hooks and proof.\n\n**Step 2: Brief (human-written, AI-assisted).** One-sentence position. Who it's for. Single-minded promise. Proof points. Objections. Mandatory items: location, class level, CTA. Banned words. Then define **4–6 angles.** The playbook's PMT set: first-timer nerves; the licensing pathway; a skills refresh for returning riders; advanced control; a gift for a partner; local convenience.\n\nIts draft positioning line (for client approval): “Northern California's hands-on rider training, from first ride to advanced control, with expert instructors across seven locations.”\n\n**Step 3: Concept matrix.** Angles × formats × personas. Example: 5 angles × 3 formats (9:16 talking-head video, 4:5 static, carousel) = 15 candidates. **Pick the 8–10 that are truly different.** The playbook's mistakes list calls the alternative “fake diversity”: 20 color or headline tweaks of one concept.\n\n**Who does what.** AI summarizes reviews, clusters objections and proposes 30–50 angles. You pick the angles, confirm every proof point with the client, and cut matrix cells that only *look* different.\n\nSteps 4–7 (shoot, produce, QA, launch) follow in the next lessons. Step 8, reading and iterating, lives in the Meta Ads tab.",
+      keyPoints: [
+        "Research: Ad Library (long runs are a hint, not proof), TikTok Creative Center, review mining.",
+        "Mine reviews with AI for fears, surprises and outcomes in customers' own words.",
+        "Brief: position, who, one promise, proof, objections, must-haves, banned words, 4–6 angles.",
+        "Matrix: angles × formats × personas; keep the 8–10 truly different concepts.",
+        "AI drafts and clusters; you choose and verify."
+      ],
+      why: "This is the hour that decides whether the next twenty assets are twenty different bets or one bet in twenty outfits. Doing it with AI keeps it to an hour.",
+      example: {
+        title: "PMT matrix, trimmed",
+        body: "Angles: first-timer nerves, returning rider, advanced control, local convenience, gift. Formats: 9:16 talking head, 4:5 static, carousel.\n\nKeep (examples): first-timer nerves × talking head (instructor: “Never ridden? Start here.”); first-timer nerves × carousel (“What actually happens in your first class,” gear check → range briefing → clutch and throttle → first loops → debrief); returning rider × static (“Been off the bike for years?”); advanced control × 9:16 slow-motion braking (“Brake later. Turn sharper. Ride smarter.”); local convenience × static per location.\n\nCut: the gift static and the gift carousel until PMT confirms it sells gift cards; a second first-timer static that only changed the headline color."
+      },
+      practice: [
+        {
+          prompt: "Run the review-mining prompt on PMT's real reviews.",
+          fields: ["The prompt you used", "Top fears (customers' words)", "Top surprises", "Top outcomes", "3 hooks lifted straight from review language"],
+          rubric: ["Quotes are exact, not paraphrased", "Each cluster has a count or rough frequency", "Hooks use the customers' words", "Nothing invented beyond the reviews"],
+          model: "Prompt: “Here are [N] reviews of Pacific Motorcycle Training. Group them into (1) fears or objections before the class, (2) surprises during the class, (3) outcomes after it. For each group give a rough count and three exact quotes. Don't paraphrase the quotes. Then list the five phrases customers use most often in their own words, and flag anything that sounds like a claim PMT would need to verify.”"
+        },
+        {
+          prompt: "Build PMT's concept matrix: 5 angles × 3 formats, then keep the 8–10 truly different ones.",
+          fields: ["5 angles", "3 formats", "15 cells (angle + format + persona, one line each)", "The 8–10 you keep, and what makes each different"],
+          rubric: [
+            "Each kept concept differs in angle, persona or format, not just color or headline",
+            "Every angle traces back to research",
+            "At least one video, one static and one carousel",
+            "Anything needing client confirmation (gift cards, class levels) is flagged"
+          ]
+        }
+      ],
+      today: {
+        task: "Do a 45-minute Step 1–2 for PMT: 5 Ad Library ads from trainers or driving schools (note how long each has run), PMT's reviews mined with the prompt above, and a one-page brief ending in 4–6 angles.",
+        output: "PMT research notes + brief with 4–6 angles",
+        minutes: 45,
+        suggested: false
+      },
+      check: [
+        {
+          q: "Why isn't a long-running Ad Library ad proof that it works?",
+          a: "It's a practitioner heuristic; advertisers sometimes leave unprofitable ads running."
+        },
+        {
+          q: "What goes in the playbook's brief?",
+          a: "A one-sentence position, who it's for, a single-minded promise, proof points, objections, mandatory items (location, class level, CTA), banned words, then 4–6 angles."
+        },
+        {
+          q: "How many concepts do you keep from a 15-cell matrix?",
+          a: "The 8–10 that are truly different."
+        }
+      ]
+    },
+    {
+      id: "adc-30",
+      part: "ai-workflow",
+      title: "Workflow step 4: one real shoot feeds the whole machine",
+      minutes: 8,
+      tags: ["Playbook"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 4A Step 4 Capture real footage (shot list); Part 1 Weinschenk (old brain, faces and gaze) and Theoretically Media (AI video); Part 8 Worked example (visuals per angle)",
+          who: "Research playbook"
+        }
+      ],
+      alsoIn: ["Content Production Craft (shot types, camera settings, audio)", "adc-22 Shoot modular: 3 hooks, 1 body, 2 CTAs"],
+      idea: "AI can extend, clean and multiply footage. It can't create the proof. So the playbook plans **one shoot day per quarter per region** and treats it as raw material for every ad and post until the next one.\n\n**The shot list:**\n\n1. **Instructor intro to camera** (direct eye contact: warm and trust-building).\n2. **Over-the-shoulder range drills.**\n3. **Slow-motion close-ups** of clutch, throttle and braking.\n4. **Student before/after reactions** (with signed releases).\n5. **Gear check.**\n6. **Wide establishing shots** of each location.\n7. **Quiet moments** of students listening.\n\n**Shoot vertical 4K and leave headroom** so text fits the safe zones and you can crop to 4:5 later without losing the subject. (Camera settings and audio: Content Production Craft.)\n\n**Why these shots.** Weinschenk describes the “old brain” scanning for food, danger and mates before logic gets a vote. Faces, motion and danger cues get processed first. A real face showing focus or relief and a bike in motion are pre-attentive hooks.\n\n**Each shot feeds an angle:**\n\n- First clutch release, instructor beside them → first-timer nerves.\n- Slow-motion braking drill over-the-shoulder → advanced control (“Brake later. Turn sharper. Ride smarter.”).\n- Gear check, briefing, first loops, debrief → the “what actually happens in your first class” carousel.\n- Wide shots and a sign or landmark at each site → local convenience and the location templates in step 5.\n- Instructor talking about fog or valley heat → local authority posts.\n\n**Direct the gaze.** For cold ads, ask the student to look toward where the headline will sit. Keep direct-to-camera for the instructor intro.\n\n**Where AI video fits.** Theoretically Media's view, which the playbook adopts: AI video is for B-roll extensions, transitions and concept animatics, *not fake riders*.\n\nPMT has seven locations (Woodland, South San Francisco, San Bruno, Livermore, Salinas, Cloverdale, Eureka), so decide which sites each shoot covers and capture a landmark at each.",
+      keyPoints: [
+        "Plan one real shoot per quarter per region; it feeds every AI step after it.",
+        "Seven shots: instructor intro, over-the-shoulder drills, slow-mo controls, reactions, gear check, wides, quiet listening.",
+        "Shoot vertical 4K with headroom for safe zones and crops.",
+        "Faces and motion are pre-attentive hooks; direct the student's gaze toward the headline.",
+        "AI video only for B-roll extensions, transitions and animatics."
+      ],
+      why: "Without a library of real footage, every later step falls back on synthetic images. One planned shoot turns into months of honest ads and posts for PMT.",
+      example: {
+        title: "Woodland shoot plan (one morning)",
+        body: "- 7:00 wides of the range at sunrise, the sign at the entrance, bikes lined up.\n- 7:30 instructor intro to camera, three takes (one per angle).\n- 8:00 gear check and safety briefing, with students who signed releases.\n- 8:30 over-the-shoulder clutch and throttle drills; slow-motion close-ups of a gloved hand on the lever.\n- 9:30 first loops; capture reactions right after; ask for gaze toward frame left where the headline goes.\n- Throughout: quiet listening moments from the side.\n\nTimes are illustrative. Fit them to PMT's real class schedule and ask before filming any student."
+      },
+      practice: [
+        {
+          prompt: "Write the shot list for PMT's next shoot, mapped to angles.",
+          fields: ["Location and date", "Shots 1–7 (what, who, which angle each feeds)", "Gaze direction notes", "Release form plan", "Landmark or sign shot for the location template"],
+          rubric: ["All seven shot types are covered", "Each shot names the angle it feeds", "Vertical 4K with headroom is noted", "Releases are planned for every student on camera"]
+        }
+      ],
+      today: {
+        task: "Send PMT a shoot request: proposed date and location, the seven-shot list mapped to angles, and a simple release form for students.",
+        output: "Shoot request + shot list sent to PMT",
+        minutes: 30,
+        suggested: false
+      },
+      check: [
+        {
+          q: "What are the playbook's seven shots?",
+          a: "Instructor intro to camera; over-the-shoulder range drills; slow-motion clutch, throttle and braking close-ups; student before/after reactions (with releases); gear check; wide establishing shots; quiet moments of students listening."
+        },
+        {
+          q: "Why shoot vertical 4K with headroom?",
+          a: "So text sits inside the safe zones and you can crop to 4:5 or extend to 9:16 without losing the subject."
+        },
+        {
+          q: "What is AI video good for at PMT?",
+          a: "B-roll extensions, transitions and concept animatics, not fake riders."
+        }
+      ]
+    },
+    {
+      id: "adc-31",
+      part: "ai-workflow",
+      title: "Workflow step 5: templates, Bulk Create and careful Generative Fill",
+      minutes: 10,
+      tags: ["Playbook", "Platform fact (re-check)"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 4A Step 5 Produce with AI acceleration; Part 3 Tool stack and Tool notes (Photoshop credits; model picker); Part 1 PiXimperfect; Part 8 Location system; Part 9 Mistake 7",
+          who: "Research playbook"
+        }
+      ],
+      alsoIn: ["Content Production Craft (Canva workflow; sizes and safe zones; color and export)", "adc-16 Build statics with AI (mentor methods)", "adc-22 Shoot modular (three hooks on one body)"],
+      idea: "Step 5 is where AI earns its keep: the same real footage becomes many finished assets.\n\n**Statics.** Build master templates once in Canva or Figma at **1080×1350** (or 1440×1800) for 4:5 feed and **1080×1920** for 9:16. Then use **Canva Bulk Create** (fill from a CSV) to drop headlines, location and class level into the templates in one pass. Canva AI (Magic Studio's new name) and Magic Layers help with resizes and splitting flat images into editable layers; you still set hierarchy and spacing by hand.\n\n**The location system (Part 8).** One template, seven variants via Bulk Create: location name, landmark photo, map pin. Then test whether location-specific creative beats generic. Your CSV is just columns.\n\n**Photo polish, the PiXimperfect way.** Generative Fill misfires (it once replaced a removed fence with another fence) and goes soft and “super low-res” when you zoom in. So:\n\n1. **Remove tool plus Generative Fill on small selections**, not the whole frame. Combine with Content-Aware Fill where it's cleaner.\n2. **Generative Expand** to stretch a 4:5 frame to 9:16.\n3. **Color-match** (Curves eyedroppers for black, white and gray points) and add **subtle grain**.\n4. **Upscale only at the end.**\n\nSkipping the blend, grain and color match is on the playbook's mistakes list: it “looks soft and fake at full size.”\n\n**Credits and models (re-check).** Firefly-model fills cost about 1 generative credit; premium partner models cost much more (Adobe's community post lists Nano Banana Pro at 40). Gemini 2.5 (Nano Banana) is being removed from Photoshop as Google deprecates it on October 2, 2026. Start with Firefly: commercially safer and context-aware.\n\n**Video.** Rough cut in CapCut or Premiere. Auto-captions, then correct every word by hand. **Put three alternative hooks on the same body**, the same modular idea Cam teaches (adc-22).\n\nThe playbook couldn't verify current features for CapCut, Submagic, OpusClip, HeyGen, Kittl, Photoroom or Figma. Check each tool's plan, export watermarks and commercial-use terms before client work.",
+      keyPoints: [
+        "Master templates at 1080×1350 and 1080×1920; fill variants with Canva Bulk Create from a CSV.",
+        "PMT location system: one template, seven variants (name, landmark photo, map pin).",
+        "Generative Fill on small selections; expand 4:5 to 9:16; color-match and grain; upscale last.",
+        "Start with Firefly (about 1 credit, commercially safer); partner models cost far more.",
+        "Video: auto-captions then manual fixes; three hooks on one body."
+      ],
+      why: "This is how one shoot and one template become a month of location-specific PMT ads in an afternoon, without the soft, fake look that gives AI work away.",
+      example: {
+        title: "PMT location CSV (first rows)",
+        body: "Columns: location · landmark_photo · headline · class_level\n\n- Woodland · woodland-range-sign.jpg · Never ridden? Start here in Woodland. · Beginner\n- Livermore · livermore-range-wide.jpg · Never ridden? Start here in Livermore. · Beginner\n- Eureka · eureka-range-wide.jpg · Never ridden? Start here in Eureka. · Beginner\n\nOne template, one Bulk Create run, three statics. Before launch, confirm with PMT that each location runs that class level, and that every landmark photo is real."
+      },
+      practice: [
+        {
+          prompt: "Write the CSV for PMT's location system.",
+          fields: ["Column headers", "Row 1", "Row 2", "Row 3", "What you'll confirm with PMT before launch"],
+          rubric: ["Only the variables change between rows", "Headline fits a 3–7 word overlay", "Every class level is confirmed real for that location", "Landmark photos are real, not generated"]
+        },
+        {
+          prompt: "Polish one real PMT photo with the four-step method and note what you did.",
+          fields: ["Distractions removed (and selection sizes)", "Expand 4:5 → 9:16: what was added", "Color match and grain notes", "200% zoom check: anything soft or wrong?"],
+          rubric: ["Small selections, not a whole-frame fill", "Added areas match the light and color of the original", "Grain added before export", "Upscaled last, if at all"]
+        }
+      ],
+      today: {
+        task: "Make one PMT master 4:5 template in Canva, then run Bulk Create with a 3-row CSV to produce three location variants. Polish the hero photo first with Remove plus small-selection Generative Fill, color match and grain.",
+        output: "1 master template + 3 location statics",
+        minutes: 45,
+        suggested: false
+      },
+      check: [
+        {
+          q: "Why use Generative Fill on small selections?",
+          a: "Large fills misfire and go soft and low-res when zoomed; small selections, blended with Remove or Content-Aware Fill, color-matched and grained, look real at phone resolution."
+        },
+        {
+          q: "What does PMT's location system need?",
+          a: "One template and seven variants via Bulk Create: location name, landmark photo and map pin."
+        },
+        {
+          q: "When do you upscale?",
+          a: "Only at the end."
+        }
+      ]
+    },
+    {
+      id: "adc-32",
+      part: "ai-workflow",
+      title: "Workflow steps 6–7: the AI-era QA gate and safe launch",
+      minutes: 9,
+      tags: ["Playbook", "Platform fact (re-check)"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 4A Step 6 QA checklist; Step 7 Launch structure; Step 8 (pointer to Part 6); Part 5 Copy prompt rules (banned words); Part 8 CTA design; Part 9 Common mistakes 4–6, 8",
+          who: "Research playbook"
+        }
+      ],
+      alsoIn: ["adc-17 The 3x3x1 sprint and the 8 checks (Paul's mentor gate)", "Content Production Craft (Sizes and safe zones)", "Meta Ads tab (campaign structure; hook rate, hold rate and the testing metrics)"],
+      idea: "Paul's 8 checks (adc-17) are your mentor gate. The playbook's QA list runs alongside them and adds the AI-era checks. Run it on **every asset:**\n\n1. One message, one focal point, one CTA.\n2. Hook visible and legible within 2 seconds, **sound off**.\n3. Text inside the 9:16 safe zone: **top 14%, bottom 35%, sides 6%**. On 1080×1920 that's 269 px top, 672 px bottom, 65 px each side.\n4. Contrast checked **at phone size**; **3–7 words per overlay**.\n5. Brand fonts and colors from the kit; **logo small and late**.\n6. Banned words absent; no emojis (PMT).\n7. **No synthetic people; every AI edit logged** (expect the “AI info” label).\n8. Claims accurate: pricing, locations, schedules and any licensing claims confirmed with the client.\n9. Landing page matches the ad's promise and location.\n\n**PMT's banned words** (from the playbook's copy rules): cheap, easy, discount, guaranteed, coach, coaches, coaching. Say *instructor* and *training*.\n\n**Safe zones, two sources.** Content Production Craft teaches the Scroll-Stopping program's figures (10/19/26: Reels top 250 px, bottom 450 px, plus the right-side button column). The playbook (10/30/26) is newer and more conservative: bottom 35%, or 672 px. Build to the playbook's numbers and always confirm with the Safe Zone overlay in Ads Manager.\n\n**CTA design (Part 8).** Ads: one button-style label (“Save your seat”) inside the safe zone, high contrast, plus the platform button (Book now or Learn more). Organic: “Link in bio to save your seat” as the last line and on the final slide.\n\n**Step 7, launch.** One campaign per objective (leads or purchases); broad targeting within a radius around each location, or regional clusters; one ad set with the 8–10 distinct ads; **Advantage+ creative enhancements only selectively** (adc-28 has the REI two-handlebar story). The build itself is in the Meta Ads tab, and so is step 8: read, cut, iterate.\n\nThe mistakes this gate catches most often (Part 9): text in the bottom 35% of Reels, too many words and thin fonts, logo-first openings, and AI enhancements nobody reviewed.",
+      keyPoints: [
+        "Nine checks on every asset, alongside Paul's 8.",
+        "9:16 safe zone: top 14%, bottom 35%, sides 6% (269 / 672 / 65 px on 1080×1920).",
+        "3–7 words per overlay, checked at phone size, sound off.",
+        "No synthetic people; log AI edits; banned words and claims checked with the client.",
+        "Launch: one campaign per objective, broad radius, 8–10 distinct ads, enhancements only selectively."
+      ],
+      why: "AI makes it easy to ship 30 assets in a day, which also makes it easy to ship 30 mistakes. A fixed gate is what lets ZDub move fast without a client ever seeing a misspelled overlay or a fake student.",
+      example: {
+        title: "One PMT Reel through the gate",
+        before: "Logo animation for the first 2 seconds; “Learn to ride with Pacific Motorcycle Training's easy, expert coaching!” in thin white type across the bottom third; auto-captions uncorrected; Advantage+ enhancements all on.",
+        after: "Opens on a student's first clutch release; overlay “Never ridden? Start here.” in the upper third; corrected captions; “Save your seat” label above the 35% line; logo small in the last second; generative enhancements off; landing page headline mirrors the hook.",
+        body: "The before fails checks 1, 2, 3, 5 and 6 (“easy” and “coaching” are banned words) and skips the enhancement review. The after passes all nine."
+      },
+      practice: [
+        {
+          prompt: "Run the nine checks on one finished PMT asset (or a prospect's live ad).",
+          fields: ["Asset", "Checks passed (numbers)", "Checks failed and the fix for each", "Banned words found", "Ship / fix / restart"],
+          rubric: ["All nine checks answered honestly", "Safe-zone check done with the overlay or a guide layer", "Claims marked for client confirmation", "Verdict matches the failures"]
+        }
+      ],
+      today: {
+        task: "Add a locked, hidden guide layer to PMT's 9:16 Canva template marking top 14%, bottom 35% and sides 6%. Then run every PMT asset in the current batch through the nine checks and fix what fails.",
+        output: "Safe-zone guide layer + a checked PMT batch",
+        minutes: 30,
+        suggested: false
+      },
+      check: [
+        {
+          q: "What is the 9:16 safe zone in the playbook, in pixels on 1080×1920?",
+          a: "Top 14% (269 px), bottom 35% (672 px), sides 6% (65 px)."
+        },
+        {
+          q: "Name three AI-era checks that Paul's 8 checks don't spell out.",
+          a: "No synthetic people and every AI edit logged; banned words and no emojis; landing page matches the ad's promise and location (also: sound-off legibility in 2 seconds)."
+        },
+        {
+          q: "What's the playbook's launch structure?",
+          a: "One campaign per objective, broad targeting in a radius around each location (or regional clusters), one ad set with 8–10 distinct ads, Advantage+ creative enhancements used selectively."
+        }
+      ]
+    },
+    {
+      id: "adc-33",
+      part: "ai-workflow",
+      title: "The copy prompt template: 20 hooks, 5 texts, 5 headlines",
+      minutes: 9,
+      tags: ["Playbook"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 5 Prompt Frameworks and Templates: Copy prompt (ChatGPT or Claude); Part 8 Angles and sample copy; Part 9 Mistake 12",
+          who: "Research playbook"
+        },
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 1 Books: Hey Whipple, Squeeze This (write many headlines and throw most away)",
+          who: "Research playbook (summarizing Luke Sullivan)"
+        }
+      ],
+      alsoIn: ["adc-21 From AI draft to your voice (the edit pass)", "adc-24 The AI variant engine", "Copywriting tab (hooks & the first 3 seconds)"],
+      idea: "A vague prompt gets vague copy. The playbook's copy prompt works because it front-loads the brief and the rules, then asks for a fixed quantity in fixed containers.\n\n**The template (copy it, fill the brackets):**\n\n> You are a direct-response copywriter for [Client], a [service] in [locations]. Audience: [persona]. Single-minded promise: [promise]. Proof: [facts]. Objections: [list]. Voice: calm, expert, encouraging. Rules: no emojis; never use the words cheap, easy, discount, guaranteed, coach, coaches or coaching (use instructor/training). Write 20 hooks under 8 words in five categories (fear-reversal, curiosity, specificity, local, outcome). Then 5 primary texts of up to 125 characters and 5 headlines of up to 40 characters. Flag any claim that needs client verification.\n\n**Why each part is there:**\n\n- **Promise, proof and objections** come from your brief (adc-29), so the AI writes from real context, not thin air.\n- **Voice plus banned words** blocks the most common failure: off-brand words slipping into AI copy (Part 9, mistake 12). Run a banned-word check on the output anyway.\n- **Five hook categories** force range instead of 20 versions of one line: fear-reversal (“Never ridden? Start here.”), curiosity, specificity, local (“Riding the coast this fall? Fog changes everything.”) and outcome.\n- **Length limits** (hooks under 8 words, primary texts up to 125 characters, headlines up to 40) make the output fit overlays and placements without rewriting.\n- **“Flag any claim”** turns the AI into a fact-check assistant. Anything about pricing, schedules, licensing or pass rates goes back to the client before it ships.\n\n**Then the human pass.** Hey Whipple's rule: write many, throw most away. From 20 hooks keep 3–5, then edit them the way Cam and Logan do (adc-21): read aloud, cut AI phrases and em dashes, add the customer's own words.\n\nThe playbook's sample PMT lines already follow the rules: “Never ridden? Start here.” · “Been off the bike for years?” · “Brake later. Turn sharper. Ride smarter.” · “The gift of riding, done right.” (Use the gift line only if PMT confirms it sells gift cards.)\n\nFor a trade client, keep the structure and swap the voice and banned words for theirs.",
+      keyPoints: [
+        "Front-load the brief: client, service, locations, persona, promise, proof, objections.",
+        "Lock voice and banned words in the prompt, then still run a banned-word check.",
+        "20 hooks under 8 words across fear-reversal, curiosity, specificity, local, outcome.",
+        "5 primary texts (≤125 characters) and 5 headlines (≤40 characters).",
+        "Ask the AI to flag claims for client verification; keep 3–5 hooks and edit them yourself."
+      ],
+      why: "A saved, filled prompt per client turns a blank page into 30 on-brand options in a minute. Your time goes into choosing and checking, which is the part clients pay for.",
+      example: {
+        title: "Filled for PMT's first-timer angle",
+        body: "> You are a direct-response copywriter for Pacific Motorcycle Training, a motorcycle rider training school in Woodland, South San Francisco, San Bruno, Livermore, Salinas, Cloverdale and Eureka, CA. Audience: adults who have never ridden and worry they'll be the only beginner. Single-minded promise: our instructors start you from zero, at a calm pace, on our bikes. Proof: [training bikes provided: confirm]; [instructor names]; [2–3 real review quotes]. Objections: I'll look foolish; I don't own a bike; I'm too old to start; it feels dangerous. Voice: calm, expert, encouraging. Rules: no emojis; never use the words cheap, easy, discount, guaranteed, coach, coaches or coaching (use instructor/training). Write 20 hooks under 8 words in five categories (fear-reversal, curiosity, specificity, local, outcome). Then 5 primary texts of up to 125 characters and 5 headlines of up to 40 characters. Flag any claim that needs client verification.\n\nAnything in square brackets is a fact you confirm with PMT before it goes in."
+      },
+      practice: [
+        {
+          prompt: "Fill the template for one PMT angle, run it, and keep the best of each container.",
+          fields: ["Your filled prompt", "Best hook per category (5)", "Best 2 primary texts (≤125 characters)", "Best 2 headlines (≤40 characters)", "Claims the AI flagged + what you'll ask PMT"],
+          rubric: ["Every bracket filled with real, checkable facts", "Kept hooks contain no banned words", "Lengths are within the limits", "Every flagged claim has a question for the client"],
+          model: "Filled prompt: see the example above. Hooks kept: fear-reversal “Never ridden? Start here.”; curiosity “What happens in your first hour?”; specificity “Walk it first. Then ride.” (confirm with PMT that class starts this way); local “Woodland riders start right here.”; outcome “From nervous to riding, one weekend.” (confirm course length). Headline: “Beginner rider training in Woodland” (35 characters)."
+        },
+        {
+          prompt: "Make a version for a Sacramento-area trade (roofer, HVAC or med spa).",
+          fields: ["Filled prompt for the trade", "Their voice and banned words", "Top 3 hooks after your edit"],
+          rubric: ["Locations and persona are specific", "Banned words reflect that client's rules", "Hooks are edited for voice, not pasted raw"]
+        }
+      ],
+      today: {
+        task: "Save the filled PMT copy prompt as a reusable snippet in PMT's client brain. Run it for two angles and keep the best three hooks per angle after a banned-word check.",
+        output: "Saved PMT prompt + 6 checked hooks",
+        minutes: 30,
+        suggested: false
+      },
+      check: [
+        {
+          q: "What are the five hook categories in the template?",
+          a: "Fear-reversal, curiosity, specificity, local and outcome."
+        },
+        {
+          q: "What are the length limits?",
+          a: "Hooks under 8 words; primary texts up to 125 characters; headlines up to 40 characters."
+        },
+        {
+          q: "Why ask the AI to flag claims?",
+          a: "So anything needing client verification (pricing, schedules, licensing) is caught before it ships; AI drafts, the client confirms."
+        }
+      ]
+    },
+    {
+      id: "adc-34",
+      part: "ai-workflow",
+      title: "The image prompt framework for Midjourney V8.2 and Firefly",
+      minutes: 9,
+      tags: ["Playbook", "Platform fact (re-check)"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Part 5 Image prompt framework (Midjourney V8.2 / Firefly); Part 3 Tool notes (Midjourney V8 changes; Licensing); Part 1 The AI Advantage (reverse-engineering prompts); Caveats",
+          who: "Research playbook"
+        }
+      ],
+      alsoIn: ["adc-16 Build statics with AI (LC scene prompt structure)", "Content Production Craft (composition: room for text)"],
+      idea: "The playbook's image prompt has seven slots, always in this order:\n\n**[Subject + action] + [setting with local specifics] + [camera and lens] + [light and time of day] + [mood] + [composition with negative space for text] + parameters**\n\n**Slot by slot, for PMT:**\n\n- **Subject + action:** “a row of training motorcycles lined up,” “a riding instructor demonstrating clutch control.” Category truths, not metaphors.\n- **Setting:** “freshly painted practice range,” “Northern California oak-studded hills.” Local detail makes it PMT's world instead of a stock world.\n- **Camera and lens:** “35mm lens,” “low angle,” “over-the-shoulder,” “shallow depth of field.”\n- **Light and time:** “sunrise, long soft shadows,” “overcast even daylight.”\n- **Mood:** “documentary realism,” “candid editorial photography.”\n- **Composition:** “generous empty sky in upper third for headline.” You add the text later in Canva, so leave room.\n- **Parameters:** --ar 4:5 or --ar 9:16; --sref [brand mood board image] --sw 100–300 so every generation looks like one family; --seed for controlled variants; --no text, logo, watermark.\n\n**Midjourney V8 notes (re-check; changed during 2026):**\n\n- **V8.2 has been the default since July 24, 2026.** Prompts carrying --v 6.0 are outdated.\n- The **V8 Edit Model (--edit, up to four reference images)** replaced Omni Reference, Character Reference and Retexture. --oref is now a V7-only control.\n- --sref with --sw 0–1000 and --seed still matter; --hd gives 2048-px output.\n- For photographic realism use the raw or less-stylized setting, but --style raw is legacy syntax in some guides. Check the current parameter list.\n\n**Reverse-engineer a winner (The AI Advantage).** Give ChatGPT a strong reference photo and ask it to write the prompt that would recreate it. Save that as a reusable “recipe,” then lock the brand look with a style reference.\n\n**What these images are for:** backgrounds, mood boards, extensions and planning a real shoot. Final PMT ads feature real photos (adc-28). Never prompt for real people, trademarks, motorcycle brand logos or another artist's style, and log your prompts and seeds.",
+      keyPoints: [
+        "Seven slots: subject + action, local setting, camera/lens, light/time, mood, composition with room for text, parameters.",
+        "Parameters: --ar 4:5 or 9:16, --sref + --sw 100–300, --seed, --no text, logo, watermark.",
+        "V8.2 is default since 7/24/26; --edit replaced Omni/Character Reference; --oref is V7-only.",
+        "Reverse-engineer strong reference photos into reusable prompt recipes.",
+        "Use AI images for backgrounds, mood boards and shoot plans; real photos carry the proof."
+      ],
+      why: "A fixed framework plus a PMT style reference means every image you generate looks like the same brand and leaves room for the headline, instead of a random pile of pretty pictures.",
+      example: {
+        title: "Building one PMT background, slot by slot",
+        body: "Subject + action: a row of training motorcycles lined up · Setting: on a freshly painted practice range, orange cones forming a curving path, Northern California oak-studded hills · Camera: low angle, 35mm lens · Light: sunrise, long soft shadows · Mood: natural color, documentary realism · Composition: generous empty sky in upper third for headline · Parameters: --ar 4:5 --sref [PMT mood board] --sw 150 --no text, logos, people\n\nThat's the playbook's improved prompt 1, taken apart so you can see each slot doing a job."
+      },
+      practice: [
+        {
+          prompt: "Write two PMT prompts with all seven slots filled.",
+          fields: ["Prompt A: 4:5 static background, no people", "Prompt B: 9:16 mood-board shot for planning a real shoot", "Which slot did the most work, and why?"],
+          rubric: [
+            "All seven slots present, in order",
+            "Concrete category truths (bikes, cones, range, gear, local landscape), no metaphors",
+            "Negative space reserved for text",
+            "--no text/logos; --sref for the PMT look; current V8 syntax"
+          ],
+          model: "A: the example above. B: “Over-the-shoulder view of a riding instructor in a hi-vis vest demonstrating clutch control to a student seated on a small motorcycle, gloved hands in sharp focus, shallow depth of field, overcast even daylight, practice range background, candid editorial photography --ar 9:16 --no text, logos.” Then recreate the shot with real PMT staff instead of running the AI version."
+        }
+      ],
+      today: {
+        task: "Pick 3–5 real PMT photos (or your best range shots) as PMT's --sref mood board. Generate one range background with the seven-slot framework, add a headline in Canva, and save the prompt, seed and use in PMT's prompt library.",
+        output: "PMT style reference + 1 background + saved prompt",
+        minutes: 30,
+        suggested: false
+      },
+      check: [
+        {
+          q: "List the seven slots of the image prompt framework.",
+          a: "Subject + action; setting with local specifics; camera and lens; light and time of day; mood; composition with negative space for text; parameters."
+        },
+        {
+          q: "What replaced Omni Reference and Character Reference in Midjourney V8?",
+          a: "The V8 Edit Model (--edit, up to four reference images); --oref is now V7-only."
+        },
+        {
+          q: "What do --sref and --sw do?",
+          a: "Apply a style reference image (such as PMT's mood board) at a chosen strength, so every generation looks like one family."
+        }
+      ]
+    },
+    {
+      id: "adc-35",
+      part: "ai-workflow",
+      title: "Fix your saved Midjourney prompts: from corporate cliché to category truth",
+      minutes: 9,
+      tags: ["Playbook", "Platform fact (re-check)"],
+      source: [
+        {
+          doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26",
+          section: "Key Finding 3; Part 5 Critique of the three saved prompts; Improved versions for a motorcycle training school; Why; Part 9 Mistake 2",
+          who: "Research playbook"
+        }
+      ],
+      alsoIn: ["adc-34 The image prompt framework", "Content Production Craft (Illustrator/Canva for icons and badges)"],
+      idea: "The playbook reviewed the three Midjourney prompts you had saved and called them wrong for PMT. Not because they're ugly. Because they say nothing about motorcycles, Northern California or rider confidence.\n\n**Three patterns behind the problems:**\n\n1. **Outdated flags.** --v 6.0 when V8.2 has been the default since July 24, 2026; --style raw is legacy syntax in some guides.\n2. **Generic corporate metaphors.** Staircases (growth), charts (results) and shields (protection) are SaaS and cybersecurity clichés. Part 9 lists this as mistake 2: corporate metaphors “instead of category truths.”\n3. **Wrong signals.** Navy and gold say finance, not riding. A fake growth chart implies data you don't have. Moody office light misframes an outdoor skill.\n\n**What to keep:** the ideas underneath. Progress, expertise and safety are exactly what PMT should show. The fix is to make each one concrete:\n\n- **Progress → a range at sunrise.** “Low-angle photograph of a row of training motorcycles lined up on a freshly painted practice range at sunrise, orange cones forming a curving path into the distance, Northern California oak-studded hills, long soft shadows, 35mm lens, natural color, generous empty sky in upper third for headline, documentary realism --ar 4:5 --sref [PMT mood board] --sw 150 --no text, logos, people”\n- **Expertise → an instructor's hands.** “Over-the-shoulder view of a riding instructor in a hi-vis vest demonstrating clutch control to a student seated on a small motorcycle, gloved hands in sharp focus, shallow depth of field, overcast even daylight, practice range background, candid editorial photography --ar 9:16 --no text, logos.” Use it to plan the shot, then **recreate it with real PMT staff** rather than running the AI version.\n- **Safety → a hand-drawn badge.** Draw a simple helmet-plus-road-curve mark in Illustrator in brand colors. Use Midjourney only to explore silhouettes: “flat two-color icon exploration sheet, motorcycle helmet merged with a curving road line, thick strokes, no gradients --ar 1:1 --no text.”\n\n**Why the new versions work:** they swap metaphors for category truths (bikes, cones, range, light, local landscape), reserve negative space for type, avoid fake people and fake data, and use a brand style reference so every generation looks like one family.\n\nThe bigger fix, in the playbook's words: use AI **around** real photos, not instead of them. These improved prompts are for backgrounds, mood boards and extensions.",
+      keyPoints: [
+        "Retire --v 6.0; V8.2 is the default since 7/24/26.",
+        "Staircases, charts and shields are corporate clichés; show category truths instead.",
+        "Keep the idea (progress, expertise, safety); change the picture to bikes, range, hands, gear.",
+        "Leave negative space for text; --no text, logos; --sref for one family look.",
+        "AI instructor shots are shoot plans; badges get drawn by hand."
+      ],
+      why: "These are prompts you actually reach for. Fixing them once stops generic images from leaking into PMT's ads and gives you a prompt library that sounds like the client's world.",
+      table: {
+        head: ["Saved prompt", "Problems", "Verdict"],
+        rows: [
+          [
+            "1. Geometric staircase, navy and gold, “corporate marketing design asset,” --v 6.0",
+            "Outdated model flag; abstract growth metaphor is a SaaS cliché; nothing about motorcycles, people or place; navy and gold signal finance, not riding",
+            "Do not use for PMT"
+          ],
+          ["2. Tablet with a growth chart in an office, --style raw", "Wrong world (office/B2B); a fake chart implies data you don't have; moody office light misframes an outdoor skill", "Do not use"],
+          ["3. Isometric shield with lightning bolts, neon blue", "“Protection” as clip art; neon AI look; reads like a cybersecurity app", "Only as inspiration for a hand-drawn safety icon in Illustrator"]
+        ]
+      },
+      example: {
+        title: "Prompt 1, before and after",
+        before: "Geometric staircase, navy and gold, corporate marketing design asset --v 6.0",
+        after: "Low-angle photograph of a row of training motorcycles lined up on a freshly painted practice range at sunrise, orange cones forming a curving path into the distance, Northern California oak-studded hills, long soft shadows, 35mm lens, natural color, generous empty sky in upper third for headline, documentary realism --ar 4:5 --sref [PMT mood board] --sw 150 --no text, logos, people",
+        body: "Same idea (progress: a path that goes somewhere), now shown with things a PMT student will actually see on day one, with room for the headline and a style reference that ties it to the brand."
+      },
+      practice: [
+        {
+          prompt: "Paste one of your own saved prompts (or pick one from the table). Diagnose it with the critique, keep the idea underneath, and rewrite it with the seven-slot framework.",
+          fields: [
+            "Your original prompt (pasted)",
+            "Problems: flags, metaphor, signals, fake people or data",
+            "The idea worth keeping (progress, expertise, safety, other)",
+            "The PMT category truth that shows that idea",
+            "Rewritten prompt (all seven slots + parameters)",
+            "The real photo that will replace or join it in the final ad"
+          ],
+          rubric: [
+            "No --v 6.0 or legacy flags; checked against V8.2",
+            "No abstract corporate metaphor; shows bikes, range, gear, instructors or local landscape",
+            "Negative space reserved for the headline",
+            "--no text/logos and no fake people or data in a final ad",
+            "Uses --sref for the PMT look"
+          ],
+          model: "Original: isometric shield with lightning bolts, neon blue. Problems: protection as clip art, neon AI look, reads like a cybersecurity app, no motorcycles or place. Keep: safety. Category truth: the gear check before a first ride. Rewrite: “Close-up photograph of gloved hands fastening a motorcycle helmet chin strap at a training range, an instructor's hi-vis sleeve at the edge of frame, a row of training bikes softly out of focus behind, early morning light, 50mm lens, shallow depth of field, calm and focused mood, clean empty space in upper third for headline, documentary realism --ar 4:5 --sref [PMT mood board] --sw 150 --no text, logos, watermark.” Use: a shot plan for the next shoot; the final ad uses a real PMT gear-check photo. The safety badge itself gets drawn by hand in Illustrator."
+        },
+        {
+          prompt: "In one line each, name the category truth that replaces the other two saved prompts.",
+          fields: ["Prompt you didn't rewrite #1 → category truth", "Prompt you didn't rewrite #2 → category truth"],
+          rubric: ["Each is something you could photograph at a PMT range", "No people presented as real PMT students or staff"]
+        }
+      ],
+      today: {
+        task: "Open your saved Midjourney prompts. Archive the three corporate ones, rewrite one with the framework, generate four images with your PMT --sref, and pick one as a background or shoot reference. Log the prompt, seed and intended use.",
+        output: "1 rewritten prompt + 1 usable PMT background or shot reference",
+        minutes: 30,
+        suggested: false
+      },
+      check: [
+        {
+          q: "Why are the three saved prompts wrong for PMT?",
+          a: "An outdated flag (--v 6.0 when V8.2 is default since July 24, 2026) and generic corporate clichés (staircases, charts, neon shields) that say nothing about motorcycles, Northern California or rider confidence."
+        },
+        {
+          q: "What do you do with the improved AI instructor image?",
+          a: "Use it to plan the shot, then recreate it with real PMT staff rather than running the AI version."
+        },
+        {
+          q: "What's the right use of Midjourney for the safety badge?",
+          a: "Only to explore silhouettes; draw the final helmet-plus-road-curve mark by hand in Illustrator in brand colors."
+        }
       ]
     }
   ]

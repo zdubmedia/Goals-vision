@@ -573,7 +573,7 @@ HUB.tab({
       keyPoints: [
         "Design every concept in 4:5 (feed) and 9:16 (Stories/Reels).",
         "Feed 1080×1350; carousel 1080×1080 or 4:5; Stories and Reels 1080×1920.",
-        "Reels keep-out: top 250 px, bottom 450 px, right-side buttons.",
+        "Reels keep-out: top 250 px, bottom 450 px, right-side buttons. The newer AI Creative Playbook (10/30) is stricter: keep the bottom 35% (about 672 px) clear. Use the stricter number.",
         "Use Ads Manager's Safe Zone overlay on every upload.",
         "Canva templates with a locked, hidden danger-zone layer."
       ],
@@ -592,7 +592,7 @@ HUB.tab({
       today: { task: "Build the four safe-zone templates in Canva (Feed, Carousel, Story, Reel) with locked, hidden danger-zone layers. Then put one existing PMT static into the Feed and Reel templates and fix anything in a danger zone.", output: "4 Canva safe-zone templates + 1 PMT static in 4:5 and 9:16", minutes: 35, suggested: false },
       check: [
         { q: "What two versions should every concept get?", a: "A 4:5 feed version and a 9:16 Stories/Reels version." },
-        { q: "What are the Reels keep-out zones?", a: "Top 250 px, bottom 450 px and the right-side button column (on 1080×1920)." }
+        { q: "What are the Reels keep-out zones?", a: "Top 250 px, the bottom (450 px in this program; the newer 10/30 AI Creative Playbook says the bottom 35%, about 672 px, so use that) and the right-side button column (on 1080×1920)." }
       ]
     },
     {

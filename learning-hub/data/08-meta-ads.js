@@ -188,7 +188,7 @@ The core problem the Andromeda Playbook names: **an ad that misses the shortlist
         { doc: "ZDub Guide 02 V2 — Meta Ads Setup and Media Buying", section: "1. Account structure; How the layers work; Client access (Meta route)", who: "Cam, 10/15/26 and 9/17/26; Logan McKinney, 9/25/26" },
         { doc: "ZDub Guide 02 V2", section: "7. Budget and the auction (whose card pays; your own agency ads)", who: "Jason Maulucci, 8/18 and 8/25/26; Clayton, 8/19/26" }
       ],
-      alsoIn: ["Course Lesson 1.4 — Creating Your Ad Account (file not yet added)", "Andromeda Playbook — ad naming Persona_Bucket_Angle_Format_v1"],
+      alsoIn: ["Course Lesson 1.4 — Creating Your Ad Account (steps in the setup checklist, meta-32)", "Andromeda Playbook — ad naming Persona_Bucket_Angle_Format_v1"],
       idea: `Before a single ad runs, the plumbing has to be right.
 
 **The umbrella (Cam, 10/15).** The **business portfolio** (what used to be called Business Manager) is the umbrella. The Facebook page, the ad account and the Instagram account are each attached to it **separately**. Keeping them separate reduces risk: one problem asset doesn't take the others down with it.
@@ -1449,9 +1449,10 @@ That's the Andromeda Playbook's Principle 4: there are two kinds of testing, and
         { doc: "ZDub Guide 02 V2 — Meta Ads Setup and Media Buying", section: "Benchmarks Cam gave (9/17)", who: "Cam, 9/17/26" },
         { doc: "Andromeda Ad Playbook (10/30/26)", section: "02 Principle 6: Real winners earn both engagement and conversions", who: "ZDub field guide" },
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 9 (hook rate benchmark); Ch 15 — How to test on small local budgets", who: "Book curriculum" },
-        { doc: "King Kong — The $7.8B Meta Ads Playbook", section: "Section 17: What Counts as a Winning Ad", who: "King Kong team" }
+        { doc: "King Kong — The $7.8B Meta Ads Playbook", section: "Section 17: What Counts as a Winning Ad", who: "King Kong team" },
+        { doc: "The AI-Assisted Creative Playbook (Late 2026), 10/30/26", section: "Key Finding 5; Part 6: Testing and Iteration System (Metrics ladder; Diagnosis table; Cadence for a small local budget)", who: "Research playbook (citing a Biddyco 2026 hook-rate dataset)" }
       ],
-      alsoIn: ["AI Playbook Part 6 (file not yet added)", "Social Workbook Mod 12 — Metrics that matter", "Copywriting tab — Hooks & the first 3 seconds (how to write the hook)"],
+      alsoIn: ["AI-Assisted Creative Playbook (10/30/26) — Part 6: Testing and Iteration System", "Social Workbook Mod 12 — Metrics that matter", "Copywriting tab — Hooks & the first 3 seconds (how to write the hook)"],
       idea: `Judge ads by **rates**, not totals. Each stage of attention has its own number.
 
 - **Attention: hook rate = 3-second views ÷ impressions.** Did the opening stop the thumb? Watch CPM here too.
@@ -1459,6 +1460,8 @@ That's the Andromeda Playbook's Principle 4: there are two kinds of testing, and
 - **Action:** cost per lead, cost per qualified lead, cost per booked customer (and ROAS for e-commerce).
 
 **Rules of thumb (practitioner, not official):** hook rate around **25–30%+** and hold rate around **10–15%+** are solid. Below that, fix the first frame (low hook) or the middle of the video (low hold). The Mastery Guide cites vendor benchmarks of about 25–35% hook rate as healthy and **below 20% means rewrite the opening.**
+
+**A 2026 dataset to calibrate against (AI-Assisted Creative Playbook, 10/30/26).** A Biddyco analysis published 9/27/26 (479 Meta video ads, 17 US accounts, $10.1M spend, June–August 2026) found a **median hook rate of 20.9%**, the middle half between **14% and 30%**, and the **top 10% at 45%+**. So 25–30% is already above the median, not "average." Meta publishes no official hook-rate benchmark, and hold-rate formulas vary (some sources divide ThruPlays by impressions instead of 3-second views): **pick one formula and keep it.** The playbook also adds **cost per landing page view** (it filters out accidental clicks) between CTR and cost per lead, and one more diagnosis: good CTR but poor landing-page-view-to-booking means **fix the landing page, not the ad.** Its small-budget cadence: launch 8–10 distinct concepts, let each spend about **2–3× target cost per lead** before judging (Paul's 3x3x1 uses 3–5×), then every two weeks cut the bottom third, write three hook variants on the top concept and add two new angles; keep a creative log (angle, format, hook, persona, location, result).
 
 **Cam's benchmarks (9/17):**
 
@@ -1857,13 +1860,25 @@ The Workbook's rule of thumb: **if the funnel leaks after the click, the fix is 
       minutes: 10,
       tags: ["Playbook", "Book", "Platform fact (re-check)"],
       source: [
+        { doc: "Course Lesson 1.4 — Creating Your Ad Account", section: "Steps 1–8 (business.facebook.com → Settings → Ad Accounts → Add → Create new ad account)", who: "Course lesson" },
         { doc: "Andromeda Ad Playbook (10/30/26)", section: "05 Before Every Launch: The one-page checklist", who: "ZDub field guide" },
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 18 — The local launch checklist", who: "Book curriculum" },
         { doc: "ZDub Marketing Mastery Workbook", section: "Ch 18 — Client Lab L18 + Answer Key", who: "Workbook" },
         { doc: "ZDub Guide 02 V2", section: "Applied to ZDub Media: default build for a new local client", who: "Claude's input in the mentor guide (not mentor teaching)" }
       ],
-      alsoIn: ["Course Lesson 1.4 — Creating Your Ad Account (file not yet added)", "King Kong Playbook — Section 27: The Launch Checklist"],
+      alsoIn: ["King Kong Playbook — Section 27: The Launch Checklist"],
       idea: `Everything in this tab collapses into one checklist. Pilots don't skip theirs because they're experienced; they use it because they're experienced.
+
+**Create the ad account (Course Lesson 1.4).** Do this once per client, after the business portfolio exists:
+
+1. Go to **business.facebook.com** and open the client's business portfolio.
+2. Click **Settings** (bottom left).
+3. Go to **Ad Accounts**.
+4. Click **Add**, then **Create new ad account**.
+5. Name it (a clear pattern helps, e.g. "PMT – Lead Gen").
+6. Set the **time zone and currency carefully: you can't change the time zone later.** For PMT that's Pacific Time and USD.
+7. Choose **My Business** as who the account is for.
+8. Tick the checkbox and click **Create ad account**. Then add ZDub's access and the client's card.
 
 **Before the account goes live (setup, from Mastery Guide Ch 18 and this tab):**
 
@@ -1882,10 +1897,9 @@ The Workbook's rule of thumb: **if the funnel leaks after the click, the fix is 
 - **Structure:** CBO campaign with one clear goal; one ad set per persona with broad targeting; several angle ads per ad set.
 - **After launch:** note which ads Meta spends on; judge winners on engagement and conversions together; before killing an angle, test it in at least one other format; iterate winners one element at a time; log what you learned by persona.
 
-**The whole Andromeda guide in one line:** give Meta clear context (who the ad is for, what moment it speaks to and why they'd buy), test many distinct reasons inside one persona ad set, and let spend plus engagement and conversions show you the real winners.
-
-(Course Lesson 1.4 on creating the ad account isn't in the library yet; when it's added, fold its account-creation steps into the setup section.)`,
+**The whole Andromeda guide in one line:** give Meta clear context (who the ad is for, what moment it speaks to and why they'd buy), test many distinct reasons inside one persona ad set, and let spend plus engagement and conversions show you the real winners.`,
       keyPoints: [
+        "Create the account in Business Settings → Ad Accounts → Add → Create new; the time zone can't be changed later",
         "Setup: access, offer/form, Pixel + CAPI test lead, speed-to-lead, radius, exclusions, budget math, reporting",
         "Planning: one persona, a 3×3×3 reason-to-buy map, distinct reasons per ad",
         "Every ad: five questions answered, context clear in seconds, named correctly",
@@ -1900,7 +1914,7 @@ The Workbook's rule of thumb: **if the funnel leaks after the click, the fix is 
       practice: [
         {
           prompt: "Setup section: check each item for PMT's account and write the evidence (or what's missing).",
-          fields: ["Portfolio: page, ad account, Instagram attached; ZDub full access; PMT card on file", "Offer + instant form/landing page ready; message matches the ad", "Pixel + Conversions API working; test lead submitted and received", "Speed-to-lead live (instant text/call)", "Radius on the real service area; age minimum; Advantage+ audience and placements", "Past students excluded", "Budget vs. learning-phase math (cost × 50 ÷ 7)", "Reporting set and reconciled with PMT's registrations"],
+          fields: ["Ad account created (Lesson 1.4): name, time zone (Pacific) and currency confirmed", "Portfolio: page, ad account, Instagram attached; ZDub full access; PMT card on file", "Offer + instant form/landing page ready; message matches the ad", "Pixel + Conversions API working; test lead submitted and received", "Speed-to-lead live (instant text/call)", "Radius on the real service area; age minimum; Advantage+ audience and placements", "Past students excluded", "Budget vs. learning-phase math (cost × 50 ÷ 7)", "Reporting set and reconciled with PMT's registrations"],
           rubric: ["Every item has evidence or a named gap", "Test lead actually submitted, not assumed", "Radius justified by where students come from", "Budget math written out"]
         },
         {
