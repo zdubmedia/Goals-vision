@@ -21,6 +21,8 @@
   --f-read: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --radius: 10px;
+  --rev-bg: #131a2b;
+  --rev-fg: #f1f4f8;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -29,6 +31,7 @@
     --hi-bg: #3a3311; --hi-line: #b89a1c; --hi-ink: #f3e3a0;
     --good: #52c793; --good-soft: #14301f; --warn: #e2a64e; --warn-soft: #33260f;
     --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 24px rgba(0, 0, 0, .25);
+    --rev-bg: #1f2a4d; --rev-fg: #e6e9f1;
     color-scheme: dark;
   }
 }
@@ -38,6 +41,7 @@
   --hi-bg: #3a3311; --hi-line: #b89a1c; --hi-ink: #f3e3a0;
   --good: #52c793; --good-soft: #14301f; --warn: #e2a64e; --warn-soft: #33260f;
   --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 24px rgba(0, 0, 0, .25);
+  --rev-bg: #1f2a4d; --rev-fg: #e6e9f1;
   color-scheme: dark;
 }
 
@@ -57,7 +61,7 @@ h1, h2, h3, h4 { text-wrap: balance; margin: 0; line-height: 1.15; }
 /* ---------- top bar + topic rail ---------- */
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--sheet); border-bottom: 1px solid var(--line); }
 .brandrow { display: flex; align-items: center; gap: 12px; padding-block: 10px 6px; max-width: 1240px; margin: 0 auto; }
-.brand { display: flex; align-items: baseline; gap: 8px; font-weight: 800; letter-spacing: -.01em; font-size: 18px; text-decoration: none; color: var(--ink); }
+.brand { white-space: nowrap; display: flex; align-items: baseline; gap: 8px; font-weight: 800; letter-spacing: -.01em; font-size: 18px; text-decoration: none; color: var(--ink); }
 .brand small { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .brandrow .spacer { flex: 1; }
 .chip { display: inline-flex; align-items: center; gap: 6px; font: 500 12px/1 var(--f-mono); padding: 6px 9px; border-radius: 999px; background: var(--soft); color: var(--muted); white-space: nowrap; }
@@ -104,13 +108,13 @@ main { max-width: 1240px; margin: 0 auto; padding-block: 24px 96px; }
 .stat b { display: block; font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
 .stat span { font: 500 11px/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
 .review {
-  background: var(--ink); color: var(--sheet); border-radius: 14px; padding: 22px 22px 18px; margin: 18px 0 30px; display: grid; gap: 10px;
+  background: var(--rev-bg); color: var(--rev-fg); border-radius: 14px; padding: 22px 22px 18px; margin: 18px 0 30px; display: grid; gap: 10px;
 }
 .review .eyebrow { color: inherit; opacity: .7; }
 .review h2 { font-size: 22px; font-weight: 700; }
 .review p { font: 18px/1.5 var(--f-read); margin: 0; max-width: 62ch; }
 .review .src { font: 12px/1.4 var(--f-mono); opacity: .65; }
-.review .btn { background: transparent; color: inherit; border-color: color-mix(in srgb, var(--sheet) 35%, transparent); }
+.review .btn { background: transparent; color: inherit; border-color: color-mix(in srgb, var(--rev-fg) 35%, transparent); }
 .sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 30px 0 12px; flex-wrap: wrap; }
 .sec-h h2 { font-size: 20px; font-weight: 750; }
 .pins { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
@@ -295,5 +299,7 @@ mark { background: var(--hi-bg); color: var(--hi-ink); border-radius: 2px; }
 @media (max-width: 560px) {
   .prose { font-size: 17px; }
   .brand small { display: none; }
+  #syncchip.sync-ok, #syncchip:not(.sync-ok) { display: none; }
+  .brand { font-size: 17px; }
   .lesson > section { padding-block: 18px; }
 }

@@ -25,4 +25,4 @@ The file is written for the Artifact publisher, which adds the `<!doctype>`/`<he
 
 # ZDub Learning Hub
 
-`learning-hub/` holds a daily learning page for running ZDub Media. It has one tab per skill, with lessons you can read, practice and apply the same day, coach feedback, a bank of finished lessons and a reference section. See [learning-hub/README.md](learning-hub/README.md).
+`learning-hub/` holds a daily learning page for running ZDub Media. It has one tab per skill, with lessons you can read, practice and apply the same day, coach feedback, a bank of finished lessons and a reference section. Live page: https://claude.ai/artifact/DE6hjmW5k9rVdyE8537u62. See [learning-hub/README.md](learning-hub/README.md).

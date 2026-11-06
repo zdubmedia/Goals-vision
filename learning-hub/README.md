@@ -20,6 +20,9 @@ There's no fixed calendar. Pin what matters this month and change it any time.
 
 ## How it runs
 
+Published as a private claude.ai Artifact: https://claude.ai/artifact/DE6hjmW5k9rVdyE8537u62 (republish with `node build.js`, then publish `dist/zdub-learning-hub.html` to the same artifact).
+
+
 - `index.html` + `app.css` + `app.js` are the app. Open `index.html` in a browser and it works, saving progress in that browser.
 - `node build.js` bundles everything into one file (`dist/zdub-learning-hub.html`) for publishing as a private claude.ai Artifact. On the published page:
   - **Get feedback** asks Claude live (the Artifact `sample` capability, billed to the viewer's own Claude usage).
