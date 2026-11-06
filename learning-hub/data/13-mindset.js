@@ -372,7 +372,7 @@ The catch: teach only what you're doing or about to do. Advice you don't follow 
       ],
       why: `Public commitments keep a solo founder honest, and the teaching doubles as content for ZDub's own page.`,
       example: {
-        title: "Turning a habit into a public commitment",
+        title: "Turning a habit into a public commitment (example numbers)",
         body: `On the next LC call: "One thing that helped me: I block 8:30 to 9:30 every weekday for calls, list prepped the night before. Last week that was 47 dials and 3 booked calls." Now the group expects next week's number, and so do you.`
       },
       practice: [
@@ -639,7 +639,7 @@ Keep a running list during the day. Anything that blocks you for more than 15 mi
       ],
       why: `You have access to working agency owners. Every hour you're stuck alone on something they've solved is an hour not spent selling.`,
       example: {
-        title: "A well-asked 'dumb' question",
+        title: "A well-asked dumb question (illustrative PMT numbers)",
         before: `"Hey, any tips on Facebook ads for a motorcycle school?"`,
         after: `"Running PMT's beginner course ads at $30/day, lead form, 9 leads in 7 days at ~$23 each. Goal is filling a 12-seat course in 3 weeks. Should I raise spend now or test a new hook first? Screenshot attached."`
       },
