@@ -87,7 +87,7 @@ One more line from Logan (10/9): "Your page is your outreach." If you're not run
         { doc: "Social Media Marketing Playbook for ZDub Media (10/31/26)", section: "Lead destinations", who: "Research playbook" },
         { doc: "9 New Calls study guide", section: "What makes a creative convert (landing pages)", who: "Clayton Bell, 8/5/26" }
       ],
-      alsoIn: ["Meta Ads tab (campaign setup)"],
+      alsoIn: ["Meta Ads tab: Pick the destination: instant form, landing page or profile"],
       idea: `Not every ad needs a landing page. The mentors split on when to build one, and the split mostly comes down to **budget** and **what you're selling**.
 
 **Cam (10/15):** most of the time, stay on-platform with Instant Forms (or engagement). Usually you don't go off-site to a landing page until you're spending about **$100/day**. On 9/17 he said move to lead forms once you're at about $30/day.
@@ -200,6 +200,7 @@ For websites, Krug adds the **home page test** (What is this? What can I do here
       title: "Match the scent: the page headline repeats the ad",
       minutes: 10,
       tags: ["Playbook", "Book"],
+      alsoIn: ["Ad Creative tab: Match the ad to the landing page"],
       source: [
         { doc: "King Kong · Meta Ads Playbook", section: "Part 1: Match the Ad to the Landing Page; The scent test; The workflow", who: "King Kong playbook (Sabri Suby)" },
         { doc: "Mastery Guide Ch 20", section: "Landing pages: one page, one job (rule 1, Match the scent); Example: landing page header for a date-fill ad", who: "Book synthesis" },
@@ -913,6 +914,7 @@ It builds a **landing page, a thank-you page and a privacy page**, checks them a
         { doc: "Mastery Guide Ch 19 · Permission, Leads & Follow-Up", section: "Permission marketing: strangers → friends → customers; Roy Williams' gravity well", who: "Seth Godin, Permission Marketing; Roy H. Williams, Magical Worlds and Making Ads Work" },
         { doc: "Mastery Workbook Ch 19", section: "Recall 19.1-19.3; Drill D19.1", who: "Workbook" }
       ],
+      alsoIn: ["Getting Clients tab: Lead magnets that reveal the problem, and the gravity well"],
       idea: `Most leads aren't ready to buy today. The money is in earning the right to keep talking to them.
 
 **Seth Godin's split.** *Interruption* marketing shouts at people who didn't ask. *Permission* marketing earns the right to talk to people who want to hear from you. Godin calls permission a privilege, not a right: the privilege of sending messages that are **anticipated** (people look forward to them), **personal** (clearly for this person) and **relevant** (about something they care about).
@@ -970,7 +972,7 @@ A text list, an email list, a follower with notifications on, or a past customer
         { doc: "Mastery Guide Ch 19", section: "Getting leads: Hormozi's Core Four; Lead magnets: a small, complete first step", who: "Alex Hormozi, $100M Leads" },
         { doc: "Mastery Workbook Ch 19", section: "Recall 19.4, 19.6, 19.8; Drill D19.2", who: "Workbook" }
       ],
-      alsoIn: ["Getting Clients tab (Core Four outreach, Rule of 100)"],
+      alsoIn: ["Getting Clients tab (Core Four outreach, Rule of 100; lead magnets and the gravity well)", "Offers tab: Front-end offers and lead magnets"],
       idea: `Alex Hormozi defines a **lead** as someone you can contact, and an **engaged lead** as someone who has shown interest in what you sell. A lead magnet is how you turn a stranger into an engaged lead.
 
 **Where leads come from (the Core Four, briefly).** Two questions: do they already know you, and are you reaching them one at a time or many at once? Warm one-to-one = warm outreach. Warm one-to-many = posting content. Cold one-to-one = cold outreach. Cold one-to-many = **paid ads**. Hormozi adds **lead getters**, people who bring leads for you: referrals, employees, agencies, affiliates and partners. A motorcycle dealership referring new buyers to a training school is a lead getter. (Outreach itself is taught in the Getting Clients tab.)

@@ -83,7 +83,7 @@ Different lists, different messages, different pipelines.
         { doc: "Mastery Workbook Ch 22", section: "Recall 22.2, 22.3, 22.10; Drill D22.1 Qualification scorecard", who: "Workbook" },
         { doc: "Mentor Guide 08 V2", section: "New in V2: Client speed, trust and infrastructure; 2. Onboarding (check capacity)", who: "Jason Maulucci 8/18/26; Logan McKinney 9/25/26" }
       ],
-      alsoIn: ["Getting Clients tab (finding prospects)", "Sales tab (qualifying on the call)"],
+      alsoIn: ["Foundations tab: Ads only speed up what happens inside the door", "Getting Clients tab (finding prospects)", "Sales tab (qualifying on the call)"],
       idea: `Not every business can be helped by marketing, and taking the wrong client hurts both of you. Roy Williams' firm chose clients by asking, "Do we really believe in this business?" Its rule: **advertising can't fix a bad business; it only accelerates what was going to happen anyway.**
 
 **The six Phase 0 questions** (Mastery Guide Ch 22):
@@ -138,6 +138,7 @@ Turn the questions into a **scorecard**: score each 1 to 5 with a written defini
         { doc: "Mentor Guide 08 V2 · Fulfillment, Onboarding, Systems and Reporting", section: "1. The KPI question", who: "Logan McKinney, Client Acquisition / Offer 10/9/26" },
         { doc: "Mentor Guide 08 V2", section: "5. When results disappoint (client who thinks they know better)", who: "Logan McKinney, 10/9/26" }
       ],
+      alsoIn: ["Sales tab: Be the doctor (KPI question on the sales call)", "Organic Social tab: Ask the KPI question before you plan any client content"],
       idea: `Logan called this **the most important question to ask a client**:
 
 > "If I did nothing else for you, what is the one thing you'd want to see from our relationship working together?"
