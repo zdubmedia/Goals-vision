@@ -150,14 +150,37 @@ Two guardrails. Every claim must be true for the client, and the "why now" must 
       id: "fnd-03",
       part: "what-is",
       title: "Market first, then offer, then copy",
-      minutes: 12,
-      tags: ["Book"],
+      minutes: 14,
+      tags: ["Course", "Book"],
       source: [
+        { doc: "Course Lesson 2.5 — Market, Offer, Copy", section: "The order of leverage; Market: who you sell to (four tests); Offer: what they get and on what terms", who: "Course lesson (citing Gary Halbert, Eugene Schwartz, Alex Hormozi, Andy Rachleff)" },
         { doc: "ZDub Marketing Mastery Guide", section: "Ch 1 · Market, message, media: the order that matters; 'It's what you say, not who you reach'; Marketing is the act of making change happen (smallest viable market)", who: "Allan Dib (The 1-Page Marketing Plan), Seth Godin (This Is Marketing), Roy H. Williams" },
         { doc: "ZDub Marketing Mastery Workbook", section: "Ch 1 · Recall 1.2, 1.3, 1.7, 1.9; Drill D1.2 + Answer Key", who: "Workbook" }
       ],
-      alsoIn: ["Course Lesson 2.5 — Market, Offer, Copy (file not yet added)", "Ad Creative tab: Creative is the targeting", "Offers tab: outcome offer / one-sentence offer"],
-      idea: `Allan Dib's model says every campaign has three parts, and you decide them **in this order**:
+      alsoIn: ["Ad Creative tab: Creative is the targeting", "Offers tab: outcome offer / one-sentence offer"],
+      idea: `**Market beats offer, and offer beats copy. When something isn't working, fix them in that order.** (Lesson 2.5)
+
+Think of a house. The **market** (who you sell to) is the foundation. The **offer** (what they get and on what terms) is the frame. The **copy** (how you say it) is the paint. Paint is the easiest part to change and the most fun to argue about, and it matters least if the foundation is cracked. No paint job saves a house built on a sinkhole.
+
+The best direct-response minds rank them the same way:
+- **Gary Halbert** asked students what advantage they'd want if they opened a hamburger stand. Better meat, better location, lower prices? He'd take a **starving crowd** (*The Boron Letters*).
+- **Eugene Schwartz:** copy can't create desire. It can only take desire that already exists and point it at your product (*Breakthrough Advertising*, 1966).
+- **Alex Hormozi** ranks a starving crowd first, offer strength second and persuasion skills third (*$100M Offers*, 2021).
+- Venture capital learned it too. Andy Rachleff's rule: when a great team meets a lousy market, the market wins.
+
+**Hormozi's four tests for a good market:**
+1. **In pain:** the problem costs them money right now.
+2. **Able to pay:** their margins cover your fee with room to spare.
+3. **Easy to target:** you can find them and reach them, ideally on Meta.
+4. **Growing:** there are more of them every year.
+
+A niche that fails two of these will fight you no matter how good your ads are.
+
+**The offer is the whole deal**: price, guarantee, timeline, what's included and how much risk they carry. The service is only one piece. Same service, two offers (illustrative): "Meta ads management, $3k/month" versus "We'll fill your slow weekdays within 60 days, or you don't pay for the next month."
+
+#### Market, message, media
+
+Allan Dib's model says every campaign has three parts, and you decide them **in this order**:
 
 1. **Market:** the specific people you're trying to reach.
 2. **Message:** what you say to them. That's the offer, the hook, the reasons and the proof (the "offer, then copy" part).
@@ -173,6 +196,9 @@ The mistake almost every small business makes is starting at step 3: "We need to
 
 So the order for every new client is: name the market, build the offer for that market, then write the copy, then pick the channel.`,
       keyPoints: [
+        "Market is the foundation, offer the frame, copy the paint. Diagnose and fix in that order.",
+        "A starving crowd beats better copy (Halbert, Schwartz, Hormozi agree).",
+        "Four market tests: in pain, able to pay, easy to target, growing. Fail two and the niche fights you.",
         "Order: market (who), message (offer + copy), media (where). Never start with the channel.",
         "Media is the delivery truck. The wrong message to everyone delivers nothing.",
         "Aim for Godin's smallest viable market: a group you can serve so well they'd miss you.",
@@ -199,6 +225,12 @@ So the order for every new client is: name the market, build the offer for that 
           model: "Coffee shop: Market: remote workers and state employees within walking distance of the shop who want a place to work that isn't home. Message: 'Fast Wi-Fi, outlets at every table, and the first refill is on us before 10 a.m.' Media: Instagram Reels and Stories in a 1–2 mile radius, plus a sidewalk sign. Why: they walk past and they scroll on lunch break."
         },
         {
+          prompt: "Score three niches on Hormozi's four market tests (Lesson 2.5). For each: in pain? able to pay? easy to target on Meta? growing? Give a yes/no with one reason each, then a verdict.",
+          fields: ["Motorcycle training schools (like PMT)", "Residential roofers in Placer County", "A niche you're curious about"],
+          rubric: ["Each test gets a yes/no plus a concrete reason, not a vibe", "'Able to pay' considers their margins vs. a $1,500–2,500 retainer plus ad spend", "Verdict follows the rule: failing two tests = walk away or fix the angle", "No made-up stats presented as fact"],
+          model: "Roofers in Placer County: In pain: yes, a slow month with crews on payroll costs thousands. Able to pay: yes, $10–20k jobs leave room for a retainer. Easy to target: yes, homeowners in service-area ZIPs are reachable on Meta. Growing: steady (aging roofs, storms, new builds aging in). Verdict: strong market. The work is the offer and the proof, not the niche."
+        },
+        {
           prompt: "A plumbing prospect says, 'We need to be on TikTok.' Write your 2–3 sentence answer, Dib-style.",
           fields: ["Your answer"],
           rubric: ["Doesn't say yes or no to TikTok first", "Asks or states who they want to reach", "Asks or states what to say to them", "Explains the channel comes last and follows from the market"],
@@ -207,6 +239,8 @@ So the order for every new client is: name the market, build the offer for that 
       ],
       today: { task: "Write PMT's one-page Market / Message / Media sheet: one sentence naming the smallest viable market, the offer and one hook with real proof, and the channel with a one-line reason. Every future PMT ad gets checked against it.", output: "PMT Market-Message-Media sheet in the client folder", minutes: 30, suggested: false },
       check: [
+        { q: "Ads aren't working. In what order do you check market, offer and copy, and why?", a: "Market first, then offer, then copy. Market is the foundation, offer the frame, copy the paint: the paint matters least if the foundation is cracked (Lesson 2.5)." },
+        { q: "What are Hormozi's four tests for a good market?", a: "They're in pain, they can pay, they're easy to target, and they're growing. A niche that fails two will fight you no matter how good the ads are." },
         { q: "In what order does Dib say to decide a campaign?", a: "Market, message, media. Most failing campaigns start with the media." },
         { q: "What is Godin's smallest viable market?", a: "The smallest group you could serve so well they'd miss you if you were gone, and tell others. You go deep with a few instead of trying to please everyone." },
         { q: "A client asks for TikTok. What's the right first response?", a: "Pin down who they want to reach and what to say to them, then choose the channel. TikTok is media, the delivery truck." }

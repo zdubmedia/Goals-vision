@@ -85,7 +85,7 @@ Law 15 of the guide's 25 Laws sums up the whole tab: make an offer so good peopl
         { doc: "ZDub_Guide_06 V2", section: "The value equation and the 6-step offer build", who: "Jason Maulucci, 8/25/26" },
         { doc: "The Ultimate Social Media Workbook (11/1/26)", section: "Module 3: Offers and lead magnets, Exercise 3A", who: "Workbook (Hormozi)" }
       ],
-      alsoIn: ["ZDub_Guide_06 V2", "Course Lesson 2.5 (not in project files)", "Social Workbook Mod 3"],
+      alsoIn: ["ZDub_Guide_06 V2", "Course Lesson 2.5 — Market, Offer, Copy (taught in Foundations: Market first, then offer, then copy)", "Social Workbook Mod 3"],
       idea: `Hormozi's core tool explains why people see one offer as more valuable than another:
 
 > **Value = (Dream Outcome × Perceived Likelihood) ÷ (Time Delay × Effort & Sacrifice)**
