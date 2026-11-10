@@ -235,4 +235,16 @@ describe('API', () => {
     expect((await start('application/pdf', 21 * 1024 * 1024)).status).toBe(413);
     expect((await start('video/mp4', 21 * 1024 * 1024)).status).toBe(200);
   });
+
+  it('keeps the follower dashboard from the client until it is switched on', async () => {
+    const { call, login } = setup();
+    const token = await login();
+    const s = await (await call('/api/state', { token })).json();
+    expect(s.followers.enabled).toBe(false);
+    expect((await (await call(`/api/report?t=${s.share.token}`)).json()).followers).toBeUndefined();
+    s.followers.enabled = true;
+    await call('/api/state', { method: 'PUT', token, body: JSON.stringify({ state: s, baseVersion: s.version }) });
+    const shown = await (await call(`/api/report?t=${s.share.token}`)).json();
+    expect(shown.followers.ads).toHaveLength(4);
+  });
 });

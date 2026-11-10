@@ -9,6 +9,7 @@ import type { AppState, SectionKey } from '../lib/types';
 import { Icon } from '../ui/Icon';
 import { useChartColors, useThemePref, type ChartColors } from '../ui/theme';
 import { Badge, Card, cx, Drawer, inputClass, Seg } from '../ui/ui';
+import { FOLLOWER_NAV, FollowerView } from './followers/FollowerView';
 import { AudienceSection } from './sections/Audience';
 import { BookingsSection } from './sections/Bookings';
 import { CreativesSection } from './sections/Creatives';
@@ -63,6 +64,10 @@ export function Dashboard({
   initialFilters?: Filters;
 }) {
   const [filters, setFilters] = useState<Filters>(initialFilters ?? DEFAULT_FILTERS);
+  const followers = state.followers && (mode === 'admin' || state.followers.enabled) ? state.followers : null;
+  // Opens on the campaign running now; a saved weekly report (with its own dates) opens on the website ads.
+  const [view, setView] = useState<'followers' | 'website'>(followers && !initialFilters ? 'followers' : 'website');
+  const showFollowers = view === 'followers' && !!followers;
   const [glossary, setGlossary] = useState(false);
   const [pref, setPref] = useThemePref();
   const colors = useChartColors();
@@ -123,63 +128,127 @@ export function Dashboard({
               </button>
             </div>
           </div>
-          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold">Facebook &amp; Instagram ad results</p>
-          <h1 className="mt-1 font-display text-4xl leading-none tracking-wide sm:text-5xl">{s.campaignName}</h1>
-          <p className="mt-2 text-sm text-white/80">
-            {fmtRange(m.range)} · Data last updated {fmtDateTime(state.dataUpdatedAt)}
-          </p>
+          {followers && (
+            <div role="tablist" aria-label="Campaigns" className="no-print mt-5 inline-flex max-w-full gap-1 rounded-xl bg-white/10 p-1">
+              {(
+                [
+                  ['followers', 'Follower ads', `${fmtRange({ start: followers.start, end: followers.asOf }, false)}`],
+                  ['website', 'Website ads', fmtRange(m.dataRange ?? m.range, false)],
+                ] as const
+              ).map(([v, label, dates]) => (
+                <button
+                  key={v}
+                  type="button"
+                  role="tab"
+                  aria-selected={view === v}
+                  onClick={() => {
+                    setView(v);
+                    window.scrollTo({ top: 0 });
+                  }}
+                  className={cx(
+                    'focus-ring min-w-0 rounded-lg px-3 py-2 text-left transition sm:px-4',
+                    view === v ? 'bg-white text-navy shadow' : 'text-white/85 hover:bg-white/10',
+                  )}
+                >
+                  <span className="block text-sm font-semibold leading-tight sm:text-[15px]">{label}</span>
+                  <span className={cx('block text-xs', view === v ? 'text-navy/70' : 'text-white/60')}>{dates}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          {showFollowers ? (
+            <>
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold">Instagram &amp; Facebook follower growth</p>
+              <h1 className="mt-1 font-display text-4xl leading-none tracking-wide sm:text-5xl">{followers.name}</h1>
+              <p className="mt-2 text-sm text-white/80">
+                {fmtRange({ start: followers.start, end: followers.asOf })} · Data last updated {fmtDateTime(followers.updatedAt)}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold">Facebook &amp; Instagram ad results</p>
+              <h1 className="mt-1 font-display text-4xl leading-none tracking-wide sm:text-5xl">{s.campaignName}</h1>
+              <p className="mt-2 text-sm text-white/80">
+                {fmtRange(m.range)} · Data last updated {fmtDateTime(state.dataUpdatedAt)}
+              </p>
+            </>
+          )}
           {banner}
         </div>
       </header>
 
-      {/* Filters */}
-      <div className="no-print sticky top-0 z-30 border-b border-line bg-page/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-2.5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
-          <FilterBar filters={filters} setFilters={setFilters} m={m} locations={s.locations.map((l) => l.name)} colors={colors} />
-        </div>
-        <nav aria-label="Sections" className="mx-auto max-w-6xl overflow-x-auto px-4 pb-2 sm:px-6">
-          <ul className="flex gap-1 text-[13px]">
-            {NAV.filter((n) => visible(n.key)).map((n) => (
-              <li key={n.key}>
-                <a href={`#${n.id}`} className="focus-ring block whitespace-nowrap rounded-full px-2.5 py-1 font-semibold text-ink2 hover:bg-surface2 hover:text-ink">
-                  {n.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-      <p className="print-only mx-auto max-w-6xl px-6 pt-4 text-sm text-ink2">
-        Showing {fmtRange(m.range)}
-        {filters.locations ? ` · ${filters.locations.join(', ')}` : ' · All locations'}
-      </p>
-
-      <main className="mx-auto max-w-6xl space-y-12 px-4 py-8 sm:px-6 sm:py-10">
-        {adminBar}
-        {mode === 'admin' && alerts.length > 0 && (
-          <Card className="no-print !border-warn/70">
-            <div className="mb-2 flex items-center gap-2">
-              <Icon name="alert" className="h-4 w-4 text-ink" />
-              <h2 className="text-sm font-semibold">Health alerts</h2>
-              <Badge tone="neutral" icon="eyeOff">
-                Only you see these
-              </Badge>
-            </div>
-            <ul className="space-y-2">
-              {alerts.map((a) => (
-                <li key={a.id} className="flex items-start gap-2 text-sm">
-                  <Badge tone={a.severity === 'critical' ? 'bad' : a.severity === 'warning' ? 'warn' : 'neutral'}>
-                    {a.severity === 'critical' ? 'Act now' : a.severity === 'warning' ? 'Check' : 'Watch'}
-                  </Badge>
-                  <span>
-                    <span className="font-semibold">{a.title}.</span> <span className="text-ink2">{a.detail}</span>
-                  </span>
+      {showFollowers ? (
+        <div className="no-print sticky top-0 z-30 border-b border-line bg-page/95 backdrop-blur">
+          <nav aria-label="Sections" className="mx-auto max-w-6xl overflow-x-auto px-4 py-2 sm:px-6">
+            <ul className="flex gap-1 text-[13px]">
+              {[...FOLLOWER_NAV, ...(s.sections.resources && state.resources.length ? [{ id: 'files', label: 'Files' }] : [])].map((n) => (
+                <li key={n.id}>
+                  <a href={`#${n.id}`} className="focus-ring block whitespace-nowrap rounded-full px-2.5 py-1 font-semibold text-ink2 hover:bg-surface2 hover:text-ink">
+                    {n.label}
+                  </a>
                 </li>
               ))}
             </ul>
-          </Card>
+          </nav>
+        </div>
+      ) : (
+        <>
+          {/* Filters */}
+          <div className="no-print sticky top-0 z-30 border-b border-line bg-page/95 backdrop-blur">
+            <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-2.5 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+              <FilterBar filters={filters} setFilters={setFilters} m={m} locations={s.locations.map((l) => l.name)} colors={colors} />
+            </div>
+            <nav aria-label="Sections" className="mx-auto max-w-6xl overflow-x-auto px-4 pb-2 sm:px-6">
+              <ul className="flex gap-1 text-[13px]">
+                {NAV.filter((n) => visible(n.key)).map((n) => (
+                  <li key={n.key}>
+                    <a href={`#${n.id}`} className="focus-ring block whitespace-nowrap rounded-full px-2.5 py-1 font-semibold text-ink2 hover:bg-surface2 hover:text-ink">
+                      {n.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+          <p className="print-only mx-auto max-w-6xl px-6 pt-4 text-sm text-ink2">
+            Showing {fmtRange(m.range)}
+            {filters.locations ? ` · ${filters.locations.join(', ')}` : ' · All locations'}
+          </p>
+        </>
+      )}
+
+      <main className="mx-auto max-w-6xl space-y-12 px-4 py-8 sm:px-6 sm:py-10">
+        {adminBar}
+        {showFollowers ? (
+          <FollowerView {...props} f={followers} />
+        ) : (
+          <>
+            {mode === 'admin' && alerts.length > 0 && (
+              <Card className="no-print !border-warn/70">
+                <div className="mb-2 flex items-center gap-2">
+                  <Icon name="alert" className="h-4 w-4 text-ink" />
+                  <h2 className="text-sm font-semibold">Health alerts</h2>
+                  <Badge tone="neutral" icon="eyeOff">
+                    Only you see these
+                  </Badge>
+                </div>
+                <ul className="space-y-2">
+                  {alerts.map((a) => (
+                    <li key={a.id} className="flex items-start gap-2 text-sm">
+                      <Badge tone={a.severity === 'critical' ? 'bad' : a.severity === 'warning' ? 'warn' : 'neutral'}>
+                        {a.severity === 'critical' ? 'Act now' : a.severity === 'warning' ? 'Check' : 'Watch'}
+                      </Badge>
+                      <span>
+                        <span className="font-semibold">{a.title}.</span> <span className="text-ink2">{a.detail}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            )}
+            {sections.filter(([k]) => visible(k)).map(([, node]) => node)}
+          </>
         )}
-        {sections.filter(([k]) => visible(k)).map(([, node]) => node)}
       </main>
 
       <footer className="bg-[#0b1420] text-white">
@@ -190,7 +259,9 @@ export function Dashboard({
               Report prepared by <span className="font-semibold text-white">{s.agencyName}</span> for {s.clientName}
             </p>
           </div>
-          <p className="text-xs text-white/50">Ad numbers from Meta Ads Manager · bookings estimated from registration pages</p>
+          <p className="text-xs text-white/50">
+            {showFollowers ? 'Numbers from Meta Business Suite (ads and Insights)' : 'Ad numbers from Meta Ads Manager · bookings estimated from registration pages'}
+          </p>
         </div>
       </footer>
 
@@ -230,7 +301,13 @@ function FilterBar({
         <Seg
           label="Date range"
           value={filters.preset}
-          onChange={(preset) => setFilters({ ...filters, preset, custom: preset === 'custom' ? custom : null })}
+          onChange={(preset) =>
+            setFilters({
+              ...filters,
+              preset,
+              custom: preset === 'custom' ? custom : null,
+            })
+          }
           options={[
             { value: 'launch', label: 'Since launch' },
             { value: '7d', label: 'Last 7 days' },
@@ -285,7 +362,10 @@ function FilterBar({
               onClick={() => {
                 const cur = filters.locations ?? [];
                 const next = on ? cur.filter((x) => x !== l) : [...cur, l];
-                setFilters({ ...filters, locations: next.length && next.length < locations.length ? next : null });
+                setFilters({
+                  ...filters,
+                  locations: next.length && next.length < locations.length ? next : null,
+                });
               }}
             >
               {l}
@@ -313,4 +393,3 @@ function LocChip({ active, onClick, color, children }: { active: boolean; onClic
     </button>
   );
 }
-

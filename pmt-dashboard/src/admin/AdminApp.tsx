@@ -9,6 +9,7 @@ import { Button, cx, inputClass } from '../ui/ui';
 import { BookingsPanel } from './BookingsPanel';
 import { ContentPanel } from './ContentPanel';
 import { FeedbackPanel } from './FeedbackPanel';
+import { FollowersPanel } from './FollowersPanel';
 import { OrganicPanel } from './OrganicPanel';
 import { ResourcesPanel } from './ResourcesPanel';
 import { SettingsPanel } from './SettingsPanel';
@@ -96,6 +97,7 @@ export default function AdminApp() {
 
   const tabs: [string, string, ReactNode][] = [
     ['', 'Dashboard', <Dashboard key="d" state={state} mode="admin" access={{ kind: 'admin' }} />],
+    ['followers', 'Follower ads', <FollowersPanel key="fo" />],
     ['uploads', 'Meta data', <UploadsPanel key="u" />],
     ['bookings', 'Bookings', <BookingsPanel key="b" />],
     ['social', 'Social', <OrganicPanel key="o" />],

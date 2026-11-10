@@ -1,3 +1,4 @@
+import { seedFollowers } from '../followers';
 import { parseMetaTable } from '../metaParser';
 import { tableFromCsv } from '../tabular';
 import {
@@ -234,6 +235,7 @@ export function buildSeedState(shareToken: string, now = SEED_TIME): AppState {
       },
     ],
     resources: [],
+    followers: seedFollowers(),
     insightsHtml: SEED_INSIGHTS,
     insightsUpdatedAt: SEED_TIME,
     archive: [],

@@ -186,6 +186,69 @@ export interface Resource {
   posterKey?: string;
 }
 
+// ---------- Follower campaign ----------
+
+/** One follower ad's totals so far, typed in from Meta. */
+export interface FollowerAd {
+  id: string;
+  name: string;
+  spend: number;
+  /** Meta: "Follows or likes". */
+  follows: number;
+  /** Meta: "Profile and Page visits". */
+  profileVisits: number;
+  /** Times the ad was seen (Meta: "Views"). */
+  views: number;
+  imageKeys?: string[];
+}
+
+/** Totals for one page over the campaign so far (Meta Business Suite → Insights). */
+export interface FollowerPage {
+  platform: Platform;
+  /** Followers on the campaign's start date. */
+  startFollowers: number;
+  /** Followers on the "data through" date. */
+  nowFollowers: number;
+  follows: number;
+  unfollows: number;
+  /** People who saw the page's posts and ads (Instagram "Reach", Facebook "Viewers"). */
+  reach: number | null;
+  views: number | null;
+  interactions: number | null;
+  /** People who sent a message ("Messaging contacts"). */
+  messagers: number | null;
+  /** Top follower cities, e.g. { city: 'San Jose, CA', share: 0.157 }. */
+  topCities: { city: string; share: number }[];
+}
+
+export interface FollowerCount {
+  date: ISODate;
+  instagram: number;
+  facebook: number;
+}
+
+export interface FollowerCampaign {
+  /** Shown to the client when true. Admins always see it. */
+  enabled: boolean;
+  name: string;
+  start: ISODate;
+  /** The last day the numbers cover. */
+  asOf: ISODate;
+  locations: string[];
+  areaNote: string;
+  ads: FollowerAd[];
+  pages: FollowerPage[];
+  /** Follower totals on different dates, for the growth line. */
+  history: FollowerCount[];
+  /** Short summaries of what people asked in messages and comments (no names). */
+  questions: string[];
+  /** Basic + Intermediate + ARC Level 1, for "a rider who keeps training" in the value table. */
+  ladderPrice: number;
+  whyHtml: string;
+  nextHtml: string;
+  updatedAt: string;
+}
+
 export interface ArchiveMeta {
   id: string;
   label: string;
@@ -284,6 +347,8 @@ export interface AppState {
   conversions: ConversionEntry[];
   creatives: Creative[];
   resources: Resource[];
+  /** The follower campaign. Left out of the client's copy until it's switched on. */
+  followers?: FollowerCampaign;
   insightsHtml: string;
   insightsUpdatedAt: string;
   archive: ArchiveMeta[];

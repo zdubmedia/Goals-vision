@@ -66,6 +66,27 @@ export const GLOSSARY = {
     label: 'Break-even',
     plain: 'How many students the ads need to bring in so that PMT’s profit on them covers what the ads cost.',
   },
+  newFollowers: {
+    label: 'New followers',
+    technical: 'Follows (Business Suite Insights, Instagram + Facebook)',
+    plain: 'Everyone who started following PMT on Instagram or Facebook in these dates, from the ads or on their own.',
+  },
+  adFollows: {
+    label: 'Follows from the ads',
+    technical: 'Follows or likes (ad results)',
+    plain: 'Follows Meta counts as coming straight from someone seeing an ad. Some people see an ad and follow later, so the true number is somewhere between this and all new followers.',
+  },
+  costPerFollower: {
+    label: 'Cost per follower',
+    technical: 'Ad spend ÷ new followers',
+    plain: 'What the ads cost for each new follower. The lower, the better.',
+  },
+  adViews: { label: 'Ad views', technical: 'Views (ad results)', plain: 'How many times the follower ads were seen.' },
+  messagers: {
+    label: 'People who messaged',
+    technical: 'Messaging contacts',
+    plain: 'People who sent PMT a message on Instagram or Facebook. These are often the closest to booking.',
+  },
   igProfileVisits: {
     label: 'Instagram profile visits from ads',
     technical: 'Instagram profile visits',

@@ -70,9 +70,10 @@ async function loadState(store: Store): Promise<{ state: AppState; etag: string 
 
 /** What a client may see: no share settings, admin notes or raw-file links. */
 export function clientState(s: AppState): AppState {
-  const { share: _share, adminNotes: _notes, ...rest } = s;
+  const { share: _share, adminNotes: _notes, followers, ...rest } = s;
   return {
     ...rest,
+    ...(followers?.enabled ? { followers } : {}),
     uploads: s.uploads.map(({ rawKey: _r, warnings: _w, ...u }) => ({ ...u, warnings: [] })),
     organicUploads: s.organicUploads.map(({ rawKey: _r, ...u }) => u),
   };
@@ -221,7 +222,8 @@ async function route(req: Request, { store, env }: Deps): Promise<Response> {
       if (!isAdmin && !(await clientAllowed(state))) throw new HttpError(404, 'Not found.');
       const snap = await store.getJSON<AppState>(`archive/${id}`);
       if (!snap) throw new HttpError(404, 'That saved report was deleted.');
-      return json(upgradeState(snap.value));
+      const archived = upgradeState(snap.value);
+      return json(isAdmin ? archived : clientState(archived));
     }
     if (method === 'DELETE' && id) {
       requireAdmin();

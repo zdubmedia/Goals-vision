@@ -1,5 +1,6 @@
 // Brings data saved by an older version of the dashboard up to date.
 
+import { seedFollowers } from './followers';
 import { DEFAULT_SETTINGS } from './seed';
 import { SECTION_KEYS, type AppState } from './types';
 
@@ -12,5 +13,5 @@ export function upgradeState(s: AppState): AppState {
   }
   settings.sections = { ...settings.sections };
   for (const k of SECTION_KEYS) if (settings.sections[k] === undefined) settings.sections[k] = true;
-  return { ...s, settings, resources: s.resources ?? [] };
+  return { ...s, settings, resources: s.resources ?? [], followers: s.followers ?? seedFollowers() };
 }
