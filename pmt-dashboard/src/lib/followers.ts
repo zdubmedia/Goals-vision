@@ -64,6 +64,18 @@ export function summarizeFollowers(f: FollowerCampaign, settings: Settings): Fol
   };
 }
 
+/** The first placeholder questions, swapped for the real ones below if nobody edited them. */
+export const FIRST_SEED_QUESTIONS = ['Asked whether classes are taught in Spanish', 'Asked which range is closest to them'];
+
+/** From PMT's messages and ad comments, Nov 7–11. No names. */
+export const SEED_QUESTIONS = [
+  'Lives in Watsonville and asked if classes are taught in Spanish. Pointed to the Salinas range at Laguna Seca. (Instagram message)',
+  'Asked if there’s a class near Sacramento. (Comment on the “Learn to ride the right way” ad)',
+  'Already has an M1 license and wants practice on a training bike. Asked the price and location, and needs an interpreter. (Instagram message)',
+  'Lives in Monterey and asked the price and whether a training bike is included. Answered: $425 at the Salinas range, bike included, plus helmet and gloves if needed. (Facebook comment)',
+  'Said “Yes, looking for more information” and was asked where they live and whether they already have a license. (Facebook comment)',
+];
+
 /** When the Nov 1–10 screenshots were taken (11:09 AM Pacific). */
 export const FOLLOWER_SEED_TIME = '2026-11-10T19:09:00.000Z';
 
@@ -124,7 +136,7 @@ export function seedFollowers(now = FOLLOWER_SEED_TIME): FollowerCampaign {
       { date: '2026-11-01', instagram: 466, facebook: 599 },
       { date: '2026-11-10', instagram: 571, facebook: 682 },
     ],
-    questions: ['Asked whether classes are taught in Spanish', 'Asked which range is closest to them'],
+    questions: SEED_QUESTIONS,
     ladderPrice: 1300,
     whyHtml: SEED_WHY,
     nextHtml: SEED_NEXT,

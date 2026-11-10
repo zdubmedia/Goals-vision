@@ -202,6 +202,19 @@ describe('API', () => {
     expect(s.resources).toEqual([]);
   });
 
+  it('swaps the placeholder follower questions for the real ones, but keeps edited ones', async () => {
+    const { call, login, store } = setup();
+    const token = await login();
+    const st = buildSeedState('tok');
+    st.followers!.questions = ['Asked whether classes are taught in Spanish', 'Asked which range is closest to them'];
+    await store.setJSON('state', st);
+    const s = await (await call('/api/state', { token })).json();
+    expect(s.followers.questions).toHaveLength(5);
+    st.followers!.questions = ['My own note'];
+    await store.setJSON('state', st);
+    expect((await (await call('/api/state', { token })).json()).followers.questions).toEqual(['My own note']);
+  });
+
   it('shares a PDF with the client only once it is listed as a file for them', async () => {
     const { call, login } = setup();
     const token = await login();
