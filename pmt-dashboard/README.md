@@ -72,16 +72,17 @@ On **Admin → Feedback**:
 
 PMT's link has two tabs at the top: **Follower ads** (opens first) and **Website ads** (the Oct 7–23 dashboard, unchanged). The follower tab is kept simple: new followers, cost per follower, the four ads, Instagram vs Facebook, messages, where followers live, why followers matter, and next steps.
 
-**Updating it (about 5 minutes a week)** on **Admin → Follower ads**, from the Meta Business Suite app:
-1. Set **Numbers through** to the last day you're reporting.
-2. **The ads**: from Content → All ads, type each ad's Spent, Follows or likes, Profile and Page visits and Views (totals since the start date).
-3. **Instagram** and **Facebook**: from Insights, with the dates set from the start date to "Numbers through": followers now (lifetime), follows, unfollows, reach/viewers, views, interactions, messaging contacts. Top cities are optional.
-4. Add any new questions people asked (no names), then **Save**. The follower count for that date is added to the growth line automatically; the line appears once there are 3 dates.
+**Updating it (about 5 minutes a week):** pull the weekly report CSV with **`public/report-kit/follower-report-guide.md`** (also downloadable from Admin → Follower ads, with a blank template). The guide lists exactly what to pull from Ads Manager and Business Suite, in what format, plus a request to paste into an AI assistant. Then on **Admin → Follower ads**:
+1. **Choose report CSV.** The page shows what it found (dates, ads, spend, follows, followers, days of follows) and warns about anything missing or not adding up.
+2. **Use these numbers**, look it over, then **Save**. Your text, questions, ad pictures and the show/hide switch are never changed by an upload. Ads are matched by their exact Ads Manager name; a new name is added as a new ad.
+
+You can still type any number in by hand on the same page.
 
 **Show to PMT / Hide from PMT** switches the whole tab. While it's hidden, PMT's link shows only the website ads, and the follower numbers aren't sent to PMT's browser at all.
 
 How the numbers are worked out:
-- **New followers** = Instagram follows + Facebook follows (Insights), from the ads and on their own. **Cost per follower** = ad spend ÷ new followers. The tile also shows the cost counting only the follows Meta credits to the ads ("Follows or likes").
+- **New followers** = Instagram new follows + Facebook new follows (Business Suite Insights, any source). **Cost per follower** = ad spend ÷ new followers. The tile also shows the cost per Instagram follow that Ads Manager credits straight to the ads (`ig_follows`).
+- **Follows per day** compares the days before the campaign start (in the report) with the campaign days.
 - **What it takes to pay for the ads** = ad spend ÷ (Basic price × profit margin), rounded up. The "if some followers book" table multiplies the new followers by 0.5%, 1% and 2%; "keep training" uses the Basic + Intermediate + ARC Level 1 price set on the same page.
 
 ### Files for PMT (guides, ad layouts)
@@ -174,7 +175,7 @@ The upload pipeline (`parseMetaTable` → `MetaUpload`) is the single entry poin
 
 ## Test checklist (run before each release)
 
-Automated (`npm test`: 58 tests):
+Automated (`npm test`: 66 tests):
 
 - [x] Campaign totals tie to the final Oct 7–23 Meta report (pulled Oct 24):
   - $503.36 spend
@@ -202,7 +203,7 @@ Automated (`npm test`: 58 tests):
 - [x] A class that dropped off the page keeps its last value and is flagged.
 - [x] Profit at 14%: $59.50 a student, $2,320.50 on the 39 seats, and $503.36 of ads breaks even at 9 students (23% of seats sold).
 - [x] Older saved data gets the 14% margin, the 10% starting share and the new Files section.
-- [x] Follower ads, Nov 1–10: $159.55 spent, 194 new followers ($0.82 each), 154 credited to the ads ($1.04 each), 1,107 page visits, 9 people messaged; Instagram 466 → 571 and Facebook 599 → 682. $159.55 is covered by 3 students at $59.50 profit each.
+- [x] Follower ads report CSV (Nov 1–11): $187.79 spent, 18,072 reached, 1,282 page visits, 80 Instagram follows from the ads ($2.35 each); 220 new followers on both pages ($0.85 each); Instagram 466 → 583 and Facebook 599 → 697; 11.4 Instagram follows a day vs 1.8 before. A file in another format is refused, and ads that don't add up to the campaign total are flagged.
 - [x] The follower tab stays out of the client's data until it's switched on.
 - [x] A shared PDF can't be opened from PMT's link until it's listed in Files for PMT. Then it opens whole, with its file name; "Download" saves it. Unsupported types and PDFs over 20 MB are refused.
 - [x] Organic "month before" (60d − 30d):

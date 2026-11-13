@@ -191,14 +191,19 @@ export interface Resource {
 /** One follower ad's totals so far, typed in from Meta. */
 export interface FollowerAd {
   id: string;
+  /** The name PMT sees. */
   name: string;
+  /** The ad's name in Ads Manager, used to match uploaded reports. */
+  metaName?: string;
   spend: number;
-  /** Meta: "Follows or likes". */
+  /** Instagram follows Meta credits to the ad (Ads Manager). */
   follows: number;
-  /** Meta: "Profile and Page visits". */
+  /** Instagram profile + Facebook Page visits (Ads Manager "Results"). */
   profileVisits: number;
-  /** Times the ad was seen (Meta: "Views"). */
+  /** Times the ad was seen (impressions). */
   views: number;
+  /** People who saw the ad. */
+  reach?: number | null;
   imageKeys?: string[];
 }
 
@@ -210,12 +215,15 @@ export interface FollowerPage {
   /** Followers on the "data through" date. */
   nowFollowers: number;
   follows: number;
-  unfollows: number;
+  /** Null when the report doesn't say. */
+  unfollows: number | null;
+  /** Instagram profile visits / Facebook Page visits, from any source. */
+  visits?: number | null;
   /** People who saw the page's posts and ads (Instagram "Reach", Facebook "Viewers"). */
   reach: number | null;
   views: number | null;
   interactions: number | null;
-  /** People who sent a message ("Messaging contacts"). */
+  /** Message conversations started. */
   messagers: number | null;
   /** Top follower cities, e.g. { city: 'San Jose, CA', share: 0.157 }. */
   topCities: { city: string; share: number }[];
@@ -227,6 +235,9 @@ export interface FollowerCount {
   facebook: number;
 }
 
+/** New follows on one day, from any source. */
+export type FollowerDay = FollowerCount;
+
 export interface FollowerCampaign {
   /** Shown to the client when true. Admins always see it. */
   enabled: boolean;
@@ -234,6 +245,12 @@ export interface FollowerCampaign {
   start: ISODate;
   /** The last day the numbers cover. */
   asOf: ISODate;
+  /** The day the "followers now" totals were read, when it isn't asOf. */
+  countedOn?: ISODate;
+  /** People the ads reached, from Meta's campaign total (ad reach can't be added up). */
+  adReach?: number | null;
+  /** New follows per day, including some days before the campaign for comparison. */
+  daily?: FollowerDay[];
   locations: string[];
   areaNote: string;
   ads: FollowerAd[];

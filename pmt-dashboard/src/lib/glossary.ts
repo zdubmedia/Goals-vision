@@ -72,9 +72,9 @@ export const GLOSSARY = {
     plain: 'Everyone who started following PMT on Instagram or Facebook in these dates, from the ads or on their own.',
   },
   adFollows: {
-    label: 'Follows from the ads',
-    technical: 'Follows or likes (ad results)',
-    plain: 'Follows Meta counts as coming straight from someone seeing an ad. Some people see an ad and follow later, so the true number is somewhere between this and all new followers.',
+    label: 'Instagram follows from the ads',
+    technical: 'Instagram follows (Ads Manager)',
+    plain: 'Instagram follows Meta credits straight to someone seeing an ad. Facebook follows and people who follow later aren’t credited, so the ads’ real effect is bigger than this.',
   },
   costPerFollower: {
     label: 'Cost per follower',
@@ -83,9 +83,9 @@ export const GLOSSARY = {
   },
   adViews: { label: 'Ad views', technical: 'Views (ad results)', plain: 'How many times the follower ads were seen.' },
   messagers: {
-    label: 'People who messaged',
-    technical: 'Messaging contacts',
-    plain: 'People who sent PMT a message on Instagram or Facebook. These are often the closest to booking.',
+    label: 'Conversations started',
+    technical: 'Messaging conversations started',
+    plain: 'New message conversations on Instagram or Facebook. These people are often the closest to booking.',
   },
   igProfileVisits: {
     label: 'Instagram profile visits from ads',

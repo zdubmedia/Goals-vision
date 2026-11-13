@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { fileUrl } from '../../api';
 import { fmtDate, fmtRange } from '../../lib/dates';
 import { PLATFORM_LABEL, summarizeFollowers } from '../../lib/followers';
@@ -62,26 +62,43 @@ export function FollowerView(props: SectionProps & { f: FollowerCampaign }) {
         </Card>
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           <Tile term="spend" label="Spent on ads" value={money(s.spend)} note={`${money(s.spend / s.days)} a day`} />
-          <Tile term="adViews" label="Ad views" value={compact(s.adViews)} note="Times the ads were seen" />
-          <Tile term="profileVisits" label="Visits to the pages" value={int(s.profileVisits)} note="People who tapped through from an ad" />
-          <Tile term="newFollowers" label="New followers" value={int(s.newFollows)} note={`${int(s.adFollows)} straight from an ad, the rest on their own`} />
+          {s.adReach !== null ? (
+            <Tile term="reach" label="People who saw the ads" value={compact(s.adReach)} note={`${compact(s.adViews)} ad views in all`} />
+          ) : (
+            <Tile term="adViews" label="Ad views" value={compact(s.adViews)} note="Times the ads were seen" />
+          )}
+          <Tile term="profileVisits" label="Visits to the pages" value={int(s.profileVisits)} note="Taps from an ad to the Instagram profile or Facebook Page" />
+          <Tile term="newFollowers" label="New followers" value={int(s.newFollows)} note={`Instagram and Facebook, from the ads and on their own`} />
           <Tile
             term="costPerFollower"
             label="Cost per follower"
             value={money(s.costPerFollower)}
-            note={s.costPerAdFollower !== null ? `${money(s.costPerAdFollower)} counting only follows Meta credits to the ads` : undefined}
+            note={
+              s.costPerAdFollower !== null
+                ? `${money(s.costPerAdFollower)} per Instagram follow Meta credits straight to the ads (${int(s.adFollows)} of them)`
+                : undefined
+            }
           />
-          <Tile term="messagers" label="People who messaged" value={s.messagers !== null ? int(s.messagers) : '—'} note="Often the closest to booking" />
+          <Tile
+            term="messagers"
+            label="Conversations started"
+            value={s.messagers !== null ? int(s.messagers) : '—'}
+            note="Messages from people, often the closest to booking"
+          />
         </div>
       </Section>
 
-      <Section id="f-pages" title="Instagram and Facebook" subtitle={`Followers on ${fmtDate(f.start)} and on ${fmtDate(f.asOf)}.`}>
+      <Section
+        id="f-pages"
+        title="Instagram and Facebook"
+        subtitle={`Followers on ${fmtDate(f.start)} and on ${fmtDate(f.countedOn ?? f.asOf)}, and new follows from any source.`}
+      >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {pages.map((p) => (
             <PageCard key={p.platform} p={p} color={p.platform === 'instagram' ? colors.accent : colors.loc[0]} />
           ))}
         </div>
-        <GrowthChart f={f} colors={colors} />
+        {(f.daily?.length ?? 0) >= 3 ? <FollowsPerDay f={f} colors={colors} pace={s.pace} /> : <GrowthChart f={f} colors={colors} />}
         {s.growth !== null && (
           <p className="mt-3 text-sm text-ink2">
             Together, {short} went from <strong className="text-ink">{int(s.startTotal)}</strong> to <strong className="text-ink">{int(s.nowTotal)}</strong> followers, up{' '}
@@ -99,7 +116,7 @@ export function FollowerView(props: SectionProps & { f: FollowerCampaign }) {
               {s.messagers !== null && (
                 <div>
                   <p className="text-5xl font-semibold leading-none">{int(s.messagers)}</p>
-                  <p className="mt-1 text-sm text-ink2">people sent a message</p>
+                  <p className="mt-1 text-sm text-ink2">message conversations started</p>
                   <p className="mt-1 text-xs text-muted">
                     {pages
                       .filter((p) => p.messagers !== null)
@@ -199,8 +216,9 @@ function PageCard({ p, color }: { p: FollowerPage; color: string }) {
   const stats: [string, number | null][] = [
     ['People reached', p.reach],
     ['Views', p.views],
+    [p.platform === 'instagram' ? 'Profile visits' : 'Page visits', p.visits ?? null],
     ['Likes, comments & shares', p.interactions],
-    ['Messaged', p.messagers],
+    ['Conversations', p.messagers],
   ];
   return (
     <Card>
@@ -218,7 +236,7 @@ function PageCard({ p, color }: { p: FollowerPage; color: string }) {
       </div>
       <p className="mt-1 text-xs text-muted">
         {int(p.follows)} new follow{p.follows === 1 ? '' : 's'}
-        {p.unfollows > 0 ? `, ${int(p.unfollows)} unfollowed` : ', nobody unfollowed'}
+        {p.unfollows === null ? '' : p.unfollows > 0 ? `, ${int(p.unfollows)} unfollowed` : ', nobody unfollowed'}
       </p>
       <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-line pt-3">
         {stats
@@ -230,6 +248,56 @@ function PageCard({ p, color }: { p: FollowerPage; color: string }) {
             </div>
           ))}
       </dl>
+    </Card>
+  );
+}
+
+function FollowsPerDay({ f, colors, pace }: { f: FollowerCampaign; colors: SectionProps['colors']; pace: ReturnType<typeof summarizeFollowers>['pace'] }) {
+  const data = (f.daily ?? []).filter((d) => d.date <= f.asOf);
+  const last = data[data.length - 1]?.date;
+  const fmtPace = (n: number | null) => (n === null ? '—' : n.toFixed(1));
+  return (
+    <Card className="mt-4">
+      <p className="text-sm font-semibold text-ink2">New follows per day</p>
+      <div className="mt-2 h-56">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 16, right: 12, left: -18, bottom: 0 }}>
+            <CartesianGrid vertical={false} stroke={colors.grid} />
+            {last && last >= f.start && (
+              <ReferenceArea
+                x1={data.find((d) => d.date >= f.start)?.date}
+                x2={last}
+                fill={colors.accentSoft}
+                fillOpacity={0.6}
+                label={{ value: 'Follower ads running', position: 'insideTopRight', fill: colors.ink2, fontSize: 11 }}
+              />
+            )}
+            <XAxis dataKey="date" tickFormatter={(d) => fmtDate(d)} stroke={colors.axis} fontSize={11} tickLine={false} minTickGap={20} />
+            <YAxis stroke={colors.axis} fontSize={11} tickLine={false} axisLine={false} allowDecimals={false} />
+            <Tooltip labelFormatter={(d: string) => fmtDate(d, true)} formatter={(v: number, k: string) => [int(v), k === 'instagram' ? 'Instagram' : 'Facebook']} />
+            <Line type="monotone" dataKey="instagram" stroke={colors.accent} strokeWidth={2} dot={false} isAnimationActive={false} />
+            <Line type="monotone" dataKey="facebook" stroke={colors.loc[0]} strokeWidth={2} dot={false} isAnimationActive={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="mt-1 flex flex-wrap gap-4 text-xs text-ink2">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-block h-0.5 w-4" style={{ background: colors.accent }} /> Instagram
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-block h-0.5 w-4" style={{ background: colors.loc[0] }} /> Facebook
+        </span>
+      </div>
+      {pace?.before && (
+        <p className="mt-3 text-sm text-ink2">
+          Instagram is gaining <strong className="text-ink">{fmtPace(pace.perDay.instagram.during)}</strong> followers a day, up from{' '}
+          {fmtPace(pace.perDay.instagram.before)} before the ads. Facebook: <strong className="text-ink">{fmtPace(pace.perDay.facebook.during)}</strong> a day, up from{' '}
+          {fmtPace(pace.perDay.facebook.before)}.
+          <span className="block text-xs text-muted">
+            “Before” is {fmtRange({ start: pace.before.start, end: pace.before.end }, false)}. Counts new follows from any source, not only the ads.
+          </span>
+        </p>
+      )}
     </Card>
   );
 }
@@ -268,7 +336,11 @@ function AdsSection({ f, access }: { f: FollowerCampaign; access: SectionProps['
       return src ? [{ src, alt: `${a.name}, image ${i + 1}` }] : [];
     });
   return (
-    <Section id="f-ads" title="Which ads brought followers" subtitle="Follows Meta credits to each ad. Most of the budget goes to the ad that's working best.">
+    <Section
+      id="f-ads"
+      title="Which ads brought followers"
+      subtitle="Instagram follows Meta credits to each ad. Facebook follows aren't credited to ads, so they don't show here. Most of the budget goes to the ad that's working best."
+    >
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {ads.map((a, i) => {
           const pics = slides(a);
@@ -298,7 +370,7 @@ function AdsSection({ f, access }: { f: FollowerCampaign; access: SectionProps['
                   <span className="h-2.5 flex-1 overflow-hidden rounded-full bg-surface2">
                     <span className="block h-full rounded-full bg-accent" style={{ width: `${(a.follows / max) * 100}%` }} />
                   </span>
-                  <span className="tabular w-24 text-right text-sm font-semibold">{int(a.follows)} follows</span>
+                  <span className="tabular w-28 text-right text-sm font-semibold">{int(a.follows)} IG follows</span>
                 </div>
                 <p className="mt-1.5 text-xs text-ink2">
                   {money(a.spend)} spent · {a.follows ? `${money(a.spend / a.follows)} per follow` : 'no follows yet'} · {int(a.profileVisits)} page visits

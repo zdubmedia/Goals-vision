@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { fileUrl, type FileAccess } from '../api';
 import { healthAlerts } from '../lib/alerts';
-import { fmtRange, type DateRange } from '../lib/dates';
+import { fmtDate, fmtRange, type DateRange } from '../lib/dates';
 import { fmtDateTime } from '../lib/format';
 import { GLOSSARY } from '../lib/glossary';
 import { buildModel, DEFAULT_FILTERS, type Filters, type Model } from '../lib/model';
@@ -161,7 +161,7 @@ export function Dashboard({
               <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gold">Instagram &amp; Facebook follower growth</p>
               <h1 className="mt-1 font-display text-4xl leading-none tracking-wide sm:text-5xl">{followers.name}</h1>
               <p className="mt-2 text-sm text-white/80">
-                {fmtRange({ start: followers.start, end: followers.asOf })} · Data last updated {fmtDateTime(followers.updatedAt)}
+                {fmtRange({ start: followers.start, end: followers.asOf })} · Data last updated {fmtDate(followers.updatedAt.slice(0, 10), true)}
               </p>
             </>
           ) : (

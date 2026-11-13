@@ -1,6 +1,8 @@
 // The follower campaign: its starting numbers and the totals the dashboard shows.
 
-import { daysBetween } from './dates';
+import { daysBetween, type ISODate } from './dates';
+import { applyFollowerReport } from './followerReport';
+import { NOV_11_REPORT } from './seed/followerReportNov11';
 import type { FollowerCampaign, Platform, Settings } from './types';
 
 export const PLATFORM_LABEL: Record<Platform, string> = { instagram: 'Instagram', facebook: 'Facebook' };
@@ -13,10 +15,12 @@ export interface FollowerSummary {
   spend: number;
   adFollows: number;
   adViews: number;
+  /** People the ads reached (Meta's campaign total). */
+  adReach: number | null;
   profileVisits: number;
   /** New follows on both pages, from the ads and on their own. */
   newFollows: number;
-  unfollows: number;
+  unfollows: number | null;
   startTotal: number;
   nowTotal: number;
   growth: number | null;
@@ -28,6 +32,12 @@ export interface FollowerSummary {
   /** Break-even as a share of the new followers. */
   breakEvenShare: number | null;
   scenarios: { rate: number; students: number; profit: number; ladderProfit: number }[];
+  /** New follows a day before the campaign and during it, from the daily numbers. */
+  pace: {
+    before: { start: ISODate; end: ISODate; days: number } | null;
+    during: number;
+    perDay: Record<Platform, { before: number | null; during: number | null }>;
+  } | null;
 }
 
 export function summarizeFollowers(f: FollowerCampaign, settings: Settings): FollowerSummary {
@@ -37,7 +47,9 @@ export function summarizeFollowers(f: FollowerCampaign, settings: Settings): Fol
   const newFollows = sum(f.pages.map((p) => p.follows));
   const startTotal = sum(f.pages.map((p) => p.startFollowers));
   const nowTotal = sum(f.pages.map((p) => p.nowFollowers));
-  const messages = f.pages.map((p) => p.messagers).filter((n): n is number => n !== null);
+  const known = (xs: (number | null | undefined)[]) => xs.filter((n): n is number => n !== null && n !== undefined);
+  const messages = known(f.pages.map((p) => p.messagers));
+  const unfollows = known(f.pages.map((p) => p.unfollows));
   const profitPerStudent = settings.prices.Basic * settings.profitMargin;
   const breakEvenStudents = spend && profitPerStudent ? Math.ceil(spend / profitPerStudent - 1e-9) : null;
   return {
@@ -45,9 +57,10 @@ export function summarizeFollowers(f: FollowerCampaign, settings: Settings): Fol
     spend,
     adFollows,
     adViews: sum(f.ads.map((a) => a.views)),
+    adReach: f.adReach ?? null,
     profileVisits: sum(f.ads.map((a) => a.profileVisits)),
     newFollows,
-    unfollows: sum(f.pages.map((p) => p.unfollows)),
+    unfollows: unfollows.length ? sum(unfollows) : null,
     startTotal,
     nowTotal,
     growth: startTotal ? nowTotal / startTotal - 1 : null,
@@ -61,6 +74,23 @@ export function summarizeFollowers(f: FollowerCampaign, settings: Settings): Fol
       const students = newFollows * rate;
       return { rate, students, profit: students * profitPerStudent, ladderProfit: students * f.ladderPrice * settings.profitMargin };
     }),
+    pace: paceOf(f),
+  };
+}
+
+function paceOf(f: FollowerCampaign): FollowerSummary['pace'] {
+  const daily = f.daily ?? [];
+  const before = daily.filter((d) => d.date < f.start);
+  const during = daily.filter((d) => d.date >= f.start && d.date <= f.asOf);
+  if (!during.length) return null;
+  const avg = (list: typeof daily, p: Platform) => (list.length ? list.reduce((n, d) => n + d[p], 0) / list.length : null);
+  return {
+    before: before.length ? { start: before[0].date, end: before[before.length - 1].date, days: before.length } : null,
+    during: during.length,
+    perDay: {
+      instagram: { before: avg(before, 'instagram'), during: avg(during, 'instagram') },
+      facebook: { before: avg(before, 'facebook'), during: avg(during, 'facebook') },
+    },
   };
 }
 
@@ -77,10 +107,38 @@ export const SEED_QUESTIONS = [
 ];
 
 /** When the Nov 1–10 screenshots were taken (11:09 AM Pacific). */
-export const FOLLOWER_SEED_TIME = '2026-11-10T19:09:00.000Z';
+export const FIRST_SEED_TIME = '2026-11-10T19:09:00.000Z';
+/** When the Nov 1–11 report was pulled. */
+export const NOV_11_TIME = '2026-11-12T20:00:00.000Z';
+
+/** Each first ad's name in Ads Manager, so uploaded reports find it. */
+const META_NAMES: Record<string, string> = {
+  'fad-1': 'ad1 - Been off the Bike 4 years?',
+  'fad-2': 'ad 2 - dreading DMV test',
+  'fad-3': 'ad3 - Learn2Ride the right way',
+  'fad-4': 'ad4 - parents under21',
+};
+
+/** The campaign as it starts out: the Nov 1–11 report applied to the first numbers. */
+export function seedFollowers(): FollowerCampaign {
+  return upgradeFollowers(firstSeedFollowers());
+}
+
+/** Fills in what older saved campaigns lack, and brings never-edited starting numbers up to the Nov 1–11 report. */
+export function upgradeFollowers(f: FollowerCampaign): FollowerCampaign {
+  let next: FollowerCampaign = { ...f, ads: f.ads.map((a) => (a.metaName || !META_NAMES[a.id] ? a : { ...a, metaName: META_NAMES[a.id] })) };
+  if (next.updatedAt === FIRST_SEED_TIME) {
+    let n = 0;
+    next = { ...applyFollowerReport(next, NOV_11_REPORT, () => `fad-new-${++n}`), updatedAt: NOV_11_TIME };
+  }
+  // The real questions replace the first placeholders, unless those were already edited.
+  if (JSON.stringify(next.questions) === JSON.stringify(FIRST_SEED_QUESTIONS)) next = { ...next, questions: SEED_QUESTIONS };
+  return next;
+}
 
 /** Nov 1–10 numbers from Meta Business Suite (ads and Insights), plus the week 1 report's value points. */
-export function seedFollowers(now = FOLLOWER_SEED_TIME): FollowerCampaign {
+function firstSeedFollowers(): FollowerCampaign {
+  const now = FIRST_SEED_TIME;
   return {
     enabled: false,
     name: 'Follower ads · All 7 ranges',

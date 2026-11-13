@@ -1,9 +1,11 @@
 import { useState, type ReactNode } from 'react';
 import { api, fileUrl } from '../api';
 import { sanitize } from '../dashboard/sections/Insights';
-import { fmtDate } from '../lib/dates';
+import { fmtDate, fmtRange } from '../lib/dates';
+import { applyFollowerReport, parseFollowerReport, type ParseResult } from '../lib/followerReport';
 import { PLATFORM_LABEL, seedFollowers } from '../lib/followers';
-import { fmtDateTime } from '../lib/format';
+import { fmtDateTime, int, money } from '../lib/format';
+import { tableFromCsv } from '../lib/tabular';
 import type { FollowerAd, FollowerCampaign, FollowerCount, FollowerPage } from '../lib/types';
 import { Badge, Button, Card, Field, inputClass, Note } from '../ui/ui';
 import { PanelTitle, useAdmin } from './AdminApp';
@@ -59,8 +61,8 @@ export function FollowersPanel() {
   return (
     <>
       <PanelTitle title="Follower ads">
-        The numbers behind the Follower ads tab. Update them once a week from the Meta Business Suite app: <strong>Insights</strong> (set the dates to “This month” or a
-        custom range from the start date) and <strong>Content → All ads</strong>.
+        The numbers behind the Follower ads tab. Once a week, upload the report CSV below (the guide says how to pull it), check the numbers, and press Save. You can also
+        type numbers in by hand.
       </PanelTitle>
 
       <Card className={f.enabled ? '!border-good/60' : '!border-warn/70'}>
@@ -106,6 +108,14 @@ export function FollowersPanel() {
         </Button>
       </div>
 
+      <ReportUpload
+        f={f}
+        onApply={(next) => {
+          setF(next);
+          toast('Numbers filled in from the report. Check them, then press Save.');
+        }}
+      />
+
       <Group title="Campaign">
         <Field label="Name (report title)" className="sm:col-span-2">
           <input className={inputClass} value={f.name} onChange={(e) => set({ name: e.target.value })} />
@@ -133,22 +143,37 @@ export function FollowersPanel() {
         <Field label="Where the ads run" className="sm:col-span-2">
           <input className={inputClass} value={f.areaNote} onChange={(e) => set({ areaNote: e.target.value })} />
         </Field>
+        <Num
+          label="People reached by the ads"
+          value={f.adReach ?? null}
+          onChange={(v) => set({ adReach: v })}
+          hint="Ads Manager, campaign total (reach can't be added up across ads)."
+        />
+        <Field label="Followers counted on" hint="The day the “followers now” totals were read.">
+          <input type="date" className={inputClass} value={f.countedOn ?? f.asOf} onChange={(e) => e.target.value && set({ countedOn: e.target.value })} />
+        </Field>
       </Group>
 
       <Card>
         <h2 className="text-base font-semibold">The ads</h2>
-        <p className="mt-1 text-sm text-ink2">From Meta Business Suite → Content → All ads. Each ad's totals since the start date.</p>
+        <p className="mt-1 text-sm text-ink2">
+          From Meta Ads Manager, each ad's totals since the start date. “Name in Ads Manager” must match exactly for uploads to find the ad.
+        </p>
         <ul className="mt-3 space-y-3">
           {f.ads.map((a, i) => (
             <li key={a.id} className="rounded-lg border border-line p-3">
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-6">
-                <Field label="Ad name" className="col-span-2">
+                <Field label="Name PMT sees" className="col-span-2 sm:col-span-3">
                   <input className={inputClass} value={a.name} onChange={(e) => updAd(i, { name: e.target.value })} />
                 </Field>
+                <Field label="Name in Ads Manager" className="col-span-2 sm:col-span-3">
+                  <input className={inputClass} value={a.metaName ?? ''} onChange={(e) => updAd(i, { metaName: e.target.value })} />
+                </Field>
                 <Num label="Spent ($)" value={a.spend} step={0.01} onChange={(v) => updAd(i, { spend: v ?? 0 })} />
-                <Num label="Follows or likes" value={a.follows} onChange={(v) => updAd(i, { follows: v ?? 0 })} />
-                <Num label="Profile and Page visits" value={a.profileVisits} onChange={(v) => updAd(i, { profileVisits: v ?? 0 })} />
-                <Num label="Views" value={a.views} onChange={(v) => updAd(i, { views: v ?? 0 })} />
+                <Num label="Instagram follows" value={a.follows} onChange={(v) => updAd(i, { follows: v ?? 0 })} />
+                <Num label="Results (profile + Page visits)" value={a.profileVisits} onChange={(v) => updAd(i, { profileVisits: v ?? 0 })} />
+                <Num label="Impressions" value={a.views} onChange={(v) => updAd(i, { views: v ?? 0 })} />
+                <Num label="Reach" value={a.reach ?? null} onChange={(v) => updAd(i, { reach: v })} />
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {(a.imageKeys ?? []).map((k) => (
@@ -197,16 +222,19 @@ export function FollowersPanel() {
       {f.pages.map((p, i) => (
         <Card key={p.platform}>
           <h2 className="text-base font-semibold">{PLATFORM_LABEL[p.platform]}</h2>
-          <p className="mt-1 text-sm text-ink2">From Insights → Audience and Insights → Content, with the dates set from the start date to “Numbers through”.</p>
+          <p className="mt-1 text-sm text-ink2">
+            From Business Suite Insights, with the dates set from the start date to “Numbers through”. Leave a box empty if you don't have it.
+          </p>
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Num label={`Followers on ${fmtDate(f.start)}`} value={p.startFollowers} onChange={(v) => updPage(i, { startFollowers: v ?? 0 })} />
             <Num label="Followers now (lifetime)" value={p.nowFollowers} onChange={(v) => updPage(i, { nowFollowers: v ?? 0 })} />
             <Num label="Follows" value={p.follows} onChange={(v) => updPage(i, { follows: v ?? 0 })} />
-            <Num label="Unfollows" value={p.unfollows} onChange={(v) => updPage(i, { unfollows: v ?? 0 })} />
+            <Num label="Unfollows" value={p.unfollows} onChange={(v) => updPage(i, { unfollows: v })} />
+            <Num label={p.platform === 'facebook' ? 'Page visits' : 'Profile visits'} value={p.visits ?? null} onChange={(v) => updPage(i, { visits: v })} />
             <Num label={p.platform === 'facebook' ? 'Viewers' : 'Reach'} value={p.reach} onChange={(v) => updPage(i, { reach: v })} />
             <Num label="Views" value={p.views} onChange={(v) => updPage(i, { views: v })} />
             <Num label="Content interactions" value={p.interactions} onChange={(v) => updPage(i, { interactions: v })} />
-            <Num label="Messaging contacts" value={p.messagers} onChange={(v) => updPage(i, { messagers: v })} />
+            <Num label="Conversations started" value={p.messagers} onChange={(v) => updPage(i, { messagers: v })} />
           </div>
           <Field label="Top cities (one per line: city, then %)" className="mt-3" hint="From Insights → Audience → Top cities. Leave empty to hide.">
             <textarea
@@ -300,8 +328,129 @@ function withCounts(f: FollowerCampaign): FollowerCount[] {
   const nowOf = count((p) => p.nowFollowers);
   const rows = new Map(f.history.map((h) => [h.date, h]));
   rows.set(f.start, { date: f.start, instagram: startOf('instagram'), facebook: startOf('facebook') });
-  rows.set(f.asOf, { date: f.asOf, instagram: nowOf('instagram'), facebook: nowOf('facebook') });
-  return [...rows.values()].filter((h) => h.date >= f.start && h.date <= f.asOf).sort((a, b) => (a.date < b.date ? -1 : 1));
+  const countedOn = f.countedOn ?? f.asOf;
+  rows.set(countedOn, { date: countedOn, instagram: nowOf('instagram'), facebook: nowOf('facebook') });
+  return [...rows.values()].filter((h) => h.date >= f.start && h.date <= countedOn).sort((a, b) => (a.date < b.date ? -1 : 1));
+}
+
+function ReportUpload({ f, onApply }: { f: FollowerCampaign; onApply: (next: FollowerCampaign) => void }) {
+  const [res, setRes] = useState<{ name: string; result: ParseResult } | null>(null);
+  const read = async (file: File) => {
+    try {
+      setRes({ name: file.name, result: parseFollowerReport(tableFromCsv(await file.text())) });
+    } catch {
+      setRes({ name: file.name, result: { ok: false, errors: ['That file could not be read. Is it a .csv file?'] } });
+    }
+  };
+  const r = res?.result.ok ? res.result.report : null;
+  const ig = r?.pages.instagram;
+  const fb = r?.pages.facebook;
+  const newAds = r ? r.ads.filter((a) => !f.ads.some((x) => (x.metaName ?? '').toLowerCase() === a.metaName.toLowerCase())) : [];
+
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="text-base font-semibold">Upload the weekly report</h2>
+          <p className="mt-1 max-w-2xl text-sm text-ink2">
+            The CSV from the report guide (one row per number). It fills in everything below except your text, questions and images. Nothing changes for PMT until you
+            press Save.
+          </p>
+          <p className="mt-2 flex flex-wrap gap-3 text-sm">
+            <a className="font-semibold text-accentink underline" href="/report-kit/follower-report-guide.md" download>
+              Download the report guide
+            </a>
+            <a className="font-semibold text-accentink underline" href="/report-kit/follower-report-template.csv" download>
+              Download the blank template
+            </a>
+          </p>
+        </div>
+        <label className="focus-ring inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-accent px-3.5 py-2 text-sm font-semibold text-white hover:brightness-105">
+          Choose report CSV
+          <input
+            type="file"
+            accept=".csv,text/csv"
+            className="sr-only"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              e.target.value = '';
+              if (file) void read(file);
+            }}
+          />
+        </label>
+      </div>
+
+      {res && !res.result.ok && (
+        <div className="mt-3">
+          <Note tone="warn">
+            <strong className="font-semibold">{res.name} couldn't be used.</strong> {res.result.errors.join(' ')}
+          </Note>
+        </div>
+      )}
+      {r && res?.result.ok && (
+        <div className="mt-4 rounded-lg border border-line p-3">
+          <p className="text-sm font-semibold">Found in {res.name}:</p>
+          <ul className="mt-2 space-y-1 text-sm">
+            <li>
+              <strong>Dates:</strong> {fmtRange({ start: r.periodStart, end: r.periodEnd })}
+            </li>
+            {r.totals && (
+              <li>
+                <strong>Ads:</strong> {r.ads.length} ads, {money(r.totals.spend)} spent, {int(r.totals.reach)} people reached, {int(r.totals.results)} page visits,{' '}
+                {int(r.totals.igFollows)} Instagram follows
+              </li>
+            )}
+            {(['instagram', 'facebook'] as const).map((p) => {
+              const t = p === 'instagram' ? ig : fb;
+              const now = r.followers[p];
+              return t || now ? (
+                <li key={p}>
+                  <strong>{PLATFORM_LABEL[p]}:</strong> {t ? `${int(t.newFollows)} new follows` : 'no page totals'}
+                  {now ? `, ${int(now.total)} followers on ${fmtDate(now.date)}` : ''}
+                  {t?.conversations != null ? `, ${int(t.conversations)} conversation${t.conversations === 1 ? '' : 's'}` : ''}
+                </li>
+              ) : null;
+            })}
+            {r.daily.length > 0 && (
+              <li>
+                <strong>Follows per day:</strong> {r.daily.length} days ({fmtRange({ start: r.daily[0].date, end: r.daily[r.daily.length - 1].date }, false)})
+              </li>
+            )}
+            {newAds.length > 0 && (
+              <li>
+                <strong>New ads to add:</strong> {newAds.map((a) => a.metaName).join(', ')}
+              </li>
+            )}
+          </ul>
+          {[
+            ...res.result.warnings,
+            ...(r.periodStart !== f.start
+              ? [
+                  `The report starts ${fmtDate(r.periodStart, true)}, but the campaign starts ${fmtDate(f.start, true)}. Pull it from the campaign start so the totals cover the whole campaign.`,
+                ]
+              : []),
+          ].map((w) => (
+            <div key={w} className="mt-2">
+              <Note tone="warn">{w}</Note>
+            </div>
+          ))}
+          <div className="mt-3 flex gap-2">
+            <Button
+              variant="primary"
+              icon="check"
+              onClick={() => {
+                onApply(applyFollowerReport(f, r, () => newId('fad')));
+                setRes(null);
+              }}
+            >
+              Use these numbers
+            </Button>
+            <Button onClick={() => setRes(null)}>Cancel</Button>
+          </div>
+        </div>
+      )}
+    </Card>
+  );
 }
 
 function parseCities(text: string): FollowerPage['topCities'] {
