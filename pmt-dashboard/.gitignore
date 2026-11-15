@@ -1,0 +1,7 @@
+node_modules
+dist
+.netlify
+.localdata
+*.log
+test-results
+*.tsbuildinfo
