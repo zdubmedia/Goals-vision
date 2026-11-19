@@ -1,0 +1,1158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B1426">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Go Time">
+<title>Go Time</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B1426'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%23C9A227' stroke-width='6'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #0B1426;
+  --surface: #111D35;
+  --surface-2: #182746;
+  --line: #24365C;
+  --gold: #C9A227;
+  --gold-text: #DDB94A;
+  --gold-soft: rgba(201,162,39,.14);
+  --ink: #F3EFE6;
+  --ink-2: #C9CCD6;
+  --ink-3: #98A2B9;
+  --warn: #E8A87C;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius: 16px;
+  --tap: 56px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--gold-text); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
+[tabindex="-1"]:focus { outline: none; }
+
+/* Header */
+.top {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: calc(8px + env(safe-area-inset-top)) 16px 8px;
+  background: rgba(11,20,38,.94);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  background: none; border: 0; padding: 8px 0; min-height: 44px;
+  font-family: var(--serif); font-size: 20px; color: var(--gold-text); letter-spacing: .02em;
+}
+.top nav { display: flex; gap: 4px; align-items: center; }
+.navbtn {
+  background: none; border: 1px solid transparent; border-radius: 999px;
+  min-height: 44px; min-width: 44px; padding: 0 12px;
+  font-size: 16px; color: var(--ink-2);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.navbtn:hover, .navbtn:active { border-color: var(--line); color: var(--ink); }
+.navbtn svg { width: 22px; height: 22px; }
+
+/* Screen layout */
+main {
+  max-width: 560px; margin: 0 auto;
+  padding: 20px 16px 0;
+  min-height: calc(100dvh - 61px);
+  display: flex; flex-direction: column;
+}
+.screen { display: flex; flex-direction: column; flex: 1; }
+.step { font-size: 15px; color: var(--ink-3); letter-spacing: .06em; text-transform: uppercase; margin: 0 0 12px; display: flex; justify-content: space-between; gap: 12px; }
+h1 { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.15; margin: 0 0 6px; }
+h2 { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.2; margin: 0 0 12px; }
+h3 { font-size: 18px; margin: 0 0 6px; }
+.muted { color: var(--ink-2); }
+.small { font-size: 16px; color: var(--ink-3); }
+p { margin: 0 0 14px; }
+.serif { font-family: var(--serif); }
+.spoken { font-family: var(--serif); font-size: 26px; line-height: 1.35; }
+.gold { color: var(--gold-text); }
+.center { text-align: center; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px; margin: 0 0 16px;
+}
+.coachline {
+  border-left: 3px solid var(--gold); padding: 4px 0 4px 14px; margin: 0 0 18px; color: var(--ink);
+}
+.banner {
+  background: var(--gold-soft); border: 1px solid rgba(201,162,39,.45); color: var(--ink);
+  border-radius: 12px; padding: 12px 14px; margin: 0 0 16px; font-weight: 600;
+}
+.banner.warn { border-color: rgba(232,168,124,.5); background: rgba(232,168,124,.10); }
+.nudge { color: var(--warn); margin-top: 10px; }
+
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 12px 0; }
+.stat { background: var(--surface-2); border-radius: 12px; padding: 10px 12px; }
+.stat b { display: block; font-family: var(--serif); font-size: 30px; font-weight: 400; line-height: 1.1; color: var(--ink); }
+.stat span { font-size: 15px; color: var(--ink-3); }
+
+/* Actions pinned toward the thumb */
+.actions {
+  margin-top: auto;
+  position: sticky; bottom: 0;
+  padding: 16px 0 calc(16px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--bg) 70%, rgba(11,20,38,0));
+  display: flex; flex-direction: column; gap: 8px; align-items: stretch;
+}
+.btn {
+  min-height: var(--tap); border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); padding: 12px 22px; font-size: 18px; font-weight: 600;
+}
+.btn.primary { background: var(--gold); border-color: var(--gold); color: #0B1426; font-size: 20px; }
+.btn.primary:active { filter: brightness(.92); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.link {
+  background: none; border: 0; color: var(--gold-text); text-decoration: underline; text-underline-offset: 3px;
+  min-height: 44px; padding: 8px 4px; font-size: 17px;
+}
+.link.quiet { color: var(--ink-3); }
+.row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+/* Ring */
+.ringwrap { display: flex; justify-content: center; margin: 24px 0; }
+.ring { width: 180px; height: 180px; position: relative; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring .track { stroke: var(--surface-2); }
+.ring .bar { stroke: var(--gold); transition: stroke-dashoffset .25s linear; }
+.ring .num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 44px; }
+
+/* Goal card + scripts */
+.script { margin: 8px 0 18px; }
+.script .para { margin: 0 0 22px; }
+.script .line { display: block; font-family: var(--serif); font-size: 24px; line-height: 1.4; margin: 0 0 10px; }
+.script .gap { display: block; height: 26px; }
+.script .gap::before { content: ""; display: block; width: 28px; height: 2px; margin: 12px 0; background: var(--line); }
+.script .countout { color: var(--gold-text); }
+.footer-note { font-size: 16px; color: var(--ink-3); font-style: italic; margin: 8px 0 0; }
+.player {
+  min-height: 46vh; display: flex; align-items: center; justify-content: center; text-align: center;
+  font-family: var(--serif); font-size: 30px; line-height: 1.35; padding: 20px 4px;
+}
+.player.breath { color: var(--ink-3); font-size: 20px; }
+.fade { animation: fade .8s ease both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; margin: 0 0 14px; }
+.toggle button { background: none; border: 0; min-height: 44px; padding: 0 18px; color: var(--ink-2); }
+.toggle button[aria-pressed="true"] { background: var(--gold); color: #0B1426; font-weight: 600; }
+
+/* Lock in */
+.commit { font-family: var(--serif); font-size: 28px; line-height: 1.3; margin: 8px 0 6px; }
+.stepper { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 14px 0; }
+.stepper button {
+  width: 64px; height: 64px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
+  font-size: 32px; line-height: 1; color: var(--ink);
+}
+.stepper input[type=number] {
+  width: 120px; padding: 0; min-height: 0; height: 76px; text-align: center; font-family: var(--serif); font-size: 52px;
+  background: var(--surface-2); border: 2px solid var(--gold); border-radius: 14px; color: var(--ink);
+  -moz-appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button, .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Forms */
+label { display: block; font-weight: 600; margin: 0 0 6px; }
+.field { margin: 0 0 18px; }
+.field .hint { font-size: 15px; color: var(--ink-3); font-weight: 400; margin-top: 4px; }
+input[type=text], input[type=url], input[type=number], textarea {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px 14px; min-height: 52px; font-size: 18px; color: var(--ink);
+}
+textarea { min-height: 120px; line-height: 1.45; resize: vertical; }
+textarea.tall { min-height: 260px; }
+input::placeholder, textarea::placeholder { color: var(--ink-3); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Send screen */
+.sendscreen { background: var(--gold); color: #0B1426; margin: -20px -16px 0; padding: 28px 20px 0; flex: 1; display: flex; flex-direction: column; }
+.sendscreen h1 { font-size: 34px; color: #0B1426; }
+.sendscreen .ring .track { stroke: rgba(11,20,38,.18); }
+.sendscreen .ring .bar { stroke: #0B1426; }
+.sendscreen .actions { background: linear-gradient(to top, var(--gold) 70%, rgba(201,162,39,0)); }
+.sendscreen .btn.primary { background: #0B1426; border-color: #0B1426; color: var(--gold-text); }
+.sendscreen .link { color: #0B1426; }
+.sendscreen .step { color: rgba(11,20,38,.7); }
+
+/* Go mode */
+.noon { font-family: var(--serif); font-size: 40px; line-height: 1.1; margin: 0 0 4px; }
+.tally { text-align: center; margin: 18px 0 8px; }
+.tally .count { font-family: var(--serif); font-size: 26px; }
+.plus {
+  display: block; margin: 16px auto 6px; width: 168px; height: 168px; border-radius: 50%;
+  background: var(--gold); color: #0B1426; border: 0; font-family: var(--serif); font-size: 64px; line-height: 1;
+  box-shadow: 0 0 0 8px var(--gold-soft);
+}
+.plus:active { transform: scale(.97); }
+.quick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0 8px; }
+.quick .btn { font-size: 17px; font-weight: 500; }
+
+/* Lists */
+.list { list-style: none; padding: 0; margin: 0; }
+.list li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.list li:last-child { border-bottom: 0; }
+.extra-card { display: block; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; margin: 0 0 12px; min-height: var(--tap); }
+.extra-card .tag { display: block; color: var(--gold-text); font-size: 15px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 4px; }
+.extra-card .ttl { font-family: var(--serif); font-size: 22px; }
+
+.sticky-item { margin: 0 0 18px; }
+.sticky-item h3 { color: var(--gold-text); font-size: 19px; }
+.numbers p { font-size: 19px; }
+.numbers b { color: var(--gold-text); font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 22px 0; }
+.toast {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+  background: var(--surface-2); border: 1px solid var(--gold); color: var(--ink); padding: 12px 18px; border-radius: 999px;
+  font-size: 16px; z-index: 50; max-width: calc(100% - 32px); text-align: center;
+}
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (min-width: 480px) {
+  h1 { font-size: 40px; }
+  .script .line { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="brand" data-action="home" aria-label="Go Time home">Go Time</button>
+  <nav aria-label="Main">
+    <button class="navbtn" data-action="sticky">Sticky?</button>
+    <button class="navbtn" data-action="checkin">Check-in</button>
+    <button class="navbtn" data-action="settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </nav>
+</header>
+<main id="app" aria-live="polite"></main>
+<noscript><p style="padding:16px">Go Time needs JavaScript turned on.</p></noscript>
+
+<script>
+'use strict';
+
+/* =====================================================================
+   CONTENT — all wording lives here. Edit text freely; logic is below.
+   {curly} words are filled in by the page (numbers, names).
+   ===================================================================== */
+const CONTENT = {
+  greeting: "Morning, Zach.",
+  coreMessage: "You already have the tools. You don't need anything new. You need conversations with business owners. How many are you starting before noon? Lock it in. Now go.",
+
+  scoreboard: {
+    hit: "Yesterday: {done} of {committed}. That's who you are. Again.",
+    miss: "Yesterday: {done} of {committed}. No story. Next time is today. Beat {done} before noon.",
+    none: "Fresh start. The scoreboard starts today."
+  },
+  startButton: "5 minutes. Go.",
+  stickyLink: "Feeling sticky?",
+
+  stand: {
+    instruction: "Stand up. Shoulders back, relaxed and down. One breath.",
+    line: "Thank you, God. You are my source.",
+    seconds: 30
+  },
+
+  // Zach's Version 3 goal card. Exact words. Paragraphs are separated by a blank line.
+  goalCard: [
+    "I am so happy and grateful now that I am making over $15,000 every single month from my marketing business.",
+    "I have two high-ticket clients. Each one pays me $2,500 or more a month for my services, plus a performance bonus.",
+    "My clients are achieving phenomenal results from my world-class service.",
+    "We hit the performance bonus every single month, and I get paid $5,000 or more from each client's bonus.",
+    "$7,500 a client, two clients, $15,000 or more every month, like clockwork.",
+    "My clients happily pay me, because their business is making so much more money.",
+    "Everybody's winning. Everybody's happy. I love my work.",
+    "Thank you God. It is done."
+  ].join("\n\n"),
+  goalCardInstruction: "Read it out loud, twice.",
+  goalCardFooter: "Proctor's goal card (\"I am so happy and grateful now that\"), read aloud twice daily (Hill).",
+
+  sceneSafety: "Seated, eyes closed. Never while driving or riding.",
+  // One line per row. "(pause)" becomes a gentle gap.
+  sceneA: [
+    "I open my bank app. (pause)",
+    "Deposits this month: over fifteen thousand dollars. (pause)",
+    "My shoulders drop back and down. (pause)",
+    "A calm, loving buzz fills my chest, my neck, my arms, my head, and lifts me up. (pause)",
+    "More than enough. Overflow. (pause)",
+    "My clients are winning. Everybody's winning. (pause)",
+    "Thank you, God. It is done. (pause)",
+    "Three, two, one. Eyes open."
+  ].join("\n"),
+  sceneB: "",
+  countOut: "Three, two, one. Eyes open.",
+  sceneFooter: "Goddard: live in the end, feel it done.",
+
+  lockIn: {
+    before: "Today I start",
+    after: "conversations with high-ticket owners before noon.",
+    nudge: "Is that the number of the man who already has $15K a month? Bump it or own it.",
+    firstOwnerLabel: "First owner I'm contacting:",
+    sayIt: "Say it out loud:",
+    line: "I'm just doing what a man who already hit this month's number does.",
+    button: "Locked in."
+  },
+
+  send: {
+    headline: "The practice isn't done until the first message or dial is out. Send it now.",
+    seconds: 60,
+    button: "First one sent.",
+    after: "That's a deposit day. Now keep going."
+  },
+
+  go: {
+    tally: "{n} of {committed} conversations started",
+    tallyNoCommit: "{n} conversations started",
+    notLocked: "No number locked in yet today.",
+    hit: "Number hit. The man with $15K a month keeps the phone warm. Bonus round?",
+    short: "Short by {x}. Close it out this afternoon, or log a NEXT TIME tonight.",
+    toNoon: "{t} to noon",
+    pastNoon: "Past noon"
+  },
+
+  pocketStatement: "I am fit, strong, and in phenomenal shape. I breathe clearly, I sleep deep, and I wake up rested, refreshed, and ready to go. My body and brain chemistry are dialed in. I love my work, I love my play, I love each moment of each day. I own my own business. I am financially free and time free. My family is healthy, thriving, and taken care of. Life is good, baby. It is done.",
+
+  extras: {
+    intro: "Only if there's time. The calls come first.",
+    pocket: { tag: "+3 minutes", title: "Pocket Self-Image Statement", note: "Read it out loud." },
+    selfTalk: { tag: "Workout or drive", title: "Self-Talk Track \"Life Is Good, Baby\"", note: "Play your recording. Eyes open, no trance." },
+    read: { tag: "+15 minutes", title: "Read", note: "A few pages of one core book. Write down one idea and use it today.", ideaLabel: "Today's idea" },
+    sleep: { tag: "Bedtime", title: "Night Sleep Meditation \"Lock It In\"", note: "In bed, lights out.", safety: "Seated or lying down. Never while driving or riding." },
+    footer: "Proctor's paradigm repetition and daily study."
+  },
+
+  night: {
+    title: "Night check-in",
+    winLabel: "One win today:",
+    nextTimeLabel: "NEXT TIME — one line on how the man with $15K a month handles tomorrow morning:",
+    nextTimeNote: "Newman's NEXT TIME. One line, no essay.",
+    cardIntro: "Read it once. Fall asleep in the bank app feeling."
+  },
+
+  sunday: {
+    banner: "It's Sunday. 15 minutes for the weekly review.",
+    question: "What's the one change that makes next week's number bigger?"
+  },
+
+  checkin: {
+    slipLabel: "Where did my thinking slip?",
+    boldLabel: "One bold action for the next 24 hours:"
+  },
+
+  sticky: {
+    title: "Feeling sticky?",
+    items: [
+      { h: "It's the thermostat, not the truth.", b: "James Newman (Release Your Brakes): your self-image works like a thermostat. When your performance climbs past the old setting, your system pulls you back toward what's familiar. That sticky, heavy, \"I'll do it after I study one more thing\" feeling is the thermostat kicking on. It means you're above the old setting. Good. Stay there." },
+      { h: "Expand the comfort zone in imagination first.", b: "Newman again: picture the call going well first, so the real one already feels familiar. Take 20 seconds: the owner picks up, you're relaxed, they say \"yeah, tell me more.\"" },
+      { h: "Name it and step through.", b: "Proctor's terror barrier: say out loud, <em>\"This is me growing,\"</em> and make the dial anyway." },
+      { h: "\"Up until now.\"", b: "If you catch a label like \"I'm bad at cold calls\", put <em>up until now</em> in front of it (Newman)." },
+      { h: "Act now.", b: "Wattles: you can only act where you are, and only now. One dial." }
+    ],
+    button: "One dial. Now.",
+    scope: "Personal-growth practice. If anxiety or low mood feels out of control, talk to a qualified professional."
+  },
+
+  numbers: {
+    title: "The Numbers",
+    subtitle: "Calm discernment, not fear.",
+    openQuestion: "What exactly is the 5% calculated on, and is it in writing in the agreement?"
+  },
+
+  coachLines: [
+    "You already have the tools. What stands between you and $15K is conversations.",
+    "You don't need a new practice. You need a dial.",
+    "Studying isn't selling. Planning isn't selling. Talking to owners is selling.",
+    "\"By thought, the thing you want is brought to you; by action you receive it.\" — Wallace Wattles",
+    "\"Do, every day, all that can be done that day.\" — Wallace Wattles",
+    "The gym already proved it: action creates the feeling.",
+    "Nobody's watching at 8 a.m. That's exactly when it counts.",
+    "What does the man earning over $15,000 a month do right now? Do that.",
+    "Think from the end. He already has the clients. He's just making the calls he always makes.",
+    "Build the floor on retainers. Bonuses are overflow.",
+    "One conversation changes the month. Ten change the year.",
+    "Resistance is the thermostat pulling you back. Step through it.",
+    "The first dial is the whole battle. Make it before you think about it.",
+    "Bold beats ready. Go."
+  ],
+
+  yourWordsWarning: "Your words. Change only if you mean to."
+};
+
+/* =====================================================================
+   Storage (localStorage with in-memory fallback)
+   ===================================================================== */
+const STORE_KEY = 'gotime.v1';
+const EDITABLE = ['goalCard', 'sceneA', 'sceneB', 'pocketStatement', 'coachLines'];
+const DEFAULT_SETTINGS = {
+  defaultTarget: 10,
+  retainer: 2500,
+  clientCount: 2,
+  pmt: 600,
+  bonusPct: 5,
+  monthlyTarget: 10000,
+  bonusExample: 25000,
+  floorClients: 4,
+  bonusAnswer: '',
+  sceneChoice: 'A',
+  links: { selfTalk: '', sleep: '', tracker: '' }
+};
+let storageOk = true;
+
+function blankData() {
+  return { app: 'go-time', version: 1, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), content: {}, days: {}, weeks: {} };
+}
+function isObj(x) { return x && typeof x === 'object' && !Array.isArray(x); }
+function normalize(d) {
+  const b = blankData();
+  if (!isObj(d)) return b;
+  const s = isObj(d.settings) ? d.settings : {};
+  b.settings = Object.assign(b.settings, s);
+  b.settings.links = Object.assign(JSON.parse(JSON.stringify(DEFAULT_SETTINGS.links)), isObj(s.links) ? s.links : {});
+  if (isObj(d.content)) EDITABLE.forEach(k => { if (k in d.content) b.content[k] = d.content[k]; });
+  if (isObj(d.days)) b.days = d.days;
+  if (isObj(d.weeks)) b.weeks = d.weeks;
+  return b;
+}
+function load() {
+  try {
+    const t = '__gotime_test__';
+    localStorage.setItem(t, '1'); localStorage.removeItem(t);
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? normalize(JSON.parse(raw)) : blankData();
+  } catch (e) {
+    storageOk = false;
+    return blankData();
+  }
+}
+function persist() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); storageOk = true; }
+  catch (e) { storageOk = false; }
+}
+let data = load();
+
+function C(key) { return (key in data.content) ? data.content[key] : CONTENT[key]; }
+function coachLines() {
+  const l = C('coachLines');
+  const arr = Array.isArray(l) ? l.filter(x => String(x).trim()) : [];
+  return arr.length ? arr : CONTENT.coachLines;
+}
+
+/* =====================================================================
+   Dates and helpers
+   ===================================================================== */
+const pad = n => String(n).padStart(2, '0');
+const keyOf = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+const fromKey = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
+const todayKey = () => keyOf(new Date());
+const yesterdayKey = () => keyOf(addDays(new Date(), -1));
+// After midnight but before 4 a.m., the night check-in still belongs to the day that just ended.
+const nightKey = () => (new Date().getHours() < 4 ? yesterdayKey() : todayKey());
+const getDay = k => data.days[k] || {};
+const ensureDay = k => (data.days[k] = data.days[k] || {});
+const dayIndex = () => { const n = new Date(); return Math.floor(Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()) / 86400000); };
+const longDate = d => d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+const shortDate = d => d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+const money = n => '$' + Math.round(Number(n) || 0).toLocaleString('en-US');
+const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+const countWord = n => (Number.isInteger(n) && n >= 0 && n <= 10 ? WORDS[n] : String(n));
+const pl = (n, w) => n + ' ' + (n === 1 ? w : w + 's');
+const num = (v, f) => { const n = Number(v); return Number.isFinite(n) ? n : f; };
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function fill(str, vals) { return String(str).replace(/\{(\w+)\}/g, (m, k) => (k in vals ? vals[k] : m)); }
+function sentences(p) {
+  const m = String(p).match(/[^.!?]+[.!?]+["'”’)]*|[^.!?]+$/g);
+  return (m || [p]).map(s => s.trim()).filter(Boolean);
+}
+function dayCoachLine(offset) {
+  const l = coachLines();
+  return l[(((dayIndex() + (offset || 0)) % l.length) + l.length) % l.length];
+}
+function weekDays(endDate) { const r = []; for (let i = 6; i >= 0; i--) r.push(keyOf(addDays(endDate, -i))); return r; }
+function weekStats(keys) {
+  let committed = 0, done = 0, hit = 0, deposit = 0; const wins = [];
+  keys.forEach(k => {
+    const d = data.days[k]; if (!d) return;
+    const c = num(d.committed, 0), t = num(d.tally, 0);
+    committed += c; done += t;
+    if (c > 0 && t >= c) hit++;
+    if (d.firstSentAt) deposit++;
+    if (d.win) wins.push({ k, win: d.win });
+  });
+  return { committed, done, hit, deposit, wins };
+}
+function toast(msg) {
+  const old = document.querySelector('.toast'); if (old) old.remove();
+  const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
+}
+
+/* =====================================================================
+   Router
+   ===================================================================== */
+const app = document.getElementById('app');
+let timers = [];
+let current = null;
+let returnTo = 'open';
+const state = {};
+function clearTimers() { timers.forEach(t => { clearInterval(t); clearTimeout(t); }); timers = []; }
+function every(ms, fn) { const t = setInterval(fn, ms); timers.push(t); return t; }
+function after(ms, fn) { const t = setTimeout(fn, ms); timers.push(t); return t; }
+function homeScreen() { return getDay(todayKey()).lockedAt ? 'go' : 'open'; }
+
+function go(name, opts) {
+  clearTimers();
+  const morning = ['open', 'stand', 'goal', 'scene', 'lock', 'send', 'go'];
+  if (morning.includes(name)) returnTo = name;
+  current = name;
+  const s = SCREENS[name] || SCREENS.open;
+  app.innerHTML = '<section class="screen" data-screen="' + name + '">' + s.html(opts || {}) + '</section>';
+  window.scrollTo(0, 0);
+  if (s.mount) s.mount(opts || {});
+  const h = app.querySelector('h1, h2');
+  if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+}
+function back() { go(returnTo || homeScreen()); }
+
+function stepLabel(n, mins) { return '<p class="step"><span>Step ' + n + ' of 5</span><span>' + mins + '</span></p>'; }
+function skipBtn(to, label) { return '<button class="link quiet" data-action="to" data-to="' + to + '">' + (label || 'Skip') + '</button>'; }
+function ringSvg() {
+  return '<div class="ringwrap"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true">' +
+    '<circle class="track" cx="60" cy="60" r="52" fill="none" stroke-width="8"/>' +
+    '<circle class="bar" cx="60" cy="60" r="52" fill="none" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.73" stroke-dashoffset="0"/>' +
+    '</svg><div class="num" data-ringnum></div></div></div>';
+}
+function runRing(seconds, onDone, countUp) {
+  const start = Date.now();
+  const bar = app.querySelector('.ring .bar'), numEl = app.querySelector('[data-ringnum]');
+  const C2 = 326.73;
+  const tick = () => {
+    const el = Math.min(seconds, (Date.now() - start) / 1000);
+    const left = Math.ceil(seconds - el);
+    if (bar) bar.setAttribute('stroke-dashoffset', String(C2 * (el / seconds)));
+    if (numEl) numEl.textContent = countUp ? String(Math.floor(el)) : String(left);
+    if (el >= seconds) { clearInterval(iv); onDone && onDone(); }
+  };
+  const iv = every(200, tick); tick();
+}
+
+/* Script rendering: goal card and pocket statement, one sentence per line */
+function renderCard(text) {
+  return '<div class="script">' + String(text).split(/\n\s*\n/).map(p =>
+    '<div class="para">' + sentences(p.replace(/\s*\n\s*/g, ' ')).map(s => '<span class="line">' + esc(s) + '</span>').join('') + '</div>'
+  ).join('') + '</div>';
+}
+/* Scene parsing: lines, (pause) markers, always ending with the count-out */
+function parseScene(text) {
+  const out = [];
+  String(text).split('\n').map(l => l.trim()).filter(Boolean).forEach(l => {
+    const parts = l.split(/\(pause\)/i);
+    parts.forEach((p, i) => {
+      const t = p.trim();
+      if (t) out.push({ text: t, pause: false });
+      if (i < parts.length - 1 && out.length) out[out.length - 1].pause = true;
+    });
+  });
+  const co = CONTENT.countOut;
+  const norm = s => s.toLowerCase().replace(/[^a-z]/g, '');
+  if (!out.length || norm(out[out.length - 1].text) !== norm(co)) {
+    if (out.length) out[out.length - 1].pause = true;
+    out.push({ text: co, pause: false });
+  }
+  out[out.length - 1].countOut = true;
+  return out;
+}
+function activeScene() {
+  const b = String(C('sceneB') || '').trim();
+  const choice = b && data.settings.sceneChoice === 'B' ? 'B' : 'A';
+  return { choice, hasB: !!b, lines: parseScene(choice === 'B' ? b : C('sceneA')) };
+}
+
+/* =====================================================================
+   Screens
+   ===================================================================== */
+const SCREENS = {};
+
+/* 0 — Coach's Open */
+SCREENS.open = {
+  html() {
+    const now = new Date();
+    const y = data.days[yesterdayKey()];
+    let score;
+    if (y && num(y.committed, 0) > 0) {
+      const done = num(y.tally, 0), committed = num(y.committed, 0);
+      const line = fill(done >= committed ? CONTENT.scoreboard.hit : CONTENT.scoreboard.miss, { done, committed });
+      score = '<div class="card"><h3>Yesterday\'s scoreboard</h3>' +
+        '<div class="stats"><div class="stat"><b>' + committed + '</b><span>committed</span></div>' +
+        '<div class="stat"><b>' + done + '</b><span>conversations started</span></div></div>' +
+        (y.win ? '<p class="muted"><strong>Win:</strong> ' + esc(y.win) + '</p>' : '') +
+        '<p style="margin:0"><strong>' + esc(line) + '</strong></p></div>';
+    } else {
+      score = '<div class="card"><p style="margin:0"><strong>' + esc(CONTENT.scoreboard.none) + '</strong></p></div>';
+    }
+    const bold = y && y.checkin && y.checkin.bold ? '<div class="banner">Your bold action: ' + esc(y.checkin.bold) + '</div>' : '';
+    const sunday = now.getDay() === 0 ? '<button class="banner" style="width:100%;text-align:left" data-action="to" data-to="sunday">' + esc(CONTENT.sunday.banner) + ' Open it.</button>' : '';
+    const locked = getDay(todayKey()).lockedAt;
+    return '<p class="step"><span>' + esc(longDate(now)) + '</span></p>' +
+      '<h1>' + esc(CONTENT.greeting) + '</h1>' +
+      '<p class="muted" style="margin-top:8px">' + esc(CONTENT.coreMessage) + '</p>' +
+      sunday + bold + score +
+      '<p class="coachline">' + esc(dayCoachLine(0)) + '</p>' +
+      '<div class="actions">' +
+      '<button class="btn primary" data-action="to" data-to="stand">' + esc(CONTENT.startButton) + '</button>' +
+      '<div class="row">' + (locked ? skipBtn('go', 'Back to Go Mode') : '') +
+      '<button class="link" data-action="sticky">' + esc(CONTENT.stickyLink) + '</button></div></div>';
+  }
+};
+
+/* 1 — Stand */
+SCREENS.stand = {
+  html() {
+    return stepLabel(1, '30 sec') +
+      '<h2>' + esc(CONTENT.stand.instruction) + '</h2>' +
+      ringSvg() +
+      '<p class="spoken center">' + esc(CONTENT.stand.line) + '</p>' +
+      '<div class="actions"><button class="btn primary" data-action="to" data-to="goal">Next</button>' +
+      '<div class="row">' + skipBtn('goal') + '</div></div>';
+  },
+  mount() { runRing(CONTENT.stand.seconds, () => after(400, () => go('goal'))); }
+};
+
+/* 2 — Goal Card */
+SCREENS.goal = {
+  html() {
+    state.reads = 0;
+    return stepLabel(2, '1 min') +
+      '<h2>' + esc(CONTENT.goalCardInstruction) + '</h2>' +
+      '<p class="gold" data-readcount aria-live="polite">Read 1 of 2</p>' +
+      '<div data-goalcard>' + renderCard(C('goalCard')) + '</div>' +
+      '<p class="footer-note">' + esc(CONTENT.goalCardFooter) + '</p>' +
+      '<div class="actions"><button class="btn primary" data-action="goalread">Read it again</button>' +
+      '<div class="row">' + skipBtn('scene') + '</div></div>';
+  }
+};
+
+/* 3 — The Scene */
+SCREENS.scene = {
+  html() {
+    const sc = activeScene();
+    const toggle = sc.hasB ? '<div class="toggle" role="group" aria-label="Choose scene">' +
+      '<button data-action="scenechoice" data-v="A" aria-pressed="' + (sc.choice === 'A') + '">Scene A</button>' +
+      '<button data-action="scenechoice" data-v="B" aria-pressed="' + (sc.choice === 'B') + '">Scene B</button></div>' : '';
+    const script = '<div class="script" data-scenescript>' + sc.lines.map(l =>
+      '<span class="line' + (l.countOut ? ' countout' : '') + '">' + esc(l.text) + '</span>' + (l.pause ? '<span class="gap" aria-label="pause"></span>' : '')
+    ).join('') + '</div>';
+    return stepLabel(3, '2 min') +
+      '<div class="banner warn" role="note">' + esc(CONTENT.sceneSafety) + '</div>' +
+      toggle +
+      '<div data-sceneview>' + script + '</div>' +
+      '<p class="footer-note">' + esc(CONTENT.sceneFooter) + '</p>' +
+      '<div class="actions"><button class="btn primary" data-action="to" data-to="lock">Next</button>' +
+      '<div class="row"><button class="link" data-action="sceneplay">Play</button>' + skipBtn('lock') + '</div></div>';
+  }
+};
+function playScene() {
+  clearTimers();
+  const lines = activeScene().lines;
+  const view = app.querySelector('[data-sceneview]');
+  const playBtn = app.querySelector('[data-action="sceneplay"]');
+  if (playBtn) { playBtn.textContent = 'Stop'; playBtn.dataset.action = 'scenestop'; }
+  let i = 0;
+  const show = () => {
+    const l = lines[i];
+    view.innerHTML = '<div class="player fade' + (l.countOut ? ' gold' : '') + '">' + esc(l.text) + '</div>';
+    const words = l.text.split(/\s+/).length;
+    const hold = 7000 + words * 400;
+    after(hold, () => {
+      if (i >= lines.length - 1) { stopScene(true); return; }
+      if (l.pause) {
+        view.innerHTML = '<div class="player breath fade" aria-label="pause">&nbsp;</div>';
+        after(4000, () => { i++; show(); });
+      } else { i++; show(); }
+    });
+  };
+  show();
+}
+function stopScene(finished) {
+  clearTimers();
+  go('scene');
+  if (finished) toast('Eyes open. Lock it in.');
+}
+
+/* 4 — Lock It In */
+SCREENS.lock = {
+  html() {
+    const t = getDay(todayKey());
+    const y = getDay(yesterdayKey());
+    const v = num(t.committed, 0) > 0 ? t.committed : (num(y.committed, 0) > 0 ? y.committed : num(data.settings.defaultTarget, 10));
+    return stepLabel(4, '1 min') +
+      '<p class="commit">' + esc(CONTENT.lockIn.before) + '</p>' +
+      '<div class="stepper"><button data-action="step" data-d="-1" aria-label="One fewer">&minus;</button>' +
+      '<input id="commitN" type="number" inputmode="numeric" min="0" max="999" value="' + v + '" aria-label="Number of conversations">' +
+      '<button data-action="step" data-d="1" aria-label="One more">+</button></div>' +
+      '<p class="commit">' + esc(CONTENT.lockIn.after) + '</p>' +
+      '<p class="nudge" data-nudge hidden>' + esc(CONTENT.lockIn.nudge) + '</p>' +
+      '<div class="field" style="margin-top:18px"><label for="firstOwner">' + esc(CONTENT.lockIn.firstOwnerLabel) + '</label>' +
+      '<input id="firstOwner" type="text" autocomplete="off" placeholder="Name or business (optional)" value="' + esc(t.firstOwner || '') + '"></div>' +
+      '<p class="small">' + esc(CONTENT.lockIn.sayIt) + '</p>' +
+      '<p class="spoken">' + esc(CONTENT.lockIn.line) + '</p>' +
+      '<div class="actions"><button class="btn primary" data-action="lockin">' + esc(CONTENT.lockIn.button) + '</button>' +
+      '<div class="row">' + skipBtn('send') + '</div></div>';
+  },
+  mount() {
+    const inp = document.getElementById('commitN');
+    const upd = () => { app.querySelector('[data-nudge]').hidden = !(num(inp.value, 0) < 5); };
+    inp.addEventListener('input', upd); upd();
+  }
+};
+
+/* 5 — Send the First One */
+SCREENS.send = {
+  html() {
+    return '<div class="sendscreen">' + stepLabel(5, '30 sec') +
+      '<h1 data-sendhead>' + esc(CONTENT.send.headline) + '</h1>' +
+      ringSvg() +
+      '<div class="actions"><button class="btn primary" data-action="firstsent">' + esc(CONTENT.send.button) + '</button>' +
+      '<div class="row">' + skipBtn('go') + '</div></div></div>';
+  },
+  mount() {
+    runRing(CONTENT.send.seconds, () => { const n = app.querySelector('[data-ringnum]'); if (n) n.textContent = 'Now'; });
+  }
+};
+
+/* 6 — Go Mode */
+function noonText() {
+  const now = new Date();
+  const noon = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0);
+  const ms = noon - now;
+  if (ms <= 0) return { past: true, text: CONTENT.go.pastNoon };
+  const mins = Math.ceil(ms / 60000);
+  const h = Math.floor(mins / 60), m = mins % 60;
+  const t = mins < 1 ? 'Under a minute' : (h ? h + 'h ' + m + 'm' : m + 'm');
+  return { past: false, text: fill(CONTENT.go.toNoon, { t }) };
+}
+SCREENS.go = {
+  html() {
+    const k = todayKey(), d = getDay(k);
+    const n = num(d.tally, 0), committed = num(d.committed, 0);
+    const noon = noonText();
+    let status = '';
+    if (!committed) status = '<p class="muted center">' + esc(CONTENT.go.notLocked) + ' <button class="link" data-action="to" data-to="lock">Lock it in</button></p>';
+    else if (n >= committed) status = '<p class="banner center">' + esc(CONTENT.go.hit) + '</p>';
+    else if (noon.past) status = '<p class="banner warn center">' + esc(fill(CONTENT.go.short, { x: committed - n })) + '</p>';
+    const tallyLine = committed ? fill(CONTENT.go.tally, { n, committed }) : fill(CONTENT.go.tallyNoCommit, { n });
+    const evening = new Date().getHours() >= 18 && !d.win ? '<button class="banner" style="width:100%;text-align:left" data-action="to" data-to="night">Time for the night check-in.</button>' : '';
+    const sunday = new Date().getDay() === 0 ? '<button class="banner" style="width:100%;text-align:left" data-action="to" data-to="sunday">' + esc(CONTENT.sunday.banner) + '</button>' : '';
+    const tracker = data.settings.links.tracker ? '<a class="btn" style="display:flex;align-items:center;justify-content:center;text-decoration:none;grid-column:1/-1" href="' + esc(data.settings.links.tracker) + '" target="_blank" rel="noopener">Prospect tracker</a>' : '';
+    const l = coachLines();
+    const rot = l[(dayIndex() + new Date().getHours() + 3) % l.length];
+    return '<p class="step"><span>Go Mode</span><span>' + esc(shortDate(new Date())) + '</span></p>' +
+      evening + sunday +
+      '<p class="noon" data-noon>' + esc(noon.text) + '</p>' +
+      (d.firstOwner ? '<p class="small">First owner: ' + esc(d.firstOwner) + '</p>' : '') +
+      '<div class="tally"><p class="count" data-tally aria-live="polite">' + esc(tallyLine) + '</p>' +
+      '<button class="plus" data-action="plus" aria-label="Add one conversation started">+1</button>' +
+      '<button class="link quiet" data-action="undo"' + (n ? '' : ' disabled') + '>Undo</button></div>' +
+      status +
+      '<div class="quick">' +
+      '<button class="btn" data-action="to" data-to="extras">Extras</button>' +
+      '<button class="btn" data-action="sticky">Feeling sticky?</button>' +
+      '<button class="btn" data-action="to" data-to="numbers">The Numbers</button>' +
+      '<button class="btn" data-action="to" data-to="night">Night check-in</button>' +
+      tracker + '</div>' +
+      '<p class="coachline" style="margin-top:14px">' + esc(rot) + '</p>' +
+      '<div style="height:16px"></div>';
+  },
+  mount() { every(20000, () => { const el = app.querySelector('[data-noon]'); if (!el) return; const nt = noonText(); if (el.textContent !== nt.text) go('go'); }); }
+};
+
+/* 7 — Extras */
+SCREENS.extras = {
+  html() {
+    const x = CONTENT.extras;
+    const card = (key, o) => '<button class="extra-card" data-action="to" data-to="extra-' + key + '"><span class="tag">' + esc(o.tag) + '</span><span class="ttl">' + esc(o.title) + '</span></button>';
+    return '<p class="step"><span>Extras</span></p><h2>Only if there\'s time</h2>' +
+      '<p class="muted">' + esc(x.intro) + '</p>' +
+      card('pocket', x.pocket) + card('selftalk', x.selfTalk) + card('read', x.read) + card('sleep', x.sleep) +
+      '<p class="footer-note">' + esc(x.footer) + '</p>' +
+      '<div class="actions"><button class="btn primary" data-action="to" data-to="go">Back to Go Mode</button></div>';
+  }
+};
+function linkBtn(url, label) {
+  return url ? '<a class="btn" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(label) + '</a>'
+    : '<p class="small">Add the recording link in Settings to open it from here.</p>';
+}
+SCREENS['extra-pocket'] = {
+  html() {
+    const x = CONTENT.extras.pocket;
+    return '<p class="step"><span>' + esc(x.tag) + '</span></p><h2>' + esc(x.title) + '</h2><p class="muted">' + esc(x.note) + '</p>' +
+      renderCard(C('pocketStatement')) +
+      '<div class="actions"><button class="btn primary" data-action="to" data-to="extras">Done</button></div>';
+  }
+};
+SCREENS['extra-selftalk'] = {
+  html() {
+    const x = CONTENT.extras.selfTalk;
+    return '<p class="step"><span>' + esc(x.tag) + '</span></p><h2>' + esc(x.title) + '</h2>' +
+      '<div class="banner">' + esc(x.note) + '</div>' + linkBtn(data.settings.links.selfTalk, 'Open recording') +
+      '<div class="actions"><button class="btn primary" data-action="to" data-to="extras">Done</button></div>';
+  }
+};
+SCREENS['extra-read'] = {
+  html() {
+    const x = CONTENT.extras.read, d = getDay(todayKey());
+    return '<p class="step"><span>' + esc(x.tag) + '</span></p><h2>' + esc(x.title) + '</h2><p class="muted">' + esc(x.note) + '</p>' +
+      '<div class="field"><label for="idea">' + esc(x.ideaLabel) + '</label><input id="idea" type="text" value="' + esc(d.idea || '') + '"></div>' +
+      '<div class="actions"><button class="btn primary" data-action="saveidea">Save idea</button><div class="row">' + skipBtn('extras', 'Back') + '</div></div>';
+  }
+};
+SCREENS['extra-sleep'] = {
+  html() {
+    const x = CONTENT.extras.sleep;
+    return '<p class="step"><span>' + esc(x.tag) + '</span></p><h2>' + esc(x.title) + '</h2>' +
+      '<div class="banner warn" role="note">' + esc(x.safety) + '</div><p class="muted">' + esc(x.note) + '</p>' +
+      linkBtn(data.settings.links.sleep, 'Open recording') +
+      '<div class="actions"><button class="btn primary" data-action="to" data-to="extras">Done</button></div>';
+  }
+};
+
+/* 8 — Night Check-in */
+SCREENS.night = {
+  html(o) {
+    const k = nightKey(), d = getDay(k), N = CONTENT.night;
+    if (o.phase === 'card') {
+      return '<p class="step"><span>Night</span></p><h2>' + esc(N.cardIntro) + '</h2>' + renderCard(C('goalCard')) +
+        '<div class="actions"><button class="btn primary" data-action="to" data-to="' + homeScreen() + '">Goodnight</button></div>';
+    }
+    const committed = num(d.committed, 0), done = num(d.tally, 0);
+    return '<p class="step"><span>' + esc(N.title) + '</span><span>2 min</span></p><h2>' + esc(N.title) + '</h2>' +
+      '<div class="stats"><div class="stat"><b>' + committed + '</b><span>committed</span></div>' +
+      '<div class="stat"><b data-nightdone>' + done + '</b><span>done</span></div></div>' +
+      '<div class="row" style="justify-content:flex-start;margin-bottom:14px"><span class="small" style="align-self:center">Fix done:</span>' +
+      '<button class="link" data-action="nightdone" data-d="-1" aria-label="One fewer done">&minus;1</button>' +
+      '<button class="link" data-action="nightdone" data-d="1" aria-label="One more done">+1</button></div>' +
+      '<div class="field"><label for="win">' + esc(N.winLabel) + '</label><input id="win" type="text" required value="' + esc(d.win || '') + '"></div>' +
+      '<div class="field" data-nextwrap' + (done < committed ? '' : ' hidden') + '><label for="nexttime">' + esc(N.nextTimeLabel) + '</label>' +
+      '<input id="nexttime" type="text" value="' + esc(d.nextTime || '') + '"><p class="hint">' + esc(N.nextTimeNote) + '</p></div>' +
+      '<p class="nudge" data-nighterr hidden>One win, one line. Then save.</p>' +
+      '<div class="actions"><button class="btn primary" data-action="savenight">Save</button><div class="row">' + skipBtn(homeScreen(), 'Back') + '</div></div>';
+  }
+};
+
+/* 9 — Sunday Review */
+function reviewWeekEnd() { const n = new Date(); return addDays(n, -n.getDay()); }
+SCREENS.sunday = {
+  html() {
+    const end = reviewWeekEnd(), wk = keyOf(end), st = weekStats(weekDays(end)), saved = data.weeks[wk] || {};
+    const past = Object.keys(data.weeks).sort().reverse().slice(0, 4);
+    const pastHtml = past.length ? '<ul class="list">' + past.map(k => {
+      const w = data.weeks[k];
+      return '<li><strong>Week ending ' + esc(shortDate(fromKey(k))) + '</strong><br><span class="muted">' +
+        num(w.total, 0) + ' started, ' + pl(num(w.hitDays, 0), 'day') + ' hit, ' + pl(num(w.depositDays, 0), 'deposit day') + ', ' +
+        pl(num(w.booked, 0), 'call') + ' booked, ' + pl(num(w.proposals, 0), 'proposal') + ', ' + num(w.signed, 0) + ' signed</span>' +
+        (w.change ? '<br><span class="small">Change: ' + esc(w.change) + '</span>' : '') + '</li>';
+    }).join('') + '</ul>' : '<p class="small">Your first saved week shows here.</p>';
+    const nf = (id, label, v) => '<div class="field"><label for="' + id + '">' + label + '</label><input id="' + id + '" type="number" inputmode="numeric" min="0" value="' + (v == null ? '' : esc(v)) + '"></div>';
+    return '<p class="step"><span>Sunday Review</span><span>15 min</span></p>' +
+      '<h2>Week ending ' + esc(shortDate(end)) + '</h2>' +
+      '<div class="stats"><div class="stat"><b>' + st.done + '</b><span>conversations started</span></div>' +
+      '<div class="stat"><b>' + st.hit + '</b><span>days the number was hit</span></div>' +
+      '<div class="stat"><b>' + st.deposit + '</b><span>deposit days</span></div>' +
+      '<div class="stat"><b>' + st.committed + '</b><span>committed</span></div></div>' +
+      '<div class="grid2">' + nf('booked', 'Calls booked', saved.booked) + nf('proposals', 'Proposals sent', saved.proposals) + '</div>' +
+      nf('signed', 'Clients signed', saved.signed) +
+      '<div class="field"><label for="change">' + esc(CONTENT.sunday.question) + '</label><input id="change" type="text" value="' + esc(saved.change || '') + '"></div>' +
+      '<hr><h3>Last 4 weeks</h3>' + pastHtml +
+      '<div class="actions"><button class="btn primary" data-action="savesunday">Save the week</button><div class="row">' + skipBtn(homeScreen(), 'Back') + '</div></div>';
+  }
+};
+
+/* Check-in Mode */
+SCREENS.checkin = {
+  html() {
+    const k = nightKey(), d = getDay(k);
+    const n = new Date(), monday = addDays(n, -((n.getDay() + 6) % 7));
+    const keys = []; for (let x = new Date(monday); keyOf(x) <= keyOf(n); x = addDays(x, 1)) keys.push(keyOf(x));
+    const st = weekStats(keys);
+    const ci = d.checkin || {};
+    const wins = st.wins.length ? '<ul class="list">' + st.wins.map(w => '<li><span class="small">' + esc(shortDate(fromKey(w.k))) + '</span><br>' + esc(w.win) + '</li>').join('') + '</ul>'
+      : '<p class="small">No wins logged yet this week. Log one tonight.</p>';
+    return '<p class="step"><span>Check-in</span></p><h2>Coaching check-in</h2>' +
+      '<div class="card"><h3>1. Committed vs. done</h3>' +
+      '<div class="stats"><div class="stat"><b>' + num(d.tally, 0) + ' / ' + num(d.committed, 0) + '</b><span>today</span></div>' +
+      '<div class="stat"><b>' + st.done + ' / ' + st.committed + '</b><span>this week</span></div></div></div>' +
+      '<div class="card"><h3>2. Wins to celebrate</h3>' + wins + '</div>' +
+      '<div class="field"><label for="slip">3. ' + esc(CONTENT.checkin.slipLabel) + '</label><textarea id="slip" style="min-height:90px">' + esc(ci.slip || '') + '</textarea></div>' +
+      '<div class="field"><label for="bold">4. ' + esc(CONTENT.checkin.boldLabel) + '</label><input id="bold" type="text" value="' + esc(ci.bold || '') + '"><p class="hint">It shows on tomorrow\'s Coach\'s Open.</p></div>' +
+      '<div class="actions"><button class="btn primary" data-action="savecheckin">Save check-in</button><div class="row"><button class="link quiet" data-action="back">Back</button></div></div>';
+  }
+};
+
+/* Feeling sticky? */
+SCREENS.sticky = {
+  html() {
+    const S = CONTENT.sticky;
+    return '<p class="step"><span>Reset</span><span>1 min</span></p><h2>' + esc(S.title) + '</h2>' +
+      S.items.map(i => '<div class="sticky-item"><h3>' + esc(i.h) + '</h3><p>' + i.b + '</p></div>').join('') +
+      '<p class="small">' + esc(S.scope) + '</p>' +
+      '<div class="actions"><button class="btn primary" data-action="to" data-to="go">' + esc(S.button) + '</button></div>';
+  }
+};
+
+/* The Numbers */
+function numbersModel() {
+  const s = data.settings;
+  const retainer = num(s.retainer, 0), count = num(s.clientCount, 0), pmt = num(s.pmt, 0);
+  const pct = num(s.bonusPct, 0), target = num(s.monthlyTarget, 0), example = num(s.bonusExample, 0), floorN = num(s.floorClients, 0);
+  const guaranteed = count * retainer + pmt;
+  const need = target - guaranteed;
+  const results = pct > 0 ? need / (pct / 100) : null;
+  const exampleResults = pct > 0 ? example / (pct / 100) : null;
+  const floor = floorN * retainer + pmt;
+  return { retainer, count, pmt, pct, target, example, floorN, guaranteed, need, results, exampleResults, floor };
+}
+function numbersHtml() {
+  const m = numbersModel();
+  const cw = countWord(m.count), fw = countWord(m.floorN);
+  const plural = (n, w) => (n === 1 ? w : w + 's');
+  const pctTxt = m.pct + '%';
+  let p2;
+  if (m.need <= 0) p2 = '<p><strong>For ' + money(m.target) + ':</strong> retainers plus PMT already cover it. Bonuses are pure overflow.</p>';
+  else p2 = '<p><strong>For ' + money(m.target) + ' with only ' + cw + ' ' + plural(m.count, 'client') + ':</strong> you need ' + money(m.need) + ' in bonuses, which is ' +
+    (m.results == null ? 'not reachable with a 0% bonus.' : '<b>' + money(m.results) + ' in client results at ' + pctTxt + '</b>.') + '</p>';
+  const p3 = '<p><strong>A ' + money(m.example) + ' bonus at ' + pctTxt + '</strong> takes ' + (m.exampleResults == null ? 'more than any result (0% bonus).' : '<b>' + money(m.exampleResults) + ' in client results</b>.') + '</p>';
+  const ans = String(data.settings.bonusAnswer || '').trim();
+  const q = CONTENT.numbers.openQuestion.replace('5%', pctTxt);
+  return '<div class="card numbers">' +
+    '<p><strong>Guaranteed now:</strong> ' + cw + ' ' + money(m.retainer) + ' ' + plural(m.count, 'retainer') + ' plus PMT\'s ' + money(m.pmt) + ' = <b>' + money(m.guaranteed) + '</b>.</p>' +
+    p2 + p3 +
+    '<p style="margin:0"><strong>The floor:</strong> ' + fw + ' ' + plural(m.floorN, 'client') + ' at ' + money(m.retainer) + ' plus PMT = <b>' + money(m.floor) + ' with zero bonus.</b> So chase more than ' + cw + ' ' + plural(m.count, 'client') + ', and let bonuses be overflow.</p>' +
+    '</div>' +
+    (ans ? '<div class="card"><h3>What the ' + esc(pctTxt) + ' is calculated on</h3><p style="margin:0">' + esc(ans) + '</p></div>'
+      : '<div class="banner warn"><strong>Open question:</strong> ' + esc(q) + ' <button class="link" data-action="settings">Answer it in Settings</button></div>');
+}
+SCREENS.numbers = {
+  html() {
+    return '<p class="step"><span>' + esc(CONTENT.numbers.title) + '</span></p><h2>' + esc(CONTENT.numbers.title) + '</h2>' +
+      '<p class="muted">' + esc(CONTENT.numbers.subtitle) + '</p>' + numbersHtml() +
+      '<div class="actions"><button class="btn primary" data-action="back">Back</button><div class="row"><button class="link quiet" data-action="settings">Edit the inputs</button></div></div>';
+  }
+};
+
+/* Settings */
+SCREENS.settings = {
+  html() {
+    const s = data.settings;
+    const ta = (id, label, val, warn, cls) => '<div class="field"><label for="' + id + '">' + label + '</label>' +
+      (warn ? '<p class="nudge" style="margin:0 0 8px">' + esc(CONTENT.yourWordsWarning) + '</p>' : '') +
+      '<textarea id="' + id + '" class="' + (cls || '') + '">' + esc(val) + '</textarea>' +
+      '<button class="link quiet" data-action="restore" data-k="' + id.replace('set-', '') + '">Restore original</button></div>';
+    const nf = (id, label, v, hint) => '<div class="field"><label for="' + id + '">' + label + '</label><input id="' + id + '" type="number" inputmode="decimal" min="0" step="any" value="' + esc(v) + '">' + (hint ? '<p class="hint">' + hint + '</p>' : '') + '</div>';
+    const uf = (id, label, v) => '<div class="field"><label for="' + id + '">' + label + '</label><input id="' + id + '" type="url" inputmode="url" placeholder="https://" value="' + esc(v) + '"></div>';
+    return '<p class="step"><span>Settings</span></p><h2>Settings</h2>' +
+      (storageOk ? '' : '<div class="banner warn">This browser is blocking storage. Today works, but nothing is kept after you close the page. Export before you close.</div>') +
+      '<h3 style="margin-top:10px">Your words</h3>' +
+      ta('set-goalCard', 'Goal card', C('goalCard'), true, 'tall') +
+      ta('set-sceneA', 'Scene A <span class="small">(one line per row; write (pause) for a gap)</span>', C('sceneA'), false, 'tall') +
+      ta('set-sceneB', 'Scene B <span class="small">(optional: paste your Results Meeting scene)</span>', C('sceneB'), false, 'tall') +
+      ta('set-pocketStatement', 'Pocket Self-Image Statement', C('pocketStatement'), true, 'tall') +
+      ta('set-coachLines', 'Coach lines <span class="small">(one per line; add your own)</span>', coachLines().join('\n'), false, 'tall') +
+      '<hr><h3>Daily target</h3>' + nf('set-defaultTarget', 'Default conversation target', s.defaultTarget, 'Used when there is no number from yesterday.') +
+      '<hr><h3>The Numbers</h3><div class="grid2">' +
+      nf('set-retainer', 'Retainer ($)', s.retainer) + nf('set-clientCount', 'Clients', s.clientCount) +
+      nf('set-pmt', 'PMT ($)', s.pmt) + nf('set-bonusPct', 'Bonus %', s.bonusPct) +
+      nf('set-monthlyTarget', 'Monthly target ($)', s.monthlyTarget) + nf('set-bonusExample', 'Example bonus ($)', s.bonusExample) +
+      '</div>' + nf('set-floorClients', 'Clients for the floor', s.floorClients) +
+      '<div class="field"><label for="set-bonusAnswer">' + esc(CONTENT.numbers.openQuestion) + '</label><input id="set-bonusAnswer" type="text" value="' + esc(s.bonusAnswer || '') + '"></div>' +
+      '<hr><h3>Links</h3>' + uf('set-selfTalk', 'Self-Talk Track recording', s.links.selfTalk) + uf('set-sleep', 'Night Sleep Meditation recording', s.links.sleep) + uf('set-tracker', 'Prospect tracker', s.links.tracker) +
+      '<button class="btn primary" style="width:100%" data-action="savesettings">Save settings</button>' +
+      '<hr><h3>Weekly review</h3><p class="small">Shows as a banner on Sundays. Open it any day here.</p><button class="btn" data-action="to" data-to="sunday">Open Sunday Review</button>' +
+      '<hr><h3>Your data</h3><p class="small">Browser storage can be wiped. Export a copy now and then.</p>' +
+      '<div class="row" style="justify-content:flex-start"><button class="btn" data-action="export">Export data</button>' +
+      '<button class="btn" data-action="import">Import data</button></div>' +
+      '<input id="importFile" type="file" accept="application/json,.json" class="sr" tabindex="-1" aria-hidden="true">' +
+      '<div class="actions"><button class="btn" data-action="back">Back</button></div>';
+  },
+  mount() {
+    document.getElementById('importFile').addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = () => {
+        try {
+          const parsed = JSON.parse(r.result);
+          if (!isObj(parsed) || (!isObj(parsed.days) && !isObj(parsed.settings))) throw new Error('bad');
+          if (!confirm('Replace everything on this device with the imported data?')) return;
+          data = normalize(parsed); persist(); toast('Imported.'); go('settings');
+        } catch (err) { toast('That file is not a Go Time export.'); }
+      };
+      r.readAsText(f);
+    });
+  }
+};
+
+/* =====================================================================
+   Actions
+   ===================================================================== */
+const ACTIONS = {
+  home() { go(homeScreen()); },
+  to(el) { go(el.dataset.to); },
+  back() { back(); },
+  sticky() { go('sticky'); },
+  checkin() { go('checkin'); },
+  settings() { go('settings'); },
+
+  goalread(el) {
+    if (state.reads === 0) {
+      state.reads = 1;
+      app.querySelector('[data-readcount]').textContent = 'Read 2 of 2';
+      el.textContent = 'Done, twice';
+      window.scrollTo(0, 0);
+    } else go('scene');
+  },
+  scenechoice(el) { data.settings.sceneChoice = el.dataset.v; persist(); go('scene'); },
+  sceneplay() { playScene(); },
+  scenestop() { stopScene(false); },
+
+  step(el) {
+    const inp = document.getElementById('commitN');
+    inp.value = Math.max(0, Math.min(999, num(inp.value, 0) + Number(el.dataset.d)));
+    inp.dispatchEvent(new Event('input'));
+  },
+  lockin() {
+    const n = Math.max(0, Math.min(999, Math.round(num(document.getElementById('commitN').value, 0))));
+    const d = ensureDay(todayKey());
+    d.committed = n;
+    d.firstOwner = document.getElementById('firstOwner').value.trim();
+    d.lockedAt = new Date().toISOString();
+    if (d.tally == null) d.tally = 0;
+    persist();
+    go('send');
+  },
+  firstsent() {
+    clearTimers();
+    const d = ensureDay(todayKey());
+    if (!d.firstSentAt) d.firstSentAt = new Date().toISOString();
+    d.tally = Math.max(num(d.tally, 0), 1);
+    persist();
+    const h = app.querySelector('[data-sendhead]'); if (h) h.textContent = CONTENT.send.after;
+    const ring = app.querySelector('.ringwrap'); if (ring) ring.remove();
+    const btn = app.querySelector('[data-action="firstsent"]');
+    if (btn) { btn.textContent = 'Go Mode'; btn.dataset.action = 'to'; btn.dataset.to = 'go'; }
+    after(2500, () => go('go'));
+  },
+  plus() {
+    const d = ensureDay(todayKey()); d.tally = num(d.tally, 0) + 1;
+    if (!d.firstSentAt) d.firstSentAt = new Date().toISOString();
+    persist(); go('go');
+  },
+  undo() {
+    const d = ensureDay(todayKey()); d.tally = Math.max(0, num(d.tally, 0) - 1); persist(); go('go');
+  },
+  saveidea() {
+    ensureDay(todayKey()).idea = document.getElementById('idea').value.trim(); persist(); toast('Saved. Use it today.'); go('extras');
+  },
+  nightdone(el) {
+    const d = ensureDay(nightKey()); d.tally = Math.max(0, num(d.tally, 0) + Number(el.dataset.d)); persist();
+    app.querySelector('[data-nightdone]').textContent = d.tally;
+    app.querySelector('[data-nextwrap]').hidden = !(d.tally < num(d.committed, 0));
+  },
+  savenight() {
+    const win = document.getElementById('win').value.trim();
+    if (!win) { app.querySelector('[data-nighterr]').hidden = false; document.getElementById('win').focus(); return; }
+    const d = ensureDay(nightKey());
+    d.win = win;
+    const nt = document.getElementById('nexttime');
+    d.nextTime = (num(d.tally, 0) < num(d.committed, 0) && nt) ? nt.value.trim() : '';
+    d.nightAt = new Date().toISOString();
+    persist();
+    go('night', { phase: 'card' });
+  },
+  savesunday() {
+    const end = reviewWeekEnd(), st = weekStats(weekDays(end));
+    const v = id => { const x = document.getElementById(id).value; return x === '' ? 0 : Math.max(0, Math.round(num(x, 0))); };
+    data.weeks[keyOf(end)] = {
+      total: st.done, hitDays: st.hit, depositDays: st.deposit, committed: st.committed,
+      booked: v('booked'), proposals: v('proposals'), signed: v('signed'),
+      change: document.getElementById('change').value.trim(), savedAt: new Date().toISOString()
+    };
+    persist(); toast('Week saved.'); go('sunday');
+  },
+  savecheckin() {
+    const d = ensureDay(nightKey());
+    d.checkin = { slip: document.getElementById('slip').value.trim(), bold: document.getElementById('bold').value.trim(), at: new Date().toISOString() };
+    persist(); toast('Check-in saved.'); back();
+  },
+  restore(el) {
+    const k = el.dataset.k, t = document.getElementById('set-' + k);
+    t.value = k === 'coachLines' ? CONTENT.coachLines.join('\n') : CONTENT[k];
+    toast('Original restored. Save to keep it.');
+  },
+  savesettings() {
+    const val = id => document.getElementById(id).value;
+    ['goalCard', 'sceneA', 'sceneB', 'pocketStatement'].forEach(k => {
+      const v = val('set-' + k).replace(/\r\n/g, '\n');
+      if (v === CONTENT[k]) delete data.content[k]; else data.content[k] = v;
+    });
+    const lines = val('set-coachLines').split('\n').map(x => x.trim()).filter(Boolean);
+    if (!lines.length || lines.join('\n') === CONTENT.coachLines.join('\n')) delete data.content.coachLines; else data.content.coachLines = lines;
+    const s = data.settings;
+    ['defaultTarget', 'retainer', 'clientCount', 'pmt', 'bonusPct', 'monthlyTarget', 'bonusExample', 'floorClients'].forEach(k => {
+      s[k] = Math.max(0, num(val('set-' + k), DEFAULT_SETTINGS[k]));
+    });
+    s.defaultTarget = Math.round(s.defaultTarget); s.clientCount = Math.round(s.clientCount); s.floorClients = Math.round(s.floorClients);
+    s.bonusAnswer = val('set-bonusAnswer').trim();
+    s.links.selfTalk = val('set-selfTalk').trim(); s.links.sleep = val('set-sleep').trim(); s.links.tracker = val('set-tracker').trim();
+    persist();
+    toast(storageOk ? 'Settings saved.' : 'Saved for now. Storage is blocked, so export before closing.');
+  },
+  export() {
+    const blob = new Blob([JSON.stringify(Object.assign({ exportedAt: new Date().toISOString() }, data), null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'go-time-' + todayKey() + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('Exported.');
+  },
+  import() { document.getElementById('importFile').click(); }
+};
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-action]');
+  if (!el || el.disabled) return;
+  const fn = ACTIONS[el.dataset.action];
+  if (fn) { e.preventDefault(); fn(el, e); }
+});
+document.addEventListener('visibilitychange', () => {
+  // Coming back to the page on a new day, or after noon, should show fresh numbers.
+  if (document.visibilityState === 'visible' && (current === 'go' || current === 'open')) go(homeScreen());
+});
+
+go(homeScreen());
+</script>
+</body>
+</html>

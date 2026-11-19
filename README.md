@@ -20,3 +20,13 @@ https://claude.ai/artifact/61YGUKTPutYyXooyPcTASS
 - If the database isn't reachable, entries fall back to the browser's localStorage, and the page offers to move them into the vault later.
 
 The file is written for the Artifact publisher, which adds the `<!doctype>`/`<head>`/`<body>` wrapper at publish time.
+
+---
+
+# Go Time (`go-time/index.html`)
+
+Zach's five-minute morning coach: Stand, Goal Card, Scene, Lock It In, Send the First One, then Go Mode (noon countdown and a +1 tally) for the rest of the day. Night check-in, Sunday Review, Check-in Mode, "Feeling sticky?", The Numbers and Extras are one tap away.
+
+- One self-contained file: no frameworks, no CDNs, no fonts to download. It works offline.
+- All wording is in the `CONTENT` object at the top of the script. The goal card, scene, Scene B, pocket statement and coach lines can also be edited in Settings.
+- Data is saved in this browser's `localStorage` (key `gotime.v1`). Use **Settings > Export data** now and then, and **Import data** to restore it on a new phone or after storage is cleared.
