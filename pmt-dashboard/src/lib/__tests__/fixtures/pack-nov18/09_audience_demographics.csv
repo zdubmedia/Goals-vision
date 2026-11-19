@@ -1,0 +1,45 @@
+platform,type,label,men_pct,women_pct,pct
+facebook,age_gender,18-24,0.8,0.3,1.1
+facebook,age_gender,25-34,12.1,4.5,16.6
+facebook,age_gender,35-44,23.5,8.6,32.1
+facebook,age_gender,45-54,18.3,6.1,24.4
+facebook,age_gender,55-64,13.3,4.5,17.8
+facebook,age_gender,65+,6.2,1.8,8.0
+facebook,top_city,"San Jose, CA",,,14.6
+facebook,top_city,"San Francisco, CA",,,2.3
+facebook,top_city,"Livermore, CA",,,2.1
+facebook,top_city,"Salinas, CA",,,2.1
+facebook,top_city,"Stockton, CA",,,1.5
+facebook,top_city,"Fremont, CA",,,1.3
+facebook,top_city,"Santa Rosa, CA",,,1.2
+facebook,top_city,"Antioch, CA",,,1.1
+facebook,top_city,"Oakland, CA",,,1.1
+facebook,top_city,"Watsonville, CA",,,1.1
+facebook,top_country,United States,,,93.4
+facebook,top_country,Philippines,,,0.8
+facebook,top_country,India,,,0.5
+facebook,top_country,Ireland,,,0.4
+facebook,top_country,France,,,0.3
+facebook,top_country,Pakistan,,,0.3
+facebook,top_country,United Kingdom,,,0.3
+instagram,age_gender,18-24,4.7,2.1,6.8
+instagram,age_gender,25-34,16.6,6.0,22.6
+instagram,age_gender,35-44,27.3,8.5,35.8
+instagram,age_gender,45-54,15.4,5.2,20.6
+instagram,age_gender,55-64,6.6,1.6,8.2
+instagram,age_gender,65+,5.2,0.8,6.0
+instagram,top_city,"San Francisco, CA",,,5.2
+instagram,top_city,"San Jose, CA",,,4.4
+instagram,top_city,"Salinas, CA",,,3.0
+instagram,top_city,"Oakland, CA",,,2.2
+instagram,top_city,"Stockton, CA",,,2.1
+instagram,top_city,"Livermore, CA",,,1.9
+instagram,top_city,"Dublin, CA",,,1.9
+instagram,top_city,"Sacramento, CA",,,1.7
+instagram,top_city,"Monterey, CA",,,1.6
+instagram,top_city,"Daly City, CA",,,1.6
+instagram,top_country,United States,,,88.4
+instagram,top_country,India,,,4.1
+instagram,top_country,Canada,,,0.9
+instagram,top_country,Brazil,,,0.6
+instagram,top_country,Mexico,,,0.5

@@ -2,12 +2,14 @@ import { useState, type ReactNode } from 'react';
 import { api, fileUrl } from '../api';
 import { sanitize } from '../dashboard/sections/Insights';
 import { fmtDate, fmtRange } from '../lib/dates';
-import { applyFollowerReport, parseFollowerReport, type ParseResult } from '../lib/followerReport';
+import readXlsxFile from 'read-excel-file/browser';
+import { readFollowerFiles, type ReadResult } from '../lib/followerPack';
+import { applyFollowerReport } from '../lib/followerReport';
 import { PLATFORM_LABEL, seedFollowers } from '../lib/followers';
 import { fmtDateTime, int, money } from '../lib/format';
-import { tableFromCsv } from '../lib/tabular';
 import type { FollowerAd, FollowerCampaign, FollowerCount, FollowerPage } from '../lib/types';
-import { Badge, Button, Card, Field, inputClass, Note } from '../ui/ui';
+import { Icon } from '../ui/Icon';
+import { Badge, Button, Card, cx, Field, inputClass, Note } from '../ui/ui';
 import { PanelTitle, useAdmin } from './AdminApp';
 import { compressImage, newId } from './files';
 import { RichEditor } from './RichEditor';
@@ -143,6 +145,13 @@ export function FollowersPanel() {
         <Field label="Where the ads run" className="sm:col-span-2">
           <input className={inputClass} value={f.areaNote} onChange={(e) => set({ areaNote: e.target.value })} />
         </Field>
+        <Num
+          label="Campaign spend ($)"
+          value={f.adSpend ?? null}
+          step={0.01}
+          onChange={(v) => set({ adSpend: v })}
+          hint="Ads Manager campaign total. Leave empty to add up the ads below."
+        />
         <Num
           label="People reached by the ads"
           value={f.adReach ?? null}
@@ -334,102 +343,142 @@ function withCounts(f: FollowerCampaign): FollowerCount[] {
 }
 
 function ReportUpload({ f, onApply }: { f: FollowerCampaign; onApply: (next: FollowerCampaign) => void }) {
-  const [res, setRes] = useState<{ name: string; result: ParseResult } | null>(null);
-  const read = async (file: File) => {
+  const [res, setRes] = useState<ReadResult | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [over, setOver] = useState(false);
+
+  const read = async (list: File[]) => {
+    if (!list.length) return;
+    setBusy(true);
     try {
-      setRes({ name: file.name, result: parseFollowerReport(tableFromCsv(await file.text())) });
+      const files = await Promise.all(list.map(async (file) => ({ name: file.name, bytes: new Uint8Array(await file.arrayBuffer()) })));
+      setRes(await readFollowerFiles(files, readWorkbook));
     } catch {
-      setRes({ name: file.name, result: { ok: false, errors: ['That file could not be read. Is it a .csv file?'] } });
+      setRes({ report: null, warnings: [], errors: ['Those files could not be opened.'], used: [], skipped: [] });
+    } finally {
+      setBusy(false);
     }
   };
-  const r = res?.result.ok ? res.result.report : null;
+  const r = res?.report ?? null;
   const ig = r?.pages.instagram;
   const fb = r?.pages.facebook;
   const newAds = r ? r.ads.filter((a) => !f.ads.some((x) => (x.metaName ?? '').toLowerCase() === a.metaName.toLowerCase())) : [];
+  const warnings = r
+    ? [
+        ...res!.warnings,
+        ...(r.periodStart !== f.start
+          ? [
+              `The report starts ${fmtDate(r.periodStart, true)}, but the campaign starts ${fmtDate(f.start, true)}. Pull it from the campaign start so the totals cover the whole campaign.`,
+            ]
+          : []),
+      ]
+    : [];
 
   return (
     <Card>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 className="text-base font-semibold">Upload the weekly report</h2>
-          <p className="mt-1 max-w-2xl text-sm text-ink2">
-            The CSV from the report guide (one row per number). It fills in everything below except your text, questions and images. Nothing changes for PMT until you
-            press Save.
-          </p>
-          <p className="mt-2 flex flex-wrap gap-3 text-sm">
-            <a className="font-semibold text-accentink underline" href="/report-kit/follower-report-guide.md" download>
-              Download the report guide
-            </a>
-            <a className="font-semibold text-accentink underline" href="/report-kit/follower-report-template.csv" download>
-              Download the blank template
-            </a>
-          </p>
-        </div>
-        <label className="focus-ring inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-accent px-3.5 py-2 text-sm font-semibold text-white hover:brightness-105">
-          Choose report CSV
-          <input
-            type="file"
-            accept=".csv,text/csv"
-            className="sr-only"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              e.target.value = '';
-              if (file) void read(file);
-            }}
-          />
-        </label>
-      </div>
+      <h2 className="text-base font-semibold">Upload the weekly report</h2>
+      <p className="mt-1 max-w-3xl text-sm text-ink2">
+        Drop in what Claude gives you: the data pack <strong>.zip</strong>, its <strong>.json</strong> or <strong>.csv</strong> files, the <strong>Excel</strong>{' '}
+        workbook, or the one-file CSV from the guide. Several files at once is fine. PDFs and screenshots are accepted but skipped, because their numbers are already in
+        the data files. Nothing changes for PMT until you press Save.
+      </p>
+      <label
+        onDragOver={(e) => {
+          e.preventDefault();
+          setOver(true);
+        }}
+        onDragLeave={() => setOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setOver(false);
+          void read([...e.dataTransfer.files]);
+        }}
+        className={cx(
+          'mt-3 flex cursor-pointer flex-col items-center gap-1 rounded-lg border-2 border-dashed px-4 py-6 text-center',
+          over ? 'border-accent bg-accent/5' : 'border-line hover:border-accent',
+        )}
+      >
+        <Icon name="upload" className="h-6 w-6 text-ink2" />
+        <span className="font-semibold">{busy ? 'Reading…' : 'Drop the report files here, or tap to choose'}</span>
+        <span className="text-xs text-muted">.zip · .json · .csv · .xlsx (PDFs and pictures are skipped)</span>
+        <input
+          type="file"
+          multiple
+          accept=".zip,.json,.csv,.xlsx,.pdf,image/*,application/zip,application/json,text/csv"
+          className="sr-only"
+          disabled={busy}
+          onChange={(e) => {
+            const list = [...(e.target.files ?? [])];
+            e.target.value = '';
+            void read(list);
+          }}
+        />
+      </label>
+      <p className="mt-2 flex flex-wrap gap-3 text-sm">
+        <a className="font-semibold text-accentink underline" href="/report-kit/follower-report-guide.md" download>
+          Download the report guide
+        </a>
+        <a className="font-semibold text-accentink underline" href="/report-kit/follower-report-template.csv" download>
+          Download the one-file CSV template
+        </a>
+      </p>
 
-      {res && !res.result.ok && (
+      {res && !r && (
         <div className="mt-3">
           <Note tone="warn">
-            <strong className="font-semibold">{res.name} couldn't be used.</strong> {res.result.errors.join(' ')}
+            <strong className="font-semibold">Nothing could be used.</strong> {res.errors.join(' ')}
           </Note>
         </div>
       )}
-      {r && res?.result.ok && (
+      {r && res && (
         <div className="mt-4 rounded-lg border border-line p-3">
-          <p className="text-sm font-semibold">Found in {res.name}:</p>
+          <p className="text-sm font-semibold">Found:</p>
           <ul className="mt-2 space-y-1 text-sm">
             <li>
               <strong>Dates:</strong> {fmtRange({ start: r.periodStart, end: r.periodEnd })}
             </li>
             {r.totals && (
               <li>
-                <strong>Ads:</strong> {r.ads.length} ads, {money(r.totals.spend)} spent, {int(r.totals.reach)} people reached, {int(r.totals.results)} page visits,{' '}
-                {int(r.totals.igFollows)} Instagram follows
+                <strong>Follower ads:</strong> {r.ads.length} ads, {money(r.totals.spend)} spent, {int(r.totals.reach)} people reached, {int(r.totals.results)} page
+                visits, {int(r.totals.igFollows)} Instagram follows
               </li>
             )}
             {(['instagram', 'facebook'] as const).map((p) => {
               const t = p === 'instagram' ? ig : fb;
               const now = r.followers[p];
+              const start = r.startFollowers?.[p];
               return t || now ? (
                 <li key={p}>
                   <strong>{PLATFORM_LABEL[p]}:</strong> {t ? `${int(t.newFollows)} new follows` : 'no page totals'}
-                  {now ? `, ${int(now.total)} followers on ${fmtDate(now.date)}` : ''}
-                  {t?.conversations != null ? `, ${int(t.conversations)} conversation${t.conversations === 1 ? '' : 's'}` : ''}
+                  {start !== undefined ? `, ${int(start)} followers at the start` : ''}
+                  {now ? `, ${int(now.total)} on ${fmtDate(now.date)}` : ''}
+                  {t?.conversations != null ? `, ${int(t.conversations)} messaged` : ''}
                 </li>
               ) : null;
             })}
             {r.daily.length > 0 && (
               <li>
                 <strong>Follows per day:</strong> {r.daily.length} days ({fmtRange({ start: r.daily[0].date, end: r.daily[r.daily.length - 1].date }, false)})
+                {r.baseline ? `, with no ads ${fmtRange(r.baseline, false)} to compare against` : ''}
               </li>
             )}
+            {r.otherCampaigns?.map((c) => (
+              <li key={c.name}>
+                <strong>Not counted:</strong> {c.name} ({money(c.spend)}
+                {c.detail ? `, ${c.detail}` : ''}), not a follower ad
+              </li>
+            ))}
             {newAds.length > 0 && (
               <li>
                 <strong>New ads to add:</strong> {newAds.map((a) => a.metaName).join(', ')}
               </li>
             )}
           </ul>
-          {[
-            ...res.result.warnings,
-            ...(r.periodStart !== f.start
-              ? [
-                  `The report starts ${fmtDate(r.periodStart, true)}, but the campaign starts ${fmtDate(f.start, true)}. Pull it from the campaign start so the totals cover the whole campaign.`,
-                ]
-              : []),
-          ].map((w) => (
+          <p className="mt-2 text-xs text-muted">
+            Read: {res.used.join(', ') || 'none'}
+            {res.skipped.length > 0 && <> · Skipped: {res.skipped.join(', ')}</>}
+          </p>
+          {warnings.map((w) => (
             <div key={w} className="mt-2">
               <Note tone="warn">{w}</Note>
             </div>
@@ -451,6 +500,12 @@ function ReportUpload({ f, onApply }: { f: FollowerCampaign; onApply: (next: Fol
       )}
     </Card>
   );
+}
+
+/** Every sheet of an Excel workbook, as raw rows. */
+async function readWorkbook(bytes: Uint8Array) {
+  const sheets = await readXlsxFile(new Blob([bytes as Uint8Array<ArrayBuffer>]));
+  return sheets.map((s) => ({ sheet: s.sheet, data: s.data as unknown[][] }));
 }
 
 function parseCities(text: string): FollowerPage['topCities'] {

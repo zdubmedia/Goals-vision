@@ -48,43 +48,46 @@ describe('follower campaign', () => {
   const f = seedFollowers();
   const s = summarizeFollowers(f, DEFAULT_SETTINGS);
 
-  it('starts from the Nov 1–11 report, keeping the friendly ad names', () => {
-    expect(f.asOf).toBe('2026-11-11');
+  it('starts from the Nov 1–18 data pack, keeping the friendly ad names', () => {
+    expect(f.asOf).toBe('2026-11-18');
     expect(f.ads.map((a) => a.name)).toEqual(['Learn to ride the right way', 'Parents of riders under 21', 'Dreading the DMV test?', 'Been off the bike for years?']);
-    expect(s.spend).toBeCloseTo(187.79);
-    expect(s.adFollows).toBe(80);
-    expect(s.profileVisits).toBe(1282);
-    expect(s.adReach).toBe(18072);
-    expect(s.newFollows).toBe(220);
+    expect(s.spend).toBeCloseTo(293.09); // the campaign's own total (the four ads add up to $293.05)
+    expect(s.adFollows).toBe(113);
+    expect(s.profileVisits).toBe(1903);
+    expect(s.adReach).toBe(28785);
+    expect(s.newFollows).toBe(324);
     expect(s.messagers).toBe(11);
-    expect(s.unfollows).toBeNull();
-    expect(s.startTotal).toBe(1065);
-    expect(s.nowTotal).toBe(1280);
+    expect(s.unfollows).toBe(11);
+    expect(s.startTotal).toBe(1063);
+    expect(s.nowTotal).toBe(1376);
+    expect(f.otherCampaigns).toEqual([{ name: 'New Traffic Campaign', spend: 27.83, detail: 'Off (ran Nov 13-17), 138 landing page views' }]);
   });
 
-  it('works out cost per follower both ways, like the report', () => {
-    expect(s.costPerFollower).toBeCloseTo(0.85, 2);
-    expect(s.costPerAdFollower).toBeCloseTo(2.35, 2);
+  it('works out cost per follower both ways, like the pack', () => {
+    expect(s.costPerFollower).toBeCloseTo(0.9, 2);
+    expect(s.costPerAdFollower).toBeCloseTo(2.59, 2);
   });
 
-  it('compares follows a day before and during the ads', () => {
-    expect(s.pace?.before).toEqual({ start: '2026-10-15', end: '2026-10-31', days: 17 });
-    expect(s.pace?.perDay.instagram.before).toBeCloseTo(30 / 17);
-    expect(s.pace?.perDay.instagram.during).toBeCloseTo(125 / 11);
-    expect(s.pace?.perDay.facebook.during).toBeCloseTo(95 / 11);
+  it('compares follows a day with the stretch that had no ads at all', () => {
+    expect(s.pace?.before).toEqual({ start: '2026-08-20', end: '2026-10-06', days: 48 });
+    expect(s.pace?.perDay.instagram.before).toBeCloseTo(51 / 48);
+    expect(s.pace?.perDay.facebook.before).toBeCloseTo(10 / 48);
+    // Nov 18 was a partial day, so the daily numbers stop at Nov 17.
+    expect(s.pace?.perDay.instagram.during).toBeCloseTo(176 / 17);
+    expect(s.pace?.perDay.facebook.during).toBeCloseTo(139 / 17);
   });
 
   it('shows what it takes to pay for the ads at a 14% margin', () => {
     expect(s.profitPerStudent).toBeCloseTo(59.5);
-    // $187.79 ÷ $59.50 = 3.16, so 4 students: about 1 in 55 of 220 followers.
-    expect(s.breakEvenStudents).toBe(4);
-    expect(Math.round(1 / s.breakEvenShare!)).toBe(55);
+    // $293.09 ÷ $59.50 = 4.93, so 5 students: about 1 in 65 of 324 followers.
+    expect(s.breakEvenStudents).toBe(5);
+    expect(Math.round(1 / s.breakEvenShare!)).toBe(65);
   });
 
   it('leaves a campaign someone already saved alone, apart from filling in Ads Manager names', () => {
-    const edited = { ...f, updatedAt: '2026-11-11T08:00:00.000Z', ads: f.ads.map((a) => ({ ...a, metaName: undefined })) };
+    const edited = { ...f, asOf: '2026-11-15', updatedAt: '2026-11-15T08:00:00.000Z', ads: f.ads.map((a) => ({ ...a, metaName: undefined })) };
     const up = upgradeFollowers(edited);
-    expect(up.asOf).toBe('2026-11-11');
+    expect(up.asOf).toBe('2026-11-15');
     expect(up.ads.find((a) => a.id === 'fad-3')?.metaName).toBe('ad3 - Learn2Ride the right way');
   });
 

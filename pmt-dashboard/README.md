@@ -72,9 +72,12 @@ On **Admin → Feedback**:
 
 PMT's link has two tabs at the top: **Follower ads** (opens first) and **Website ads** (the Oct 7–23 dashboard, unchanged). The follower tab is kept simple: new followers, cost per follower, the four ads, Instagram vs Facebook, messages, where followers live, why followers matter, and next steps.
 
-**Updating it (about 5 minutes a week):** pull the weekly report CSV with **`public/report-kit/follower-report-guide.md`** (also downloadable from Admin → Follower ads, with a blank template). The guide lists exactly what to pull from Ads Manager and Business Suite, in what format, plus a request to paste into an AI assistant. Then on **Admin → Follower ads**:
-1. **Choose report CSV.** The page shows what it found (dates, ads, spend, follows, followers, days of follows) and warns about anything missing or not adding up.
-2. **Use these numbers**, look it over, then **Save**. Your text, questions, ad pictures and the show/hide switch are never changed by an upload. Ads are matched by their exact Ads Manager name; a new name is added as a new ad.
+**Updating it (about 5 minutes a week):** ask Claude for the week's **dashboard data pack** (the request to paste is at the bottom of **`public/report-kit/follower-report-guide.md`**, which is also downloadable from Admin → Follower ads). Then on **Admin → Follower ads**:
+1. **Drop the files on the upload box**: the .zip pack, or its .json / .csv files, the Excel workbook, or the one-file CSV from the guide. Several files at once is fine. PDFs and screenshots are accepted but skipped (their numbers are in the data files).
+2. Check the **Found** summary (dates, follower-ad spend and follows, each page's new follows and followers, the no-ads comparison, anything not counted, and which files were read or skipped) and any warnings.
+3. **Use these numbers**, look it over, then **Save**. Your text, questions, ad pictures and the show/hide switch are never changed by an upload. Ads are matched by their exact Ads Manager name; a new name is added as a new ad. A number missing from the files keeps its old value.
+
+How the files are read (`src/lib/followerPack.ts`): each table is recognized by its column names, not its file name, so the JSON, the CSVs and Excel sheets all work. Follower campaigns are the ones whose result type or objective is profile/page visits or follows; other campaigns in the same month are listed as "not counted". Rows for another month are ignored. Daily rows marked `partial_day` are left out of the daily chart. Days labelled "baseline"/"pre-ads" are the no-ads comparison; other "ad run" days are marked on the chart.
 
 You can still type any number in by hand on the same page.
 
@@ -175,7 +178,7 @@ The upload pipeline (`parseMetaTable` → `MetaUpload`) is the single entry poin
 
 ## Test checklist (run before each release)
 
-Automated (`npm test`: 66 tests):
+Automated (`npm test`: 73 tests):
 
 - [x] Campaign totals tie to the final Oct 7–23 Meta report (pulled Oct 24):
   - $503.36 spend
@@ -203,7 +206,8 @@ Automated (`npm test`: 66 tests):
 - [x] A class that dropped off the page keeps its last value and is flagged.
 - [x] Profit at 14%: $59.50 a student, $2,320.50 on the 39 seats, and $503.36 of ads breaks even at 9 students (23% of seats sold).
 - [x] Older saved data gets the 14% margin, the 10% starting share and the new Files section.
-- [x] Follower ads report CSV (Nov 1–11): $187.79 spent, 18,072 reached, 1,282 page visits, 80 Instagram follows from the ads ($2.35 each); 220 new followers on both pages ($0.85 each); Instagram 466 → 583 and Facebook 599 → 697; 11.4 Instagram follows a day vs 1.8 before. A file in another format is refused, and ads that don't add up to the campaign total are flagged.
+- [x] Follower data pack (Nov 1–18) reads the same from the .zip, the JSON alone and the CSVs alone: $293.09 follower-ad spend, 28,785 reached, 1,903 page visits, 113 Instagram follows from the ads ($2.59 each); 324 new followers ($0.90 each); Instagram 466 → 632, Facebook 597 → 744; 10.4 Instagram follows a day vs 1.1 with no ads (Aug 20 – Oct 6). The $27.83 website-traffic campaign is listed as not counted. PDFs and pictures are skipped with a clear message; Excel sheets with title rows, sections and day-number dates are read.
+- [x] The one-file report CSV (Nov 1–11) still reads: $187.79 spent, 80 Instagram follows from the ads, 220 new followers. A file in another format is refused, and ads that don't add up to the campaign total are flagged.
 - [x] The follower tab stays out of the client's data until it's switched on.
 - [x] A shared PDF can't be opened from PMT's link until it's listed in Files for PMT. Then it opens whole, with its file name; "Download" saves it. Unsupported types and PDFs over 20 MB are refused.
 - [x] Organic "month before" (60d − 30d):

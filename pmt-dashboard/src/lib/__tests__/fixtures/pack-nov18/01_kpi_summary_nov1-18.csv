@@ -1,0 +1,21 @@
+platform,metric,nov_1_18,prior_period_oct_14_31,meta_reported_change_pct,note
+Facebook,"Followers (lifetime total, as of Nov 18)",744,,,Audience > Trends
+Facebook,New follows,148,14,957.1,Prior period Oct 14-31
+Facebook,Unfollows,1,1,0.0,
+Facebook,Net follows,147,13,1030.8,Meta shows +1.0K%
+Facebook,Views,53332,40792,30.7,Includes paid (ad) views
+Facebook,"Viewers (unique, deduplicated)",28600,21407,33.6,Meta rounds to 28.6K
+Facebook,Content interactions,321,134,139.6,
+Facebook,Link clicks,890,738,20.6,
+Facebook,Page visits,2587,295,776.9,
+Facebook,Messaging contacts,3,,100.0,
+Instagram,"Followers (lifetime total, as of Nov 17)",632,,,Audience > Demographics
+Instagram,New follows,176,34,417.6,Series runs through Nov 17
+Instagram,Unfollows,10,4,150.0,
+Instagram,Net follows,166,30,453.3,
+Instagram,Views,24116,9645,150.0,"Meta split: 18,639 on Instagram / 5,477 via Facebook"
+Instagram,"Reach (unique, deduplicated)",10700,8865,20.7,Meta rounds to 10.7K
+Instagram,Content interactions,325,165,97.0,
+Instagram,Link clicks,594,352,68.8,
+Instagram,Profile visits,731,142,414.8,
+Instagram,Messaging contacts,8,2,300.0,

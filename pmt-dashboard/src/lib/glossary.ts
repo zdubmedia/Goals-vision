@@ -83,9 +83,9 @@ export const GLOSSARY = {
   },
   adViews: { label: 'Ad views', technical: 'Views (ad results)', plain: 'How many times the follower ads were seen.' },
   messagers: {
-    label: 'Conversations started',
-    technical: 'Messaging conversations started',
-    plain: 'New message conversations on Instagram or Facebook. These people are often the closest to booking.',
+    label: 'People who messaged',
+    technical: 'Messaging contacts / conversations started',
+    plain: 'People who sent PMT a message on Instagram or Facebook. These are often the closest to booking.',
   },
   igProfileVisits: {
     label: 'Instagram profile visits from ads',

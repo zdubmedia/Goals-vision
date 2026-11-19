@@ -3,6 +3,7 @@
 import { daysBetween, type ISODate } from './dates';
 import { applyFollowerReport } from './followerReport';
 import { NOV_11_REPORT } from './seed/followerReportNov11';
+import { NOV_18_REPORT } from './seed/followerReportNov18';
 import type { FollowerCampaign, Platform, Settings } from './types';
 
 export const PLATFORM_LABEL: Record<Platform, string> = { instagram: 'Instagram', facebook: 'Facebook' };
@@ -42,7 +43,7 @@ export interface FollowerSummary {
 
 export function summarizeFollowers(f: FollowerCampaign, settings: Settings): FollowerSummary {
   const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
-  const spend = sum(f.ads.map((a) => a.spend));
+  const spend = f.adSpend ?? sum(f.ads.map((a) => a.spend));
   const adFollows = sum(f.ads.map((a) => a.follows));
   const newFollows = sum(f.pages.map((p) => p.follows));
   const startTotal = sum(f.pages.map((p) => p.startFollowers));
@@ -80,7 +81,8 @@ export function summarizeFollowers(f: FollowerCampaign, settings: Settings): Fol
 
 function paceOf(f: FollowerCampaign): FollowerSummary['pace'] {
   const daily = f.daily ?? [];
-  const before = daily.filter((d) => d.date < f.start);
+  // Compare with days that had no ads at all when the report marks them, else every day before the campaign.
+  const before = f.baseline ? daily.filter((d) => d.date >= f.baseline!.start && d.date <= f.baseline!.end) : daily.filter((d) => d.date < f.start);
   const during = daily.filter((d) => d.date >= f.start && d.date <= f.asOf);
   if (!during.length) return null;
   const avg = (list: typeof daily, p: Platform) => (list.length ? list.reduce((n, d) => n + d[p], 0) / list.length : null);
@@ -110,6 +112,8 @@ export const SEED_QUESTIONS = [
 export const FIRST_SEED_TIME = '2026-11-10T19:09:00.000Z';
 /** When the Nov 1–11 report was pulled. */
 export const NOV_11_TIME = '2026-11-12T20:00:00.000Z';
+/** When the Nov 1–18 data pack was pulled (about 1:15pm Pacific). */
+export const NOV_18_TIME = '2026-11-18T21:15:00.000Z';
 
 /** Each first ad's name in Ads Manager, so uploaded reports find it. */
 const META_NAMES: Record<string, string> = {
@@ -119,7 +123,7 @@ const META_NAMES: Record<string, string> = {
   'fad-4': 'ad4 - parents under21',
 };
 
-/** The campaign as it starts out: the Nov 1–11 report applied to the first numbers. */
+/** The campaign as it starts out: the first numbers with each later report applied. */
 export function seedFollowers(): FollowerCampaign {
   return upgradeFollowers(firstSeedFollowers());
 }
@@ -127,10 +131,11 @@ export function seedFollowers(): FollowerCampaign {
 /** Fills in what older saved campaigns lack, and brings never-edited starting numbers up to the Nov 1–11 report. */
 export function upgradeFollowers(f: FollowerCampaign): FollowerCampaign {
   let next: FollowerCampaign = { ...f, ads: f.ads.map((a) => (a.metaName || !META_NAMES[a.id] ? a : { ...a, metaName: META_NAMES[a.id] })) };
-  if (next.updatedAt === FIRST_SEED_TIME) {
-    let n = 0;
-    next = { ...applyFollowerReport(next, NOV_11_REPORT, () => `fad-new-${++n}`), updatedAt: NOV_11_TIME };
-  }
+  // Reports that came in with an update of the dashboard itself, applied in order while nobody has saved over them.
+  let n = 0;
+  const newId = () => `fad-new-${++n}`;
+  if (next.updatedAt === FIRST_SEED_TIME) next = { ...applyFollowerReport(next, NOV_11_REPORT, newId), updatedAt: NOV_11_TIME };
+  if (next.updatedAt === NOV_11_TIME) next = { ...applyFollowerReport(next, NOV_18_REPORT, newId), updatedAt: NOV_18_TIME };
   // The real questions replace the first placeholders, unless those were already edited.
   if (JSON.stringify(next.questions) === JSON.stringify(FIRST_SEED_QUESTIONS)) next = { ...next, questions: SEED_QUESTIONS };
   return next;

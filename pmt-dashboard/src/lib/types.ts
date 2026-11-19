@@ -249,8 +249,16 @@ export interface FollowerCampaign {
   countedOn?: ISODate;
   /** People the ads reached, from Meta's campaign total (ad reach can't be added up). */
   adReach?: number | null;
+  /** The campaign's own spend total, when known (the ads' amounts can be a few cents off it). */
+  adSpend?: number | null;
   /** New follows per day, including some days before the campaign for comparison. */
   daily?: FollowerDay[];
+  /** Days with no ads at all, to compare the campaign's daily follows against. */
+  baseline?: { start: ISODate; end: ISODate } | null;
+  /** Other ad runs to mark on the follows-per-day chart (e.g. the October website ads). */
+  adPeriods?: { label: string; start: ISODate; end: ISODate }[];
+  /** Ads that ran in the same dates but weren't follower ads, so aren't counted here. */
+  otherCampaigns?: { name: string; spend: number; detail: string }[];
   locations: string[];
   areaNote: string;
   ads: FollowerAd[];

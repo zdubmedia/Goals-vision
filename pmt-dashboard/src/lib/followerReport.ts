@@ -34,6 +34,12 @@ export interface FollowerReport {
   pages: Partial<Record<Platform, PageTotals>>;
   followers: Partial<Record<Platform, { total: number; date: ISODate }>>;
   daily: FollowerDay[];
+  /** Followers when the campaign started, when the report gives them. */
+  startFollowers?: Partial<Record<Platform, number>>;
+  topCities?: Partial<Record<Platform, { city: string; share: number }[]>>;
+  baseline?: { start: ISODate; end: ISODate } | null;
+  adPeriods?: { label: string; start: ISODate; end: ISODate }[];
+  otherCampaigns?: { name: string; spend: number; detail: string }[];
 }
 
 export type ParseResult = { ok: true; report: FollowerReport; warnings: string[] } | { ok: false; errors: string[] };
@@ -183,20 +189,24 @@ export function applyFollowerReport(f: FollowerCampaign, rep: FollowerReport, ne
       ...(t
         ? {
             follows: t.newFollows ?? p.follows,
-            unfollows: t.unfollows,
-            visits: t.visits,
-            reach: t.reach,
-            views: t.views,
-            interactions: t.interactions,
-            messagers: t.conversations,
+            // A number the report doesn't have keeps its old value.
+            unfollows: t.unfollows ?? p.unfollows,
+            visits: t.visits ?? p.visits,
+            reach: t.reach ?? p.reach,
+            views: t.views ?? p.views,
+            interactions: t.interactions ?? p.interactions,
+            messagers: t.conversations ?? p.messagers,
           }
         : {}),
       ...(now ? { nowFollowers: now.total } : {}),
+      ...(rep.startFollowers?.[p.platform] !== undefined ? { startFollowers: rep.startFollowers[p.platform]! } : {}),
+      ...(rep.topCities?.[p.platform]?.length ? { topCities: rep.topCities[p.platform]! } : {}),
     };
   });
 
   const countedOn = rep.followers.instagram?.date ?? rep.followers.facebook?.date ?? rep.periodEnd;
   const count = (platform: Platform) => pages.find((p) => p.platform === platform)?.nowFollowers ?? 0;
+  const start = (platform: Platform) => pages.find((p) => p.platform === platform)?.startFollowers ?? 0;
   const history = [...f.history.filter((h) => h.date !== countedOn), { date: countedOn, instagram: count('instagram'), facebook: count('facebook') }].sort((a, b) =>
     a.date < b.date ? -1 : 1,
   );
@@ -206,9 +216,13 @@ export function applyFollowerReport(f: FollowerCampaign, rep: FollowerReport, ne
     asOf: rep.periodEnd,
     countedOn,
     adReach: rep.totals?.reach ?? f.adReach ?? null,
+    adSpend: rep.totals?.spend ?? null,
     ads,
     pages,
     daily: rep.daily.length ? rep.daily : f.daily,
-    history,
+    history: rep.startFollowers ? history.map((h) => (h.date === f.start ? { date: f.start, instagram: start('instagram'), facebook: start('facebook') } : h)) : history,
+    ...(rep.baseline !== undefined ? { baseline: rep.baseline } : {}),
+    ...(rep.adPeriods ? { adPeriods: rep.adPeriods } : {}),
+    ...(rep.otherCampaigns ? { otherCampaigns: rep.otherCampaigns } : {}),
   };
 }

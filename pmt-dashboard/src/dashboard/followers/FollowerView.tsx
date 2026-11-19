@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceArea, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { fileUrl } from '../../api';
-import { fmtDate, fmtRange } from '../../lib/dates';
+import { addDays, fmtDate, fmtRange } from '../../lib/dates';
 import { PLATFORM_LABEL, summarizeFollowers } from '../../lib/followers';
 import { compact, int, money, pct } from '../../lib/format';
 import type { TermKey } from '../../lib/glossary';
@@ -81,9 +81,16 @@ export function FollowerView(props: SectionProps & { f: FollowerCampaign }) {
           />
           <Tile
             term="messagers"
-            label="Conversations started"
+            label="People who messaged"
             value={s.messagers !== null ? int(s.messagers) : '—'}
-            note="Messages from people, often the closest to booking"
+            note={
+              pages.some((p) => p.messagers !== null)
+                ? pages
+                    .filter((p) => p.messagers !== null)
+                    .map((p) => `${PLATFORM_LABEL[p.platform]} ${p.messagers}`)
+                    .join(' · ')
+                : 'Often the closest to booking'
+            }
           />
         </div>
       </Section>
@@ -116,7 +123,7 @@ export function FollowerView(props: SectionProps & { f: FollowerCampaign }) {
               {s.messagers !== null && (
                 <div>
                   <p className="text-5xl font-semibold leading-none">{int(s.messagers)}</p>
-                  <p className="mt-1 text-sm text-ink2">message conversations started</p>
+                  <p className="mt-1 text-sm text-ink2">people messaged {short}</p>
                   <p className="mt-1 text-xs text-muted">
                     {pages
                       .filter((p) => p.messagers !== null)
@@ -218,7 +225,7 @@ function PageCard({ p, color }: { p: FollowerPage; color: string }) {
     ['Views', p.views],
     [p.platform === 'instagram' ? 'Profile visits' : 'Page visits', p.visits ?? null],
     ['Likes, comments & shares', p.interactions],
-    ['Conversations', p.messagers],
+    ['Messaged', p.messagers],
   ];
   return (
     <Card>
@@ -253,8 +260,11 @@ function PageCard({ p, color }: { p: FollowerPage; color: string }) {
 }
 
 function FollowsPerDay({ f, colors, pace }: { f: FollowerCampaign; colors: SectionProps['colors']; pace: ReturnType<typeof summarizeFollowers>['pace'] }) {
-  const data = (f.daily ?? []).filter((d) => d.date <= f.asOf);
+  // From the no-ads stretch (or a month before the campaign) to the latest day.
+  const from = f.baseline?.start ?? addDays(f.start, -31);
+  const data = (f.daily ?? []).filter((d) => d.date >= from && d.date <= f.asOf);
   const last = data[data.length - 1]?.date;
+  const inData = (d: string) => data.find((x) => x.date >= d)?.date;
   const fmtPace = (n: number | null) => (n === null ? '—' : n.toFixed(1));
   return (
     <Card className="mt-4">
@@ -263,6 +273,23 @@ function FollowsPerDay({ f, colors, pace }: { f: FollowerCampaign; colors: Secti
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 16, right: 12, left: -18, bottom: 0 }}>
             <CartesianGrid vertical={false} stroke={colors.grid} />
+            {(f.adPeriods ?? [])
+              .filter((p) => p.end >= from && p.start <= f.asOf)
+              .map((p) => (
+                <ReferenceArea
+                  key={p.start}
+                  x1={inData(p.start)}
+                  x2={data.filter((d) => d.date <= p.end).pop()?.date}
+                  fill={colors.mutedMark}
+                  fillOpacity={0.15}
+                  label={{
+                    value: p.label,
+                    position: 'insideTop',
+                    fill: colors.ink2,
+                    fontSize: 11,
+                  }}
+                />
+              ))}
             {last && last >= f.start && (
               <ReferenceArea
                 x1={data.find((d) => d.date >= f.start)?.date}
@@ -291,10 +318,11 @@ function FollowsPerDay({ f, colors, pace }: { f: FollowerCampaign; colors: Secti
       {pace?.before && (
         <p className="mt-3 text-sm text-ink2">
           Instagram is gaining <strong className="text-ink">{fmtPace(pace.perDay.instagram.during)}</strong> followers a day, up from{' '}
-          {fmtPace(pace.perDay.instagram.before)} before the ads. Facebook: <strong className="text-ink">{fmtPace(pace.perDay.facebook.during)}</strong> a day, up from{' '}
-          {fmtPace(pace.perDay.facebook.before)}.
+          {fmtPace(pace.perDay.instagram.before)} {f.baseline ? 'before any ads' : 'before the ads'}. Facebook:{' '}
+          <strong className="text-ink">{fmtPace(pace.perDay.facebook.during)}</strong> a day, up from {fmtPace(pace.perDay.facebook.before)}.
           <span className="block text-xs text-muted">
-            “Before” is {fmtRange({ start: pace.before.start, end: pace.before.end }, false)}. Counts new follows from any source, not only the ads.
+            “Before” is {fmtRange({ start: pace.before.start, end: pace.before.end }, false)}
+            {f.baseline ? ', when no ads were running' : ''}. Counts new follows from any source, not only the ads.
           </span>
         </p>
       )}
@@ -380,6 +408,12 @@ function AdsSection({ f, access }: { f: FollowerCampaign; access: SectionProps['
           );
         })}
       </div>
+      {(f.otherCampaigns ?? []).map((c) => (
+        <p key={c.name} className="mt-3 text-xs text-muted">
+          Not counted here: “{c.name}” ({money(c.spend)}
+          {c.detail ? `, ${c.detail}` : ''}), which wasn't a follower ad.
+        </p>
+      ))}
       <Modal open={!!open} onClose={() => setOpen(null)} title={open?.name ?? ''} wide>
         {open && <Carousel slides={slides(open)} fit="contain" className="aspect-square bg-black/90 sm:aspect-[4/3]" label={`Images for ${open.name}`} />}
       </Modal>

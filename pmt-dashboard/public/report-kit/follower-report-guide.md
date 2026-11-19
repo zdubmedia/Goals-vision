@@ -1,123 +1,118 @@
 # PMT follower ads: weekly report guide
 
-How to pull the follower-ads numbers each week so they upload cleanly into the PMT dashboard (Admin → Follower ads → **Choose report CSV**).
+How to pull the follower-ads numbers each week so they drop straight into the PMT dashboard (**Admin → Follower ads → Upload the weekly report**).
 
-If an AI assistant pulls the report for you, give it this whole guide. The ready-to-paste request is at the bottom.
+If Claude (or another AI assistant) pulls the report for you, give it this whole guide. The request to paste is at the bottom, and so is a short note you can save in Claude's memory or project instructions.
 
 ---
 
 ## The short version
 
-1. **When:** once a week (Monday works well). Leave today out, because today isn't finished.
-2. **Dates:** always from the **campaign's start date to yesterday**, not just the last 7 days. The dashboard shows totals for the whole campaign.
-3. **Make one CSV file** in the format below, named like `PMT_Follower_Report_2026-11-17.csv`.
-4. **Upload it:** Admin → Follower ads → **Choose report CSV** → check the "Found" summary → **Use these numbers** → **Save**.
+1. **When:** once a week. Pull everything from the **campaign's start date through the latest day**. The dashboard shows totals for the whole campaign, not just the last week.
+2. **Ask Claude for the "dashboard data pack"** (request at the bottom): one **.zip** with a JSON file, CSV tables, an Excel workbook, a PDF and screenshots.
+3. **Upload:** Admin → Follower ads → drop the **.zip** (or its files) on the upload box → check the "Found" summary → **Use these numbers** → **Save**.
+
+The upload box reads the **.zip**, **.json**, **.csv** and **.xlsx** files, several at once. **PDFs and screenshots are fine to include but are skipped**, because their numbers are already in the data files. Nothing changes for PMT until you press Save, and your text, questions, ad pictures and the show/hide switch are never touched by an upload.
 
 ---
 
-## What to pull
+## What the data pack must contain
 
-### A. Meta Ads Manager (the paid numbers)
+The dashboard finds each table by its **column names**, so file names don't matter, but the column names do. The JSON file can hold all of these at once. The same tables as separate CSV files work too.
 
-Open the follower campaign in Ads Manager. Set the date range to *campaign start → yesterday*, and keep the account's default attribution. Read the **campaign total** row and **each ad's** row.
+### 1. Summary (JSON `summary`)
 
-| Number | Ads Manager column | Metric name in the CSV |
+| Field | Example | Meaning |
 |---|---|---|
-| Money spent | Amount spent | `spend` |
-| People reached | Reach | `reach` |
-| Times the ads were seen | Impressions | `impressions` |
-| Link clicks | Link clicks | `link_clicks` |
-| Instagram profile visits | Instagram profile visits | `ig_profile_visits` |
-| Instagram follows from the ads | Instagram follows | `ig_follows` |
-| Results | Results (Profile and Page visits) | `results_profile_and_page_visits` |
+| `report_range` | `"2026-11-01 to 2026-11-18"` | Campaign start through the last day covered, as `YYYY-MM-DD to YYYY-MM-DD` |
+| `followers_now` | `{"facebook": 744, "instagram": 632}` | Lifetime followers on the day pulled |
+| `followers_start` | `{"facebook": 597, "instagram": 466}` | Followers when the campaign started (`followers_nov1` also works) |
 
-Watch out:
-- Use **Instagram follows** from Ads Manager. The Business Suite app's "Follows or likes" is a different number; don't use it.
-- **Reach can't be added up** across ads, because the same person can see several ads. Always take the campaign's reach from the campaign total row.
-- Ad names must be **exactly** as they appear in Ads Manager (for example `ad3 - Learn2Ride the right way`). That's how the dashboard matches each ad. A new ad name is added as a new ad.
+### 2. Page totals for the campaign dates (JSON `kpis`, or a CSV with `platform,metric,<value>`)
 
-### B. Meta Business Suite → Insights (both pages, all sources)
+One row per page and number. The value goes in the third column (any name, for example `nov_1_18`). Metric names the dashboard understands:
 
-Do this once for **Instagram** and once for **Facebook**. Set the dates to *campaign start → yesterday*.
+| `metric` starts with… | Instagram | Facebook |
+|---|---|---|
+| `Followers` (lifetime total) | ✓ | ✓ |
+| `New follows` | ✓ | ✓ |
+| `Unfollows` | ✓ | ✓ |
+| `Views` | ✓ | ✓ |
+| `Reach` (IG) / `Viewers` (FB): use Meta's **deduplicated** total, never a sum of days | ✓ | ✓ |
+| `Content interactions` | ✓ | ✓ |
+| `Profile visits` (IG) / `Page visits` (FB) | ✓ | ✓ |
+| `Messaging contacts` (or `conversations started`) | ✓ | ✓ |
 
-| Number | Where in Insights | Metric name (Instagram) | Metric name (Facebook) |
-|---|---|---|---|
-| New follows | Audience → Follows | `new_follows` | `new_follows` |
-| Profile / Page visits | Content or Audience | `profile_visits` | `page_visits` |
-| Views | Content → Views | `views` | `views` |
-| People who saw the page | Reach (IG) / Viewers (FB) | `reach` | `viewers` |
-| Likes, comments, shares, saves | Content interactions | `content_interactions` | `content_interactions` |
-| Message conversations | Messaging → conversations started | `messaging_conversations_started` | `messaging_conversations_started` |
-| Unfollows *(optional)* | Audience → Follows → Unfollows | `unfollows` | `unfollows` |
+`platform` is `Instagram` or `Facebook`.
 
-### C. New follows per day (both pages)
+### 3. Daily numbers (JSON `daily`, or a CSV)
 
-From Insights → Audience → Follows, read the number of **new follows for each day** on Instagram and on Facebook. Start **2 weeks before the campaign started** (so the dashboard can show "before vs during the ads") and go through yesterday.
+Columns: `date` (`YYYY-MM-DD`), `period`, `fb_follows`, `ig_follows`, `partial_day` (`Yes` for an unfinished day; it's left out of the daily chart). Other daily columns (views, reach, …) are welcome.
 
-### D. Followers today (both pages)
+- Go back **at least 2 weeks before the campaign**, or further to include a stretch with **no ads at all**.
+- Label the days in `period` so the dashboard can tell them apart:
+  - the follower campaign's days: a label with the word **follower** (`November follower ads`)
+  - days with no ads at all: a label with **baseline** or **pre-ads** (`Baseline (pre-ads)`). Follows a day are compared with this stretch.
+  - other ad runs: a label with **ad run** or **ads** (`October ad run`). They're marked on the chart.
+  - quiet days after other ads: anything else, for example `Break (no ads)`.
 
-The total number of followers on Instagram and on Facebook (lifetime followers), on the day you pull the report.
+### 4. Ads Manager, campaigns (JSON `ads_campaigns`, or a CSV)
+
+Columns: `period`, `campaign`, `status`, `objective`, `result_type`, `results`, `reach`, `impressions`, `spend`, `ig_follows`, plus any others.
+
+- The follower campaign is recognized by its `result_type` / `objective` (**Profile and Page visits**, or follows).
+- Any other campaign in the same dates (a website-traffic ad, for example) is listed on the dashboard as "not counted here".
+- `period` names the month (`Nov 1-18`). Rows for other months (`Oct 1-31`) are ignored.
+- `ig_follows` is Ads Manager's **Instagram follows**. Business Suite's "Follows or likes" is a different number; don't use it.
+
+### 5. Ads Manager, each ad (JSON `ads_by_ad`, or a CSV)
+
+Columns: `period`, `ad` (the name **exactly** as in Ads Manager, for example `ad3 - Learn2Ride the right way`), `ad_set`, `result_type`, `results`, `reach`, `impressions`, `spend`, `ig_follows`.
+
+The dashboard matches ads by that exact name; a new name is added as a new ad. The ads' spend should add up to the campaign spend (within a few cents), or the upload warns you.
+
+### 6. Top cities (JSON `audience`, or a CSV)
+
+JSON: `audience.facebook.top_cities` and `audience.instagram.top_cities` as `[["San Jose, CA", 14.6], …]` (percent of followers). CSV: `platform,type,label,pct` with `type` = `top_city`.
+
+### Also fine to include (the dashboard ignores them)
+
+Posts, demographics by age and gender, period comparisons, charts, the PDF report and screenshots.
 
 ---
 
-## The CSV format
+## Another option: the one-file CSV
 
-One row per number. Keep the columns **in this order** with **exactly these names**:
-
-```
-report_date,period_start,period_end,source,platform,level,campaign,campaign_id,ad_set,ad_set_id,ad,ad_id,date,breakdown_type,breakdown_value,metric,value,unit,note
-```
-
-Rules:
-- **Dates** as `YYYY-MM-DD` (for example `2026-11-11`).
-- **Numbers only** in `value`: no `$`, no commas, no `%` (write `187.79`, not `$187.79`; write `0.028` for 2.8%).
-- `report_date` = the day you pulled it. `period_start` = campaign start. `period_end` = yesterday. They are the same on every row.
-- `unit` is `usd`, `count` or `ratio`. `note` can be left empty.
-- `campaign_id`, `ad_set`, `ad_set_id` and `ad_id` are nice to have but can be empty.
-
-### The rows the dashboard needs
-
-| What | source | platform | level | ad | date | breakdown_type | breakdown_value | metrics |
-|---|---|---|---|---|---|---|---|---|
-| Campaign total | `Meta Ads Manager` | `Facebook+Instagram (paid)` | `campaign` | *(empty)* | *(empty)* | *(empty)* | *(empty)* | the 7 Ads Manager metrics in A |
-| Each ad | `Meta Ads Manager` | `Facebook+Instagram (paid)` | `ad` | ad name, exactly as in Ads Manager | *(empty)* | *(empty)* | *(empty)* | the 7 Ads Manager metrics in A |
-| Each page, whole campaign | `Meta Business Suite Insights` | `Instagram` or `Facebook` | `account` | *(empty)* | *(empty)* | `period` | `campaign` | the metrics in B |
-| New follows each day | `Meta Business Suite Insights` | `Instagram` or `Facebook` | `account` | *(empty)* | the day | `day` | the day | `new_follows` |
-| Followers today | `Meta Business Suite` | `Instagram` or `Facebook` | `account` | *(empty)* | the day you read it | `snapshot` | `today` | `followers_total` |
-
-### Example rows
+The dashboard also reads a single CSV with one row per number, in exactly these columns:
 
 ```
 report_date,period_start,period_end,source,platform,level,campaign,campaign_id,ad_set,ad_set_id,ad,ad_id,date,breakdown_type,breakdown_value,metric,value,unit,note
-2026-11-12,2026-11-01,2026-11-11,Meta Ads Manager,Facebook+Instagram (paid),campaign,NTC - PMT follower ads Nov'26,,,,,,,,,spend,187.79,usd,
-2026-11-12,2026-11-01,2026-11-11,Meta Ads Manager,Facebook+Instagram (paid),campaign,NTC - PMT follower ads Nov'26,,,,,,,,,reach,18072,count,
-2026-11-12,2026-11-01,2026-11-11,Meta Ads Manager,Facebook+Instagram (paid),ad,NTC - PMT follower ads Nov'26,,,,ad3 - Learn2Ride the right way,,,,,ig_follows,60,count,
-2026-11-12,2026-11-01,2026-11-11,Meta Business Suite Insights,Instagram,account,NTC - PMT follower ads Nov'26,,,,,,,period,campaign,new_follows,125,count,
-2026-11-12,2026-11-01,2026-11-11,Meta Business Suite Insights,Facebook,account,NTC - PMT follower ads Nov'26,,,,,,,period,campaign,viewers,21387,count,
-2026-11-12,2026-11-01,2026-11-11,Meta Business Suite Insights,Instagram,account,NTC - PMT follower ads Nov'26,,,,,,2026-11-02,day,2026-11-02,new_follows,25,count,
-2026-11-12,2026-11-01,2026-11-11,Meta Business Suite,Instagram,account,NTC - PMT follower ads Nov'26,,,,,,2026-11-12,snapshot,today,followers_total,583,count,
 ```
 
-The blank template (`follower-report-template.csv`, next to this guide) has every required row ready to fill in.
-
-### Extra rows are fine
-
-The dashboard ignores rows it doesn't use, so a fuller report can stay in the same file. That includes ads by day, placements, age and gender, single posts, ratios like CTR or CPM, and the "before the campaign" period totals. Give "before" period rows a `breakdown_value` with the word **before** in it (for example `before campaign`), so they're never mistaken for the campaign totals.
+The blank template (`follower-report-template.csv`, downloadable from the same page) has every row it needs. The data pack above is easier and gives the dashboard more (start followers, the no-ads comparison, top cities), so prefer the pack.
 
 ---
 
 ## Quick checks before uploading
 
-- [ ] `period_start` is the campaign's start date and `period_end` is yesterday.
-- [ ] The ads' `spend` adds up to the campaign `spend`. The dashboard warns you if it doesn't.
-- [ ] Instagram `ig_follows` (from the ads) is no more than Instagram `new_follows` (all sources).
-- [ ] `followers_total` is higher than last week's, or there's a reason it isn't.
-- [ ] No `$`, commas or `%` in the `value` column.
+- [ ] The dates start on the campaign's start date. The upload warns you if they don't.
+- [ ] Reach / viewers are Meta's deduplicated totals, not a sum of daily numbers.
+- [ ] The ads' spend adds up to the follower campaign's spend.
+- [ ] Instagram follows from the ads (`ig_follows`) are no more than Instagram's new follows.
+- [ ] Followers now are higher than last week, or there's a reason they aren't.
 
-After **Use these numbers**, look over the Follower ads page, then press **Save**. Nothing changes for PMT until you save. Your text, questions, ad pictures and the "show to PMT" switch are never touched by an upload.
+After **Use these numbers**, look over the Follower ads page, then press **Save**.
 
 ---
 
-## Request to paste into an AI assistant
+## Request to paste into Claude
 
-> Pull this week's PMT follower-ads report following the "PMT follower ads: weekly report guide" (attached). Campaign: **[campaign name]**, started **[start date]**. Cover the campaign start through yesterday. From Meta Ads Manager, get the campaign total and each ad (spend, reach, impressions, link clicks, Instagram profile visits, Instagram follows, Results). From Business Suite Insights, get each page's campaign totals, new follows for each day starting 2 weeks before the campaign, and today's follower totals. Give me one CSV in exactly the guide's format (one row per number, the 19 columns in order, dates as YYYY-MM-DD, numbers without $ or commas), named `PMT_Follower_Report_[today's date].csv`. Run the quick checks at the end of the guide and tell me if any fail. A short PDF summary for my records is optional.
+> Pull this week's PMT follower-ads report from Meta Business Suite (Insights: Results, Audience, Content) and Meta Ads Manager, following the "PMT follower ads: weekly report guide" (attached). Campaign: **[campaign name]**, started **[start date]**; cover the campaign start through today (mark today as a partial day). Give me a **dashboard data pack** as one .zip containing:
+> - a JSON file with `summary` (`report_range`, `followers_now`, `followers_start`), `kpis`, `daily` (with `period` labels: follower campaign days, a no-ads baseline stretch, other ad runs), `ads_campaigns`, `ads_by_ad` and `audience` (top cities)
+> - the same tables as CSV files, an Excel workbook, a short PDF summary, charts and the screenshots you used
+>
+> Use the exact column and metric names in the guide. Reach and viewers must be Meta's deduplicated totals. Ad names exactly as in Ads Manager. Run the guide's quick checks and tell me if any fail.
+
+## Note to save in Claude's memory or project instructions
+
+> When I ask for PMT's follower or social report ("pull followers", "pull the Meta data"), deliver a **dashboard data pack** .zip per the "PMT follower ads: weekly report guide": a JSON with summary (report_range, followers_now, followers_start), kpis, daily (date, period labels, fb_follows, ig_follows, partial_day), ads_campaigns, ads_by_ad and audience top cities, plus the same tables as CSVs, an Excel workbook, a PDF and screenshots. Cover the campaign start through today. Use Meta's deduplicated reach/viewers, Ads Manager's "Instagram follows", and ad names exactly as in Ads Manager. I upload the .zip at pmt-results.netlify.app/admin → Follower ads.
