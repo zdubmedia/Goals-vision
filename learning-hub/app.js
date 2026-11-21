@@ -327,7 +327,7 @@
         <div class="eyebrow">${part ? esc(part.title) + ' · ' : ''}Lesson ${idx + 1} of ${t.lessons.length} · ${l.minutes || 10} min${l.date ? ' · call ' + esc(fmtDate(l.date + 'T12:00')) : ''}</div>
         <h1>${esc(l.title)}</h1>
         ${(l.tags || []).length ? `<div class="tags">${l.tags.map(g => `<span class="tag ${tagClass(g)}">${esc(g === 'Platform fact (re-check)' ? 'Platform fact · re-check' : g)}</span>`).join('')}</div>` : ''}
-        <div class="row"><button class="btn listen-btn" id="listenbtn" aria-label="Listen to this lesson">${icon('headphones')} Listen <span class="muted" style="font:12px var(--f-mono)">· ${Listen.minutes(t, l)} min</span></button></div>
+        <div class="row"><button class="btn listen-btn" id="listenbtn" aria-label="Listen to this lesson">${icon('headphones')} Listen <span class="muted" style="font:12px var(--f-mono)">· ${Listen.minutes(t, l)} min</span></button>${Listen.isApple ? `<button class="btn ghost small" id="speakbtn" aria-label="Open a Speak Screen view to hear this lesson in your iPhone's Premium voice">${icon('book')} Premium voice (Speak Screen)</button>` : ''}</div>
         <div class="source">${(l.source || []).map(s => `<span><b>${esc(s.doc)}</b>${s.section ? ' · ' + esc(s.section) : ''}${s.who ? ' · ' + esc(s.who) : ''}</span>`).join('')}${(l.alsoIn || []).length ? `<span>Also covered in: ${esc(l.alsoIn.join('; '))}</span>` : ''}</div>
       </section>
       <section data-sec="idea">
@@ -354,6 +354,7 @@
       </section>`;
     el.dataset.lid = l.id;
     $('#listenbtn', el).onclick = () => Listen.start(t, l);
+    const sb = $('#speakbtn', el); if (sb) sb.onclick = () => Listen.reader(t, l);
     Listen.sync();
     // bind inputs
     el.querySelectorAll('textarea, input[type="text"]').forEach(inp => {
@@ -706,6 +707,7 @@
           <label class="pl-check"><input type="checkbox" id="plAuto"> When a lesson ends, keep going to the next one</label>
           <label class="pl-check"><input type="checkbox" id="plFollow"> Scroll the page to follow along</label>
           <p class="pl-tip" id="plTip"></p>
+          ${isApple ? '<div><button class="btn small" id="plReader" style="background:transparent;color:inherit">Use my iPhone Premium voice instead</button></div>' : ''}
         </div></div>`;
       document.body.appendChild(el);
       const $p = s => el.querySelector(s);
@@ -723,6 +725,7 @@
       $p('#plAuto').onchange = e => pref.set('auto', e.target.checked);
       $p('#plFollow').checked = pref.get('follow', true);
       $p('#plFollow').onchange = e => pref.set('follow', e.target.checked);
+      const rb = $p('#plReader'); if (rb) rb.onclick = () => { const L0 = LESSON[st.lessonId]; if (L0) reader(L0.t, L0.l); };
       if (synth && 'onvoiceschanged' in synth) synth.addEventListener('voiceschanged', fillVoices);
       return el;
     }
@@ -733,7 +736,7 @@
       if (cur) sel.value = cur.name;
       const tip = document.getElementById('plTip');
       const apple = /iPhone|iPad|Macintosh/.test(navigator.userAgent);
-      tip.innerHTML = (isApple ? '<b>No sound?</b> Turn off Silent mode and turn the volume up. ' : '') + (hasGoodVoice() ? 'Using the best voice on this device. On iPhone, keep this page open with the screen on while it plays.'
+      tip.innerHTML = (isApple ? '<b>No sound?</b> Turn off Silent mode and turn the volume up. <b>Only basic voices listed?</b> iPhone apps don\'t share Premium voices with web pages. Tap the button below to hear the lesson in your Premium voice with Speak Screen. ' : '') + (hasGoodVoice() ? 'Using the best voice on this device. On iPhone, keep this page open with the screen on while it plays.'
         : apple ? '<b>Want a better voice?</b> On iPhone: Settings → Accessibility → Read &amp; Speak (or Spoken Content) → Voices → English → download a <b>Premium</b> voice such as Ava or Zoe. Then reload this page.'
         : 'Tip: voices named Natural, Neural or Enhanced sound best. Pick one above if your device has it.');
     }
@@ -864,7 +867,47 @@
     }
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && st.playing) keepAwake(true); });
     if (synth) { try { synth.getVoices(); } catch (e) { /* ignore */ } }
-    return { start, stop, sync, minutes, script, speakable };
+    // Speak Screen view: iPhone apps only expose basic voices to web pages, but iOS Speak Screen
+    // (two-finger swipe down from the top) reads the screen in the Premium voice chosen in Settings.
+    // This view shows only the lesson's spoken script so Speak Screen reads it cleanly.
+    function reader(t, l) {
+      if (st.playing) pause();
+      let ov = document.getElementById('reader');
+      if (!ov) { ov = document.createElement('div'); ov.id = 'reader'; ov.className = 'reader'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'rdTitle'); document.body.appendChild(ov); }
+      const showHelp = !pref.get('readerHelpSeen', false);
+      const items = script(t, l);
+      const heads = /^(The idea|Key points|Here is the table|Table:|Why it matters|Example|Before|After|Your turn|Next exercise|Self check|Do it today|Quick check|End of lesson)/;
+      const meta = items.filter(it => it.sec === 'intro').slice(0, -1).map(it => esc(it.text)).join(' ');
+      const body = items.filter(it => it.sec !== 'intro').map(it => heads.test(it.text) ? `<h3>${esc(it.text)}</h3>` : `<p>${esc(it.text)}</p>`).join('');
+      ov.innerHTML = `<div class="rd-bar"><button class="btn small" id="rdDone">Done</button></div>
+        <div class="rd-in">
+          <div class="rd-help" id="rdHelp" ${showHelp ? '' : 'hidden'} aria-hidden="${showHelp ? 'false' : 'true'}">
+            <p><b>Hear this in your Premium voice</b></p>
+            <ol>
+              <li>One time: Settings → Accessibility → Spoken Content (Read &amp; Speak on newer iOS). Turn on <b>Speak Screen</b>. Under <b>Voices → English</b>, pick the Premium voice you downloaded.</li>
+              <li>Swipe down from the very top of the screen with <b>two fingers</b>. iPhone starts reading this page and scrolls as it goes.</li>
+              <li>Use the small Speak Screen controller to pause, skip or change speed. Turn off Silent mode if you hear nothing.</li>
+            </ol>
+            <label class="pl-check"><input type="checkbox" id="rdWb" ${pref.get('workbook', true) ? 'checked' : ''}> Include the workbook, Do it today and quick check</label>
+            <div class="row" style="margin-top:8px"><button class="btn small primary" id="rdGot">Got it, hide these steps</button></div>
+          </div>
+          <p class="rd-meta">${meta}</p>
+          <h2 id="rdTitle">${esc(l.title)}</h2>
+          <div class="rd-text">${body}</div>
+          ${showHelp ? '' : '<p class="rd-foot"><button class="btn small ghost" id="rdHow" aria-label="How to use Speak Screen">How this works</button></p>'}
+        </div>`;
+      ov.hidden = false;
+      ['top', 'app', 'player'].forEach(id => { const e = document.getElementById(id); if (e) { e.setAttribute('aria-hidden', 'true'); e.inert = true; } });
+      document.body.style.overflow = 'hidden'; ov.scrollTop = 0;
+      const close = () => { ov.hidden = true; ['top', 'app', 'player'].forEach(id => { const e = document.getElementById(id); if (e) { e.removeAttribute('aria-hidden'); e.inert = false; } }); document.body.style.overflow = ''; const b = document.getElementById('speakbtn'); if (b) b.focus(); };
+      ov.querySelector('#rdDone').onclick = close;
+      const got = ov.querySelector('#rdGot'); if (got) got.onclick = () => { pref.set('readerHelpSeen', true); reader(t, l); };
+      const how = ov.querySelector('#rdHow'); if (how) how.onclick = () => { pref.set('readerHelpSeen', false); reader(t, l); };
+      const wb = ov.querySelector('#rdWb'); if (wb) wb.onchange = () => { pref.set('workbook', wb.checked); const pw = document.getElementById('plWb'); if (pw) pw.checked = wb.checked; reader(t, l); };
+      ov.querySelector('#rdDone').focus();
+    }
+    document.addEventListener('keydown', e => { const ov = document.getElementById('reader'); if (e.key === 'Escape' && ov && !ov.hidden) ov.querySelector('#rdDone').click(); });
+    return { start, stop, sync, minutes, script, speakable, reader, isApple };
   })();
   window.ZDubListen = Listen;
 
