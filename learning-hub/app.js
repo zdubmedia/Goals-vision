@@ -35,7 +35,14 @@
     left: '<path d="m14 6-6 6 6 6"/>', right: '<path d="m10 6 6 6-6 6"/>',
     pin: '<path d="M9 4h6l-1 6 3 3H7l3-3z"/><path d="M12 13v7"/>',
     copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
-    wand: '<path d="m4 20 11-11M14 4v2M18 8h2M17 5l1-1M19 11l1 1M12 7l1-1"/>'
+    wand: '<path d="m4 20 11-11M14 4v2M18 8h2M17 5l1-1M19 11l1 1M12 7l1-1"/>',
+    headphones: '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="5" height="7" rx="2"/><rect x="16" y="14" width="5" height="7" rx="2"/>',
+    play: '<path d="M7 4.5v15l12-7.5z" fill="currentColor"/>',
+    pause: '<path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/>',
+    back: '<path d="M11 6 5 12l6 6M19 6l-6 6 6 6"/>',
+    fwd: '<path d="m13 6 6 6-6 6M5 6l6 6-6 6"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    sliders: '<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>'
   };
   const icon = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || P.book}</svg>`;
 
@@ -316,34 +323,38 @@
     const ex = l.example || {};
     const td = l.today || {};
     el.innerHTML = `
-      <section class="lhead">
+      <section class="lhead" data-sec="intro">
         <div class="eyebrow">${part ? esc(part.title) + ' · ' : ''}Lesson ${idx + 1} of ${t.lessons.length} · ${l.minutes || 10} min${l.date ? ' · call ' + esc(fmtDate(l.date + 'T12:00')) : ''}</div>
         <h1>${esc(l.title)}</h1>
         ${(l.tags || []).length ? `<div class="tags">${l.tags.map(g => `<span class="tag ${tagClass(g)}">${esc(g === 'Platform fact (re-check)' ? 'Platform fact · re-check' : g)}</span>`).join('')}</div>` : ''}
+        <div class="row"><button class="btn listen-btn" id="listenbtn" aria-label="Listen to this lesson">${icon('headphones')} Listen <span class="muted" style="font:12px var(--f-mono)">· ${Listen.minutes(t, l)} min</span></button></div>
         <div class="source">${(l.source || []).map(s => `<span><b>${esc(s.doc)}</b>${s.section ? ' · ' + esc(s.section) : ''}${s.who ? ' · ' + esc(s.who) : ''}</span>`).join('')}${(l.alsoIn || []).length ? `<span>Also covered in: ${esc(l.alsoIn.join('; '))}</span>` : ''}</div>
       </section>
-      <section>
+      <section data-sec="idea">
         <div class="h-label">The idea</div>
         <div class="prose">${md(l.idea)}</div>
         ${(l.keyPoints || []).length ? `<div class="keypoints"><div class="eyebrow">Key points</div><ul>${l.keyPoints.map(k => `<li>${inline(k)}</li>`).join('')}</ul></div>` : ''}
         ${l.table ? tableHtml(l.table) : ''}
       </section>
-      ${l.why ? `<section><div class="h-label">Why it matters for ZDub</div><p class="why">${inline(l.why)}</p></section>` : ''}
-      ${(ex.body || ex.after) ? `<section><div class="h-label">Example${ex.title ? '' : ''}</div>${ex.title ? `<h3 style="font-size:19px;font-weight:700;margin-bottom:10px">${esc(ex.title)}</h3>` : ''}
+      ${l.why ? `<section data-sec="why"><div class="h-label">Why it matters for ZDub</div><p class="why">${inline(l.why)}</p></section>` : ''}
+      ${(ex.body || ex.after) ? `<section data-sec="example"><div class="h-label">Example${ex.title ? '' : ''}</div>${ex.title ? `<h3 style="font-size:19px;font-weight:700;margin-bottom:10px">${esc(ex.title)}</h3>` : ''}
         ${(ex.before || ex.after) ? `<div class="ex-grid">${ex.before ? `<div class="ex before"><div class="eyebrow">Before</div><div class="prose">${md(ex.before)}</div></div>` : ''}${ex.after ? `<div class="ex after"><div class="eyebrow">After</div><div class="prose">${md(ex.after)}</div></div>` : ''}</div>` : ''}
         ${ex.body ? `<div class="prose small">${md(ex.body)}</div>` : ''}</section>` : ''}
-      <section class="workbook"><div class="h-label">Your turn · workbook</div>${(l.practice || []).map((p, pi) => practiceHtml(l, p, pi)).join('')}</section>
-      <section class="today"><div class="h-label">Do it today${td.suggested ? ' · suggested' : ''}</div>
+      <section class="workbook" data-sec="workbook"><div class="h-label">Your turn · workbook</div>${(l.practice || []).map((p, pi) => practiceHtml(l, p, pi)).join('')}</section>
+      <section class="today" data-sec="today"><div class="h-label">Do it today${td.suggested ? ' · suggested' : ''}</div>
         <div class="prose">${md(td.task)}</div>
         <div class="meta">${td.output ? `<span>Output: ${esc(td.output)}</span>` : ''}${td.minutes ? `<span>${esc(td.minutes)} min</span>` : ''}</div>
         <div class="field" style="margin-top:14px"><label for="ap-${l.id}">What happened when I applied it</label><textarea id="ap-${l.id}" data-k="applied" placeholder="What did you make or try? What happened? What will you change?">${esc(st.applied || '')}</textarea></div>
       </section>
-      ${(l.check || []).length ? `<section><div class="h-label">Quick check</div><div class="check">${l.check.map((c, ci) => `<div class="q"><div class="qt">${ci + 1}. ${inline(c.q)}</div><input type="text" id="qc-${l.id}-${ci}" data-k="c${ci}" placeholder="Answer from memory first…" value="${esc(st.checks['c' + ci] || '')}"><details><summary>Show answer</summary><p>${inline(c.a)}</p></details></div>`).join('')}</div></section>` : ''}
+      ${(l.check || []).length ? `<section data-sec="check"><div class="h-label">Quick check</div><div class="check">${l.check.map((c, ci) => `<div class="q"><div class="qt">${ci + 1}. ${inline(c.q)}</div><input type="text" id="qc-${l.id}-${ci}" data-k="c${ci}" placeholder="Answer from memory first…" value="${esc(st.checks['c' + ci] || '')}"><details><summary>Show answer</summary><p>${inline(c.a)}</p></details></div>`).join('')}</div></section>` : ''}
       <section><div class="h-label">My notes</div><textarea id="nt-${l.id}" data-k="notes" placeholder="Anything worth remembering, questions for a mentor, ideas for a client…">${esc(st.notes || '')}</textarea></section>
       <section class="lfoot">
         <div class="row">${prev ? `<button class="btn small" data-go="l-${esc(prev.id)}">${icon('left')} Previous</button>` : ''}${next ? `<button class="btn small" data-go="l-${esc(next.id)}">Next ${icon('right')}</button>` : ''}</div>
         <div class="row">${st.done ? `<span class="done-state">Done ${esc(fmtDate(st.doneAt))}</span><button class="btn small ghost" id="undone">Mark not done</button>` : `<button class="btn good" id="markdone">${icon('check')} Mark lesson done</button>`}</div>
       </section>`;
+    el.dataset.lid = l.id;
+    $('#listenbtn', el).onclick = () => Listen.start(t, l);
+    Listen.sync();
     // bind inputs
     el.querySelectorAll('textarea, input[type="text"]').forEach(inp => {
       autosize(inp);
@@ -560,6 +571,253 @@
     if (b.type === 'cards') return `<div class="refblock">${h}<div class="cards">${b.items.map(c => `<div class="card">${c.meta ? `<div class="eyebrow">${esc(c.meta)}</div>` : ''}<h4>${esc(c.title)}</h4><div class="prose">${md(c.body)}</div></div>`).join('')}</div></div>`;
     return `<div class="refblock">${h}<div class="prose small">${md(b.body)}</div></div>`;
   }
+
+  /* ---------------- LISTEN (read aloud) ----------------
+     Turns a lesson into a spoken script (sections announced, tables read row by row, symbols spelled out)
+     and plays it with the device's built-in voices. Prefers Premium/Enhanced voices when installed. */
+  const Listen = (function () {
+    const synth = window.speechSynthesis;
+    const NOVELTY = /^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Fred|Junior|Ralph|Kathy|Grandma|Grandpa|Eddy|Flo|Reed|Rocko|Sandy|Shelley)\b/i;
+    const pref = { get: (k, d) => { try { const v = localStorage.getItem('zdub-listen-' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set: (k, v) => { try { localStorage.setItem('zdub-listen-' + k, JSON.stringify(v)); } catch (e) { /* ignore */ } } };
+    const st = { q: [], i: 0, playing: false, lessonId: null, tabId: null, timer: null, wake: null, gen: 0 };
+    const SEC_LABEL = { intro: 'Intro', idea: 'The idea', why: 'Why it matters', example: 'Example', workbook: 'Workbook', today: 'Do it today', check: 'Quick check', end: 'End' };
+    const ABBR = [[/\bCPL\b/g, 'cost per lead'], [/\bCPA\b/g, 'cost per acquisition'], [/\bCAC\b/g, 'customer acquisition cost'], [/\bROAS\b/g, 'return on ad spend'], [/\bCTA\b/g, 'call to action'], [/\bCTAs\b/g, 'calls to action'], [/\bCTR\b/g, 'click-through rate'], [/\bGHL\b/g, 'GoHighLevel'], [/\bCBO\b/g, 'campaign budget optimization'], [/\bCAPI\b/g, 'Conversions A P I'], [/\bVOC\b/g, 'voice of customer'], [/\bUGC\b/g, 'U G C'], [/\bSOP\b/g, 'S O P'], [/\bSOPs\b/g, 'S O Ps'], [/\bVSL\b/g, 'V S L'], [/\bPMT\b/g, 'P M T'], [/\bZDub\b/g, 'Z Dub'], [/\bROI\b/g, 'R O I'], [/\bDMs\b/g, 'D Ms'], [/\bDM\b/g, 'D M'], [/\be\.g\.,?/gi, 'for example,'], [/\bi\.e\.,?/gi, 'that is,'], [/\bvs\.?(?=\s)/gi, 'versus'], [/\bw\//gi, 'with '], [/\bApprox\.?/gi, 'approximately']];
+    function speakable(s) {
+      let t = String(s == null ? '' : s);
+      t = t.replace(/\*\*|__|`/g, '').replace(/(^|\s)\*(\S)/g, '$1$2').replace(/(\S)\*(?=\s|$|[.,;:!?])/g, '$1').replace(/^#+\s*/gm, '').replace(/^>\s?/gm, '');
+      t = t.replace(/\$(\d+(?:\.\d+)?)\s?[kK]\b/g, (m, n) => '$' + (parseFloat(n) * 1000).toLocaleString('en-US'));
+      t = t.replace(/\$(\d+(?:\.\d+)?)\s?[mM]\b/g, (m, n) => '$' + n + ' million');
+      t = t.replace(/(\d)\s?[–—-]\s?(\$?\d)/g, '$1 to $2');
+      t = t.replace(/(\d)k\b/g, '$1 thousand');
+      t = t.replace(/\/(mo|month)\b/gi, ' a month').replace(/\/(wk|week)\b/gi, ' a week').replace(/\/(day)\b/gi, ' a day').replace(/\/(yr|year)\b/gi, ' a year').replace(/\/(hr|hour)\b/gi, ' an hour');
+      t = t.replace(/(\d)\s?[x×]\s?(\d)/g, '$1 by $2').replace(/(\d)\s?[x×]\s?(\d)/g, '$1 by $2').replace(/(\d)x\b/g, '$1 times').replace(/\s×\s/g, ' times ').replace(/\s÷\s/g, ' divided by ').replace(/\s=\s/g, ' equals ');
+      t = t.replace(/[→⟶➜]/g, ', then ').replace(/←/g, ' from ').replace(/[≈~](?=\s?\$?\d)/g, 'about ').replace(/\s&\s/g, ' and ').replace(/\s\+\s/g, ' and ').replace(/(\d)\+/g, '$1 plus').replace(/#(\d)/g, 'number $1');
+      ABBR.forEach(([re, w]) => { t = t.replace(re, w); });
+      t = t.replace(/\s*\((?:Recall\s)?[DL]?\d+\.\d+(?:,\s*[DL]?\d+\.\d+)*\)/g, '');
+      t = t.replace(/\b(?:fnd|per|cw|off|adc|cp|soc|meta|fun|sal|gc|ops|mind)-0?(\d+)\b/g, 'lesson $1');
+      t = t.replace(/([A-Za-z])\/([A-Za-z])/g, '$1 or $2');
+      t = t.replace(/\s*[—–]\s*/g, ', ').replace(/\s*·\s*/g, '. ').replace(/[“”]/g, '"').replace(/\s+/g, ' ').replace(/\s+([,.;:!?])/g, '$1').replace(/,\s*,/g, ',').trim();
+      return t;
+    }
+    function blocks(src) {
+      const out = []; let para = [];
+      const flush = () => { if (para.length) { out.push(para.join(' ')); para = []; } };
+      String(src || '').replace(/\r/g, '').split('\n').forEach(raw => {
+        const line = raw.trim(); let m;
+        if (!line) { flush(); return; }
+        if ((m = line.match(/^[-•]\s+(.*)/))) { flush(); out.push(m[1]); return; }
+        if ((m = line.match(/^(\d+)[.)]\s+(.*)/))) { flush(); out.push(m[1] + '. ' + m[2]); return; }
+        if ((m = line.match(/^#{2,4}\s+(.*)/))) { flush(); out.push(m[1] + '.'); return; }
+        para.push(line.replace(/^>\s?/, ''));
+      });
+      flush();
+      return out;
+    }
+    const end = s => /[.!?:]["'”’)]*$/.test(s) ? s : s + '.';
+    function script(t, l) {
+      const S = []; const add = (sec, text, pause) => { const s = speakable(text); if (s) S.push({ sec, text: end(s), pause }); };
+      const idx = t.lessons.indexOf(l); const part = (t.parts || []).find(p => p.id === l.part);
+      if (part) add('intro', part.title.replace(/\s*·\s*/, '. '));
+      add('intro', `Lesson ${idx + 1} of ${t.lessons.length}. About ${l.minutes || 10} minutes.`);
+      add('intro', l.title, 0.6);
+      add('idea', 'The idea.', 0.3); blocks(l.idea).forEach(b => add('idea', b));
+      if ((l.keyPoints || []).length) { add('idea', 'Key points.', 0.3); l.keyPoints.forEach(k => add('idea', k)); }
+      if (l.table && l.table.rows) {
+        add('idea', l.table.title ? 'Table: ' + l.table.title : 'Here is the table.', 0.3);
+        l.table.rows.forEach(r => add('idea', r.map((c, i) => (l.table.head && l.table.head[i] ? l.table.head[i] + ': ' : '') + end(String(c))).join(' '), 0.4));
+      }
+      if (l.why) { add('why', 'Why it matters for Z Dub.', 0.3); add('why', l.why); }
+      const ex = l.example || {};
+      if (ex.body || ex.after) {
+        add('example', ex.title ? 'Example. ' + ex.title : 'Example.', 0.3);
+        if (ex.before) { add('example', 'Before.'); blocks(ex.before).forEach(b => add('example', b)); }
+        if (ex.after) { add('example', 'After.'); blocks(ex.after).forEach(b => add('example', b)); }
+        blocks(ex.body).forEach(b => add('example', b));
+      }
+      if (pref.get('workbook', true)) {
+        (l.practice || []).forEach((p, pi) => {
+          add('workbook', pi === 0 ? 'Your turn. Workbook.' : 'Next exercise.', 0.3);
+          add('workbook', p.prompt);
+          add('workbook', 'Fill in: ' + p.fields.map(f => String(f).replace(/[:.]+$/, '')).join('; '));
+          if ((p.rubric || []).length) { add('workbook', 'Self check.'); p.rubric.forEach(r => add('workbook', r)); }
+        });
+        const td = l.today || {};
+        if (td.task) { add('today', 'Do it today.', 0.3); blocks(td.task).forEach(b => add('today', b)); if (td.output) add('today', 'Output: ' + td.output); }
+        if ((l.check || []).length) {
+          add('check', 'Quick check. Try to answer each one before the answer plays.', 0.3);
+          l.check.forEach((c, ci) => { add('check', `Question ${ci + 1}. ${c.q}`, 3.5); add('check', 'Answer. ' + c.a, 0.8); });
+        }
+      }
+      add('end', 'End of lesson. When you have applied it, mark it done.');
+      return S;
+    }
+    // split long items into sentence chunks (iOS and Chrome cut off long utterances)
+    function chunk(items) {
+      const q = [];
+      items.forEach(it => {
+        const sents = it.text.match(/[^.!?]+[.!?]+["')]?|[^.!?]+$/g) || [it.text];
+        let buf = '';
+        sents.forEach(snt => {
+          if ((buf + snt).length > 220 && buf) { q.push({ sec: it.sec, text: buf.trim(), pause: 0.15 }); buf = ''; }
+          buf += snt;
+        });
+        if (buf.trim()) q.push({ sec: it.sec, text: buf.trim(), pause: it.pause == null ? 0.25 : it.pause });
+      });
+      return q;
+    }
+    function minutes(t, l) { const chars = script(t, l).reduce((n, s) => n + s.text.length, 0); return Math.max(1, Math.round(chars / 15 / 60 / (pref.get('rate', 1) || 1))); }
+    function voices() { try { return synth ? synth.getVoices().filter(v => /^en/i.test(v.lang) && !NOVELTY.test(v.name)) : []; } catch (e) { return []; } }
+    function score(v) {
+      const n = (v.name + ' ' + (v.voiceURI || '')).toLowerCase(); let s = 0;
+      if (/premium/.test(n)) s += 100; if (/enhanced/.test(n)) s += 60; if (/natural|neural|online/.test(n)) s += 50;
+      if (/^en[-_]us/i.test(v.lang)) s += 10; if (/\b(ava|zoe|evan|nathan|noelle|samantha|allison|tom|susan|jenny|aria|guy|serena|daniel)\b/.test(n)) s += 8;
+      if (/google us english/.test(n)) s += 20; if (v.localService === false) s += 2;
+      return s;
+    }
+    function bestVoice() {
+      const vs = voices(); if (!vs.length) return null;
+      const saved = pref.get('voice', ''); const hit = vs.find(v => v.name === saved); if (hit) return hit;
+      return vs.slice().sort((a, b) => score(b) - score(a))[0];
+    }
+    const hasGoodVoice = () => voices().some(v => /premium|enhanced|natural|neural/i.test(v.name + ' ' + (v.voiceURI || '')));
+    const voiceLabel = v => v ? v.name.replace(/^(Microsoft|Google)\s+/, '') : 'Default voice';
+
+    function bar() {
+      let el = document.getElementById('player');
+      if (el) return el;
+      el = document.createElement('div'); el.id = 'player'; el.className = 'player'; el.hidden = true;
+      el.setAttribute('role', 'region'); el.setAttribute('aria-label', 'Lesson audio player');
+      el.innerHTML = `<div class="pl-inner">
+        <div class="pl-prog"><i id="plProg"></i></div>
+        <div class="pl-row">
+          <button class="pl-ico" id="plPrev" aria-label="Back one section">${icon('back')}</button>
+          <button class="pl-play" id="plPlay" aria-label="Pause">${icon('pause')}</button>
+          <button class="pl-ico" id="plNext" aria-label="Skip to next section">${icon('fwd')}</button>
+          <div class="pl-text"><div class="pl-sec" id="plSec"></div><div class="pl-now" id="plNow"></div></div>
+          <button class="pl-ico" id="plSet" aria-label="Voice and speed settings" aria-expanded="false">${icon('sliders')}</button>
+          <button class="pl-ico" id="plClose" aria-label="Stop and close player">${icon('x')}</button>
+        </div>
+        <div class="pl-settings" id="plSettings" hidden>
+          <div class="pl-grid">
+            <label class="field"><span>Voice</span><select id="plVoice"></select></label>
+            <label class="field"><span>Speed</span><select id="plRate">${[0.8, 0.9, 1, 1.1, 1.25, 1.4, 1.6, 1.8, 2].map(r => `<option value="${r}">${r}×</option>`).join('')}</select></label>
+          </div>
+          <label class="pl-check"><input type="checkbox" id="plWb"> Also read the workbook, Do it today and quick check</label>
+          <label class="pl-check"><input type="checkbox" id="plAuto"> When a lesson ends, keep going to the next one</label>
+          <label class="pl-check"><input type="checkbox" id="plFollow"> Scroll the page to follow along</label>
+          <p class="pl-tip" id="plTip"></p>
+        </div></div>`;
+      document.body.appendChild(el);
+      const $p = s => el.querySelector(s);
+      $p('#plPlay').onclick = () => (st.playing ? pause() : resume());
+      $p('#plPrev').onclick = () => jump(-1);
+      $p('#plNext').onclick = () => jump(1);
+      $p('#plClose').onclick = stop;
+      $p('#plSet').onclick = () => { const s = $p('#plSettings'); s.hidden = !s.hidden; $p('#plSet').setAttribute('aria-expanded', String(!s.hidden)); if (!s.hidden) fillVoices(); };
+      $p('#plRate').value = String(pref.get('rate', 1));
+      $p('#plRate').onchange = e => { pref.set('rate', +e.target.value); restartChunk(); };
+      $p('#plVoice').onchange = e => { pref.set('voice', e.target.value); restartChunk(); };
+      $p('#plWb').checked = pref.get('workbook', true);
+      $p('#plWb').onchange = e => { pref.set('workbook', e.target.checked); if (st.lessonId) { const cur = st.q[st.i]; rebuild(); const k = st.q.findIndex(x => x.sec === (cur && cur.sec)); st.i = k < 0 ? Math.min(st.i, st.q.length - 1) : k; restartChunk(); } };
+      $p('#plAuto').checked = pref.get('auto', false);
+      $p('#plAuto').onchange = e => pref.set('auto', e.target.checked);
+      $p('#plFollow').checked = pref.get('follow', true);
+      $p('#plFollow').onchange = e => pref.set('follow', e.target.checked);
+      if (synth && 'onvoiceschanged' in synth) synth.addEventListener('voiceschanged', fillVoices);
+      return el;
+    }
+    function fillVoices() {
+      const sel = document.getElementById('plVoice'); if (!sel) return;
+      const vs = voices().sort((a, b) => score(b) - score(a)); const cur = bestVoice();
+      sel.innerHTML = vs.length ? vs.map(v => `<option value="${esc(v.name)}">${esc(voiceLabel(v))}${/premium|enhanced/i.test(v.name + v.voiceURI) && !/premium|enhanced/i.test(v.name) ? ' (enhanced)' : ''}</option>`).join('') : '<option value="">Default voice</option>';
+      if (cur) sel.value = cur.name;
+      const tip = document.getElementById('plTip');
+      const apple = /iPhone|iPad|Macintosh/.test(navigator.userAgent);
+      tip.innerHTML = hasGoodVoice() ? 'Using the best voice on this device. On iPhone, keep this page open with the screen on while it plays.'
+        : apple ? '<b>Want a better voice?</b> On iPhone: Settings → Accessibility → Read &amp; Speak (or Spoken Content) → Voices → English → download a <b>Premium</b> voice such as Ava or Zoe. Then reload this page.'
+        : 'Tip: voices named Natural, Neural or Enhanced sound best. Pick one above if your device has it.';
+    }
+    function rebuild() { const L0 = LESSON[st.lessonId]; st.q = chunk(script(L0.t, L0.l)); }
+    function start(t, l) {
+      if (!synth) { toast("This browser can't read aloud. Try Safari or Chrome."); return; }
+      bar(); cancelSpeech();
+      st.lessonId = l.id; st.tabId = t.id; rebuild(); st.i = 0; st.playing = true;
+      document.body.classList.add('has-player'); document.getElementById('player').hidden = false;
+      document.getElementById('plSettings').hidden = true;
+      keepAwake(true); speak();
+    }
+    function speak() {
+      if (!st.playing) return;
+      if (st.i >= st.q.length) return finished();
+      const item = st.q[st.i]; const gen = ++st.gen;
+      paint(item);
+      const u = new SpeechSynthesisUtterance(item.text);
+      const v = bestVoice(); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'en-US';
+      u.rate = pref.get('rate', 1) || 1; u.pitch = 1;
+      u.onend = () => { if (gen !== st.gen || !st.playing) return; st.i++; st.timer = setTimeout(speak, Math.round((item.pause || 0.2) * 1000 / Math.max(0.8, u.rate))); };
+      u.onerror = e => { if (gen !== st.gen) return; if (e && (e.error === 'interrupted' || e.error === 'canceled')) return; u.onend(); };
+      try { synth.speak(u); } catch (e) { /* ignore */ }
+    }
+    function cancelSpeech() { st.gen++; clearTimeout(st.timer); try { synth && synth.cancel(); } catch (e) { /* ignore */ } }
+    function pause() { st.playing = false; cancelSpeech(); setPlayIcon(); keepAwake(false); }
+    function resume() { if (!st.q.length) return; if (st.i >= st.q.length) st.i = 0; st.playing = true; setPlayIcon(); keepAwake(true); speak(); }
+    function restartChunk() { if (st.playing) { cancelSpeech(); speak(); } }
+    function jump(dir) {
+      if (!st.q.length) return;
+      const cur = st.q[Math.min(st.i, st.q.length - 1)].sec; let k = st.i;
+      if (dir > 0) { while (k < st.q.length && st.q[k].sec === cur) k++; }
+      else {
+        let s0 = k; while (s0 > 0 && st.q[s0 - 1].sec === cur) s0--;
+        if (st.i - s0 > 1 || s0 === 0) k = s0; else { k = s0 - 1; const prev = st.q[k].sec; while (k > 0 && st.q[k - 1].sec === prev) k--; }
+      }
+      st.i = Math.max(0, Math.min(k, st.q.length)); cancelSpeech();
+      if (st.playing) speak(); else if (st.i < st.q.length) paint(st.q[st.i]);
+    }
+    function finished() {
+      const L0 = LESSON[st.lessonId];
+      const next = L0 && L0.t.lessons[L0.i + 1];
+      if (pref.get('auto', false) && next) {
+        if (location.hash === '#l-' + L0.l.id) location.hash = 'l-' + next.id;
+        st.lessonId = next.id; rebuild(); st.i = 0; speak(); return;
+      }
+      st.playing = false; setPlayIcon(); keepAwake(false);
+      document.getElementById('plNow').textContent = 'Lesson finished.'; document.getElementById('plProg').style.width = '100%';
+      highlight(null);
+    }
+    function stop() { pause(); st.q = []; st.lessonId = null; highlight(null); const el = document.getElementById('player'); if (el) el.hidden = true; document.body.classList.remove('has-player'); }
+    function setPlayIcon() { const b = document.getElementById('plPlay'); if (!b) return; b.innerHTML = icon(st.playing ? 'pause' : 'play'); b.setAttribute('aria-label', st.playing ? 'Pause' : 'Play'); }
+    function paint(item) {
+      setPlayIcon();
+      const L0 = LESSON[st.lessonId];
+      document.getElementById('plSec').textContent = (L0 ? L0.l.title + ' · ' : '') + (SEC_LABEL[item.sec] || '');
+      document.getElementById('plNow').textContent = item.text;
+      document.getElementById('plProg').style.width = (100 * st.i / Math.max(1, st.q.length)) + '%';
+      highlight(item.sec);
+    }
+    let lastSec = null;
+    function highlight(sec) {
+      document.querySelectorAll('.lesson [data-sec].speaking').forEach(e => e.classList.remove('speaking'));
+      const shown = document.getElementById('lesson');
+      if (!sec || !st.lessonId || !shown || shown.dataset.lid !== st.lessonId) { lastSec = null; return; }
+      const el = shown.querySelector(`[data-sec="${sec === 'end' ? 'today' : sec}"]`);
+      if (!el) return;
+      el.classList.add('speaking');
+      if (sec !== lastSec && pref.get('follow', true)) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      lastSec = sec;
+    }
+    // re-apply highlight after the lesson re-renders (only if the playing lesson is on screen)
+    function sync() { if (st.lessonId && st.q[st.i]) { lastSec = st.q[st.i].sec; highlight(st.q[st.i].sec); } }
+    async function keepAwake(on) {
+      try {
+        if (on && navigator.wakeLock && !st.wake) { st.wake = await navigator.wakeLock.request('screen'); st.wake.addEventListener('release', () => { st.wake = null; }); }
+        else if (!on && st.wake) { await st.wake.release(); st.wake = null; }
+      } catch (e) { st.wake = null; }
+    }
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && st.playing) keepAwake(true); });
+    if (synth) { try { synth.getVoices(); } catch (e) { /* ignore */ } }
+    return { start, stop, sync, minutes, script, speakable };
+  })();
+  window.ZDubListen = Listen;
 
   /* ---------------- routing ---------------- */
   function route() {

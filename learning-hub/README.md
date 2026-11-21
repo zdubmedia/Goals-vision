@@ -11,6 +11,7 @@ A daily learning page for running ZDub Media. Each tab is one skill. Each skill 
    - **Do it today**: one 15–45 minute task that produces something real, plus a box for what happened when you applied it
    - **Quick check**: recall questions with answers
    - **My notes**, then **Mark lesson done**
+   - **Listen**: tap the headphones button under the lesson title to hear the lesson read aloud. A player bar stays at the bottom with play/pause, back and forward by section, speed, voice, "keep going to the next lesson" and "follow along" options. It reads sections in order, tables row by row and spells out shorthand ($3k/mo becomes "three thousand dollars a month"). It uses your device's built-in voices and picks the best one installed. On iPhone, download a Premium voice for a much better sound (Settings → Accessibility → Read & Speak, or Spoken Content → Voices → English → e.g. Ava (Premium)), and keep the page open with the screen on while it plays.
 3. **My Bank** keeps every lesson you finished, with your answers, coach feedback, notes and results. It's searchable.
 4. **Reference**: the mentor roster and call log, where the mentors disagree, the 13 cross-call principles, the 25 Laws, the book library, the hook formula bank, checklists, the glossary and the final exam.
 
