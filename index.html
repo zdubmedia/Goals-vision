@@ -821,8 +821,32 @@ if (synth) { fillVoices(); synth.onvoiceschanged = fillVoices; }
 $("#plVoice").onchange = (e) => lsSet("wfj.voice", e.target.value);
 $("#plRate").value = lsGet("wfj.rate", 0.85);
 $("#plRate").onchange = (e) => lsSet("wfj.rate", +e.target.value);
+// iPhone mutes web speech and Web Audio (the theta tone) when Silent mode is on. A silent looping <audio>,
+// started inside the tap, plus the "playback" audio session where supported, makes iOS treat this as media
+// playback so it's heard even on silent.
+const unlock = (() => {
+  let el = null;
+  function silentWav() {
+    const n = 8000, b = new Uint8Array(44 + n), dv = new DataView(b.buffer);
+    const w = (o, str) => { for (let i = 0; i < str.length; i++) b[o + i] = str.charCodeAt(i); };
+    w(0, "RIFF"); dv.setUint32(4, 36 + n, true); w(8, "WAVE"); w(12, "fmt "); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true);
+    dv.setUint32(24, 8000, true); dv.setUint32(28, 8000, true); dv.setUint16(32, 1, true); dv.setUint16(34, 8, true); w(36, "data"); dv.setUint32(40, n, true); b.fill(128, 44);
+    let bin = ""; for (let i = 0; i < b.length; i++) bin += String.fromCharCode(b[i]);
+    return "data:audio/wav;base64," + btoa(bin);
+  }
+  return {
+    on() {
+      try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch {}
+      try { if (!el) { el = new Audio(silentWav()); el.loop = true; el.setAttribute("playsinline", ""); } el.play()?.catch?.(() => {}); } catch {}
+      try { if (pl.ctx && pl.ctx.state === "suspended") pl.ctx.resume(); } catch {}
+    },
+    off() { try { el && el.pause(); } catch {} }
+  };
+})();
 function play(title, segs, rate) {
   if (!synth) { toast("This browser can't read aloud. Open the script and read it slowly to yourself."); return; }
+  unlock.on();
+  if (/iPhone|iPad|iPod/.test(navigator.userAgent) && !lsGet("wfj.silentHint", false)) { lsSet("wfj.silentHint", true); toast("If you hear nothing, turn off Silent mode and turn the volume up."); }
   stopSpeech();
   pl.segs = segs.filter(s => s && s.say); pl.i = 0; pl.rateOverride = rate; pl.playing = true;
   $("#plTitle").textContent = title; $("#player").hidden = false; $("#plPlay").textContent = "Pause";
@@ -845,14 +869,15 @@ function step() {
   u.onerror = u.onend;
   synth.speak(u);
 }
-function finish() { pl.playing = false; $("#plProg").style.width = "100%"; $("#plNow").textContent = "Complete. Carry the feeling with you."; $("#plPlay").textContent = "Play again"; tone(false); keepAwake(false); }
+function finish() { unlock.off(); pl.playing = false; $("#plProg").style.width = "100%"; $("#plNow").textContent = "Complete. Carry the feeling with you."; $("#plPlay").textContent = "Play again"; tone(false); keepAwake(false); }
 function stopSpeech() { pl.playing = false; clearTimeout(pl.timer); try { synth && synth.cancel(); } catch {} }
 $("#plPlay").onclick = () => {
-  if (pl.playing) { stopSpeech(); $("#plPlay").textContent = "Resume"; return; }
+  if (pl.playing) { stopSpeech(); unlock.off(); $("#plPlay").textContent = "Resume"; return; }
   if (pl.i >= pl.segs.length) pl.i = 0;
+  unlock.on();
   pl.playing = true; $("#plPlay").textContent = "Pause"; if ($("#plTone").checked) tone(true); step();
 };
-$("#plStop").onclick = () => { stopSpeech(); tone(false); keepAwake(false); $("#player").hidden = true; };
+$("#plStop").onclick = () => { stopSpeech(); unlock.off(); tone(false); keepAwake(false); $("#player").hidden = true; };
 $("#plTone").onchange = (e) => tone(e.target.checked && pl.playing);
 function tone(on) {
   // a quiet 6 Hz binaural beat (200 Hz left, 206 Hz right) — theta range

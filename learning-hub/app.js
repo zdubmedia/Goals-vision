@@ -733,14 +733,44 @@
       if (cur) sel.value = cur.name;
       const tip = document.getElementById('plTip');
       const apple = /iPhone|iPad|Macintosh/.test(navigator.userAgent);
-      tip.innerHTML = hasGoodVoice() ? 'Using the best voice on this device. On iPhone, keep this page open with the screen on while it plays.'
+      tip.innerHTML = (isApple ? '<b>No sound?</b> Turn off Silent mode and turn the volume up. ' : '') + (hasGoodVoice() ? 'Using the best voice on this device. On iPhone, keep this page open with the screen on while it plays.'
         : apple ? '<b>Want a better voice?</b> On iPhone: Settings → Accessibility → Read &amp; Speak (or Spoken Content) → Voices → English → download a <b>Premium</b> voice such as Ava or Zoe. Then reload this page.'
-        : 'Tip: voices named Natural, Neural or Enhanced sound best. Pick one above if your device has it.';
+        : 'Tip: voices named Natural, Neural or Enhanced sound best. Pick one above if your device has it.');
     }
+    // iPhone mutes web speech and Web Audio when Silent mode is on. Playing a silent looping <audio>
+    // (and asking for the "playback" audio session where supported) tells iOS this is real media playback,
+    // so speech is heard even with the ringer switch on silent. Must start inside the tap.
+    const Unlock = (function () {
+      let el = null; let src = null;
+      function silentWav() {
+        const n = 8000, b = new Uint8Array(44 + n), dv = new DataView(b.buffer);
+        const w = (o, str) => { for (let i = 0; i < str.length; i++) b[o + i] = str.charCodeAt(i); };
+        w(0, 'RIFF'); dv.setUint32(4, 36 + n, true); w(8, 'WAVE'); w(12, 'fmt '); dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true);
+        dv.setUint32(24, 8000, true); dv.setUint32(28, 8000, true); dv.setUint16(32, 1, true); dv.setUint16(34, 8, true); w(36, 'data'); dv.setUint32(40, n, true); b.fill(128, 44);
+        let bin = ''; for (let i = 0; i < b.length; i++) bin += String.fromCharCode(b[i]);
+        return 'data:audio/wav;base64,' + btoa(bin);
+      }
+      return {
+        on() {
+          try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { /* not supported */ }
+          try {
+            if (!el) { src = src || silentWav(); el = new Audio(src); el.loop = true; el.preload = 'auto'; el.setAttribute('playsinline', ''); el.setAttribute('aria-hidden', 'true'); }
+            const pr = el.play(); if (pr && pr.catch) pr.catch(() => {});
+          } catch (e) { /* ignore */ }
+        },
+        off() { try { if (el) el.pause(); } catch (e) { /* ignore */ } }
+      };
+    })();
+    const isApple = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+    const NOSOUND = 'No sound? Turn off Silent mode (the bell switch or Control Center) and turn the volume up, then tap play again.';
+    function note(msg) { const el = document.getElementById('plNow'); if (el) el.textContent = msg; }
     function rebuild() { const L0 = LESSON[st.lessonId]; st.q = chunk(script(L0.t, L0.l)); }
     function start(t, l) {
-      if (!synth) { toast("This browser can't read aloud. Try Safari or Chrome."); return; }
-      bar(); cancelSpeech();
+      if (!synth || typeof window.SpeechSynthesisUtterance !== 'function') { toast("This browser can't read aloud. Open the page in Safari or Chrome."); return; }
+      Unlock.on();
+      bar(); cancelSpeech(true);
+      st.heard = false; st.fails = 0;
+      if (isApple && !pref.get('silentHint', false)) { pref.set('silentHint', true); toast('If you hear nothing, turn off Silent mode and turn the volume up.'); }
       st.lessonId = l.id; st.tabId = t.id; rebuild(); st.i = 0; st.playing = true;
       document.body.classList.add('has-player'); document.getElementById('player').hidden = false;
       document.getElementById('plSettings').hidden = true;
@@ -754,13 +784,32 @@
       const u = new SpeechSynthesisUtterance(item.text);
       const v = bestVoice(); if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'en-US';
       u.rate = pref.get('rate', 1) || 1; u.pitch = 1;
-      u.onend = () => { if (gen !== st.gen || !st.playing) return; st.i++; st.timer = setTimeout(speak, Math.round((item.pause || 0.2) * 1000 / Math.max(0.8, u.rate))); };
-      u.onerror = e => { if (gen !== st.gen) return; if (e && (e.error === 'interrupted' || e.error === 'canceled')) return; u.onend(); };
+      const t0 = Date.now(); let begun = false;
+      u.onstart = () => { begun = true; st.heard = true; st.fails = 0; };
+      u.onend = () => {
+        if (gen !== st.gen || !st.playing) return;
+        // an utterance that "ends" instantly without ever starting means the voice engine isn't speaking
+        if (!begun && Date.now() - t0 < 60) { st.fails = (st.fails || 0) + 1; if (st.fails >= 3) { pause(); note("Your phone's voice isn't responding here. " + NOSOUND + ' If it still says nothing, open this page in Safari.'); return; } }
+        st.i++; st.timer = setTimeout(speak, Math.round((item.pause || 0.2) * 1000 / Math.max(0.8, u.rate)));
+      };
+      u.onerror = e => {
+        if (gen !== st.gen) return;
+        const code = e && e.error;
+        if (code === 'interrupted' || code === 'canceled') return;
+        if (code === 'not-allowed') { pause(); note('Tap play to start the voice.'); return; }
+        u.onend();
+      };
       try { synth.speak(u); } catch (e) { /* ignore */ }
+      clearTimeout(st.watch);
+      if (!st.heard) st.watch = setTimeout(() => { if (st.playing && !st.heard && gen === st.gen) note(NOSOUND); }, 4000);
     }
-    function cancelSpeech() { st.gen++; clearTimeout(st.timer); try { synth && synth.cancel(); } catch (e) { /* ignore */ } }
-    function pause() { st.playing = false; cancelSpeech(); setPlayIcon(); keepAwake(false); }
-    function resume() { if (!st.q.length) return; if (st.i >= st.q.length) st.i = 0; st.playing = true; setPlayIcon(); keepAwake(true); speak(); }
+    function cancelSpeech(soft) {
+      st.gen++; clearTimeout(st.timer); clearTimeout(st.watch);
+      // iOS Safari can drop a speak() that follows cancel() right away, so only cancel when something is queued
+      try { if (synth && (!soft || synth.speaking || synth.pending)) synth.cancel(); } catch (e) { /* ignore */ }
+    }
+    function pause() { st.playing = false; cancelSpeech(); setPlayIcon(); keepAwake(false); Unlock.off(); }
+    function resume() { if (!st.q.length) return; if (st.i >= st.q.length) st.i = 0; Unlock.on(); st.playing = true; st.heard = false; st.fails = 0; setPlayIcon(); keepAwake(true); speak(); }
     function restartChunk() { if (st.playing) { cancelSpeech(); speak(); } }
     function jump(dir) {
       if (!st.q.length) return;
@@ -780,7 +829,7 @@
         if (location.hash === '#l-' + L0.l.id) location.hash = 'l-' + next.id;
         st.lessonId = next.id; rebuild(); st.i = 0; speak(); return;
       }
-      st.playing = false; setPlayIcon(); keepAwake(false);
+      st.playing = false; setPlayIcon(); keepAwake(false); Unlock.off();
       document.getElementById('plNow').textContent = 'Lesson finished.'; document.getElementById('plProg').style.width = '100%';
       highlight(null);
     }
