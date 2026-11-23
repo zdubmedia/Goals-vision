@@ -31,7 +31,7 @@ HUB.tab({
 - **Part Two, Turning Strangers into Customers (Ch 37–68):** the business behind the ad. Delight, passion, preconception, the unique selling proposition, personality, failure, planning, presentation.
 - **Part Three, Turning Dreams into Realities (Ch 69–101):** life and success. Luck, pessimism, dreams, focus, how to measure success, vision. The last chapter is numbered "100 + 1."
 
-> Study tip: as you go, tag each chapter with the law it applies. Most of Part One sorts under Laws 3, 4, 5 and 7.`,
+> Study tip: as you go, tag each chapter with the law it applies.`,
       keyPoints: [
         "The seven laws are the book's thesis; most chapters apply one of them",
         "Emotion decides, intellect justifies: lead with the heart",
@@ -710,7 +710,7 @@ CTA: “Call or text [number] and ask for today's next opening.”`
 
 **The rule from Chapter 10, sharpened:** a persuasive intellectual ad opens with a frank statement of benefit and then quickly backs up *every* claim. Closing loopholes is the difference between informing and persuading.
 
-**The demonstration** (pp. 32–34) is the most useful page in Part One so far, so read it in the book. Roy writes two radio ads for a fictional insurance agency, Parkins and Maddock, and prints the listener's thoughts in parentheses after each line.
+**The demonstration** (pp. 32–34) is worth reading in full. Roy writes two radio ads for a fictional insurance agency, Parkins and Maddock, and prints the listener's thoughts in parentheses after each line.
 
 **The good ad.** It promises to cut your insurance cost by at least 10 percent. *(Or what?)* Or they'll buy you dinner at the Plaza del Fuego. *(I'm not sitting through a two-hour pitch for a dinner.)* It's a three-minute phone call with no one to meet. *(Still a hassle; I don't know my coverage details.)* When your renewal notice arrives, call and read them the limits and deductibles printed on it. *(Right, the notice has all the details.)* They quote identical coverage, apples to apples, and if it isn't at least 10 percent lower, you're off to dinner. It closes by pointing out you have to write someone a check anyway, so why not a smaller one? The listener's final thought: *remember to call when the renewal comes.* Each objection pops up and the very next line answers it. Roy says that with patience and enough repetition, this ad would keep their phones ringing for years.
 
