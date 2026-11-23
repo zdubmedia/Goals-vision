@@ -6,6 +6,9 @@
   const HUB = window.HUB;
   const TABS = HUB.tabs.slice();
   const TAB = Object.fromEntries(TABS.map(t => [t.id, t]));
+  const TOPICS = TABS.filter(t => t.kind !== 'book');
+  const BOOKS = TABS.filter(t => t.kind === 'book');
+  const bookAuthor = (t, l) => { const w = (l.source && l.source[0] && l.source[0].who) || ''; return w && !/^(book|workbook)$/i.test(w) ? w : t.title; };
   const LESSON = {}; // id -> {lesson, tab, index}
   TABS.forEach(t => (t.lessons || []).forEach((l, i) => { LESSON[l.id] = { l, t, i }; }));
   const DEFAULT_PINS = ['copywriting', 'meta-ads', 'sales', 'getting-clients'].filter(id => TAB[id]);
@@ -214,7 +217,9 @@
     const rail = [
       `<button data-go="home" ${active === 'home' ? 'aria-current="page"' : ''}>${icon('home')}Today</button>`,
       '<span class="sep"></span>',
-      ...TABS.map(t => `<button data-go="t-${t.id}" ${active === t.id ? 'aria-current="page"' : ''}>${icon(t.icon)}${esc(shortTitle(t))}${pins.has(t.id) ? '<span class="pin-dot" title="Pinned"></span>' : ''}</button>`),
+      ...TOPICS.map(t => railBtn(t, active, pins)),
+      BOOKS.length ? '<span class="sep"></span>' : '',
+      ...BOOKS.map(t => railBtn(t, active, pins)),
       '<span class="sep"></span>',
       HUB.ref ? `<button data-go="reference" ${active === 'reference' ? 'aria-current="page"' : ''}>${icon('book')}Reference</button>` : '',
       `<button data-go="bank" ${active === 'bank' ? 'aria-current="page"' : ''}>${icon('bank')}My Bank</button>`
@@ -224,6 +229,7 @@
     const cur = $('.rail [aria-current="page"]'); if (cur) cur.scrollIntoView({ block: 'nearest', inline: 'center' });
   }
   function renderTopStats() { const el = $('#streakchip'); if (el) { const n = streak(); el.textContent = `${n} day streak`; } }
+  const railBtn = (t, active, pins) => `<button data-go="t-${t.id}" ${active === t.id ? 'aria-current="page"' : ''}>${icon(t.icon)}${esc(shortTitle(t))}${pins.has(t.id) ? '<span class="pin-dot" title="Pinned"></span>' : ''}</button>`;
   const shortTitle = t => t.short || t.title.replace(/ \(.*\)$/, '').replace(/ & .*$/, m => t.title.length > 24 ? '' : m);
 
   /* ---------------- HOME ---------------- */
@@ -256,8 +262,10 @@
       <div class="sec-h"><h2>What I applied this week</h2><span class="muted" style="font-size:14px">From the "What happened" box on each lesson</span></div>
       ${applied.length ? `<div class="applied">${applied.map(x => { const { l, t } = LESSON[x.id]; return `<div class="item"><div class="eyebrow">${esc(shortTitle(t))} · ${fmtDate(x.st.appliedAt || x.st.updatedAt)}</div><a href="#l-${esc(l.id)}" data-go="l-${esc(l.id)}" style="font-weight:650;text-decoration:none">${esc(l.title)}</a><p>${esc(x.st.applied)}</p></div>`; }).join('')}</div>` : '<div class="empty">Nothing logged yet this week. After you apply a lesson, write what happened in its yellow "Do it today" box and it shows up here.</div>'}
       <div class="sec-h"><h2>All topics</h2></div>
-      <div class="alltabs">${TABS.map(t => `<button class="tabbtn ${s.pinned.includes(t.id) ? 'pinned' : ''}" data-go="t-${t.id}"><span class="ico">${icon(t.icon)}</span><span style="min-width:0"><span class="t">${esc(t.title)}</span><br><span class="s">${doneCount(t)}/${t.lessons.length} done</span></span></button>`).join('')}</div>
+      <div class="alltabs">${TOPICS.map(tabTile).join('')}</div>
+      ${BOOKS.length ? `<div class="sec-h"><h2>Book studies</h2><span class="muted" style="font-size:14px">One lesson per chapter. Read the pages, then work the lesson.</span></div><div class="alltabs">${BOOKS.map(tabTile).join('')}</div>` : ''}
     </div>`;
+    function tabTile(t) { return `<button class="tabbtn ${s.pinned.includes(t.id) ? 'pinned' : ''}" data-go="t-${t.id}"><span class="ico">${icon(t.icon)}</span><span style="min-width:0"><span class="t">${esc(t.title)}</span><br><span class="s">${doneCount(t)}/${t.lessons.length} ${t.kind === 'book' ? 'chapters' : ''} done</span></span></button>`; }
     const nc = $('#nextcard'); if (nc) nc.onclick = () => { reviewOffset++; renderHome(); };
     $('#editpins').onclick = () => renderPinEditor();
   }
@@ -324,14 +332,16 @@
     const td = l.today || {};
     el.innerHTML = `
       <section class="lhead" data-sec="intro">
-        <div class="eyebrow">${part ? esc(part.title) + ' · ' : ''}Lesson ${idx + 1} of ${t.lessons.length} · ${l.minutes || 10} min${l.date ? ' · call ' + esc(fmtDate(l.date + 'T12:00')) : ''}</div>
+        <div class="eyebrow">${part ? esc(part.title) + ' · ' : ''}${t.kind === 'book' && l.chapter != null ? (typeof l.chapter === 'number' ? 'Chapter ' + l.chapter : esc(l.chapter)) : 'Lesson ' + (idx + 1) + ' of ' + t.lessons.length} · ${l.minutes || 10} min${l.date ? ' · call ' + esc(fmtDate(l.date + 'T12:00')) : ''}</div>
         <h1>${esc(l.title)}</h1>
         ${(l.tags || []).length ? `<div class="tags">${l.tags.map(g => `<span class="tag ${tagClass(g)}">${esc(g === 'Platform fact (re-check)' ? 'Platform fact · re-check' : g)}</span>`).join('')}</div>` : ''}
         <div class="row"><button class="btn listen-btn" id="listenbtn" aria-label="Listen to this lesson">${icon('headphones')} Listen <span class="muted" style="font:12px var(--f-mono)">· ${Listen.minutes(t, l)} min</span></button>${Listen.isApple ? `<button class="btn ghost small" id="speakbtn" aria-label="Open a Speak Screen view to hear this lesson in your iPhone's Premium voice">${icon('book')} Premium voice (Speak Screen)</button>` : ''}</div>
+        ${l.pages ? `<div class="readalong">${icon('book')}<div><b>Read along:</b> ${l.chapterTitle ? `${typeof l.chapter === 'number' ? 'Chapter ' + l.chapter + ', ' : ''}“${esc(l.chapterTitle)}”, ` : ''}page${/[–-]/.test(l.pages) ? 's' : ''} ${esc(l.pages)} in your PDF of <i>${esc(t.title)}</i>. Read it first, then work through this lesson.</div></div>` : ''}
         <div class="source">${(l.source || []).map(s => `<span><b>${esc(s.doc)}</b>${s.section ? ' · ' + esc(s.section) : ''}${s.who ? ' · ' + esc(s.who) : ''}</span>`).join('')}${(l.alsoIn || []).length ? `<span>Also covered in: ${esc(l.alsoIn.join('; '))}</span>` : ''}</div>
       </section>
       <section data-sec="idea">
         <div class="h-label">The idea</div>
+        ${(l.quotes || []).length ? `<div class="quotes">${l.quotes.map(q => `<figure class="pull"><blockquote>${esc(q.text)}</blockquote><figcaption>${esc(bookAuthor(t, l))}${q.page ? ', p. ' + esc(q.page) : ''}</figcaption></figure>`).join('')}</div>` : ''}
         <div class="prose">${md(l.idea)}</div>
         ${(l.keyPoints || []).length ? `<div class="keypoints"><div class="eyebrow">Key points</div><ul>${l.keyPoints.map(k => `<li>${inline(k)}</li>`).join('')}</ul></div>` : ''}
         ${l.table ? tableHtml(l.table) : ''}
@@ -618,10 +628,13 @@
     function script(t, l) {
       const S = []; const add = (sec, text, pause) => { const s = speakable(text); if (s) S.push({ sec, text: end(s), pause }); };
       const idx = t.lessons.indexOf(l); const part = (t.parts || []).find(p => p.id === l.part);
-      if (part) add('intro', part.title.replace(/\s*·\s*/, '. '));
-      add('intro', `Lesson ${idx + 1} of ${t.lessons.length}. About ${l.minutes || 10} minutes.`);
+      if (part) add('intro', part.title.replace(/\s*·\s*/, '. ').replace(/\s*\(Ch [^)]*\)/, ''));
+      if (t.kind === 'book' && typeof l.chapter === 'number') add('intro', `Chapter ${l.chapter}${l.chapterTitle ? ', ' + l.chapterTitle : ''}. Pages ${l.pages || ''}. About ${l.minutes || 10} minutes.`);
+      else add('intro', `Lesson ${idx + 1} of ${t.lessons.length}. About ${l.minutes || 10} minutes.`);
       add('intro', l.title, 0.6);
-      add('idea', 'The idea.', 0.3); blocks(l.idea).forEach(b => add('idea', b));
+      add('idea', 'The idea.', 0.3);
+      (l.quotes || []).forEach((q, qi) => add('idea', (qi === 0 ? 'In his words: ' : 'And: ') + q.text, 0.5));
+      blocks(l.idea).forEach(b => add('idea', b));
       if ((l.keyPoints || []).length) { add('idea', 'Key points.', 0.3); l.keyPoints.forEach(k => add('idea', k)); }
       if (l.table && l.table.rows) {
         add('idea', l.table.title ? 'Table: ' + l.table.title : 'Here is the table.', 0.3);

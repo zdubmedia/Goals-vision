@@ -31,6 +31,17 @@ Published as a private claude.ai Artifact: https://claude.ai/artifact/DE6hjmW5k9
   - Outside Claude, **Get feedback** shows a ready-made prompt to copy into any Claude chat.
 - My Bank → **Backup** copies all progress as text and restores it anywhere.
 
+## Book studies
+
+Three books have their own tabs, grouped after the skill topics: **Making Ads Work** (Roy H. Williams, compiled by Craig Arthur), **The Wizard of Ads** and **Magical Worlds of the Wizard of Ads** (Roy H. Williams). There is one lesson per chapter, and each lesson has:
+
+- a **Read along** box with the chapter's pages (printed page numbers match the PDF pages)
+- the chapter's key lines in the author's words, kept short
+- a breakdown of the chapter's ideas and stories, key points, why it matters for ZDub and a worked example
+- a **Dissect it** exercise (take the idea apart) and an **Apply it** exercise (use it on PMT, ZDub or a prospect), then Do it today and a quick check
+
+The lessons paraphrase the books and quote only short lines, so read the original pages alongside them. A book can be split across several files: `21-book-wizard-of-ads-0.js` declares the tab and its parts, and `-1.js` to `-4.js` add lessons with `chunk: true`. Book lessons add `chapter`, `chapterTitle`, `pages` and `quotes: [{ text, page }]` to the usual lesson fields.
+
 ## Adding or editing content
 
 All lesson content lives in `data/`, one file per topic. Each file calls `HUB.tab({...})` (lesson schema below). `90-reference.js` calls `HUB.reference(...)` and `91-review.js` calls `HUB.review([...])`.

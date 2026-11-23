@@ -22,7 +22,15 @@
    To add a topic: drop a new file in data/ and add a <script> line below (and in build order). */
 window.HUB = {
   tabs: [], ref: null, reviewCards: [],
-  tab(t) { this.tabs.push(t); },
+  tab(t) {
+    // A tab can be split across several files (e.g. a long book): later calls with the same id add parts and lessons.
+    const ex = this.tabs.find(x => x.id === t.id);
+    if (!ex) { this.tabs.push(Object.assign({ parts: [], lessons: [] }, t)); return; }
+    (t.parts || []).forEach(p => { if (!ex.parts.some(q => q.id === p.id)) ex.parts.push(p); });
+    ex.lessons = ex.lessons.concat(t.lessons || []);
+    ['tools', 'trackers'].forEach(k => { if (t[k]) ex[k] = (ex[k] || []).concat(t[k]); });
+    if (!t.chunk) ['title', 'short', 'icon', 'tagline', 'intro', 'kind'].forEach(k => { if (t[k] && !ex[k]) ex[k] = t[k]; });
+  },
   reference(r) { this.ref = r; },
   review(cards) { this.reviewCards = this.reviewCards.concat(cards); }
 };
@@ -40,6 +48,18 @@ window.HUB = {
 <script src="data/11-getting-clients.js"></script>
 <script src="data/12-agency-ops.js"></script>
 <script src="data/13-mindset.js"></script>
+<!-- Book studies: one tab per book; long books are split across numbered chunk files -->
+<script src="data/20-book-making-ads-work.js"></script>
+<script src="data/21-book-wizard-of-ads-0.js"></script>
+<script src="data/21-book-wizard-of-ads-1.js"></script>
+<script src="data/21-book-wizard-of-ads-2.js"></script>
+<script src="data/21-book-wizard-of-ads-3.js"></script>
+<script src="data/21-book-wizard-of-ads-4.js"></script>
+<script src="data/22-book-magical-worlds-0.js"></script>
+<script src="data/22-book-magical-worlds-1.js"></script>
+<script src="data/22-book-magical-worlds-2.js"></script>
+<script src="data/22-book-magical-worlds-3.js"></script>
+<script src="data/22-book-magical-worlds-4.js"></script>
 <script src="data/90-reference.js"></script>
 <script src="data/91-review.js"></script>
 <script src="app.js"></script>
