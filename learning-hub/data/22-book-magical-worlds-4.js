@@ -1326,3 +1326,374 @@ It's polite, devastating and funny all at once. Roy just wishes he could have me
         { q: "What is the five-part structure of the chiefs' letter?", a: "Thanks and good intent, the difference in conceptions, evidence, a gracious decline and a counteroffer." }
       ]
     },
+    {
+      id: "mw-096",
+      part: "p4",
+      chapter: 96,
+      chapterTitle: "Sam’s Heart and Soul . . . and Sigh",
+      pages: "212",
+      title: "Sam’s Heart and Soul . . . and Sigh: the work outlives the sorrow",
+      minutes: 6,
+      tags: ["Book"],
+      source: [{ doc: "Magical Worlds of the Wizard of Ads (Roy H. Williams, 2001)", section: "Chapter 96 · Sam’s Heart and Soul . . . and Sigh · p. 212", who: "Roy H. Williams" }],
+      quotes: [
+        { text: "We remember Sam, not for Susy Clemens, but for Tom and Huck and Cousin Sid and Becky Thatcher.", page: "212" },
+        { text: "And perhaps that’s the way it should be.", page: "212" }
+      ],
+      idea: `From the day his daughter Susy was born until her thirteenth birthday, a father named Samuel wrote innocent, exhilarating adventure stories for children. Near the end of his life he recalled that when Susy was thirteen, on her own and out of love, she secretly began writing a biography of him. In it she describes a very happy family; a father who is good, very funny and wonderfully absent-minded; and the delight of sitting on the arms of his chair while he made up stories about the pictures on the wall.
+
+A few years later, while Sam was away on a trip, Susy died. He wrote to his best friend that he had known she was part of them, but hadn't known she could go away and take their lives with her, leaving their dull bodies behind. In the years after, Roy says, Sam turned against God and died an angry old man.
+
+Roy's ending: we forgive Papa Sam his anger, and we can easily let it go, because unlike him we never knew Susy. We remember him only for the stories he told her on the arm of that chair. We remember **Samuel Clemens** not for Susy, but for **Tom and Huck and Cousin Sid and Becky Thatcher**: the world of Mark Twain. And perhaps, Roy says, that's how it should be.
+
+**What Roy is saying, plainly:**
+- **The work outlives the worker's sorrow.** Twain's grief and bitterness were real and terrible, but what lasts is what he gave. A legacy is made of what you create and give, not what you suffered.
+- **Great work often begins as a gift to a specific audience.** Twain's stories grew out of tales told to his daughters about pictures on the wall. It's the same pattern as Lewis Carroll's Alice (Chapter 92) and, next chapter, Stevenson's stepson.
+- **Love made the work, and loss broke the man.** The sidebar quotes Twain himself warning not to part with your illusions: without them you may still exist, but you've stopped living. Read in context, it's almost a self-portrait.
+
+There's a quiet note here for anyone building something: the stories mattered because of the girls on the arms of the chair. The people you do it for are the point.
+
+> **Principle:** Make things for the people you love, as if they're listening, because they're both the source of the work and the reason it lasts.
+
+**For ZDub:** this is a life chapter, with a business lesson underneath. Zach's best work will come from making things for specific people he cares about (his family, Chris, the students), not for an abstract market. And when hard seasons come (they will), what remains of a career is the work given, not the bitterness. Keep the people on the arms of the chair close; they're why the stories get told.`,
+      keyPoints: [
+        "Twain wrote joyful adventure stories during Susy's childhood; at 13 she lovingly wrote his biography.",
+        "Susy died while he was away; he grieved, turned bitter and died angry.",
+        "We remember him not for his sorrow but for Tom, Huck, Sid and Becky: the work outlives the pain.",
+        "His stories began as tales told to his daughters about the pictures on the wall.",
+        "The people you make the work for are its source and its point."
+      ],
+      why: `For Zach, the lasting value of ZDub will be the work given to real people (clients, students, his family's future), not the stress of any one season, and keeping those people close keeps the work alive.`,
+      example: {
+        title: "Working for the people on the arms of the chair",
+        body: `**A concrete version for Zach:** write a short list of the three to five people ZDub is ultimately *for*, the people whose lives get better if it works. Put it where you plan your week.
+
+**When it helps:** on the day a prospect ghosts you and a PMT ad tanks, the list reminds you what the work is for. That's the difference between Sam the storyteller and Sam the angry old man.
+
+**In the work itself:** write the next PMT student-story post as if you were telling it to one of those people at the kitchen table. Twain's stories started that way.`
+      },
+      practice: [
+        {
+          prompt: "Dissect it: what lasts, and why?",
+          fields: [
+            "Roy says 'perhaps that's the way it should be' about us remembering Twain's stories rather than his grief. Do you agree? Why?",
+            "Carroll (Ch. 92), Twain (Ch. 96), Stevenson (Ch. 97): what do the three origin stories have in common?",
+            "Who is the 'Susy' in your life: the person or people your work is really for?"
+          ]
+        },
+        {
+          prompt: "Apply it: write a short 'who it's for' statement for ZDub and use it to make one decision this week.",
+          fields: ["The people ZDub is really for (names or roles)", "What you want to give each of them through the work", "One decision this week that the statement changes"],
+          rubric: [
+            "Names real people, not market segments",
+            "Describes giving, not getting",
+            "The decision is concrete and happens this week",
+            "It would still hold in a bad week"
+          ],
+          model: `**For:** my family (a stable future), Chris and his coaches (a school that's full), the nervous beginner who finally rides. **Give:** my family my evenings back once the systems are in place; Chris honest numbers and full classes; the beginner the courage to show up. **Decision:** this week I'll stop taking 9 p.m. calls and build the Friday report template instead, so the work serves the people it's for.`
+        }
+      ],
+      today: { task: "Write the names of the three to five people your work is ultimately for on a card or a phone note. Then tell one of them a story tonight (about your day, a student, anything) with no screens around.", output: "A who-it's-for card + one story told", minutes: 15 },
+      check: [
+        { q: "What did Susy write when she was thirteen?", a: "A secret biography of her father, describing a happy family and a good, funny, absent-minded papa who told stories about the pictures on the wall." },
+        { q: "How did Susy's death change Sam, according to Roy?", a: "He turned against God and died an angry old man." },
+        { q: "What do we remember Sam (Mark Twain) for instead?", a: "His stories: Tom, Huck, Cousin Sid and Becky Thatcher." }
+      ]
+    },
+    {
+      id: "mw-097",
+      part: "p4",
+      chapter: 97,
+      chapterTitle: "Dark with Smoldering Eyes",
+      pages: "213–214",
+      title: "Dark with Smoldering Eyes: value people by their best moment",
+      minutes: 6,
+      tags: ["Book"],
+      source: [{ doc: "Magical Worlds of the Wizard of Ads (Roy H. Williams, 2001)", section: "Chapter 97 · Dark with Smoldering Eyes · pp. 213–214", who: "Roy H. Williams" }],
+      quotes: [
+        { text: "It was not the Scot’s best moment.", page: "213" },
+        { text: "We speak his name always in its fullness because he gave us fully of all he had to give: Robert Louis Stevenson.", page: "214" }
+      ],
+      idea: `He was a young Scot; she was a 36-year-old American with two children. They met while she was traveling alone in Paris, and she divorced her husband to marry him. Roy's dry comment: it was not the Scot's best moment. (By the standards of the day, it was a scandal.)
+
+Mark Twain, who admired him, described him as so thin his clothes seemed to hang on an empty frame, long-faced, lank-haired and melancholy, with one commanding feature: splendid, smoldering eyes that made him beautiful.
+
+Hoping to win some acceptance from his new wife's children, the young Scot took them on holiday to his native Scotland. The weather immediately turned cold and rainy, trapping everyone indoors. By the fire, he watched his twelve-year-old stepson, Lloyd, draw, color and label a map of an imaginary island. The map caught his imagination, and one chilly September morning he began writing a story based on it, to entertain the family.
+
+That story introduced Jim Hawkins, Billy Bones, Captain Flint and Long John Silver: *Treasure Island*. Roy says we always speak his full name, **Robert Louis Stevenson**, because he gave us fully of all he had.
+
+Roy closes with a poem about what success is (living well, laughing often, loving much, earning respect and the love of children, leaving the world better than you found it, looking for the best in others and giving the best you have). Roy credits it to Stevenson, as many people do, but it actually traces to a 1905 essay by Bessie Anderson Stanley; worth knowing before you ever quote it. Then Emerson: every man is entitled to be valued by his best moment. Are you looking for the best in others? What will your best moment be?
+
+**The design of the chapter is the lesson.** Roy opens with Stevenson's least flattering moment and ends with his best one (a book generations have loved), then asks you to judge people the second way.
+
+**The other lessons:**
+- **Great work can start as a small act of love** for a tiny audience (two stepchildren on a rainy holiday). It's the third time in a row: Carroll, Twain, Stevenson.
+- **Co-creation:** the spark wasn't Stevenson's. It was a kid's doodled map. Pay attention to what your audience makes.
+
+> **Principle:** Value people by their best moment, look for the best in others, and watch what your audience creates. Your best work may start there.
+
+**For ZDub:** clients, prospects and students will show you their worst moments (the panicked call, the harsh review, the student who quits at lunch). Roy's Emersonian rule: judge them by their best. In marketing terms, that's also the job of a testimonial or case study: find each customer's best moment and show it. And watch for Lloyd's map: what students and clients make on their own (posts, phrases, jokes) is often the spark for PMT's best campaign.`,
+      keyPoints: [
+        "Stevenson married an older, divorced American mother: 'not his best moment' by the standards of the day.",
+        "*Treasure Island* began with his stepson Lloyd's hand-drawn map on a rainy holiday, written to entertain the family.",
+        "Roy opens with Stevenson's worst moment and ends with his best, then asks you to value people by their best moment (Emerson).",
+        "Look for the best in others, and give the best you have.",
+        "The success poem Roy credits to Stevenson is usually traced to Bessie Anderson Stanley (1905)."
+      ],
+      why: `Working with owners and students means seeing them at their worst moments. The agency that judges people by their best keeps relationships through rough patches, and finds the best-moment stories that sell.`,
+      example: {
+        title: "Finding a customer's best moment for a case study",
+        before: `PMT student review: "Class was good. Instructors were helpful. Passed."`,
+        after: `Ask that student one question: "What was the moment you knew you could do this?" Their answer: "When I came out of the curve, looked up, and realized I wasn't thinking about the clutch anymore." That line becomes the caption on their graduation photo.`,
+        body: `The flat review is accurate, but it isn't anyone's best moment. Emerson's rule becomes an interview technique: ask every student or client for their best moment, and build the story around it. (Get permission before using names, photos or quotes.)`
+      },
+      practice: [
+        {
+          prompt: "Dissect it: how does the chapter make its point?",
+          fields: [
+            "Why does Roy open with 'it was not the Scot's best moment'? How does the chapter's structure prove Emerson's point?",
+            "*Treasure Island* started with a kid's map. What 'map' has your audience drawn that you haven't used yet?",
+            "Think of someone you've written off over one bad moment. What was their best moment?"
+          ]
+        },
+        {
+          prompt: "Apply it: write three 'best moment' interview questions for PMT students (or a prospect's customers) and draft one post from a real or likely answer.",
+          fields: ["Question 1", "Question 2", "Question 3", "The post built from the best answer (under 60 words)"],
+          rubric: [
+            "Questions ask for a specific moment, not an opinion ('what was the moment...')",
+            "At least one question is about a turnaround, from fear to confidence",
+            "The post leads with the moment, not the school",
+            "It uses real words with permission, or is clearly marked as a draft"
+          ],
+          model: `**Q1:** What was the moment you knew you could do this? **Q2:** What were you most worried about Saturday morning, and when did that stop? **Q3:** Who's the first person you told? **Post:** "'When I came out of the curve and realized I wasn't thinking about the clutch anymore.' That's when Lisa knew. Saturday morning she'd never sat on a bike. Sunday afternoon she was a rider." (Use a real student's words, with permission.)`
+        }
+      ],
+      today: { task: "Ask one PMT student, client or friend: 'What was the moment you knew you could do it?' Write their answer word for word. Then send a short note to someone you've been judging by a bad moment, recalling a good one.", output: "One best-moment quote + one note sent", minutes: 20 },
+      check: [
+        { q: "Where did *Treasure Island* begin?", a: "With his twelve-year-old stepson Lloyd's hand-drawn, labeled map of an imaginary island, during a rainy holiday in Scotland." },
+        { q: "What does Emerson say every person is entitled to?", a: "To be valued by his best moment." },
+        { q: "Who actually wrote the success poem Roy credits to Stevenson?", a: "It's widely credited to Stevenson (and to Emerson), but it traces to a 1905 essay by Bessie Anderson Stanley." }
+      ]
+    },
+    {
+      id: "mw-098",
+      part: "p4",
+      chapter: 98,
+      chapterTitle: "Tom and His Editors",
+      pages: "215–216",
+      title: "Tom and His Editors: how a committee edits a message to nothing",
+      minutes: 7,
+      tags: ["Book"],
+      source: [{ doc: "Magical Worlds of the Wizard of Ads (Roy H. Williams, 2001)", section: "Chapter 98 · Tom and His Editors · pp. 215–216", who: "Roy H. Williams" }],
+      quotes: [
+        { text: "Hmmm, this needs something more.", page: "215–216" },
+        { text: "you will find that, yes, God forgive me . . . I edited it.", page: "216" }
+      ],
+      idea: `Tom is steaming. He poured his heart into a writing assignment, and now an editing committee is picking it apart word by word. (Ever been there?) His friend Ben tells him a story.
+
+A hatmaker named John Thompson sketches a sign: a hat, and above it, "John Thompson, Hatmaker, Fashionable Hats Sold Inside for Ready Money." His wife says nobody sells hats for anything *but* ready money, so he cuts that. A friend says nobody cares who made the hats as long as they're good, so "John Thompson, Hatmaker" goes. Someone chuckles that nobody sells *unfashionable* hats, so "Fashionable" goes. Another says of course they're sold inside, so "Sold Inside" goes, leaving just "Hats" and the drawing. The last friend says the picture alone is enough. So John arrives at the sign maker with nothing but a little drawing of a hat, and the sign maker says it needs something more: perhaps his name and trade, and beneath it, "Fashionable Hats Sold Inside for Ready Money"?
+
+Comforted, Tom doesn't abandon the assignment, and the rest is history. Tom is **Thomas Jefferson**, Ben is **Benjamin Franklin**, and the document Congress was mutilating was the **Declaration of Independence**. Jefferson recorded the parable himself. Roy closes with H. G. Wells on the unequaled passion to alter someone else's draft, then confesses: compare his version with Franklin's original and you'll find that he edited it. (Sorry, Tom. Sorry, Ben.) The sidebar piles on with editors and critics who rejected or dismissed *The Jungle Book*, *A Tale of Two Cities*, *The Great Gatsby*, *Animal Farm* and Anne Frank's diary.
+
+**What it means:**
+- **Every single cut sounded reasonable.** That's the danger. Each editor "put it under water" (Chapter 51's term for deleting what the reader supposedly already knows) until nothing was left above the surface. Committee editing doesn't fail through one bad decision; it fails through many sensible ones with nobody owning the whole.
+- **The professional restores what matters.** The sign maker, whose job is signs, knew a sign needs a name, a product and a reason.
+- **Gatekeepers are often wrong.** The rejection list is a reminder not to abandon good work because a committee hates it.
+- **Nobody can resist editing, Roy included.** Admit it, and build a process.
+
+Read it with Chapter 93: cutting LAND from the Hollywood sign created meaning, because what remained was a symbol. Cutting the hatmaker's sign destroyed meaning, because what got cut was information customers needed. Ask of every cut: does the reader actually already know this?
+
+> **Principle:** Editing should serve the message, not each editor's taste. Give one person ownership of the whole, edit against the goal, and know when to stop.
+
+**For ZDub:** this is the client-approval process. Chris, his coaches and a friend of his each "improve" an ad (remove the price, add a disclaimer, soften the hook) until it says nothing. Zach's job is to be the sign maker: agree on the goal up front, collect feedback in one round, decide as the owner of the draft, and explain each choice against the goal.`,
+      keyPoints: [
+        "Each edit to the hatmaker's sign sounded reasonable, and together they erased the message.",
+        "The sign maker, the professional, put back the name, the product and the reason.",
+        "Tom was Jefferson, Ben was Franklin, and the document was the Declaration of Independence.",
+        "No passion equals the passion to alter someone else's draft; even Roy edited Franklin's story.",
+        "Famous books were rejected by experts, so don't abandon good work because of a committee."
+      ],
+      why: `Client approvals are where good ads die by a thousand sensible cuts. ZDub needs a feedback process with one owner and a clear goal, so PMT's ads keep their name, product and reason.`,
+      example: {
+        title: "The PMT ad that got 'hatmaker-ed'",
+        before: `**Draft:** "Scared you'll drop the bike? Most new students are. Coached step by step, and you leave a rider. Weekend classes from $X." → *A coach:* remove "drop the bike," it's negative. *The owner:* remove the price, people should call. *A friend:* "leave a rider" is cheesy. **Final:** "Motorcycle classes. Call us."`,
+        after: `**The sign-maker process:** before drafting, Zach and Chris agree on the goal (registrations from nervous beginners) and three must-haves (the fear, the outcome, the price or "from" price). Feedback comes in one round, in writing. Zach keeps the edits that serve the goal and explains the rest: "We kept the fear line because nervous beginners are exactly who we're paying to reach."`,
+        body: `Every cut in the before column was sensible on its own. Together they removed the who, the what and the why, just like John Thompson's sign. The fix isn't refusing feedback; it's deciding the goal first and judging each edit against it. ($X stands in for PMT's actual price.)`
+      },
+      practice: [
+        {
+          prompt: "Dissect it: when does cutting go too far?",
+          fields: [
+            "Go through each cut to the hatmaker's sign. Which one was the point of no return, and why did it seem reasonable?",
+            "Chapter 51 says to put the known 'under water.' Chapter 98 shows that going too far erases the message. What test tells you when to stop cutting?",
+            "When has someone's edit made your work better? What was different about that edit?"
+          ]
+        },
+        {
+          prompt: "Apply it: write ZDub's one-page feedback process for client creative approvals.",
+          fields: ["The goal and must-haves agreed before drafting", "How and when feedback is collected (rounds, format, who)", "How you decide which edits to keep", "The sentence you'll use to push back on an edit that hurts the goal"],
+          rubric: [
+            "The goal and must-haves are set before the first draft",
+            "One round (or a fixed number) of consolidated feedback",
+            "One named owner decides on the draft",
+            "Pushback is tied to the agreed goal, not taste"
+          ],
+          model: `**Before drafting:** a three-line brief Chris signs off on: who it's for, the one action we want, three must-haves. **Feedback:** one round, in one shared doc, within 48 hours, from Chris only (he gathers his coaches' notes). **Deciding:** Zach keeps any edit that serves the brief or fixes an inaccuracy; style preferences get a one-sentence explanation. **Pushback line:** "Good catch on the tone. I'd keep the price in, though: the brief says registrations from beginners, and price is their number-one question. Want to test both versions?"`
+        }
+      ],
+      today: { task: "Take one recent ad or post (yours or PMT's). Remove one element at a time, like the hatmaker's friends, and note where it stops working. Write that ad's can't-cut list (name, product, reason).", output: "One ad's can't-cut list", minutes: 15 },
+      check: [
+        { q: "What did the hatmaker's sign say at the start and at the end of the editing?", a: "At the start: 'John Thompson, Hatmaker, Fashionable Hats Sold Inside for Ready Money' with a drawing of a hat. At the end: just the drawing. The sign maker then suggested putting it all back." },
+        { q: "Who were Tom and Ben, and what was being edited?", a: "Thomas Jefferson and Benjamin Franklin; Congress was editing Jefferson's Declaration of Independence." },
+        { q: "What does Roy confess at the end?", a: "That he edited Franklin's original version of the hatmaker story." }
+      ]
+    },
+    {
+      id: "mw-099",
+      part: "p4",
+      chapter: 99,
+      chapterTitle: "Another Great American Success Story",
+      pages: "217–218",
+      title: "Another Great American Success Story: ask what great need you can fill",
+      minutes: 7,
+      tags: ["Book"],
+      source: [{ doc: "Magical Worlds of the Wizard of Ads (Roy H. Williams, 2001)", section: "Chapter 99 · Another Great American Success Story · pp. 217–218", who: "Roy H. Williams" }],
+      quotes: [
+        { text: "With no money and no prospects, Eduardo lay awake at night asking, “What great need can I fill?”", page: "217" },
+        { text: "But this time he vowed to create a business that no one would want to steal.", page: "218" }
+      ],
+      idea: `Roy and Pennie arrive at a beautiful Spanish-mission hotel at night, and the next morning ask a stranger the way to the restaurant. He's **Eduardo Prado**, and Roy's first impressions stack up: a Latin James Bond, then a Spanish-speaking Rick Dees (the famously upbeat radio host), and, when his wife Ana joins him, JFK and Jackie in the Camelot years. Over three days they learn the two couples are the same ages, with children the same ages, and that Eduardo's work arranging a FIFA event is volunteer. He's a classic self-made millionaire: **a two-time pauper and a three-time winner**.
+
+- **Fortune one:** as a fisherman, selling sharkskin to Italian sports-car makers. A huge shipment was hijacked into Mexico; he was ruined, and even had to pay for the stolen trucks. Broke and out of prospects, he lay awake asking one question: *what great need can I fill?*
+- **Fortune two:** building thousands of small houses for the poor. Then one day the bank informed him he had no money. "What did you do with my seven million?" "Which seven million do you mean?" "I'll sue." "How? You have no money." Born without family wealth, he had no one to turn to.
+- **Fortune three:** this time he vowed to build a business no one would want to steal. He studied around the clock and became an expert in **sewage disposal**. To make his country see its looming waste crisis, he mocked up a thousand copies of three different ecology magazines, each with a story about the problem, mailed them to everyone in government and the media, and followed up with hundreds of phone calls announcing: I have a solution. It became his largest fortune by far, made just three years before Roy met him.
+
+Roy's twist: this is the Great American Success Story, only Central American. Eduardo lives in Guatemala. And Roy teases the next chapter: the electric moment that happened exactly one hour after they met.
+
+**The principles, plainly:**
+1. **Resilience is a method, not a mood.** Each ruin was followed by sleepless nights of planning, not self-pity (Chapter 81's "ride the bullet," at scale).
+2. **Start from the need, not the product.** "What great need can I fill?" may be the best business question in the book.
+3. **Unglamorous is a moat.** Nobody wants to steal a sewage business.
+4. **Make the problem visible before you sell the solution.** His magazines didn't sell anything; they made people see the crisis. The phone calls then offered the answer. He moved a whole market from unaware to problem-aware before he pitched.
+
+> **Principle:** Find a great need (an unglamorous one is even better), make the problem impossible to ignore, then show up saying "I have a solution."
+
+**For ZDub:** local-business marketing has its own "sewage": missed calls, slow follow-up, leads nobody texts back. It's unglamorous and nobody fights over it, but it's a great need. Eduardo's playbook says ZDub's outreach should first make the problem visible to the owner (for example, by showing a prospect how long their own inquiry took to get a reply), and only then say "I have a solution."`,
+      keyPoints: [
+        "Eduardo Prado lost two fortunes (a hijacked sharkskin shipment, a bank that 'lost' his money) and built a third.",
+        "Broke, he asked himself: what great need can I fill?",
+        "For fortune three he chose a business no one would want to steal: sewage disposal.",
+        "He made the problem visible with mock ecology magazines, then called officials saying 'I have a solution.'",
+        "Roy's twist: this 'Great American Success Story' happened in Guatemala."
+      ],
+      why: `ZDub's opportunity lives in unglamorous needs (missed calls, slow follow-up) that local owners don't see clearly. Showing them the problem first and the solution second is Eduardo's playbook for outreach.`,
+      example: {
+        title: "Eduardo's magazine move, ZDub version",
+        body: `**Step 1, make the problem visible (no pitch):** Zach submits an inquiry through ten Sacramento HVAC companies' websites on a Tuesday evening and records how long each takes to respond, and how.
+
+**Step 2, show each owner their own result:** a one-page "What happened when I tried to hire you" note: "I filled out your form Tuesday at 6:12 p.m. First reply: Thursday at 10 a.m., 40 hours later. Two of your competitors replied in under 10 minutes."
+
+**Step 3, then the call:** "I have a solution: ads plus a follow-up system that answers every lead in under five minutes, nights included."
+
+Honest, specific and unglamorous: the problem is real, you didn't invent it, and nobody else is showing it to them. (Report only what actually happened in your test; the numbers above are illustrations.)`
+      },
+      practice: [
+        {
+          prompt: "Dissect it: what changed the third time?",
+          fields: [
+            "What did Eduardo do differently the third time, and why did it work better?",
+            "Why did he mail magazines about the problem instead of brochures about his company?",
+            "Argue the other side: when does 'raising awareness of a crisis' turn into fear-mongering?"
+          ]
+        },
+        {
+          prompt: "Apply it: answer Eduardo's question for ZDub. What great (and unglamorous) need can you fill in Sacramento, and how will you make it visible?",
+          fields: ["The great need (who has it, what it costs them)", "Why competitors ignore it (the 'nobody wants to steal it' part)", "How you'll make the problem visible to one owner without pitching", "Your 'I have a solution' line"],
+          rubric: [
+            "The need is specific and costs owners real money",
+            "The visibility step uses the owner's own reality, not scare statistics",
+            "Nothing is exaggerated or invented",
+            "The solution line is short and confident"
+          ],
+          model: `**Need:** home-service companies lose booked jobs because nobody answers web leads after hours. **Ignored because:** it's boring operations work, and agencies would rather talk about creative. **Visibility:** I'll submit an after-hours inquiry to 10 local roofers and send each a one-page timeline of what happened to their lead. **Solution line:** "Every lead answered within five minutes, day or night, and the ads to fill the pipe. That's what I build."`
+        }
+      ],
+      today: { task: "Write down three unglamorous problems you've seen PMT or a local trade struggle with (missed calls, no-shows, no reviews...). Pick one and design a no-pitch way to show one owner the problem using their own data.", output: "3 problems + 1 visibility plan", minutes: 20 },
+      check: [
+        { q: "How did Eduardo lose his first fortune?", a: "A huge shipment of sharkskin (sold to Italian sports-car makers) was hijacked into Mexico, and he even had to pay for the stolen trucks." },
+        { q: "What question did he ask himself when he was broke?", a: "What great need can I fill?" },
+        { q: "How did he launch his sewage-disposal business?", a: "He studied around the clock, mailed a thousand mock-up ecology magazines about the waste crisis to government and media, then followed up with hundreds of calls saying 'I have a solution.'" }
+      ]
+    },
+    {
+      id: "mw-100",
+      part: "p4",
+      chapter: 100,
+      chapterTitle: "A Seat at the Round Table",
+      pages: "219–221",
+      title: "A Seat at the Round Table: character is what persuades",
+      minutes: 7,
+      tags: ["Book"],
+      source: [{ doc: "Magical Worlds of the Wizard of Ads (Roy H. Williams, 2001)", section: "Chapter 100 · A Seat at the Round Table · pp. 219–221", who: "Roy H. Williams" }],
+      quotes: [
+        { text: "I plan to help Eduardo Prado because I once saw him lay his hand on the cheek of a poor Guatemalan boy and promise that boy a bright future.", page: "221" },
+        { text: "I just want to make sure Eduardo can keep that promise.", page: "221" }
+      ],
+      idea: `In his first three minutes with Eduardo Prado, Roy saw James Bond, Rick Dees and JFK. The fourth image came on the sidewalk outside the hotel, minutes after they'd met. Eduardo stopped to introduce Roy to a poor boy of about fourteen, looked deep into his eyes, laid his fingers on the boy's cheek and spoke to him quietly and fervently in Spanish. The boy smiled softly and nodded with confidence. Roy wasn't reminded of JFK anymore, but of **King Arthur**.
+
+What had he said? That the boy was an extremely smart young man with a very bright future, and that he should never stop believing in it. The boy was a student in a class Eduardo teaches. What class? Eduardo cited the old line about teaching a man to fish, smiled a bittersweet smile and said he teaches the poor how to escape their poverty. Then he left for an important meeting.
+
+Roy set off on a tour of Antigua, Guatemala's 450-year-old mountain city, with Pennie and three local hosts. At the Palace, a roomful of people rose as they entered. Roy was led to an ancient wooden chair; two officials took their places at the ends of the table; and from behind a curtain stepped an immaculately dressed man in a large medallion: **Eduardo**, the Comendador of Antigua. Both men were stunned. Speaking only Spanish because the law required it for official functions, Eduardo knighted Roy as **Councilor to the Comendador**, for life: Don Roy H. Williams. (In English, he whispered, that makes you Sir Roy, and by the way, why is there no picture of you in your books? I thought you'd be much older.) The duty: help him think of ways to help the city and care for its people. The title dated back to the King of Spain and a few conquistadors; Roy was the first Knight of Antigua in nearly 200 years.
+
+Roy sees Eduardo's strategy plainly: the knighthood was meant to make Guatemala's people dear to him and recruit his mind to their cause. It worked, but not because of the medal. Roy will help because he once **saw Eduardo lay his hand on a poor boy's cheek and promise him a bright future**, and he wants to make sure Eduardo can keep that promise.
+
+**The principles:**
+- **Character seen unguarded persuades more than any honor or pitch.** The knighthood was the offer; the sidewalk moment was the proof. In Part Two's terms, selling is a transfer of confidence (Chapter 34), and nothing transfers confidence like seeing how someone treats a person who can do nothing for them.
+- **Spoken belief shapes futures.** Eduardo did for one boy what Geoffrey of Monmouth did for a nation (Chapter 87): he gave him a story to live up to. It's Chapter 1's "speaking worlds into existence," on a sidewalk.
+- **Give allies a role and a mission.** "Help me think of ways to help this city" turned Roy from a tourist into a councilor.
+
+> **Principle:** People follow the person whose private behavior matches their public promise. Speak a bright future into people, and invite allies into the mission with a real role.
+
+**For ZDub:** prospects and clients decide about Zach in his unguarded moments: how he treats Chris's front-desk person, a nervous student at the range, a prospect who says no. Those moments are the real sales pitch. And Eduardo's two moves are usable today: tell the people you serve (students, clients, anyone you mentor) specifically what you believe they can become, and when you want someone's help, give them a real role, not just a request.`,
+      keyPoints: [
+        "Eduardo told a poor boy he was smart, had a bright future and should never stop believing; he teaches the poor how to escape poverty.",
+        "Later that day, as Comendador of Antigua, he knighted Roy Councilor for life, the first Knight of Antigua in nearly 200 years.",
+        "The duty: help think of ways to help the city and care for its people.",
+        "Roy will help, not because of the title, but because of what he saw on the sidewalk.",
+        "Unguarded character persuades more than honors or pitches."
+      ],
+      why: `Local business runs on trust, and trust gets decided in unguarded moments. How Zach treats people who can't do anything for him is ZDub's most persuasive ad.`,
+      example: {
+        title: "Eduardo's two moves, for PMT and ZDub",
+        body: `**Move 1, speak a future into someone:** after a PMT class where a student struggled, Zach (or Chris) says, specifically: "You stalled more than anyone this morning, and by three you were the smoothest in the box. People who learn like that turn into really good riders. Don't stop." One sentence like that can be why someone keeps riding, and why they tell everyone where they learned.
+
+**Move 2, give an ally a role:** instead of asking a respected local owner "Can you refer me?", invite them in: "I'm putting together a small group of Sacramento owners to trade notes once a month on what's working in local ads. I'd love you to be one of the first three." A role and a mission recruit people in a way a favor never will.`
+      },
+      practice: [
+        {
+          prompt: "Dissect it: what actually persuaded Roy?",
+          fields: [
+            "Why did the sidewalk moment persuade Roy more than the knighthood? What does that say about what really sells?",
+            "Eduardo used the knighthood strategically, and Roy knew it. Was that manipulation, or good leadership? Defend your view.",
+            "Where in ZDub's work do people see your unguarded behavior? List three moments."
+          ]
+        },
+        {
+          prompt: "Apply it: plan one 'Round Table' invitation and one 'bright future' sentence for this week.",
+          fields: ["The person you'll speak a bright future into, and your exact words", "The ally you'll invite, the role you'll give them and the mission", "How you'll follow through so the promise is kept"],
+          rubric: [
+            "The future-sentence is specific and true, based on something you observed",
+            "The invitation offers a real role, not just a favor",
+            "The mission is about helping others, not only ZDub",
+            "There's a concrete follow-through step with a date"
+          ],
+          model: `**Bright future:** to the PMT student who almost quit at lunch: "You came back after lunch when most people would have left. That's exactly the trait that makes someone a lifelong rider. I'll be watching for your first group-ride photo." **Ally:** the owner of a respected local HVAC company: "I'm starting a monthly breakfast for five Sacramento owners to share what's working in local marketing, and I'd like you to take the first seat." **Follow-through:** breakfast booked for the second Tuesday of next month; I message the student again in two weeks.`
+        }
+      ],
+      today: { task: "Say one specific, true 'bright future' sentence to someone today (a student, a client's employee, a younger person you know), and pay attention to how you treat one person today who can do nothing for you.", output: "One sentence said + one honest note on your unguarded behavior", minutes: 10 },
+      check: [
+        { q: "What did Eduardo tell the poor boy on the sidewalk?", a: "That he was an extremely smart young man with a very bright future, and that he should never quit believing in it." },
+        { q: "What title did Eduardo give Roy, and what was its duty?", a: "Councilor to the Comendador of Antigua (a knighthood: 'Don Roy'), for life. The duty: help think of ways to help the city and care for its people." },
+        { q: "Why does Roy say he'll help Eduardo?", a: "Not because of the knighthood, but because he saw Eduardo promise a poor boy a bright future, and he wants to make sure Eduardo can keep that promise." }
+      ]
+    },
