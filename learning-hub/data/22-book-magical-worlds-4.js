@@ -1342,7 +1342,7 @@ It's polite, devastating and funny all at once. Roy just wishes he could have me
       ],
       idea: `From the day his daughter Susy was born until her thirteenth birthday, a father named Samuel wrote innocent, exhilarating adventure stories for children. Near the end of his life he recalled that when Susy was thirteen, on her own and out of love, she secretly began writing a biography of him. In it she describes a very happy family; a father who is good, very funny and wonderfully absent-minded; and the delight of sitting on the arms of his chair while he made up stories about the pictures on the wall.
 
-A few years later, while Sam was away on a trip, Susy died. In a letter to his best friend he described the loss as if Susy had taken the family's very life with her, leaving only their bodies going through the motions. In the years after, Roy says, Sam turned against God and died an angry old man.
+Some years afterward, Susy died while Sam was traveling. Writing to his closest friend, he described the loss as if Susy had taken the family's very life with her, leaving only their bodies going through the motions. In the years after, Roy says, Sam turned against God and died an angry old man.
 
 Roy's ending: we forgive Papa Sam his anger, and we can easily let it go, because unlike him we never knew Susy. We remember him only for the stories he told her on the arm of that chair. We remember **Samuel Clemens** not for Susy, but for **Tom and Huck and Cousin Sid and Becky Thatcher**: the world of Mark Twain. And perhaps, Roy says, that's how it should be.
 
@@ -1418,7 +1418,7 @@ There's a quiet note here for anyone building something: the stories mattered be
 
 Mark Twain, who admired him, pictured him as almost all frame and no flesh, dark and melancholy, redeemed by one feature: eyes that burned so intensely they made him beautiful.
 
-Hoping to win some acceptance from his new wife's children, the young Scot took them on holiday to his native Scotland. The weather immediately turned cold and rainy, trapping everyone indoors. By the fire, he watched his twelve-year-old stepson, Lloyd, draw, color and label a map of an imaginary island. The map caught his imagination, and one chilly September morning he began writing a story based on it, to entertain the family.
+Wanting his new stepchildren to warm to him, the young Scot brought them home to Scotland for a vacation. The weather immediately turned cold and rainy, trapping everyone indoors. By the fire, he watched his twelve-year-old stepson, Lloyd, draw, color and label a map of an imaginary island. The map caught his imagination, and one chilly September morning he began writing a story based on it, to entertain the family.
 
 That story introduced Jim Hawkins, Billy Bones, Captain Flint and Long John Silver: *Treasure Island*. Roy says we always speak his full name, **Robert Louis Stevenson**, because he gave us fully of all he had.
 

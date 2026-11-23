@@ -251,13 +251,13 @@ This ties back to Chapter 16: an ad with a deadline is irrelevant once the deadl
       idea: `The withdrawal symptoms of a discount habit: customers ask your staff "When will this go on sale?", and anything that isn't on sale gets harder to sell. You want to quit, but you're afraid of the financial withdrawal.
 
 Roy cites a Harvard study on customer loyalty that found three kinds of customers:
-1. **Nonswitchable.** Nothing you say or do will move them from their current provider.
-2. **Switchable.** You can win them, but only if you say the right things and keep saying them long enough. A branding campaign's goal is to be the company these people think of first and feel best about when they need what you sell.
+1. **Nonswitchable.** They're staying with their current provider no matter what you say or do.
+2. **Switchable.** They can be won over, but only by saying the right things and repeating them for long enough. A branding campaign aims to make you the first company these people think of, and the one they feel best about, whenever a need for your product comes up.
 3. **Switchable for reasons of price alone.** Easily won, and lost just as fast for the same reason, because there's nothing that can't be made a little worse and sold a little cheaper.
 
 You'd like to brand your name in the better customer's long-term (chemical) memory instead of living on short-term (electrical) promotions for the price-only crowd (the memory model is from Chapter 16). But you fear the "chickening-out period" between seedtime and harvest, and secretly believe every customer is a bargain hunter who only buys "the deal of a lifetime."
 
-**Roy's bridge: a visual recall cue in a nonintrusive (silent) medium.** Run a newspaper ad with a large picture of what's on sale and your company name buried in the fine print. The only people who'll notice are the ones already looking for that product, because humans don't see unless they're looking. The newspaper's lack of intrusiveness, its main weakness for long-term branding, now lets you run the sale "anonymously." But humans *hear* and retain things even when they aren't listening, so **never** use TV, cable or radio to drive response to the sale, unless you want to train everyone who isn't in the market yet to wait for your next one. Meanwhile, keep the broadcast ads building long-term brand awareness in the not-yet-in-the-market majority.
+**Roy's bridge: a visual recall cue in a silent (nonintrusive) medium.** For example, a newspaper ad dominated by a big photo of the sale item, with your company name tucked away in the fine print. The only people who'll notice are the ones already looking for that product, because humans don't see unless they're looking. The newspaper's lack of intrusiveness, its main weakness for long-term branding, now lets you run the sale "anonymously." But humans *hear* and retain things even when they aren't listening, so **never** use TV, cable or radio to drive response to the sale, unless you want to train everyone who isn't in the market yet to wait for your next one. Meanwhile, keep the broadcast ads building long-term brand awareness in the not-yet-in-the-market majority.
 
 He's honest about the costs:
 1. You can't do it forever. Keep it up and you'll end up right back where you started.
@@ -293,7 +293,7 @@ The 2020s translation is ours, not Roy's: "looking" media versus "not-looking" m
       today: { task: "Sort PMT's (or a client's) last 20 customers into Roy's three types using what you know: nonswitchable (came by referral and would never go elsewhere), switchable, or price-only (came for a discount).", output: "Three percentages and one sentence on which type the current ads attract.", minutes: 20 },
       check: [
         { q: "What are the three customer types from the Harvard loyalty study?", a: "1. Nonswitchable (won't leave their provider). 2. Switchable (can be won by saying the right things long enough). 3. Switchable for reasons of price alone (easily won, easily lost, for the same reason)." },
-        { q: "What is Roy's technique for running a sale without training everyone to wait for sales?", a: "Use a visual recall cue in a nonintrusive (silent) medium, such as a newspaper ad with a big picture of the sale item and your name in the fine print, so only people already looking notice. Never drive it with TV, cable or radio, and keep broadcast building the brand." },
+        { q: "What is Roy's technique for running a sale without training everyone to wait for sales?", a: "Use a visual recall cue in a silent (nonintrusive) medium, such as a newspaper ad with a big picture of the sale item and your name in the fine print, so only people already looking notice. Never drive it with TV, cable or radio, and keep broadcast building the brand." },
         { q: "What are the three downsides of this technique?", a: "You can't do it forever. You'll pay for two campaigns, so costs are out of line for the 3–6 month transition. And it's painful and hard, because sometimes the newspaper ads don't pull." }
       ]
     },
@@ -435,7 +435,7 @@ Roy calls saliency the single most overlooked factor in advertising. Here's why 
 
 Where does impact come from? Roy turns to the person who writes the ads. Good ad writers pick up the phone like a teenager waiting for a call: "Is it finally you?" What they usually hear is "I need some new ads. Make sure they're good ones," and then a click. That's no inspiration. **CEOs: if you haven't convinced your ad writers, how can they convince the world?** Your sales job with them is easy, because they're eager, open and giving you their full attention, which your customers never will. Selling your writers on your company is the single most important sale you'll ever make. True selling isn't pressure, deception, trickery or gimmicks. It's a transfer of confidence, and the writer's job is to transfer confidence to prospects. They can't transfer what they don't have.
 
-Two WizardSwords on the page name the method. **Uncovery** is the investigative effort to find a business's unique and wonderful story, "digging for the diamond." Every worthy business has one, and the writer's job is to uncover it and tell it. **The Sword in the Stone** is the focal idea everything revolves around: the non-negotiable standard at the heart of the company, the North Star in the client's heart.
+Two WizardSwords on the page name the method. **Uncovery** is the investigative effort to find a business's unique and wonderful story, "digging for the diamond." Every worthy business has one, and the writer's job is to uncover it and tell it. **The Sword in the Stone** is the central idea everything else orbits: the standard the company will never compromise on, the North Star the client steers by.
 
 The sidebar makes the same case with data. An Edison Media Research study found radio time spent listening fell 14% among 18–24-year-olds and nearly as much among 12–17-year-olds, and three-quarters blamed "too many commercials." The tempting answer is fewer commercials, but Roy calls that a tragic misreading. Kids hate ads because most are irrelevant and boring. The cure is better ones, a higher IQ.`,
       keyPoints: [
@@ -544,7 +544,7 @@ Branding happens only when a salient message is repeated often enough to be secu
         { text: "Advertising will only accelerate what was going to happen anyway.", page: "88" },
         { text: "It’s hard to read the label when you’re inside the bottle.", page: "89" }
       ],
-      idea: `Most owners expect advertising to do what it can't. Roy says it plainly: **advertising can't repair a broken business.** It won't make you better at what you do and can't turn failure into success. It only accelerates what was going to happen anyway. Against poor selection, low quality, high prices, bad locations, lack of expertise, inconvenient hours, weak warranties, surly employees, shabby décor and the bad word of mouth each one creates, advertising is essentially powerless. Yet ask a struggling owner why business is down and he'll say the advertising isn't working. Think about it: you can name thriving businesses in your town that barely advertise. So why be surprised that a business can fail despite brilliant ads?
+      idea: `Most owners expect advertising to do what it can't. Roy says it plainly: **advertising can't repair a broken business.** It won't make you better at what you do and can't turn failure into success. It only accelerates what was going to happen anyway. Bad selection, poor quality, high prices, a weak location, missing expertise, awkward hours, thin warranties, rude staff, a shabby interior and the negative word of mouth each one generates: against any of these, advertising is close to powerless. Yet ask a struggling owner why business is down and he'll say the advertising isn't working. Think about it: you can name thriving businesses in your town that barely advertise. So why be surprised that a business can fail despite brilliant ads?
 
 The second APE sub-equation:
 
@@ -557,9 +557,9 @@ The world outside your door is the world of the customer's expectations, which i
 - 25% short of expectations: **0.75**.
 - 30% better than expected: **1.3**, a 30% "delight factor," and your advertising will pay off beautifully.
 
-A weak PEF undoes good advertising. Take the 30% share of mind earned in Chapter 35 and deliver a PEF of 0.75:
+A weak PEF undoes good advertising. Take the 30% share of mind earned in Chapter 35 and let the experience fall 25% short:
 
-> 30% share of mind × 0.75 PEF = **22.5% share of market**
+> 0.75 PEF × 30% share of mind = **22.5% share of market**
 
 A quarter of the mind you paid for leaks away inside the door. The glossary adds that a company's growth or decline will ultimately follow its PEF as it rises above or falls below 1.0. Ads bring people to the experience, and the experience decides the trend.
 
@@ -568,7 +568,7 @@ The warning: you probably think your PEF is at least average. So do the owners w
         "Advertising can't fix a broken business. It only accelerates what was going to happen anyway.",
         "Share of Mind × PEF = Share of Market.",
         "PEF compares the customer's expectation with her actual experience: 1.0 = as expected, 0.75 = 25% short, 1.3 = 30% better.",
-        "30% share of mind × 0.75 PEF = 22.5% share of market. A weak experience leaks what the ads earned.",
+        "0.75 PEF × 30% share of mind = 22.5% share of market. A weak experience leaks what the ads earned.",
         "Everyone thinks their PEF is at least average. Ask people outside the bottle, and make it safe for them to be honest."
       ],
       why: "When a ZDub client's leads don't turn into revenue, the problem is often inside the door (slow replies, a rude phone, a confusing booking page). Measuring PEF protects Zach from being blamed for a leak his ads can't plug, and lets him sell the fix.",
@@ -679,7 +679,7 @@ His method was simple market-potential math. The average U.S. jewelry store gros
 
 > **SoV × IQ × PEF × MPo = Sales Volume**
 
-where SoV = share of voice, IQ = impact quotient, PEF = personal experience factor and MPo = market potential.
+Key: SoV is share of voice, IQ is impact quotient, PEF is personal experience factor, and MPo is market potential.
 
 **The honest catch:** you can't measure IQ, SoV or PEF with any real accuracy. The relationship stays true; it's measuring the parts that's hard:
 1. **SoV is unique to each person,** because everyone has different reading, listening, driving and viewing habits and so sees different ads. And over what period would you even measure it: six months, a year, ten years, fifty? The percentage changes with each one.
@@ -712,7 +712,7 @@ So don't get all "left brain" about it. What matters is general awareness of how
       ],
       today: { task: "Write ZDub's own \"Silva equation\": the five things that decide whether a client deal is good (for example, monthly fee, contract length, ad-spend minimum, scope, setup fee). Decide which one you'll let a client have their way on, and what you must control in exchange.", output: "Five variables plus a one-line rule in Silva's style.", minutes: 15 },
       check: [
-        { q: "Write the APE's three sub-equations and the master equation.", a: "SoV × IQ = Share of Mind; Share of Mind × PEF = Share of Market; Share of Market × MPo = Sales Volume. Master: SoV × IQ × PEF × MPo = Sales Volume." },
+        { q: "Write the APE's three sub-equations and the master equation.", a: "Share of Mind = SoV × IQ; Share of Market = Share of Mind × PEF; Sales Volume = Share of Market × MPo. Master: Sales Volume = SoV × IQ × PEF × MPo." },
         { q: "Why can't the APE be calculated precisely?", a: "Share of voice, impact quotient and PEF are each unique to the individual (and SoV also depends on the time window measured), so they can only be approximated marketwide. The relationship is true, but the parts can't be measured accurately." },
         { q: "What are Jon Silva's five credit factors, and his rule?", a: "Down payment size, gross profit on the sale, credit history, length of payout and interest rate. Let the customer have his own way on any one as long as you control the other four." }
       ]
@@ -858,7 +858,7 @@ The sidebar quote from neurologist Richard Cytowic deepens it. Not everything we
 
 **The left-brain logic.** In 1983, Roy Stout, Coca-Cola USA's head of market research, asked why Coke was losing share when it had twice as many vending machines, dominated fountain sales, had more shelf space, outspent Pepsi on advertising and was competitively priced. Look at the Pepsi Challenge, he said, and you have to start asking about taste. Brian Dyson, Coca-Cola USA's president, agreed that maybe tastes had changed and Coke's distinctive "bite" now read as harsh. Extensive research followed, and a new, improved formula was ordered.
 
-**The result.** Long before anyone bought a can, America had decided it hated New Coke, even though it was the flavor people had chosen in tens of thousands of taste tests. Surveyors asked which cola we'd buy, and we overwhelmingly picked the flavor that became New Coke. But a beverage is more than its flavor. A beverage is its marketing, and Coca-Cola had spent 99 years convincing us that Coke was "the real thing," woven into American life. The taste test measured the tongue. The purchase came from the associations.
+**The result.** Long before anyone bought a can, America had decided it hated New Coke, even though it was the flavor people had chosen in tens of thousands of taste tests. Surveyors asked which cola we'd buy, and we overwhelmingly picked the flavor that became New Coke. But, as Roy puts it, a drink is more than how it tastes; it's the sum of its marketing, and Coke had invested 99 years convincing us that Coke was "the real thing," woven into American life. The taste test measured the tongue. The purchase came from the associations.
 
 **The principle.** When surveyed, most people honestly tell you what they *believe* they'd do. That's rarely what they actually do when the choice is in front of them.
 
@@ -972,7 +972,7 @@ He makes the point in a short Q&A. "You mean it actually matters what I say in m
 
 **Targeting is overrated.** Demographic and psychographic targeting have a place in planning, but their importance has long been overstated. Roy's evidence is the dotcom crash. The NASDAQ fell in 2000 because internet companies reported revenues far below projections while burning investor cash faster. Most of their business plans depended on selling advertising, and the internet's pitch to advertisers was precision targeting: ads matched to audience profiles, reaching the right user at the right time. In November 1999, USA Today reported that ad networks were secretly gathering data through cookies and that marketing databases held more information about buying habits than ever. Eight months later, in July 2000, the Potomac Tech Journal reported that more than 9 in 10 web businesses were unhappy with the results of their banner ads. Advertising.com's response was to promise to target better. Roy's reaction: "Huh?"
 
-**The principle:** the message itself matters far more than the vehicle that delivers it. Successful branding depends on speaking to the customer **in the language of the customer about what matters to the customer.** The goal is to be the name customers think of immediately whenever they, *or anyone they know*, need what you sell. The analytical internet reps preached that psychographic targeting was all that mattered. Their ads failed, and most of those reps were soon out of work.
+**The principle:** the message itself matters far more than the vehicle that delivers it. Successful branding depends on talking to customers **in their own language about the things they care about.** The aim is to be the first name that comes to mind whenever a customer, *or anyone they know*, needs what you sell. The analytical internet reps preached that psychographic targeting was all that mattered. Their ads failed, and most of those reps were soon out of work.
 
 His closing check: you haven't built your branding campaign around reaching the right people and forgotten about associative ad copy, have you?
 
@@ -1006,7 +1006,7 @@ A 2020s footnote that's ours, not Roy's: on Meta, broad targeting and automated 
       check: [
         { q: "How does Roy define a brand?", a: "The sum total of all the mental associations, good and bad, that are triggered by a name. Advertising is getting your name out; branding is attaching something to your name." },
         { q: "What lesson does Roy draw from the dotcom banner-ad failures?", a: "Precision targeting was oversold. More than 9 in 10 web businesses were unhappy with banner results, because the message matters far more than the vehicle or the targeting." },
-        { q: "What is the goal of branding?", a: "To be the name customers think of immediately whenever they, or anyone they know, need what you sell, achieved by speaking in their language about what matters to them." }
+        { q: "What is the goal of branding?", a: "To be the first name that comes to mind whenever a customer, or anyone they know, needs what you sell, achieved by speaking in their language about what matters to them." }
       ]
     },
     {
@@ -1369,7 +1369,7 @@ The chapter does two jobs. It warns you not to mistake a tidy list for truth (Ro
       ],
       idea: `**The story.** Muskogee, Oklahoma, 1965. In Mrs. Shelton's second-grade class at Hilldale Elementary, the children take turns reciting poems they've written. Reggie Gibson's is about a spider on a freshly plastered wall. The rhyme scheme sets up an obvious word for the last line, a word no second-grader is allowed to say. Reggie pauses right where the rhyme wants it, then lands on "spider." The class explodes, and Mrs. Shelton is not amused. Reggie never said the word; every child's mind said it for him. Reggie Gibson had discovered frameline magnetism.
 
-**The principle.** The edge of a picture is its **frameline**. When an image runs past the frameline, the viewer's imagination reacts by filling in what was left outside the frame. Great photographers, videographers, filmmakers and illustrators have long used this to pull the viewer's imagination into the work. What's left out isn't absent. It's being supplied by the viewer, who therefore believes it more.
+**The principle.** The edge of a picture is its **frameline**. When an image spills past that edge, the viewer's imagination kicks in and supplies whatever lies beyond it. Great photographers, videographers, filmmakers and illustrators have long used this to pull the viewer's imagination into the work. What's left out isn't absent. It's being supplied by the viewer, who therefore believes it more.
 
 **Roy's first verbal frameline** was in a radio ad for his first client, jeweler Woody Justice (the same Woody from Chapter 37). Woody had vented to Roy on the phone in a moment of frustration, and Roy wrote down almost exactly what he'd said. Looking at it, Roy saw the core of a powerful script, a true pouring-out of Woody's heart to the public. He didn't want to shatter that intimacy by jamming in the store's address and phone number, so he persuaded Woody to leave them out. At the end of the ad, when listeners expected the predictable address and number, they heard a pregnant pause and then Woody saying, off-mike, "Okay, I'm done." That was all. Listeners were stunned by what *wasn't* there, and more than a decade later people in Missouri still talked about the ad.
 
@@ -1422,7 +1422,7 @@ The lesson in one line: that which is not spoken often speaks the loudest. John 
         { text: "Never tell the reader/listener/viewer anything he already knows or can figure out for himself.", page: "118" },
         { text: "To write Robert Frank is to communicate in the fewest words and from the most interesting perspective.", page: "118" }
       ],
-      idea: `Robert Frank is widely considered one of the greatest photographers who ever lived. His book *The Americans* captured the unposed reality of 1955–56 America with such ruthless clarity that collectors now bid tens of thousands of dollars for a single vintage print.
+      idea: `Robert Frank is widely considered one of the greatest photographers who ever lived. His book *The Americans* showed America in 1955–56 as it actually was, unposed and unflattering, so sharply that a single vintage print now sells to collectors for tens of thousands of dollars.
 
 **How he worked.** At the drive-in, Frank shot through your windshield from the car behind, to capture what sundown at a drive-in *felt* like. At a political rally he shot from behind the candidate, so you felt the pressure on him. On opera opening night, while every other photographer crowded into the one good spot, Frank was in the orchestra pit, showing what the conductor saw and felt.
 
@@ -1434,10 +1434,10 @@ Roy names Frank's three techniques: (1) **an unusual choice of angle**, (2) **ec
 
 **On the frameline:** Hemingway called it the principle of the iceberg. Seven-eighths of it is under water for every part that shows. Anything you know you can eliminate, and it only strengthens your iceberg, because the strength is in the part that doesn't show.
 
-**The principles of Being Perfectly (Robert) Frank:**
-1. **Choose a revealing angle.** Put the reader, listener or viewer on the scene.
-2. **Select your details sparingly.** Include only what's interesting, and barely that.
-3. **Put the known "under water."** Never tell the audience anything they already know or can figure out for themselves.
+**Being Perfectly (Robert) Frank, as three rules:**
+1. **Choose a revealing angle.** Place your reader, listener or viewer right inside the scene.
+2. **Select your details sparingly.** Keep only the interesting ones, and not many of those.
+3. **Put the known "under water."** Leave out whatever the audience already knows or could work out on its own.
 
 WizardSwords: **Robert Frank** is a writing style that is accurate but very selective with detail and approaches the subject from an unusual angle. **Putting it under water** means editing out information on the assumption the listener already knows it.
 
@@ -1469,7 +1469,7 @@ WizardSwords: **Robert Frank** is a writing style that is accurate but very sele
       check: [
         { q: "What are Robert Frank's three techniques, which Hemingway shared?", a: "1. An unusual selection of angle. 2. Economy in the inclusion of detail. 3. Mastery of frameline magnetism." },
         { q: "What is Hemingway's principle of the iceberg?", a: "Seven-eighths of it is under water for every part that shows. Anything you know you can eliminate, and it only strengthens the iceberg, because the strength is in the part that doesn't show." },
-        { q: "What are the three principles of Being Perfectly (Robert) Frank?", a: "1. Choose a revealing angle that puts the audience on the scene. 2. Select details sparingly: only what's interesting, and barely that. 3. Put the known under water: never tell them anything they already know or can figure out." }
+        { q: "What are the three principles of Being Perfectly (Robert) Frank?", a: "1. Choose a revealing angle that puts the audience on the scene. 2. Select details sparingly: keep only the interesting ones, and few of those. 3. Put the known under water: leave out what they already know or can work out." }
       ]
     },
     {
@@ -1497,7 +1497,7 @@ People are drawn to ocean waves, clouds, mountains, lightning and logs burning i
 
 Mapping a chaotic system can take tens of millions of notations, so it wasn't until computers arrived that we could see these patterns at all; before that they were too big to comprehend. Today computers using chaotic equations produce images that look exactly like the beauty in nature, and the same maps seem to mirror the stock exchange, population swings and chemical reactions. We call these maps **fractals**. Clouds, coastlines, lightning and mountains are natural ones. Benoit Mandelbrot, a scientist at IBM, made fractal images by mapping stock prices, the probabilities of words in English and the motion of turbulent fluids, because each has a pattern just beyond our human ability to predict. (A sidebar lists his honors, from a Harvard professorship to the Barnard, Franklin, Steinmetz and Nevada medals and the Humboldt Prize.)
 
-Now, Roy asks, do you see why people are drawn to (1) playing the stock market, (2) the combination of rhythm and words in poetry and song and (3) staring at the sea? All three are patterns we can feel but can't predict. He closes with Richard Feynman: the truth always turns out to be simpler than you thought.
+Now, Roy asks, do you see why people are drawn to (1) playing the stock market, (2) poetry and song, where words ride on rhythm, and (3) gazing out at the ocean? All three are patterns we can feel but can't predict. He closes with Richard Feynman: the truth always turns out to be simpler than you thought.
 
 **The lesson for persuasion:** fascinating messages sit between two failures. A rigid formula is predictable and boring. Pure randomness has no pattern and no pull. The sweet spot is **structured surprise**: a real underlying order (deterministic), an opening that matters enormously (sensitivity to initial conditions) and details that keep the mind just short of predicting what comes next. Chapter 53 follows the thread into hit songs.`,
       keyPoints: [
@@ -1525,7 +1525,7 @@ Now, Roy asks, do you see why people are drawn to (1) playing the stock market, 
       check: [
         { q: "What are the three defining characteristics of chaotic systems?", a: "1. They're deterministic (something determines their behavior). 2. They're very sensitive to initial conditions. 3. They appear disorderly or random but have an underlying elegant order. Truly random systems aren't chaotic." },
         { q: "Why does Roy say predictability is the enemy of persuasion?", a: "Predictability triggers boredom, and Broca turns away what he sees coming. Chaos holds attention because its order is beyond our ability to predict." },
-        { q: "What three things does Roy say people are drawn to, and why?", a: "Playing the stock market, the combination of rhythm and words in poetry and song, and staring at the sea, because each has a pattern just beyond our ability to predict." }
+        { q: "What three things does Roy say people are drawn to, and why?", a: "Playing the stock market, poetry and song (words riding on rhythm), and gazing at the ocean, because each has a pattern just beyond our ability to predict." }
       ]
     },
     {

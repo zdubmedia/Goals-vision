@@ -514,7 +514,7 @@ Roy ends by asking where you are: trotting behind and nudging, or still strainin
       ],
       idea: `"This is me at the Grand Canyon. This is me in front of Niagara Falls. This is me scuba diving." Roy says that's an idiot showing home movies.
 
-**The diagnosis:** the problem with home movies is never the content. It's always the *perspective*. Diving in the Caribbean is an adventure, but not with some fool standing in front of the camera telling you what he had for lunch, and now the whole family is waving at the lens.
+**The diagnosis:** the problem with home movies is never the content. It's always the *perspective*. Diving in the Caribbean is an adventure, but not when some guy plants himself in front of the lens to narrate his lunch menu, and now the whole family is waving at the lens.
 
 **The contrast:** Jacques Cousteau always pointed his camera at the underwater cave, the shark, the sunken ship, never at himself. So we experience his undersea world and we're hypnotized. He takes us there.
 
@@ -712,7 +712,7 @@ CTA: “Call or text [number] and ask for today's next opening.”`
 
 **The demonstration** (pp. 32–34) is worth reading in full. Roy writes two radio ads for a fictional insurance agency, Parkins and Maddock, and prints the listener's thoughts in parentheses after each line.
 
-**The good ad.** It promises to cut your insurance cost by at least 10 percent. *(Or what?)* Or they'll buy you dinner at the Plaza del Fuego. *(I'm not sitting through a two-hour pitch for a dinner.)* It's a three-minute phone call with no one to meet. *(Still a hassle; I don't know my coverage details.)* When your renewal notice arrives, call and read them the limits and deductibles printed on it. *(Right, the notice has all the details.)* They quote identical coverage, apples to apples, and if it isn't at least 10 percent lower, you're off to dinner. It closes by pointing out you have to write someone a check anyway, so why not a smaller one? The listener's final thought: *remember to call when the renewal comes.* Each objection pops up and the very next line answers it. Roy says that with patience and enough repetition, this ad would keep their phones ringing for years.
+**The good ad.** It promises to cut your insurance cost by at least 10 percent. *(Or what?)* Or they'll treat you to a meal at the Plaza del Fuego. *(I won't sit through a long sales pitch just for a free meal.)* It's a three-minute phone call with no one to meet. *(Still a hassle; I don't know my coverage details.)* When your renewal notice arrives, call and read them the limits and deductibles printed on it. *(Right, the notice has all the details.)* They quote identical coverage, apples to apples, and if it isn't at least 10 percent lower, you're off to dinner. It closes by pointing out you have to write someone a check anyway, so why not a smaller one? The listener's final thought: *remember to call when the renewal comes.* Each objection pops up and the very next line answers it. Roy says that with patience and enough repetition, this ad would keep their phones ringing for years.
 
 **The bad ad.** Fifty years, hundreds of families, caring professionals. *(Why?)* "Competitive" pricing. *(Doesn't that mean the same as everyone else?)* Fast, fair, friendly service. *(Until you file a claim.)* Then come the phone number twice, the hours and "you'll be glad you did," while the listener's mind wanders to a softball game, a Coke, french fries and whether to bring Bobby a cheeseburger.
 
@@ -1103,7 +1103,7 @@ Repetition: the closing line of every video ad, spoken by the same voice and sho
 
 If not, leave me alone; you're wasting my time.
 
-**The conclusion:** most ads are about the product or the company, and they get disappointing results. The best ads are about the customer and how the product will change his life. What are *your* ads about?
+**The conclusion:** most ads talk about the product or the company, and their results disappoint. The ads that work best put the customer at the center: how will his life be different because of what you sell? So who are *your* ads really about?
 
 **How it fits with nearby chapters:** this is Chapter 8's camera turned around, plus Chapter 9's "you," with one addition: the familiar touchstone. It also pairs neatly with Chapter 13. The *familiar* gets the ad through the door; the *unpredictable* makes it stick once it's inside. A good ad usually needs both: something the customer recognizes, said in a way they didn't expect.`,
       keyPoints: [
@@ -1154,7 +1154,7 @@ Benefit: how others see me (status and belonging), plus less stress about starti
         { text: "Walter Mitty isn’t crazy. He just has trouble convincing the outside world of who he is inside.", page: "46" },
         { text: "we will speak not to a tired old man and a henpecked husband, but will eloquently address the needs of a chivalrous knight and an intrepid army captain.", page: "47" }
       ],
-      idea: `The world looks at you and sees one person. You look in the mirror and see someone else. Roy uses two famous characters to show the gap.
+      idea: `Other people see one version of you; the mirror shows you a different one. Roy uses two famous characters to show the gap.
 
 **Don Quixote (Cervantes, 1605)** sees himself as a gallant knight protecting the fair Dulcinea. Everyone else sees a tired old man and a servant girl. Roy retells the windmill scene: Quixote sees giants with enormous arms, his squire Sancho Panza points out they're windmills, and Quixote replies that Sancho obviously isn't used to adventures.
 
@@ -1406,7 +1406,7 @@ Attached to the name: 'the landscaper who builds yards that survive Sacramento s
         { text: "We must volunteer the proof they need.", page: "55" },
         { text: "If you want your advertising to be productive, you must have a story to tell, and you must tell it persuasively.", page: "55" }
       ],
-      idea: `Roy opens with three backhanded compliments: great toupee, where'd you get it? I've always liked pants like those; are they coming back in style? Are you always this funny when you're drunk? Nobody actually said the toupee fools no one, the pants are out of date and you sound drunk, but you heard it anyway. You heard more than was said.
+      idea: `Roy opens with three backhanded compliments: nice hairpiece, where did you find it? Love those pants, are they back in fashion now? Is that how funny you always get after a few drinks? Nobody actually said the toupee fools no one, the pants are out of date and you sound drunk, but you heard it anyway. You heard more than was said.
 
 He pokes fun at himself too. People tell him they love his articles, look him over and ask whether he writes them himself. They see just another bald guy with glasses and a beard, and then ask how he met his wife (Pennie, whom he calls gorgeous).
 
@@ -1471,7 +1471,7 @@ Proof: what the first exercise really is, plus real before/after footage of a st
       ],
       idea: `Remember Chicken Little? An acorn bonks him, and he spends the afternoon running around the barnyard screaming that the sky is falling. In the original, it's just a silly mistake. Roy changes the story: suppose his friends warned him again and again that it's peak acorn season, he sat under the oak anyway, and the acorn fell exactly as predicted. Now the panic isn't funny; it's irritating.
 
-**The clients Roy means.** He has consulted a dozen Chicken Littles. They all say they want "the kind of advertising that gets results," but they aren't ready for what that feels like. Roy warns them up front that powerful advertising draws negative reactions from many directions. They say "bring it on," then back-pedal hard as soon as a few people say "I hate your ads." Do you have the courage of your convictions, he asks, or will you pound your chest like King Kong and then run like Peter Cottontail at the first sign of trouble?
+**The clients Roy means.** He has consulted a dozen Chicken Littles. They all say they want "the kind of advertising that gets results," but they aren't ready for what that feels like. Roy warns them up front that powerful advertising draws negative reactions from many directions. They say "bring it on," then reverse course the moment a handful of people complain that they hate the ads. Will you stand behind what you believe, he asks, or will you beat your chest like King Kong, then bolt like Peter Cottontail at the first hint of trouble?
 
 **Where the best ads go to die.** Some of Roy's strongest campaigns never aired. They were killed by the client's spouse, business partner, next-door neighbor or some well-meaning friend, and the word or line that had to go was usually the most powerful line in the ad. The result is gutless advertising. Roy says his success is owed to clients who hear bombs going off all around them and shout, "Damn the torpedoes, full speed ahead!"
 
@@ -1605,7 +1605,7 @@ Numbers to check: bookings and leads this month vs. last; the cost-per-lead tren
 
 **The polish trap.** Most advertisers want ads that are smooth, polished, professional and clever. The public no longer trusts any of those. You know you've written a good ad when it doesn't sound like an ad.
 
-**The competitor problem.** Your competitor believes most of the same things about his business that you believe about yours, and you're both steering the customer toward the same conclusion. So you make the same claims, use the same logic and offer the same reassurances. The customer has heard it all before and believes neither of you. To persuade, your ads have to be frank, direct and believable.
+**The competitor problem.** Your competitor holds nearly all the same beliefs about his own business that you hold about yours, and the two of you are steering the customer toward the same conclusion. So you make the same claims, use the same logic and offer the same reassurances. The customer has heard it all before and believes neither of you. To persuade, your ads have to be frank, direct and believable.
 
 **Roy's believability rule:** an ad is believable only when the listener *agrees* with it. How do you get agreement?
 1. Tell her what she already knows or suspects.

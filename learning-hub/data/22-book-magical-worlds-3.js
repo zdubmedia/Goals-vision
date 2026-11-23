@@ -381,7 +381,7 @@ So "average" isn't about talent. It's the result of borrowing the crowd's yardst
       today: { task: "Write the number you believe ZDub needs per month to \"get by\" and the number that would \"fulfill all dreams.\" Then write 3 things you'd have to believe and do for the bigger number to become your get-by number.", output: "2 numbers + 3 beliefs/actions", minutes: 15 },
       check: [
         { q: "What did the Roper Starch survey find?", a: "The average American said $25,000 a year to get by and $102,000 to fulfill all dreams; the top 1 percent said $80,000 and $500,000." },
-        { q: "How does Herb Kay interpret the survey?", a: "Rich people are rich because they think it takes $80,000 a year to get by; their expectations come first." },
+        { q: "How does Herb Kay interpret the survey?", a: "The wealthy got that way *because* they expect it to cost $80,000 a year just to get by; the expectation comes before the income." },
         { q: "Why, according to Roy, is the world full of \"average\" people?", a: "Because we've tried to agree as a group on how to measure success, then follow each other in a tedious circle instead of following our own hearts and gifts." }
       ]
     },
@@ -401,7 +401,7 @@ So "average" isn't about talent. It's the result of borrowing the crowd's yardst
       ],
       idea: `Another one-page chapter, and it travels from anatomy to the soul in a few steps.
 
-Roy starts with numbers from the Neurovestibular Adaptation Research Team of the National Space Biomedical Research Institute: about 2 million Americans suffer chronic impairment from dizziness or balance problems, 80 million have had trouble with dizziness, and nearly a quarter of all emergency room visits include a complaint of dizziness.
+Roy starts with numbers from the Neurovestibular Adaptation Research Team of the National Space Biomedical Research Institute: roughly 2 million Americans live with chronic dizziness or balance impairment, 80 million have experienced dizziness at some point, and almost one in four emergency room visits involves a dizziness complaint.
 
 Then the anatomy. We think of the ear as the organ of hearing, but the inner ear also holds the utriculus and the sacculus, the chief organs of balance and orientation. (He notes that the cause of dizziness sits near the auditory cortex and Broca's area, the brain's language gatekeeper from Chapters 19 and 45.)
 
@@ -562,7 +562,7 @@ His observations about business:
 - **Try to get success in a headlock and you choke the creativity and life out of your company.**
 - **Success makes people risk-averse.** Ironic, since taking a chance is usually what made them successful. Once there's something to lose, "all or nothing" sounds a lot less brave and a lot more foolish.
 
-He isn't reckless about it. Betting everything isn't for everyone: with a spouse, kids and a mortgage, throwing the college fund into a risky scheme walks the line between audacious and asinine. But you also can't take over the world by putting a new coffee machine on the main floor or running a half-off sale every other Tuesday. Big results need choices that make people around you frown and wonder what you were thinking, right up until the money rolls in.
+He isn't reckless about it. Betting everything isn't for everyone: with a spouse, kids and a mortgage, throwing the college fund into a risky scheme walks the line between audacious and asinine. But installing a new coffee machine in the lobby or running a half-off sale every other Tuesday won't win you the world either. Big results need choices that make people around you frown and wonder what you were thinking, right up until the money rolls in.
 
 The title comes from a Special Olympics commercial: a boy walks up to people, points over his shoulder at his own back, and tells them it's the only thing they'll see of him when they race. Rex calls him his hero, because shaking off the herd and its negative feedback takes guts.
 
@@ -911,7 +911,7 @@ Note the pun in the title: the convertible is a *revertible*. It reverts him to 
       today: { task: "Pick one PMT ad that's running now. Rewrite its first two lines so they lead with a feeling or memory instead of a feature, keep the features underneath as the justification, and save it as a test variant.", output: "1 rewritten ad opening ready to test", minutes: 20 },
       check: [
         { q: "What reasons does Roy give for his '71 Mustang, and what's the real one?", a: "He cites the centered gas cap, windshield slope and retractable wipers; the real reason is that sitting in one takes him back to being fifteen with Perry McKee." },
-        { q: "Why did Roy and Perry shout \"Subaru\"?", a: "They just liked the sound of the word, and when you rule the world, that's the only reason you need." },
+        { q: "Why did Roy and Perry shout \"Subaru\"?", a: "They simply liked how it sounded; when you rule the world, no other reason is required." },
         { q: "What's the pun in the title?", a: "\"Revertible\" for convertible: the car reverts him to age fifteen." }
       ]
     },
@@ -1091,16 +1091,16 @@ His evidence, in his telling, is an experiment by Leon Festinger: sixty people s
 His younger son, Jake, tells him about a school friend whose parents are angry because he joined the debate team instead of the football team, a choice they say will damage the rest of his life.
 
 Roy's view, which he knows some readers will hate:
-- He tells his boys to study whatever they find interesting. Live your own life and let others live theirs.
+- He encourages his boys to study whatever genuinely interests them, and to live their own lives while letting others live theirs.
 - He honestly doesn't care whether they go to college. If there's something they want to study, he'll pay for it. If they want to start a little business, he'll help. If neither, find a job working for someone they really like.
 - And marry your best friend.
 
 His one-line case: win the lottery and you're happy for a year; do what you love and you're happy for life.
 
 Then he goes after the most-asked question in the world: "What do you want to be when you grow up?" Has any kid ever really been able to answer it? Roy says he still doesn't know what he wants to be, and wonders if adults ask kids because they're unsure themselves. He offers replacement questions:
-- What kinds of things are you curious about?
-- Have you learned anything interesting today?
-- What have you seen or heard that makes you go "Hmm"?
+- What are you curious about these days?
+- Did you learn anything interesting today?
+- What have you noticed lately that made you go "Hmm"?
 
 He dares you to ask them, and promises the answers will rock your world.
 
@@ -1149,7 +1149,7 @@ He dares you to ask them, and promises the answers will rock your world.
       today: { task: "Ask 2 people today (a client, a friend, a kid in your life) one of Roy's questions: \"What have you seen or heard lately that made you go hmm?\" Write down each answer and one thing it taught you about the person.", output: "2 answers + 1 insight each", minutes: 15 },
       check: [
         { q: "What does Roy tell his sons about their futures?", a: "Study whatever interests them; he'll pay for study, help start a little business, or they can find a job working for someone they really like. And marry your best friend." },
-        { q: "Which questions does Roy suggest instead of \"What do you want to be when you grow up?\"", a: "What kinds of things are you curious about? Have you learned anything interesting today? What have you seen or heard that makes you go \"Hmm\"?" },
+        { q: "Which questions does Roy suggest instead of \"What do you want to be when you grow up?\"", a: "What are you curious about these days? Did you learn anything interesting today? What have you noticed lately that made you go \"Hmm\"?" },
         { q: "How does Roy compare winning the lottery with doing what you love?", a: "Win the lottery and be happy for a year; do what you love and be happy for life." }
       ]
     },

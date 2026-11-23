@@ -330,7 +330,7 @@ Behavior that shows it worked: more calls that mention “the price-first thing,
       ],
       idea: `The chapter opens with Democritus: nothing exists except atoms and empty space; everything else is opinion.
 
-Whoever you're persuading (an employee, a child, a customer, an ad audience), the goal is the same: get them to see it your way. Roy then gives his definition of persuasion, one of the most important sentences in the book. Persuasion is the successful **introduction** and **guided progression** of a **series of mental images**, artfully presented to create a compelling perceptual reality. If that sounds abstract, he says, just think "imaginings." People can only do what they have first imagined, so your job is to get them to imagine doing what you want them to do.
+Whoever you're persuading (an employee, a child, a customer, an ad audience), the goal is the same: get them to see it your way. Roy then gives his definition of persuasion, one of the most important sentences in the book. Persuasion, in his definition, means successfully **introducing** a **series of mental images** and steering the audience through them in a **guided progression**, presented with enough art that together they build a convincing perceptual reality. If that sounds abstract, he says, just think "imaginings." Nobody does anything they haven't pictured first, so your task is to get people picturing themselves doing the thing you want.
 
 Notice the three parts. *Introduction*: the first image has to get in. *Guided progression*: the images come in an order you control, like scenes in a film. *Series*: it's a sequence, not a single fact.
 
@@ -342,7 +342,7 @@ The practical payoff is freeing. Since nobody has the objective view, **state yo
 
 See Chapter 2 for the blind men; Chapter 12 comes back to the "colorless, silent universe."`,
       keyPoints: [
-        "Persuasion = the introduction and guided progression of a series of mental images that create a compelling perceptual reality.",
+        "Persuasion = introducing a series of mental images and guiding people through them in order until they form a convincing perceptual reality.",
         "People can only do what they have first imagined; get them to imagine doing it.",
         "The senses translate the world. Color, sound, smell and taste exist only in the brain, so no one perceives 'pure' reality.",
         "Abandon the myth of an objective perspective; claiming it is either naive or arrogant.",
@@ -381,7 +381,7 @@ Script: “Honestly? Nobody's a natural on day one, and that's fine. You'll star
       ],
       today: { task: "Find one ad or landing page from a prospect that hides behind 'neutral' facts. Rewrite its first paragraph as a confident first-person opinion followed by three images in order.", output: "One rewritten paragraph (before/after)", minutes: 20 },
       check: [
-        { q: "How does Roy define human persuasion?", a: "The successful introduction and guided progression of a series of mental images, artfully presented to create a compelling perceptual reality (imaginings)." },
+        { q: "How does Roy define human persuasion?", a: "Successfully introducing a series of mental images and guiding the audience through them in order, presented artfully enough to build a convincing perceptual reality (“imaginings”)." },
         { q: "What does Dr. Martins de Oliveira say about color, sound, smell and taste?", a: "They're products of our minds, built from sensory input, and don't exist as such outside the brain. The universe is colorless, odorless, insipid and silent." },
         { q: "Since no one can offer an objective perspective, what does Roy tell you to do?", a: "Describe your own feelings, perceptions and opinions with confidence. In perceptual reality, no one has higher authority than you." }
       ]
@@ -694,7 +694,7 @@ Our culture calls that shrunken black-and-white view the "scientific" one. Roy p
 
 **Richard Cytowic, neurologist.** Cytowic frames an old debate. Plato said we are prisoners of our feelings and must hold fast to the "sacred cord of reason" or be lost. Aristotle answered that emotions have a logic of their own and should be understood on their own terms. Americans, Cytowic says, mostly side with Plato: emotion threatens reason.
 
-Then he confesses. Twenty years of science and medicine had reinforced his naturally analytical personality; he believed the intellect could conquer anything and had never considered that something might balance it. Neuroscience, he says, has only lately realized how important emotion is. Putting reason first is like the Wizard of Oz shouting, "Pay no attention to the man behind the curtain." Reason and self-awareness have fooled us into thinking they pull the strings, but **emotion and mental processes we can't see have been in charge all along.**
+Then he confesses. Twenty years of science and medicine had reinforced his naturally analytical personality; he believed the intellect could conquer anything and had never considered that something might balance it. Neuroscience, he says, has only lately realized how important emotion is. Putting reason first is the Wizard of Oz move: a booming voice telling you to ignore the man behind the curtain. Reason and self-awareness have fooled us into thinking they pull the strings, but **emotion and mental processes we can't see have been in charge all along.**
 
 **Neil Postman, communications theorist.** Postman adds a second point. In the Middle Ages people trusted the authority of religion no matter what; today we trust the authority of science no matter what. His test: if he told you the paper in your hands was made from the skin of a pickled herring, and an industrial scientist explained it with an incomprehensible process involving a made-up chemical, you'd probably believe it, or at least not fully disbelieve it.
 
@@ -838,7 +838,7 @@ Recommendation: no price cut. Run a January “first month coached” offer (add
       ],
       idea: `Roy uses numbers as symbols to build one of the most useful distinctions in the book.
 
-**Two is the duality number:** separation, opposites, conflict. Good/bad, black/white, right/wrong. A **rule** is two-dimensional thinking: it allows only two outcomes, right or wrong. Put two dots on a sheet of paper and join them with a line, and you're looking at a stick. Rules are like sticks: you can threaten, prod and even beat people with them, but when a rule doesn't fit the situation, all you can do is break it.
+**Two is the duality number:** separation, opposites, conflict. Good/bad, black/white, right/wrong. A **rule** is two-dimensional thinking: it allows only two outcomes, right or wrong. Draw two dots on paper and connect them, and what you've drawn is a stick. That's a rule: handy for threatening, poking and even beating people, but useless once it stops fitting the situation, because then breaking it is your only option.
 
 **Three is the energy number:** activation, dynamism, life. Three primary colors (red, yellow, blue) produce a world of color; protons, neutrons and electrons produce a world of matter; a chaotic system is launched by a first, second and *third* gravitating body (a term he returns to in Ch 15). Three-dimensional thinking isn't linear. It's built on **principles.** A principle is like a rope: it moves in three dimensions and bends to fit changing circumstances without ever being compromised. And you can *lead* people with a rope.
 
@@ -890,7 +890,7 @@ For ZDub this applies to client service, hiring, ad strategy and every SOP Zach 
       ],
       today: { task: "List five rules you follow in ZDub right now. Next to each, write the principle in one sentence. Circle any rule with no principle behind it, and decide whether to delete it.", output: "5 rules → 5 principles, with any rule to drop circled", minutes: 20 },
       check: [
-        { q: "Why does Roy say rules are like sticks?", a: "You can threaten, prod and even beat people with them, but when the rule doesn't fit the situation, all you can do is break it." },
+        { q: "Why does Roy say rules are like sticks?", a: "They're handy for threatening, poking and even beating people, but when a rule stops fitting the situation, breaking it is the only option left." },
         { q: "What makes a principle like a rope?", a: "It moves in three dimensions, conforming to changing circumstances without being compromised, and you can lead people with it." },
         { q: "What happens when you solve a three-dimensional problem with two-dimensional rules?", a: "You create a bureaucracy, like the IRS tax code at 2.8 million words." }
       ]
@@ -1072,11 +1072,11 @@ What's the difference? Roy's answer: everything.
 
 Roy reprints a few lines of the lyric to show how Taylor does it (read them in the book): you see the sunshine, feel the moonshine, and watch a girl named Karen watching the morning come. Taylor doesn't tell you *about* Carolina. He puts you there, in a reality outside of time (Roy's phrase from Chapter 3).
 
-Then Roy quotes his own first book, *The Wizard of Ads*: emotion and intellect are two sides of one coin; win the heart and the mind will follow; people can only go to places they've already been in their minds; and the secret of persuasion is to get people to imagine doing what you want them to do.
+Then Roy quotes his own first book, *The Wizard of Ads*: emotion and intellect are two sides of one coin; win the heart and the mind will follow; people can only go to places they've already been in their minds; and the secret of persuasion is getting people to picture themselves doing what you want.
 
 His diagnosis of most advertising: it's tedious because it's carved out of a concrete world of fact. Left brain talks to left brain. But **right brain calls to right brain.** An "on my mind" ad asks the customer to evaluate. An "in my mind" ad takes the customer somewhere.
 
-He closes with a shrug at the skeptics: if you'd rather keep your feet on the ground and stick to the facts, go right ahead, but he's going to Carolina with James. Then Mark Twain: the difference between the right word and almost the right word is the difference between lightning and a lightning bug. One preposition, *on* versus *in*, is exactly that difference.
+He closes with a shrug at the skeptics: if you'd rather keep your feet on the ground and stick to the facts, go right ahead, but he's going to Carolina with James. Then Mark Twain's famous comparison: choosing the right word over a nearly-right one is the gap between lightning and a lightning bug. One preposition, *on* versus *in*, is exactly that difference.
 
 **The test for every ad:** does it put the product *on* the customer's mind (something to consider), or take the customer *into* a scene (somewhere to be)? Most local ads are "on." The ones people remember are "in."`,
       keyPoints: [
@@ -1143,7 +1143,7 @@ Senses: feel (helmet, hair), sound (laughing), sight (the group).`
 
 **The email.** Wolfgang Klein, from the January 2001 Wizard Academy class, writes to thank Roy (he calls the Academy "the cocaine of understanding") and asks two questions: What is the duality principle? And is "business topology" the same as the APE formula from Roy's second book? He adds that he explained "third gravitating bodies" to his wife and she got it, and that his general sales manager wants him to teach the material to the staff.
 
-**Roy's reply: expect to be misunderstood.** You have a smart wife, Roy says, and you'll find out just how smart when you try to explain 3-D realities and third gravitating bodies to your co-workers. They'll say, "So you're telling me you just have to get three things happening at once, right?" Very few people can grasp divergence and convergence inside patterns too big for the mind. **Compression** gets in the way: the mind's habit of squeezing a big idea into something small and familiar (Chapter 8's left-brain theater manager at work). Most people, Roy predicts, will say they "get it," but ask them to explain it back and they'll be confusing **chaos with randomness.**
+**Roy's reply: expect to be misunderstood.** You have a smart wife, Roy says, and you'll find out just how smart when you try to explain 3-D realities and third gravitating bodies to your co-workers. They'll say something like, "Oh, so basically you need three things going on at the same time?" Hardly anyone can hold divergence and convergence inside patterns too big for the mind. **Compression** gets in the way: the mind's habit of squeezing a big idea into something small and familiar (Chapter 8's left-brain theater manager at work). Most people, Roy predicts, will say they "get it," but ask them to explain it back and they'll be confusing **chaos with randomness.**
 
 That distinction matters. In Chapter 52, Roy explains that chaotic systems aren't random: something drives them, tiny differences at the start change everything, and under the apparent disorder there's an elegant pattern. A "third gravitating body," in his glossary (p. 227), is a tiny element that helps create that kind of system, a "horseshoe nail." The physics behind the image: two bodies orbiting each other are predictable, but add a third and the motion becomes too complex to predict, without ever becoming random.
 
@@ -1191,7 +1191,7 @@ Correction: “Not no matter what. If it's spending with zero clicks or somethin
       ],
       today: { task: "Pick one idea from Chapters 1–14 and explain it out loud in under 60 seconds to someone (or record yourself). Write down where you compressed it or got stuck.", output: "A 60-second explanation plus a note on where it got compressed", minutes: 15 },
       check: [
-        { q: "What did Roy predict Wolfgang's co-workers would say about third gravitating bodies?", a: "'So what you're telling me is that you just have to get three things happening at once, right?' They'd claim to get it, but when asked to explain it, they'd be confusing chaos with randomness." },
+        { q: "What did Roy predict Wolfgang's co-workers would say about third gravitating bodies?", a: "Something like 'Oh, so basically you need three things going on at the same time?' They'd claim to get it, but when asked to explain it, they'd be confusing chaos with randomness." },
         { q: "What does Roy say keeps people from seeing third gravitating bodies?", a: "Compression, when you explain the concept without first giving them a chance to stretch their minds a little." },
         { q: "Is the APE a formula?", a: "No. It's a statement of relationship, like E = mc², and it doesn't involve Business Topology." }
       ]
@@ -1218,7 +1218,7 @@ Correction: “Not no matter what. If it's spending with zero clicks or somethin
 
 Put simply: rules set up opposites and make you pick a side. Principles and imagination can hold both sides at once. Then reality forces trade-offs again, and you need principles to handle them.
 
-**Two margin quotes carry the practical lesson.** Samuel L. Jackson's villain in *Unbreakable* realizes that knowing who his opposite is tells him who he is. And Billy Crystal in *My Giant*: the size of the villain determines the size of the hero; without Goliath, David is just a punk throwing rocks. Identity is defined by its opposite.
+**Two margin quotes carry the practical lesson.** Samuel L. Jackson's villain in *Unbreakable* realizes that knowing who his opposite is tells him who he is. And Billy Crystal in *My Giant*: a hero can only be as big as his villain; take away Goliath and David is just some punk throwing rocks. Identity is defined by its opposite.
 
 **For advertising:** a brand becomes clear when it's clear what it stands *against*. Name the villain (not a competitor, but the problem, the fear, the old way), make it big enough to matter, and your client becomes the hero. And note "opportunity and security" in the list: it returns as the sixth of Roy's Seven Laws (p. 68) and drives Chapter 27.`,
       keyPoints: [
@@ -1282,7 +1282,7 @@ Hero line: “Most AC breakdowns don't start in July. They start in April. We fi
       ],
       idea: `Roy opens with a disclaimer worth keeping for the whole book: calling the earth round is *technically wrong* (it's an oblate spheroid) *but directionally accurate*. His brain science here works the same way: simplified, but pointed in the right direction.
 
-**The model.** For each sense, the brain has short-term and long-term memory. Short-term memory is electrical; long-term memory is chemical. **Branding** means being the business customers think of first and feel best about when their moment of need arrives. That moment might be months away, so branding has to happen in **long-term** memory.
+**The model.** For every sense, the brain keeps two kinds of memory: a short-term store that runs on electricity and a long-term store that runs on chemistry. **Branding** means being the business customers think of first and feel best about when their moment of need arrives. That moment might be months away, so branding has to happen in **long-term** memory.
 
 "So it's just a matter of repetition?" No. The brain is smart. It won't move information into long-term memory when that information is flashing a "soon to expire" sign. Sleep wipes electrical memory every night, and what gets erased first and most completely is whatever is no longer relevant. **No ad with a deadline is relevant after the deadline.**
 
@@ -1502,7 +1502,7 @@ Caption: “7:45 a.m. Nervous? Everybody is. By 10:00 you'll have forgotten why.
 
 **The road is the Yellow Brick Road,** a highway straight to the Emerald City. Neurologically, it's the dorsolateral prefrontal association area, which Dr. Alan Baddeley of Cambridge calls **working memory**. Roy calls it **imagination**.
 
-**The catch is a tollbooth called Broca's area.** Almost all neural information (sight, sound, taste, pain, pressure, position, movement, temperature) has to pass Broca on the way to the decision center. Broca's toll: "Interest me! Surprise me with something I didn't know." If you're not carrying new information or a new perspective, you don't get on the road. Broca attaches verbs to actions while anticipating the predictable, and he turns away anything he "sees coming." **Broca hates the predictable.**
+**The catch is a tollbooth called Broca's area.** Almost all neural information (sight, sound, taste, pain, pressure, position, movement, temperature) has to pass Broca on the way to the decision center. Broca's toll: "Interest me! Tell me something new." Show up without fresh information or a fresh angle and you're not allowed on the road. Broca attaches verbs to actions while anticipating the predictable, and he turns away anything he "sees coming." **Broca hates the predictable.**
 
 Once you're through, Baddeley's model says working memory has three parts:
 1. **The central executive** decides where attention goes. Broca decides what matters; the executive decides what matters *most*.
