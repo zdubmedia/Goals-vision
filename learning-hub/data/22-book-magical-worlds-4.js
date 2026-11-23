@@ -529,7 +529,7 @@ It starts with **Amschel**, an obscure collector of old coins in the Frankfurt g
 
 The plan is a chain of flag signals across the English Channel that gets news from France to Nathan before anyone else has it. Faster information means faster trades and a staggering fortune. Seventeen years later the Emperor of Austria makes him a baron. "Nathan" in the gold fix is the firm of **Baron Nathan Mayer de Rothschild**, the other four are the bullion desks of big banks, and they meet at Rothschild's headquarters at 10:30 and 3:00. Roy closes with Cicero's reminder that all things begin small.
 
-(A postscript Roy couldn't include: Rothschild left the gold fix in 2004, and in 2015 the flag ritual was replaced by an electronic auction. The story's point is untouched.)
+(A postscript Roy couldn't include: Rothschild left the gold fix in 2004, the meetings moved to conference calls, and since 2015 the price has been set by an electronic auction. The story's point is untouched.)
 
 **The principles inside the story:**
 - **Small beginnings.** A ghetto coin collector starts the line that sets the world price of gold (Chapter 72 again).
@@ -1044,7 +1044,7 @@ This is Part Three's "beagle in your brain" (Chapters 54 and 71) in a real perso
 
 Charlie loved **inversions**. His favorite game was to change one letter of a word at a time until it became a related word: WHEAT to BREAD to TOAST, through a ladder of in-between words (Roy prints the whole chain and dares you to try HEAD to FOOT or SLEEP to DREAM). He was meticulous: he logged every letter he ever wrote, 98,721 of them in 24 volumes. And he was lonely: insomnia, one meal a day, never married. His only joy was playing games with children.
 
-He worked as a logician and mathematics lecturer at Christ Church, Oxford, under the dean, Henry Liddell. On July 4, 1862, Liddell asked him to row his three daughters up the Thames for a picnic. Charlie spent the whole day telling them a fantastic story starring one of the girls. She begged him to write it down; he handed her mother a handwritten copy and assumed that was the end of it. Then a visiting novelist, Henry Kingsley, picked it up from a table, read it and urged that it be published.
+He taught logic and mathematics at Christ Church, Oxford, under the dean, Henry Liddell. On July 4, 1862, Liddell asked him to row his three daughters up the Thames for a picnic, and Charlie spent the day telling them a fantastic story starring one of the girls. She begged him to write it down; he gave her mother a handwritten copy and assumed that was that, until a visiting novelist, Henry Kingsley, read it and urged that it be published.
 
 The girl was **Alice**, the story was her adventures in an upside-down world called **Wonderland**, and, true to his love of inversion, Charlie flipped his first names (Charles Lutwidge to Lutwidge Charles), translated them into Latin and anglicized them back into **Lewis Carroll**. The man who could never speak clearly gave everyday speech the March Hare, the Mad Hatter and the Cheshire Cat (whom Roy quoted in Chapter 80). By Roy's count, only the Bible and Shakespeare are quoted more.
 
@@ -1055,7 +1055,7 @@ The girl was **Alice**, the story was her adventures in an upside-down world cal
 
 > **Principle:** Write to one real person you love talking to, and your words get fluent, specific and memorable.
 
-Chapters 96 and 97 repeat the pattern (Twain's stories for his daughter, Stevenson's for his stepson), and Chapter 101 lets Dr. Seuss explain why writing for children is the purest kind of writing.
+Chapters 96 and 97 repeat the pattern (Twain for his daughter, Stevenson for his stepson), and Chapter 101 lets Dr. Seuss explain why children are the best audience of all.
 
 **For ZDub:** Zach's ads will stammer when he writes to "the target audience" and flow when he writes to one person he actually knows: a specific nervous beginner he met at PMT, a roofer he had coffee with. Before writing, picture that person across the table and tell them the story.`,
       keyPoints: [
@@ -1261,10 +1261,10 @@ The Chrapko brothers of Chapter 88 were Canadian farm kids raised to see two sid
         { text: "Was Ispwo Crowfoot a particularly eloquent Indian? Not at all.", page: "211" },
         { text: "I’m really glad they don’t make cowboy and Indian movies anymore.", page: "211" }
       ],
-      idea: `Everyone knows the first Thanksgiving gave thanks for an Indian friend named Squanto. What Roy says most people don't know: years before the Pilgrims landed, English sea captains had captured Squanto and abused him as a slave for years. He had been free only a short time when the Mayflower arrived. He had every reason to wipe out the newcomers. Instead he looked at the pitiful settlers, figured they'd all die that winter without help, and walked out of the woods to introduce himself. He died two years later of a disease caught from the same Europeans.
+      idea: `Everyone knows the first Thanksgiving gave thanks for an Indian friend named Squanto. What Roy says most people don't know: years earlier, English sea captains had captured Squanto and abused him as a slave, and he'd been free only a short time when the Mayflower arrived. He had every reason to wipe out the newcomers. Instead he looked at the pitiful settlers, figured they'd all die that winter without help, and walked out of the woods to introduce himself. He died two years later of a disease caught from those same Europeans.
 
 Roy grew up on cowboy movies in which Indians grunted lines like "me wantum whiskey." He offers the reality instead:
-- **Crowfoot**, a Blackfoot, left dying words that are pure poetry, describing life in three small, vivid images: the flash of a firefly in the night, a buffalo's breath in winter, a little shadow running across the grass and losing itself in the sunset. (Read them on page 210.)
+- **Crowfoot**, a Blackfoot, left dying words that are pure poetry, defining life with three tiny images: a firefly's flash, a buffalo's breath in winter, a small shadow crossing the grass at sunset. (Read them on page 210.)
 - And Crowfoot wasn't unusual. In 1744, when the College of William and Mary offered to educate twelve young men of the Indian Nations, the chiefs sent back a reply (printed in full on page 211) that is a masterpiece of diplomacy.
 
 Look at that letter's structure, because it's a template:
@@ -1342,7 +1342,7 @@ It's polite, devastating and funny all at once. Roy just wishes he could have me
       ],
       idea: `From the day his daughter Susy was born until her thirteenth birthday, a father named Samuel wrote innocent, exhilarating adventure stories for children. Near the end of his life he recalled that when Susy was thirteen, on her own and out of love, she secretly began writing a biography of him. In it she describes a very happy family; a father who is good, very funny and wonderfully absent-minded; and the delight of sitting on the arms of his chair while he made up stories about the pictures on the wall.
 
-A few years later, while Sam was away on a trip, Susy died. He wrote to his best friend that he had known she was part of them, but hadn't known she could go away and take their lives with her, leaving their dull bodies behind. In the years after, Roy says, Sam turned against God and died an angry old man.
+A few years later, while Sam was away on a trip, Susy died. In a letter to his best friend he described the loss as if Susy had taken the family's very life with her, leaving only their bodies going through the motions. In the years after, Roy says, Sam turned against God and died an angry old man.
 
 Roy's ending: we forgive Papa Sam his anger, and we can easily let it go, because unlike him we never knew Susy. We remember him only for the stories he told her on the arm of that chair. We remember **Samuel Clemens** not for Susy, but for **Tom and Huck and Cousin Sid and Becky Thatcher**: the world of Mark Twain. And perhaps, Roy says, that's how it should be.
 
@@ -1416,7 +1416,7 @@ There's a quiet note here for anyone building something: the stories mattered be
       ],
       idea: `He was a young Scot; she was a 36-year-old American with two children. They met while she was traveling alone in Paris, and she divorced her husband to marry him. Roy's dry comment: it was not the Scot's best moment. (By the standards of the day, it was a scandal.)
 
-Mark Twain, who admired him, described him as so thin his clothes seemed to hang on an empty frame, long-faced, lank-haired and melancholy, with one commanding feature: splendid, smoldering eyes that made him beautiful.
+Mark Twain, who admired him, pictured him as almost all frame and no flesh, dark and melancholy, redeemed by one feature: eyes that burned so intensely they made him beautiful.
 
 Hoping to win some acceptance from his new wife's children, the young Scot took them on holiday to his native Scotland. The weather immediately turned cold and rainy, trapping everyone indoors. By the fire, he watched his twelve-year-old stepson, Lloyd, draw, color and label a map of an imaginary island. The map caught his imagination, and one chilly September morning he began writing a story based on it, to entertain the family.
 
@@ -1491,9 +1491,9 @@ Roy closes with a poem about what success is (living well, laughing often, lovin
       ],
       idea: `Tom is steaming. He poured his heart into a writing assignment, and now an editing committee is picking it apart word by word. (Ever been there?) His friend Ben tells him a story.
 
-A hatmaker named John Thompson sketches a sign: a hat, and above it, "John Thompson, Hatmaker, Fashionable Hats Sold Inside for Ready Money." His wife says nobody sells hats for anything *but* ready money, so he cuts that. A friend says nobody cares who made the hats as long as they're good, so "John Thompson, Hatmaker" goes. Someone chuckles that nobody sells *unfashionable* hats, so "Fashionable" goes. Another says of course they're sold inside, so "Sold Inside" goes, leaving just "Hats" and the drawing. The last friend says the picture alone is enough. So John arrives at the sign maker with nothing but a little drawing of a hat, and the sign maker says it needs something more: perhaps his name and trade, and beneath it, "Fashionable Hats Sold Inside for Ready Money"?
+A hatmaker, John Thompson, sketches a sign: a drawing of a hat under a line giving his name, his trade, and the news that fashionable hats are sold inside for ready money. On the way to the sign maker, everyone he shows it to removes one "obvious" piece. His wife: who sells hats for anything but cash? A friend: nobody cares who made them. Another: who sells *unfashionable* hats? Another: of course they're sold inside. The last: you don't even need the word "Hats." He arrives with nothing but the drawing, and the sign maker suggests putting it all back.
 
-Comforted, Tom doesn't abandon the assignment, and the rest is history. Tom is **Thomas Jefferson**, Ben is **Benjamin Franklin**, and the document Congress was mutilating was the **Declaration of Independence**. Jefferson recorded the parable himself. Roy closes with H. G. Wells on the unequaled passion to alter someone else's draft, then confesses: compare his version with Franklin's original and you'll find that he edited it. (Sorry, Tom. Sorry, Ben.) The sidebar piles on with editors and critics who rejected or dismissed *The Jungle Book*, *A Tale of Two Cities*, *The Great Gatsby*, *Animal Farm* and Anne Frank's diary.
+Comforted, Tom doesn't abandon his work, and the rest is history. Tom is **Thomas Jefferson**, Ben is **Benjamin Franklin**, and the document Congress was mutilating was the **Declaration of Independence**; Jefferson recorded the parable himself. Roy closes with H. G. Wells on the unequaled passion to alter someone else's draft, then confesses that he edited Franklin's original story too. (Sorry, Tom. Sorry, Ben.) The sidebar piles on with editors and critics who rejected or dismissed *The Jungle Book*, *A Tale of Two Cities*, *The Great Gatsby*, *Animal Farm* and Anne Frank's diary.
 
 **What it means:**
 - **Every single cut sounded reasonable.** That's the danger. Each editor "put it under water" (Chapter 51's term for deleting what the reader supposedly already knows) until nothing was left above the surface. Committee editing doesn't fail through one bad decision; it fails through many sensible ones with nobody owning the whole.
@@ -1562,23 +1562,23 @@ Read it with Chapter 93: cutting LAND from the Hollywood sign created meaning, b
         { text: "With no money and no prospects, Eduardo lay awake at night asking, “What great need can I fill?”", page: "217" },
         { text: "But this time he vowed to create a business that no one would want to steal.", page: "218" }
       ],
-      idea: `Roy and Pennie arrive at a beautiful Spanish-mission hotel at night, and the next morning ask a stranger the way to the restaurant. He's **Eduardo Prado**, and Roy's first impressions stack up: a Latin James Bond, then a Spanish-speaking Rick Dees (the famously upbeat radio host), and, when his wife Ana joins him, JFK and Jackie in the Camelot years. Over three days they learn the two couples are the same ages, with children the same ages, and that Eduardo's work arranging a FIFA event is volunteer. He's a classic self-made millionaire: **a two-time pauper and a three-time winner**.
+      idea: `Roy and Pennie arrive at a beautiful Spanish-mission hotel at night and, the next morning, ask a stranger the way to the restaurant. He's **Eduardo Prado**, and Roy's first impressions stack up: a Latin James Bond, then a Spanish-speaking Rick Dees (the famously upbeat radio host), and, when his wife Ana joins him, JFK and Jackie in the Camelot years. The two couples turn out to be the same ages, with children the same ages, and Eduardo's FIFA work is volunteer. He's a classic self-made millionaire: **a two-time pauper and a three-time winner**.
 
-- **Fortune one:** as a fisherman, selling sharkskin to Italian sports-car makers. A huge shipment was hijacked into Mexico; he was ruined, and even had to pay for the stolen trucks. Broke and out of prospects, he lay awake asking one question: *what great need can I fill?*
-- **Fortune two:** building thousands of small houses for the poor. Then one day the bank informed him he had no money. "What did you do with my seven million?" "Which seven million do you mean?" "I'll sue." "How? You have no money." Born without family wealth, he had no one to turn to.
-- **Fortune three:** this time he vowed to build a business no one would want to steal. He studied around the clock and became an expert in **sewage disposal**. To make his country see its looming waste crisis, he mocked up a thousand copies of three different ecology magazines, each with a story about the problem, mailed them to everyone in government and the media, and followed up with hundreds of phone calls announcing: I have a solution. It became his largest fortune by far, made just three years before Roy met him.
+- **Fortune one:** as a fisherman, selling sharkskin to Italian sports-car makers. A huge shipment was hijacked into Mexico; he was ruined, and even had to pay for the stolen trucks. Broke, he lay awake asking one question: *what great need can I fill?*
+- **Fortune two:** building thousands of small houses for the poor, until his bank calmly told him his seven million was gone, and, when he threatened to sue, pointed out that he no longer had any money to sue with. Born without family wealth, he had no one to turn to.
+- **Fortune three:** this time he vowed to build a business no one would want to steal. He studied around the clock and became an expert in **sewage disposal**. To make his country see its looming waste crisis, he mocked up a thousand copies of three ecology magazines, each with a story about the problem, mailed them to everyone in government and the media, then made hundreds of calls announcing that he had a solution. It became his largest fortune by far.
 
-Roy's twist: this is the Great American Success Story, only Central American. Eduardo lives in Guatemala. And Roy teases the next chapter: the electric moment that happened exactly one hour after they met.
+Roy's twist: this is the Great American Success Story, only Central American. Eduardo lives in Guatemala. And Roy teases the next chapter: the electric moment that came exactly one hour after they met.
 
 **The principles, plainly:**
 1. **Resilience is a method, not a mood.** Each ruin was followed by sleepless nights of planning, not self-pity (Chapter 81's "ride the bullet," at scale).
 2. **Start from the need, not the product.** "What great need can I fill?" may be the best business question in the book.
 3. **Unglamorous is a moat.** Nobody wants to steal a sewage business.
-4. **Make the problem visible before you sell the solution.** His magazines didn't sell anything; they made people see the crisis. The phone calls then offered the answer. He moved a whole market from unaware to problem-aware before he pitched.
+4. **Make the problem visible before you sell the solution.** The magazines sold nothing; they made people see the crisis. The calls then offered the answer. He moved a market from unaware to problem-aware before he pitched.
 
 > **Principle:** Find a great need (an unglamorous one is even better), make the problem impossible to ignore, then show up saying "I have a solution."
 
-**For ZDub:** local-business marketing has its own "sewage": missed calls, slow follow-up, leads nobody texts back. It's unglamorous and nobody fights over it, but it's a great need. Eduardo's playbook says ZDub's outreach should first make the problem visible to the owner (for example, by showing a prospect how long their own inquiry took to get a reply), and only then say "I have a solution."`,
+**For ZDub:** local-business marketing has its own "sewage": missed calls, slow follow-up, leads nobody texts back. Unglamorous, ignored, and a great need. Eduardo's playbook says ZDub's outreach should first make the problem visible to the owner (for example, showing a prospect how long their own inquiry took to get a reply), and only then say "I have a solution."`,
       keyPoints: [
         "Eduardo Prado lost two fortunes (a hijacked sharkskin shipment, a bank that 'lost' his money) and built a third.",
         "Broke, he asked himself: what great need can I fill?",
@@ -1639,25 +1639,25 @@ Honest, specific and unglamorous: the problem is real, you didn't invent it, and
         { text: "I plan to help Eduardo Prado because I once saw him lay his hand on the cheek of a poor Guatemalan boy and promise that boy a bright future.", page: "221" },
         { text: "I just want to make sure Eduardo can keep that promise.", page: "221" }
       ],
-      idea: `In his first three minutes with Eduardo Prado, Roy saw James Bond, Rick Dees and JFK. The fourth image came on the sidewalk outside the hotel, minutes after they'd met. Eduardo stopped to introduce Roy to a poor boy of about fourteen, looked deep into his eyes, laid his fingers on the boy's cheek and spoke to him quietly and fervently in Spanish. The boy smiled softly and nodded with confidence. Roy wasn't reminded of JFK anymore, but of **King Arthur**.
+      idea: `In his first three minutes with Eduardo Prado, Roy saw James Bond, Rick Dees and JFK. The fourth image came on the hotel sidewalk a few minutes later. Eduardo stopped beside a poor boy of about fourteen, looked deep into his eyes, laid his fingers on the boy's cheek and spoke to him quietly and fervently in Spanish. The boy smiled and nodded with confidence. Roy was reminded not of JFK but of **King Arthur**.
 
-What had he said? That the boy was an extremely smart young man with a very bright future, and that he should never stop believing in it. The boy was a student in a class Eduardo teaches. What class? Eduardo cited the old line about teaching a man to fish, smiled a bittersweet smile and said he teaches the poor how to escape their poverty. Then he left for an important meeting.
+What had he said? That the boy was extremely smart, had a very bright future and should never stop believing in it. The boy was in a class Eduardo teaches. What class? Eduardo cited the old line about teaching a man to fish and said, with a bittersweet smile, that he teaches the poor how to escape their poverty.
 
-Roy set off on a tour of Antigua, Guatemala's 450-year-old mountain city, with Pennie and three local hosts. At the Palace, a roomful of people rose as they entered. Roy was led to an ancient wooden chair; two officials took their places at the ends of the table; and from behind a curtain stepped an immaculately dressed man in a large medallion: **Eduardo**, the Comendador of Antigua. Both men were stunned. Speaking only Spanish because the law required it for official functions, Eduardo knighted Roy as **Councilor to the Comendador**, for life: Don Roy H. Williams. (In English, he whispered, that makes you Sir Roy, and by the way, why is there no picture of you in your books? I thought you'd be much older.) The duty: help him think of ways to help the city and care for its people. The title dated back to the King of Spain and a few conquistadors; Roy was the first Knight of Antigua in nearly 200 years.
+Then Roy toured Antigua, Guatemala's 450-year-old mountain city. At the Palace, a roomful of people rose as he entered; he was seated in an ancient wooden chair; and from behind a curtain stepped a man wearing a large medallion: **Eduardo**, the Comendador of Antigua, as stunned as Roy. In formal Spanish (the law required it), Eduardo knighted him **Councilor to the Comendador** for life, "Don Roy," then whispered in English that he'd expected Roy to be much older, since his books have no photo. The duty: help think of ways to help the city and care for its people. Roy was the first Knight of Antigua in nearly 200 years.
 
-Roy sees Eduardo's strategy plainly: the knighthood was meant to make Guatemala's people dear to him and recruit his mind to their cause. It worked, but not because of the medal. Roy will help because he once **saw Eduardo lay his hand on a poor boy's cheek and promise him a bright future**, and he wants to make sure Eduardo can keep that promise.
+Roy sees the strategy plainly: the knighthood was meant to make Guatemala's people dear to him and recruit his mind to their cause. It worked, but not because of the medal. He'll help because he **saw Eduardo lay his hand on a poor boy's cheek and promise him a bright future**, and he wants Eduardo to be able to keep that promise.
 
 **The principles:**
-- **Character seen unguarded persuades more than any honor or pitch.** The knighthood was the offer; the sidewalk moment was the proof. In Part Two's terms, selling is a transfer of confidence (Chapter 34), and nothing transfers confidence like seeing how someone treats a person who can do nothing for them.
-- **Spoken belief shapes futures.** Eduardo did for one boy what Geoffrey of Monmouth did for a nation (Chapter 87): he gave him a story to live up to. It's Chapter 1's "speaking worlds into existence," on a sidewalk.
-- **Give allies a role and a mission.** "Help me think of ways to help this city" turned Roy from a tourist into a councilor.
+- **Character seen unguarded persuades more than any honor or pitch.** The knighthood was the offer; the sidewalk was the proof. Selling is a transfer of confidence (Chapter 34), and nothing transfers it like watching how someone treats a person who can do nothing for them.
+- **Spoken belief shapes futures.** Eduardo did for one boy what Geoffrey of Monmouth did for a nation (Chapter 87): gave him a story to live up to. It's Chapter 1's "speaking worlds into existence," on a sidewalk.
+- **Give allies a role and a mission.** "Help me help this city" turned a tourist into a councilor.
 
 > **Principle:** People follow the person whose private behavior matches their public promise. Speak a bright future into people, and invite allies into the mission with a real role.
 
-**For ZDub:** prospects and clients decide about Zach in his unguarded moments: how he treats Chris's front-desk person, a nervous student at the range, a prospect who says no. Those moments are the real sales pitch. And Eduardo's two moves are usable today: tell the people you serve (students, clients, anyone you mentor) specifically what you believe they can become, and when you want someone's help, give them a real role, not just a request.`,
+**For ZDub:** prospects and clients decide about Zach in his unguarded moments: how he treats Chris's front-desk person, a nervous student at the range, a prospect who says no. Those moments are the real pitch. And Eduardo's two moves work today: tell the people you serve specifically what you believe they can become, and when you want someone's help, offer a real role, not just a request.`,
       keyPoints: [
         "Eduardo told a poor boy he was smart, had a bright future and should never stop believing; he teaches the poor how to escape poverty.",
-        "Later that day, as Comendador of Antigua, he knighted Roy Councilor for life, the first Knight of Antigua in nearly 200 years.",
+        "About an hour after they met, Eduardo, as Comendador of Antigua, knighted Roy Councilor for life: the first Knight of Antigua in nearly 200 years.",
         "The duty: help think of ways to help the city and care for its people.",
         "Roy will help, not because of the title, but because of what he saw on the sidewalk.",
         "Unguarded character persuades more than honors or pitches."
@@ -1697,3 +1697,218 @@ Roy sees Eduardo's strategy plainly: the knighthood was meant to make Guatemala'
         { q: "Why does Roy say he'll help Eduardo?", a: "Not because of the knighthood, but because he saw Eduardo promise a poor boy a bright future, and he wants to make sure Eduardo can keep that promise." }
       ]
     },
+    {
+      id: "mw-101",
+      part: "p4",
+      chapter: 101,
+      chapterTitle: "Dr. Seuss on Writing for Children (chapter 100 + 1)",
+      pages: "222–225",
+      title: "Dr. Seuss on Writing for Children: take the shutters off (plus the whole book in one view)",
+      minutes: 8,
+      tags: ["Book"],
+      source: [{ doc: "Magical Worlds of the Wizard of Ads (Roy H. Williams, 2001)", section: "Chapter 100 + 1 · Dr. Seuss on Writing for Children · pp. 222–225 (Dr. Seuss's 1952 New York Times essay, reprinted by permission)", who: "Dr. Seuss (essay reprinted by Roy H. Williams)" }],
+      quotes: [
+        { text: "You’d become adults, which is a word that means obsolete children.", page: "225" },
+        { text: "children never let their laughs out on a string.", page: "225" }
+      ],
+      idea: `Roy ends the book with someone else's words: a 1952 *New York Times* essay by Dr. Seuss, reprinted by permission. It's the right ending, and by the end of this lesson you'll see why.
+
+**What Seuss says (in summary; read all four pages):**
+- Writing for children is socially humiliating: at parties he's introduced as the author of sweet little whimsies, on panels he gets the last seat, and friends urge him to "crack the Adult Field."
+- The joke is that most children's humorists *have* cracked it, and chose to uncrack it, because children give them something adults can't: real laughter.
+- As a child (a "Willy or Mary"), laughing was the thing you did best. You saw life through small but very clear, bright windows.
+- Then the grown-ups who loved you installed **shutters**: your humor was too loud and crude, nonsense had to be kept in its place, your imagination needed its feet on the ground.
+- **Conditioned laughter** took over, growing like toadstools on a stump. It depends on conditions (financial, political, racial, religious, social), so you learned to laugh at whoever your family feared or looked down on: the other party's president, other nationalities, other faiths. Then came sex humor, saved for special friends.
+- By then your silly, friendly laughter was smothered. You'd become an adult, which Seuss defines as an obsolete child. Adults check before they laugh (will the boss approve, how loudly is the hostess laughing, what did the reviewer think?). Children never ask, which is why maverick humorists write for them.
+
+**Why Roy ends here.** This essay is the whole book in a child's voice:
+- The shutters are Part One's left-brain gatekeeper: the "security guard" of Chapter 48, the Broca who discounts the predictable (Chapters 19–20).
+- The unshuttered window is the right brain, where imagination, music and story live, and Seussing (Chapter 45) is how you knock on it.
+- Conditioned laughter is a warning for advertisers: humor that sneers at an out-group is the cheap adult kind. The kind that persuades is friendly, surprised delight.
+- And Part Four's last run of heroes (Carroll, Twain, Stevenson, now Seuss) all did their most lasting work for children.
+
+> **Principle:** Every adult you advertise to still has a Willy or Mary behind the shutters. Write to delight that child (surprise, play, friendly laughter), not to impress the adult who checks with the boss before laughing.
+
+**Closing the book.** The four parts are one argument (see the table): how minds work, the tools that use that knowledge, the person you must become to use them well, and real people who lived it. The thread through all four is Chapter 1: **reality begins in the imagination**. Words speak worlds into existence (Part One); good ads build those worlds in a customer's mind (Part Two); your own life is built from the dream you choose (Part Three); and from Geoffrey's Arthur to Eduardo's promise to a poor boy, people become what they've first seen themselves become (Part Four). Seuss gets the last word: the doorway to the imagination is the child who's still in there.`,
+      keyPoints: [
+        "Seuss chose to write for children because they laugh freely; adults' laughter has been 'conditioned.'",
+        "Grown-ups install shutters on a child's clear, bright windows: humor too loud, nonsense out of place, imagination grounded.",
+        "Conditioned laughter targets whoever your group fears or despises; adults check social pressure before they laugh.",
+        "For ads: delight the child behind the shutters with friendly, surprising humor, never sneering.",
+        "The book's four parts are one argument: reality begins in the imagination."
+      ],
+      table: {
+        title: "Magical Worlds in one view: how the four parts fit together",
+        head: ["Part", "The question it answers", "Core ideas and tools", "What it means for ZDub"],
+        rows: [
+          ["**Part the First** · Architecture of the Mind (Ch 1–26)", "What makes people think the way they do?", "Words speak worlds into existence and reality begins with imagination (Ch 1, 5); left and right brain (Ch 6); rules vs. principles, 2-D vs. 3-D thinking (Ch 11); Broca, the gatekeeper who discounts the predictable (Ch 19–20); memory and the neurology of branding (Ch 16)", "Ads work inside the customer's imagination. Surprise Broca or get discounted."],
+          ["**Part the Second** · Tools for Profitable Persuasion (Ch 27–53)", "How do I use the mind's design to persuade?", "Business problem topology (Ch 27–28); business morphine and its dangers (Ch 30–31); the APE: share of voice × impact quotient × personal experience factor × market potential (Ch 33–38); what people say vs. what they do (Ch 41); Frosting, Seussing, Being Monet, Robert Frank (Ch 44–51); chaos and third gravitating bodies (Ch 52–53)", "Diagnose with the APE, write with color and selectivity, and borrow solutions from parallel businesses."],
+          ["**Part the Third** · Charting Your Destiny & Dreams (Ch 54–71)", "Who do I need to become to use all this well?", "The beagle of intuition (Ch 54, 71); a North Star (Ch 55); contentment and big dreams together (Ch 56); fortunate accidents come from hope, faith and passion (Ch 57); how you explain setbacks (Ch 66); experience is made of mistakes (Ch 70)", "Zach's purpose, optimism and willingness to make mistakes are ZDub's engine."],
+          ["**Part the Fourth** · Wizards at Large (Ch 72–101)", "What does it look like in real lives?", "Think big, start small (72); decide and own it (80–81); presentation, boldness and generosity (82, 89); first clients and lean-year friends (83, 88); speed of information (85); accidental magic and duality (86); heroes and identity (87, 100); curiosity (91); writing for one beloved audience (92, 96, 97, 101); perspective, eloquence, editing and need-filling (94, 95, 98, 99)", "Every principle has a face. Borrow their moves for PMT and for yourself."]
+        ]
+      },
+      why: `Every PMT prospect is an adult with shutters. Ads that delight the child behind them (surprise, play, warmth) get in, while sneering or "safe" adult humor gets checked at the door. And finishing the book with a plan turns 101 chapters into ZDub's operating system.`,
+      example: {
+        title: "Adult humor vs. Seuss humor in a PMT ad",
+        before: `"Tired of sitting in traffic with all the idiots on their phones? Learn to ride and leave the cagers behind!"`,
+        after: `"Day one: you'll stall. Everyone stalls. One student stalled 11 times before 10 a.m. Now she rides to work every day." (Use a true version from Chris's classes.)`,
+        body: `The before version is conditioned laughter: it gets its laugh by sneering at a group (drivers), and plenty of those drivers are exactly the people PMT wants as students. The after version is Seuss: it laughs *with* the beginner at the thing they fear, it surprises, and nobody is the butt of the joke. Only use a real stall count if it's true.`
+      },
+      practice: [
+        {
+          prompt: "Dissect it: the essay, and the whole book.",
+          fields: [
+            "In your own words, what's the difference between spontaneous and conditioned laughter?",
+            "Why do you think Roy ended the book with someone else's essay? Connect it to at least two earlier chapters.",
+            "Which of the four parts changed your thinking most, and what will you do differently because of it?"
+          ]
+        },
+        {
+          prompt: "Apply it: write a PMT ad or reel that's funny in Seuss's sense (friendly, silly, surprising, laughing with the beginner), then write a one-paragraph summary of the whole book.",
+          fields: ["Your funny PMT ad or reel concept (hook + lines)", "Who it laughs with, and who it's careful not to laugh at", "Your one-paragraph summary of *Magical Worlds* (all four parts)"],
+          rubric: [
+            "The humor is friendly and surprising, not at an out-group's expense",
+            "An adult would laugh before checking whether it's okay to (it gets past the shutters)",
+            "The summary connects all four parts as one argument",
+            "The summary ends with one thing Zach will do differently for PMT"
+          ],
+          model: `**Reel:** a nervous student's inner monologue, narrated like a nature documentary: "Here we observe the beginner, approaching the motorcycle with caution. She has read forty-seven online threads. She is convinced the bike can sense fear." Cut to her riding a smooth figure-eight: "Remarkable. The beginner has become... a rider." **Laughs with:** the beginner's own fear, which every viewer recognizes. **Careful not to:** mock other riders, other schools or "bad drivers." **Summary:** "*Magical Worlds* argues that everything real starts in the imagination. Part One explains how minds work: the right brain dreams, Broca guards the door, memory and emotion decide. Part Two gives tools to persuade those minds: the APE for diagnosis; Frosting, Monet and Robert Frank for writing; business problem topology for innovation. Part Three says the person using those tools needs a purpose, optimism and the nerve to make mistakes. Part Four shows real people who lived it. For PMT, I'll stop writing to the adult who reads specs and start writing to the kid who always wanted to ride."`
+        }
+      ],
+      today: { task: "Close the book: write one page (by hand or in notes) with your top 10 ideas from *Magical Worlds* and one PMT or ZDub action for each. Pick the first action and put it on this week's calendar.", output: "A top-10 list with actions + 1 scheduled", minutes: 30 },
+      check: [
+        { q: "What does Seuss mean by 'conditioned laughter'?", a: "Laughter shaped by grown-ups' conditions (financial, political, racial, religious, social): laughing at whoever your group fears or looks down on, instead of the spontaneous, friendly laughter of childhood." },
+        { q: "Why does Seuss say maverick humorists prefer writing for children?", a: "Children never keep their laughs on a string; there's no political or social pressure gauge on their laughter." },
+        { q: "What thread ties all four parts of the book together?", a: "Reality begins in the imagination: words and stories create worlds in minds (Part One), persuasion uses that (Part Two), your own life is built from the dream you choose (Part Three), and real people show it (Part Four)." }
+      ]
+    },
+    {
+      id: "mw-102",
+      part: "p4",
+      chapter: "WizardSwords",
+      chapterTitle: "WizardSwords",
+      pages: "226–227",
+      title: "WizardSwords: the Wizard's vocabulary, in plain words",
+      minutes: 8,
+      tags: ["Book"],
+      source: [{ doc: "Magical Worlds of the Wizard of Ads (Roy H. Williams, 2001)", section: "WizardSwords (glossary) · pp. 226–227", who: "Roy H. Williams" }],
+      quotes: [
+        { text: "Every worthy business has a story that is uniquely and wonderfully its own.", page: "227" },
+        { text: "the North Star in the heart of the client.", page: "227" }
+      ],
+      idea: `The book closes with Roy's glossary: 33 terms Wizard Academy uses as shorthand. He calls them WizardSwords (a play on "buzzwords," with a nod to the sword in the stone), and the sidebars throughout the book have been handing them to you one at a time. A shared vocabulary is a thinking tool. Once you can name a thing (an ad full of black words, a PMT problem with the same shape as a gym's, an ad whose impact quotient is under 1.0), you can see it, talk about it with a client and fix it.
+
+The table below translates every term into plain language and points to where it shows up, including where Part Four's stories act it out. The terms fall into six families:
+
+1. **How minds take in messages:** associative memory, Augustine's Law, the Beagle, heart of the dog, surprising Broca, first and last mental image, instantaneity.
+2. **Writing styles:** Frosting, being Monet, black words, Seussing, Robert Frank, putting it under water, and Daguerre (the style to avoid).
+3. **The advertising performance equation (APE, Chapter 38):** share of voice × impact quotient = share of mind; share of mind × personal experience factor = share of market; share of market × market potential = sales volume.
+4. **Innovation by analogy:** business problem topology, defining characteristics, parallel business.
+5. **Chaos and hits (Chapters 11, 15, 53):** third gravitating body (the "horseshoe nail"), Crazy Ivan, convergence, divergence, compression, transition. Roy's theory, only sketched in this book, is that hits come from a few interacting elements whose alignment and drift keep the mind engaged, and that the mind's habit of compressing patterns is what makes things go stale.
+6. **Working with a client:** uncovery (digging for the client's story), the Sword in the Stone (the non-negotiable center of the company) and "Sylvester McMonkey McBean!" (Academy shorthand for "What a great idea! You're going to make a fortune!", named for the fast-talking Dr. Seuss entrepreneur in *The Sneetches*, so say it with a wink).
+
+A few terms (Crazy Ivan, heart of the dog, last mental image, McBean) appear only in the glossary in this book. Treat them as Academy vocabulary: learn the definition, then watch for the thing itself.
+
+**Two pairs worth noticing:**
+- **Share of voice vs. share of mind:** voice can be bought; mind has to be earned (Chapter 35). That one distinction is why ZDub should work on impact quotient before asking Chris for more budget.
+- **Putting it under water vs. the hatmaker's sign (Chapter 98):** cut what the reader already knows, and stop before you cut what they need.
+
+> **Principle:** Vocabulary is leverage. Learn the words, and you'll start seeing the patterns behind them in every ad you write for PMT.`,
+      keyPoints: [
+        "WizardSwords are 33 shorthand terms that compress the book's ideas into words you can use.",
+        "Six families: how minds take in messages, writing styles, the APE, innovation by analogy, chaos and hits, client work.",
+        "The APE chain: share of voice × impact quotient = share of mind; × PEF = share of market; × market potential = sales volume.",
+        "Share of voice is bought; share of mind is earned.",
+        "Uncovery finds the client's story; the Sword in the Stone is the non-negotiable center everything revolves around."
+      ],
+      table: {
+        title: "WizardSwords (pp. 226–227), in plain words",
+        head: ["Term", "What it means", "Where it shows up"],
+        rows: [
+          ["associative memory", "A memory that has become linked to another one, so recalling one pulls up the other. It's how a jingle, a smell or a name brings back a feeling.", "Ch 13, 29, 48, 67 · Part Four echo: Roy's beige Corvette (Ch 84)"],
+          ["Augustine's Law", "People are drawn to what is too big for them to fully comprehend; the joy is in reaching for it.", "Ch 53 (Augustine's *On the Trinity*)"],
+          ["the Beagle", "Your hungry, intuitive curiosity, nose down on the trail of a discovery while your logical side complains it's a waste of time.", "Ch 54, 71 · echo: Adrian Nicholas (Ch 91)"],
+          ["being Monet", "Speaking impressionistically instead of precisely: exaggerate the color, ignore the details, pick words for the intensity of their associations, even use incomplete sentences once the black words are gone. Frosting turned up to radical.", "Ch 46 (Monet vs. Daguerre in Ch 18; Power Monet, Ch 47)"],
+          ["black words", "Filler words that add nothing to the mental picture (but, and, that, therefore). Cut them and the remaining words glow.", "Ch 46"],
+          ["business problem topology (BPT)", "Solving your problem by finding a business whose problem has the same shape, then adapting its solution.", "Ch 27–28 (also 15, 52, 53)"],
+          ["compression", "The mind's automatic habit of merging things that move together, to reduce complexity. It's why patterns go stale.", "Ch 15, 53"],
+          ["convergence", "The moment the separate elements of a chaotic system briefly line up: the hook.", "Ch 15, 53"],
+          ["Crazy Ivan", "A third gravitating body that appears only once: a one-time surprise element.", "Glossary only in this book"],
+          ["Daguerre", "An insult for writing that's factual, tedious and colorless (most academic writing). Named for the early photographer, the opposite of Monet.", "Ch 18, 46"],
+          ["defining characteristics", "The unusual, distinguishing features that give a business problem its 'shape,' so you can find parallels.", "Ch 27–28, 52"],
+          ["divergence", "How far apart the elements of a chaotic system are drifting from each other.", "Ch 15, 53"],
+          ["first mental image (FMI)", "The opening scene a message paints in the mind.", "Ch 46 (sidebar)"],
+          ["Frosting", "Swapping a common, predictable phrase for an unexpected, interesting one. Named for the poet Robert Frost.", "Ch 44, 46 · echo: the 'Shagger' (Ch 82)"],
+          ["heart of the dog", "The customer's inner world of hopes, fears, prejudices, desires and ambitions, where buying decisions really get made.", "Glossary only in this book"],
+          ["impact quotient (IQ)", "How convincing your ad is compared with the average ad in your category (1.0). Higher IQ needs less repetition to be remembered.", "Ch 34–35, 38"],
+          ["instantaneity", "Grabbing the imagination at once with a vivid, electric first mental image.", "Ch 46"],
+          ["last mental image (LMI)", "The closing scene of the mental sequence: what's left in the mind when the message ends.", "Glossary only (FMI's partner) · echo: every name-reveal ending in Part Four"],
+          ["market potential (MPo)", "All the dollars available in your category. Roy says growth gets hard past about 33% of it and almost never passes about 40%.", "Ch 37–38"],
+          ["parallel business", "In BPT, the unrelated business whose solution you study and adapt.", "Ch 28"],
+          ["personal experience factor (PEF)", "Your reputation as customers actually experience it, scored against their expectations (1.0 = met). Over time a company rises or falls with its PEF.", "Ch 36, 38"],
+          ["putting it under water", "Cutting what the listener already knows or can figure out (Hemingway's iceberg).", "Ch 51 · echo: the hatmaker's sign, cut too far (Ch 98)"],
+          ["Robert Frank", "Writing that's accurate but very selective about detail, approached from an unusual angle. Named for the photographer of *The Americans*.", "Ch 51 (also 28)"],
+          ["Seussing", "Making up new words whose sound, tone and context tell you what they mean.", "Ch 45 · echo: 'wonkus' (Ch 71), Dr. Seuss (Ch 101)"],
+          ["share of market", "Your percentage of all the business done in your category.", "Ch 36–38"],
+          ["share of mind", "Your percentage of customers' total awareness in your category. Earned, not bought: share of voice × impact quotient.", "Ch 35, 38"],
+          ["share of voice", "Your percentage of all the advertising done in your category. This one you can buy.", "Ch 33, 35, 38"],
+          ["surprising Broca", "Saying or doing the unexpected so the brain's predictability filter lets you into the imagination.", "Ch 19–20, 44–45 · echo: Part Four's delayed reveals (Ch 78, 89, 92)"],
+          ["Sword in the Stone", "The focal idea at the heart of a company: the non-negotiable standard everything else revolves around, the client's North Star.", "Ch 34 (sidebar) · echo: Jackson's anchor (Ch 79)"],
+          ["Sylvester McMonkey McBean!", "Academy exclamation for 'What a great idea! You're going to make a fortune!' (named for the Seuss salesman in *The Sneetches*).", "Glossary only in this book"],
+          ["third gravitating body", "A tiny element that tips a system into chaos and keeps it interesting: the 'horseshoe nail' that lost the kingdom.", "Ch 11, 15, 53"],
+          ["transition", "Deliberately changing the third gravitating bodies to fight compression, so the pattern stays fresh.", "Ch 53"],
+          ["uncovery", "Investigating a client until you find their unique, wonderful story ('digging for the diamond'), then telling it.", "Ch 34 (sidebar) · echo: Eduardo's story (Ch 99–100)"]
+        ]
+      },
+      why: `These terms let Zach diagnose PMT's marketing precisely (is the weak link share of voice, impact quotient or PEF?) and explain it to Chris in one sentence instead of ten.`,
+      example: {
+        title: "One PMT diagnosis, spoken in WizardSwords",
+        body: `**Without the vocabulary:** "The ads aren't really working. Maybe we need more budget, or a new video, or something?"
+
+**With it:** "Our share of voice is probably fine (check the Meta Ad Library to see how many local schools even advertise), so more budget mostly buys more of the same. The weak link is impact quotient: the current ad is pure Daguerre (hours, price, 'register now'). Uncovery says PMT's real story is the one-weekend change from 'not for people like me' to rider. So the new ad opens on a sharp first mental image (white knuckles on a Saturday morning), gets Frosted, drops the black words, and ends on a last mental image of a Sunday-afternoon grin. PEF looks strong in the reviews, so once share of mind rises, share of market should follow."
+
+The second version tells Chris exactly what's wrong, why and what changes, in under a minute. (Label every estimate as an estimate.)`
+      },
+      practice: [
+        {
+          prompt: "Dissect it: make the vocabulary yours.",
+          fields: [
+            "Which three WizardSwords were you already doing without having a name for them? Give an example of each from your work.",
+            "Explain the difference between share of voice and share of mind to Chris in two sentences, with no jargon.",
+            "Pick two terms that seem to pull against each other (putting it under water vs. the hatmaker's sign, or Robert Frank vs. being Monet). When would you use each?"
+          ]
+        },
+        {
+          prompt: "Apply it: write a one-page 'Wizard memo' diagnosing PMT's marketing, using at least eight WizardSwords correctly.",
+          fields: [
+            "APE diagnosis: estimate share of voice, impact quotient, PEF and market potential, and name the weakest link",
+            "Uncovery: PMT's unique story, and its Sword in the Stone",
+            "One ad rewritten with Frosting or being Monet, with its FMI and LMI named",
+            "One BPT idea: a parallel business with the same defining characteristics, and what you'll borrow from it"
+          ],
+          rubric: [
+            "Uses at least eight terms, each used correctly",
+            "APE factors are in the right order and the weakest link is identified with a reason",
+            "Estimates are labeled as estimates, not facts",
+            "Ends with one concrete action for PMT this month"
+          ],
+          model: `**APE diagnosis (estimates):** Share of voice: moderate; few local schools seem to advertise (check the Ad Library). Impact quotient: roughly 0.9; our ads read like Daguerre (hours, price, "register now"). PEF: likely well above 1.0; reviews say students arrive scared and leave grinning. MPo: capped by how many people in the area want a license each year, so growth comes from share, not a bigger pie. **Weakest link: impact quotient.** More budget only buys share of voice; a better ad earns share of mind.
+
+**Uncovery:** PMT's story is the one-weekend change from "not for people like me" to rider. **Sword in the Stone:** nobody gets rushed; every student finishes at their own pace (confirm with Chris).
+
+**Rewrite (Frosted, a little Monet):** "Saturday, 8 a.m.: white knuckles, dry mouth, a bike that looks twice as big as it did online. Sunday, 3 p.m.: you, leaning into a curve, grinning." **FMI:** the white knuckles. **LMI:** the grin. No black words, and it surprises Broca.
+
+**BPT:** an adult swim school shares PMT's defining characteristics (fear-driven, beginner-heavy, results in days). Borrow its "the first lesson is about comfort, not skill" framing.
+
+**Action this month:** run the rewrite against the current ad for two weeks and judge by cost per registration.`
+        }
+      ],
+      today: { task: "Pick five WizardSwords you didn't know before this book. Use each one in a sentence about a real PMT or ZDub situation, then explain one of them out loud (to Chris, a friend or a voice memo) in under 30 seconds.", output: "5 sentences + 1 spoken explanation", minutes: 20 },
+      check: [
+        { q: "What's the difference between share of voice and share of mind?", a: "Share of voice is your percentage of all the advertising in your category (bought). Share of mind is your percentage of customers' awareness (earned): share of voice × impact quotient." },
+        { q: "What is 'putting it under water'?", a: "Cutting information on the assumption the listener already knows it or can figure it out (Hemingway's iceberg; Chapter 51)." },
+        { q: "What is the Sword in the Stone?", a: "The focal idea and non-negotiable standard at the heart of a company, the axis everything else revolves around: the North Star in the heart of the client." }
+      ]
+    }
+  ]
+});
