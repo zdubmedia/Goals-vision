@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   const HUB = window.HUB;
-  const TABS = HUB.tabs.slice();
+  const TABS = HUB.tabs.filter(t => (t.lessons || []).length); // topics with no lessons yet stay hidden
   const TAB = Object.fromEntries(TABS.map(t => [t.id, t]));
   const TOPICS = TABS.filter(t => t.kind !== 'book');
   const BOOKS = TABS.filter(t => t.kind === 'book');
