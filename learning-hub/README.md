@@ -40,6 +40,11 @@ Three books have their own tabs, grouped after the skill topics: **Making Ads Wo
 - a breakdown of the chapter's ideas and stories, key points, why it matters for ZDub and a worked example
 - a **Dissect it** exercise (take the idea apart) and an **Apply it** exercise (use it on PMT, ZDub or a prospect), then Do it today and a quick check
 
+Two more books were added later: **The Adweek Copywriting Handbook** (Joseph Sugarman), with book and PDF page numbers on every lesson because the PDF runs 25 pages ahead, and **Ogilvy on Advertising in the Digital Age** (Miles Young).
+
+- **Memory drill** (Adweek and Ogilvy): flashcards for the axioms, the 31 triggers, the copy elements and the principles. Say the answer, flip, then tap Got it or Again; missed cards come back sooner. Data: `tools: [{ id, type: "flashcards", cards: [{ tag, front, back, ref }] }]`; cards from several chunk files with the same tool id merge.
+- **Examples and Ad Lab** (Ogilvy): every campaign in the book is an `examples` entry on its lesson, with an annotated wireframe (`layout`, boxes in % of the frame) or numbered `beats`, its elements, the PDF page of the original, and a **Make one like this** builder (`recreate`) that drafts your own version for PMT, ZDub Media or another client. The **Ad Lab** tab (`type: "gallery"`) clicks through all of them. Saved versions show in My Bank. The book's images are not copied: open the PDF page to see the real work.
+
 The lessons paraphrase the books and quote only short lines, so read the original pages alongside them. A book can be split across several files: `21-book-wizard-of-ads-0.js` declares the tab and its parts, and `-1.js` to `-4.js` add lessons with `chunk: true`. Book lessons add `chapter`, `chapterTitle`, `pages` and `quotes: [{ text, page }]` to the usual lesson fields.
 
 ## Adding or editing content
