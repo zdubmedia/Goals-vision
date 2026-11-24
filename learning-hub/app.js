@@ -307,7 +307,7 @@
     $('#pintoggle').onclick = () => { const s = settings(); s.pinned = pinned ? s.pinned.filter(x => x !== t.id) : [...s.pinned, t.id]; touch('settings'); renderTop(t.id); renderTab(t, lessonId); toast(pinned ? 'Unpinned' : 'Pinned to Today'); };
     app.querySelectorAll('[data-sub]').forEach(b => b.onclick = () => { view.sub[t.id] = b.dataset.sub; if (lessonId) { location.hash = 't-' + t.id; } else renderTab(t); });
     const body = $('#tabbody');
-    if (sub.startsWith('tool:')) { const tl = t.tools.find(x => 'tool:' + x.id === sub); return tl.type === 'flashcards' ? renderFlashcards(body, t, tl) : renderWorkshop(body, t, tl); }
+    if (sub.startsWith('tool:')) { const tl = t.tools.find(x => 'tool:' + x.id === sub); return tl.type === 'flashcards' ? renderFlashcards(body, t, tl) : tl.type === 'gallery' ? renderGallery(body, t, tl) : renderWorkshop(body, t, tl); }
     if (sub.startsWith('trk:')) return renderTracker(body, t, t.trackers.find(x => 'trk:' + x.id === sub));
     if (!l) { body.innerHTML = '<div class="col empty">Lessons for this topic are coming soon.</div>'; return; }
     body.innerHTML = `<div class="tabgrid"><aside class="toc-wrap">${tocHtml(t, l.id)}</aside><div style="min-width:0">${!lessonId && t.intro && d === 0 ? `<div class="prose small muted" style="margin-bottom:14px">${md(t.intro)}</div>` : ''}<article class="lesson" id="lesson"></article></div></div>`;
@@ -350,6 +350,7 @@
       ${(ex.body || ex.after) ? `<section data-sec="example"><div class="h-label">Example${ex.title ? '' : ''}</div>${ex.title ? `<h3 style="font-size:19px;font-weight:700;margin-bottom:10px">${esc(ex.title)}</h3>` : ''}
         ${(ex.before || ex.after) ? `<div class="ex-grid">${ex.before ? `<div class="ex before"><div class="eyebrow">Before</div><div class="prose">${md(ex.before)}</div></div>` : ''}${ex.after ? `<div class="ex after"><div class="eyebrow">After</div><div class="prose">${md(ex.after)}</div></div>` : ''}</div>` : ''}
         ${ex.body ? `<div class="prose small">${md(ex.body)}</div>` : ''}</section>` : ''}
+      ${(l.examples || []).length ? `<section data-sec="examples"><div class="h-label">Examples from the book · ${l.examples.length}</div><div class="ex-list">${l.examples.map(x => exampleCard(t, x)).join('')}</div></section>` : ''}
       <section class="workbook" data-sec="workbook"><div class="h-label">Your turn · workbook</div>${(l.practice || []).map((p, pi) => practiceHtml(l, p, pi)).join('')}</section>
       <section class="today" data-sec="today"><div class="h-label">Do it today${td.suggested ? ' · suggested' : ''}</div>
         <div class="prose">${md(td.task)}</div>
@@ -366,6 +367,7 @@
     $('#listenbtn', el).onclick = () => Listen.start(t, l);
     const sb = $('#speakbtn', el); if (sb) sb.onclick = () => Listen.reader(t, l);
     Listen.sync();
+    el.querySelectorAll('.exc').forEach(card => bindExample(card, t));
     // bind inputs
     el.querySelectorAll('textarea, input[type="text"]').forEach(inp => {
       autosize(inp);
@@ -496,6 +498,99 @@
     $('#wscopy').onclick = async () => { flushWs(); const txt = tool.sections.map(s => `${s.label.toUpperCase()}\n${w.sections[s.id] || ''}`).join('\n\n'); if (await copyText(txt)) toast('Ad copied'); else toast('Copy blocked here. Select the text instead.'); };
   }
 
+  /* ---------------- VISUAL EXAMPLES (book campaigns) ----------------
+     Each example: what it is, an annotated wireframe (static work) or numbered beats (films/campaigns),
+     its elements, a pointer to the real page, and a "Make one like this" builder. Drafts: doc x_<exampleId>. */
+  function wireframe(x) {
+    const L = x.layout; if (!L || !(L.boxes || []).length) return '';
+    const [aw, ah] = String(L.aspect || '4:5').split(':').map(Number); const W = 400, H = Math.round(400 * (ah || 5) / (aw || 4));
+    const boxes = L.boxes.map(b => {
+      const bx = b.x / 100 * W, by = b.y / 100 * H, bw = Math.max(8, b.w / 100 * W), bh = Math.max(8, b.h / 100 * H);
+      const fs = Math.max(9, Math.min(15, bh / 2.6, bw / Math.max(4, String(b.label).length * 0.62)));
+      return `<g><rect class="wf-box" x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="4"></rect>
+        ${bh > 14 && bw > 30 ? `<text class="wf-label" x="${(bx + bw / 2).toFixed(1)}" y="${(by + bh / 2 + fs / 3).toFixed(1)}" font-size="${fs.toFixed(1)}" text-anchor="middle">${esc(String(b.label).slice(0, Math.floor(bw / (fs * 0.6))))}</text>` : ''}
+        <circle class="wf-badge" cx="${(bx + 11).toFixed(1)}" cy="${(by + 11).toFixed(1)}" r="10"></circle><text class="wf-badge-t" x="${(bx + 11).toFixed(1)}" y="${(by + 15).toFixed(1)}" text-anchor="middle">${esc(b.n)}</text></g>`;
+    }).join('');
+    return `<figure class="wf"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Layout of ${esc(x.title)}: ${esc(L.boxes.map(b => b.n + ' ' + b.label).join(', '))}"><rect class="wf-frame" x="1" y="1" width="${W - 2}" height="${H - 2}" rx="8"></rect>${boxes}</svg><figcaption>Layout sketch (${esc(L.aspect)}), not to scale</figcaption></figure>`;
+  }
+  function beatsHtml(x) { return (x.beats || []).length ? `<ol class="beats">${x.beats.map(b => `<li><span class="beat-n">${esc(b.n || '')}</span><span>${inline(b.label)}${b.t ? ` <span class="muted">(${esc(b.t)})</span>` : ''}</span></li>`).join('')}</ol>` : ''; }
+  function exampleCard(t, x) {
+    return `<article class="exc" data-ex="${esc(x.id)}">
+      <div class="exc-head"><div><div class="eyebrow">${esc([x.format, x.brand, x.agency, x.year].filter(Boolean).join(' · '))}</div><h3>${esc(x.title)}</h3></div>
+        <span class="exc-page">${icon('book')} PDF page ${esc(x.pdfPage)}</span></div>
+      <div class="exc-grid">
+        <div class="exc-visual">${x.layout ? wireframe(x) : beatsHtml(x)}</div>
+        <div class="exc-body">
+          <p class="exc-what">${inline(x.what)}</p>
+          <p class="exc-idea"><b>The idea:</b> ${inline(x.idea)}</p>
+          <ol class="exc-els">${(x.elements || []).map(e => `<li><span class="beat-n">${esc(e.n)}</span><div><b>${esc(e.name)}.</b> ${inline(e.detail)}${e.principle ? `<div class="exc-pr">${inline(e.principle)}</div>` : ''}</div></li>`).join('')}</ol>
+        </div>
+      </div>
+      <div class="exc-foot"><span class="muted" style="font-size:13.5px">See the real one on PDF page ${esc(x.pdfPage)} of your copy.</span><button class="btn small primary" data-make>${icon('wand')} Make one like this</button></div>
+      <div class="exc-builder" hidden></div>
+    </article>`;
+  }
+  const EX = () => { const m = {}; TABS.forEach(t => t.lessons.forEach(l => (l.examples || []).forEach(x => { m[x.id] = { x, l, t }; }))); return m; };
+  let EXMAP = null;
+  function bindExample(card, t) {
+    const id = card.dataset.ex; EXMAP = EXMAP || EX(); const ref = EXMAP[id]; if (!ref) return;
+    const btn = card.querySelector('[data-make]'); const box = card.querySelector('.exc-builder');
+    btn.onclick = () => { box.hidden = !box.hidden; btn.innerHTML = box.hidden ? `${icon('wand')} Make one like this` : 'Hide builder'; if (!box.hidden && !box.dataset.ready) { box.dataset.ready = '1'; renderBuilder(box, ref.x, ref.l); } };
+  }
+  function renderBuilder(box, x, l) {
+    const key = 'x_' + x.id; const doc = S.docs[key] || (S.docs[key] = { target: 'pmt', other: '', drafts: {}, updatedAt: 0 });
+    const targets = { pmt: 'PMT (Pacific Motorcycle Training)', zdub: 'ZDub Media', other: 'Another client' };
+    const tk = doc.target === 'other' ? 'other:' + (doc.other || '').trim().toLowerCase() : doc.target;
+    const d = doc.drafts[tk] || { fields: {}, output: '' };
+    const r = x.recreate || {};
+    box.innerHTML = `<div class="builder">
+      <div class="eyebrow">Make your own version</div>
+      <p class="muted" style="margin:0;font-size:14.5px">${inline(r.brief || '')}</p>
+      <div class="row" role="radiogroup" aria-label="Who is it for">${Object.entries(targets).map(([k, v]) => `<label class="pill-radio"><input type="radio" name="tg-${esc(x.id)}" value="${k}" ${doc.target === k ? 'checked' : ''}> ${esc(v)}</label>`).join('')}</div>
+      ${doc.target === 'other' ? `<div class="field"><label for="oth-${esc(x.id)}">Client name and what they sell</label><input type="text" id="oth-${esc(x.id)}" data-other value="${esc(doc.other || '')}" placeholder="e.g. Rocklin roofer, storm repair and replacements"></div>` : ''}
+      ${(r.fields || []).map(f => `<div class="field"><label for="bf-${esc(x.id)}-${esc(f.id)}">${esc(f.label)}</label><textarea id="bf-${esc(x.id)}-${esc(f.id)}" data-bf="${esc(f.id)}" placeholder="${esc(f.hint || '')}" style="min-height:56px">${esc(d.fields[f.id] || '')}</textarea></div>`).join('')}
+      <details class="reveal"><summary>How to build it, step by step</summary><div><ol class="steps">${(r.steps || []).map(s => `<li>${inline(s)}</li>`).join('')}</ol></div></details>
+      <div class="row"><button class="btn primary small" data-draft>${icon('wand')} Draft my version with Claude</button><button class="btn small ghost" data-copy>${icon('copy')} Copy prompt</button></div>
+      <div data-out ${d.output ? '' : 'hidden'}>${d.output ? `<div class="feedback"><div class="eyebrow">Your draft</div><div class="prose">${md(d.output)}</div></div>` : ''}</div>
+    </div>`;
+    const save = () => { doc.updatedAt = Date.now(); touch(key); };
+    const curKey = () => doc.target === 'other' ? 'other:' + (doc.other || '').trim().toLowerCase() : doc.target;
+    const draft = () => doc.drafts[curKey()] || (doc.drafts[curKey()] = { fields: {}, output: '' });
+    box.querySelectorAll('input[type=radio]').forEach(rb => rb.onchange = () => { doc.target = rb.value; save(); renderBuilder(box, x, l); });
+    const oth = box.querySelector('[data-other]'); if (oth) { let tm; oth.oninput = () => { clearTimeout(tm); tm = setTimeout(() => { doc.other = oth.value; save(); }, 500); }; oth.onchange = () => { doc.other = oth.value; save(); renderBuilder(box, x, l); }; }
+    box.querySelectorAll('textarea[data-bf]').forEach(ta => { autosize(ta); let tm; ta.oninput = () => { autosize(ta); clearTimeout(tm); tm = setTimeout(() => { draft().fields[ta.dataset.bf] = ta.value; save(); }, 500); }; });
+    const flush = () => { box.querySelectorAll('textarea[data-bf]').forEach(ta => { draft().fields[ta.dataset.bf] = ta.value; }); if (oth) doc.other = oth.value; save(); };
+    const prompt = () => {
+      flush();
+      const who = doc.target === 'pmt' ? 'Pacific Motorcycle Training (PMT), a motorcycle safety and licensing school in the Sacramento area (beginner riders, M1 license, returning riders). Ad rules: never say "coach", "cheap", "easy", "discount" or "guaranteed", and never promise passing.' : doc.target === 'zdub' ? 'ZDub Media, Zach\'s local-business marketing agency in the Sacramento region (Meta ads, ad creative, landing pages, follow-up for local service businesses).' : `${doc.other || 'a local client'} (a client of ZDub Media in the Sacramento region).`;
+      return `${COACH}\n\nHe is studying this example from Miles Young's "Ogilvy on Advertising in the Digital Age" and wants to make his own version of its pattern.\n\nEXAMPLE: ${x.title}${x.brand ? ' (' + [x.brand, x.agency, x.year].filter(Boolean).join(', ') + ')' : ''}, ${x.format}.\nWhat it is: ${x.what}\nThe idea: ${x.idea}\nElements that make it work:\n${(x.elements || []).map(e => `${e.n}. ${e.name}: ${e.detail}`).join('\n')}\n${x.beats ? 'Beats:\n' + x.beats.map(b => `${b.n || '-'}. ${b.label}`).join('\n') + '\n' : ''}${x.layout ? 'Layout (percent of frame): ' + x.layout.boxes.map(b => `${b.n} ${b.label} at x${b.x} y${b.y} w${b.w} h${b.h}`).join('; ') + ` (aspect ${x.layout.aspect})\n` : ''}\nPATTERN TO BORROW: ${(x.recreate || {}).brief || ''}\n\nMAKE IT FOR: ${who}\n\nHIS INPUTS (blank = you fill it in with your best idea):\n${(r.fields || []).map(f => `- ${f.label}: ${(draft().fields[f.id] || '').trim() || '(blank)'}`).join('\n')}\n\nWrite his version, ready to produce:\n1. The concept in one sentence.\n2. Every element, numbered to match the original's elements, with the exact copy or content for each.\n3. ${x.layout ? 'A layout plan (what goes where, sizes, colors) for a Meta feed ad in 4:5 and a 9:16 Story version.' : 'A beat-by-beat plan or shot list for a 15-30 second vertical video (what we see, what we hear, on-screen text).'}\n4. One AI image or video prompt for the main visual (photoreal, no fake people presented as real customers).\n5. Build steps in Canva or CapCut (5-7 steps).\nKeep it specific to the business. Plain text with short headings and bullets, under 450 words.`;
+    };
+    box.querySelector('[data-draft]').onclick = () => { const out = box.querySelector('[data-out]'); askClaude(out, prompt(), txt => { draft().output = txt; save(); }, 'Your draft'); };
+    box.querySelector('[data-copy]').onclick = async () => { const pr = prompt(); if (await copyText(pr)) toast('Prompt copied. Paste it into Claude.'); else showCopyFallback(box.querySelector('[data-out]'), pr); };
+  }
+  const gv = {}; // gallery view state per tab
+  function renderGallery(body, t, tool) {
+    const all = []; t.lessons.forEach(l => (l.examples || []).forEach(x => all.push({ x, l })));
+    const v = gv[t.id] || (gv[t.id] = { fmt: 'All', i: 0 });
+    const fmts = ['All', ...new Set(all.map(a => a.x.format))];
+    const list = all.filter(a => v.fmt === 'All' || a.x.format === v.fmt);
+    if (v.i >= list.length) v.i = 0;
+    const cur = list[v.i];
+    body.innerHTML = `<div class="col stack fc-wrap" style="max-width:860px">
+      <div class="panel">
+        <div><div class="eyebrow">${all.length} examples from the book</div><h2>${esc(tool.title)}</h2></div>
+        ${tool.intro ? `<div class="prose small">${md(tool.intro)}</div>` : ''}
+        <div class="fc-tags" role="group" aria-label="Format">${fmts.map(f => `<button class="fc-tag" aria-pressed="${f === v.fmt}" data-fmt="${esc(f)}">${esc(f)} <span>${f === 'All' ? all.length : all.filter(a => a.x.format === f).length}</span></button>`).join('')}</div>
+      </div>
+      ${cur ? `<div class="row" style="justify-content:space-between"><button class="btn small" data-step="-1" ${list.length < 2 ? 'disabled' : ''}>${icon('left')} Previous</button><span class="muted" style="font:13px var(--f-mono)">${v.i + 1} of ${list.length}</span><button class="btn small" data-step="1" ${list.length < 2 ? 'disabled' : ''}>Next ${icon('right')}</button></div>
+      ${exampleCard(t, cur.x)}
+      <div class="muted" style="font-size:14px">From the lesson: <a href="#l-${esc(cur.l.id)}" data-go="l-${esc(cur.l.id)}">${esc(cur.l.title)}</a></div>` : '<div class="empty">The examples are still being added.</div>'}
+    </div>`;
+    body.querySelectorAll('[data-fmt]').forEach(b => b.onclick = () => { v.fmt = b.dataset.fmt; v.i = 0; renderGallery(body, t, tool); });
+    body.querySelectorAll('[data-step]').forEach(b => b.onclick = () => { v.i = (v.i + Number(b.dataset.step) + list.length) % list.length; renderGallery(body, t, tool); window.scrollTo(0, 0); });
+    body.querySelectorAll('.exc').forEach(card => bindExample(card, t));
+  }
+
   /* ---------------- FLASHCARDS (memory drill) ----------------
      Cards move up a box each "Got it" (0 new/again → 3 mastered) and drop to 0 on "Again".
      The deck always shows the weakest cards first. Progress is stored per card, keyed by a hash of its front. */
@@ -592,6 +687,7 @@
       <div class="tabhead"><div class="eyebrow">${totalDone()} lessons done · ${streak()} day streak</div><h1>My Bank</h1><div class="tagline">Every lesson you've finished or worked on, with what you wrote.</div></div>
       <input type="search" id="banksearch" placeholder="Search your lessons, answers and notes" value="${esc(q)}" aria-label="Search my bank">
       <div id="bankbody">${groups.length ? groups.map(g => `<div class="bank-tab"><h2><span class="ico">${icon(g.t.icon)}</span>${esc(g.t.title)} <span class="muted" style="font:12px var(--f-mono)">${doneCount(g.t)}/${g.t.lessons.length}</span></h2>${g.ls.map(l => bankLesson(l)).join('')}</div>`).join('') : `<div class="empty" style="margin-top:16px">${ql ? 'Nothing matches that search.' : 'Finished lessons land here with your answers, feedback and notes. Start with a pinned topic on Today.'}</div>`}
+      ${(() => { EXMAP = EXMAP || EX(); const xd = Object.keys(S.docs).filter(k => k.startsWith('x_') && EXMAP[k.slice(2)]).map(k => ({ ref: EXMAP[k.slice(2)], d: S.docs[k] })).filter(o => Object.values(o.d.drafts || {}).some(dr => dr.output || Object.values(dr.fields || {}).some(Boolean))); return xd.length && !ql ? `<div class="bank-tab"><h2><span class="ico">${icon('spark')}</span>Ad Lab versions</h2>${xd.map(o => `<details class="banklesson"><summary><b>${esc(o.ref.x.title)}</b><span class="muted" style="font:12px var(--f-mono)">${fmtDate(o.d.updatedAt)}</span></summary><div class="body">${Object.entries(o.d.drafts).filter(([, dr]) => dr.output || Object.values(dr.fields || {}).some(Boolean)).map(([who, dr]) => `<div class="answer"><div class="eyebrow">For ${esc(who.replace(/^other:/, '') === 'pmt' ? 'PMT' : who === 'zdub' ? 'ZDub Media' : who.replace(/^other:/, '') || 'a client')}</div>${dr.output ? `<div class="prose small">${md(dr.output)}</div>` : `<p>${esc(Object.values(dr.fields).filter(Boolean).join(' · '))}</p>`}</div>`).join('')}<div><button class="btn small" data-go="l-${esc(o.ref.l.id)}">Open lesson ${icon('right')}</button></div></div></details>`).join('')}</div>` : ''; })()}
       ${workshops.length && !ql ? `<div class="bank-tab"><h2><span class="ico">${icon('pen')}</span>Ad Workshop drafts</h2>${workshops.map(w => `<details class="banklesson"><summary><b>${esc(w.title || 'Untitled')}</b><span class="muted" style="font:12px var(--f-mono)">${fmtDate(w.updatedAt)}</span></summary><div class="body">${Object.entries(w.sections || {}).filter(([, v]) => v).map(([k, v]) => `<div class="answer"><div class="eyebrow">${esc(k)}</div><p>${esc(v)}</p></div>`).join('') || '<span class="muted">No sections written yet.</span>'}</div></details>`).join('')}</div>` : ''}
       </div>
       <div class="sec-h"><h2>Backup</h2></div>
@@ -654,7 +750,7 @@
     const NOVELTY = /^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Fred|Junior|Ralph|Kathy|Grandma|Grandpa|Eddy|Flo|Reed|Rocko|Sandy|Shelley)\b/i;
     const pref = { get: (k, d) => { try { const v = localStorage.getItem('zdub-listen-' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }, set: (k, v) => { try { localStorage.setItem('zdub-listen-' + k, JSON.stringify(v)); } catch (e) { /* ignore */ } } };
     const st = { q: [], i: 0, playing: false, lessonId: null, tabId: null, timer: null, wake: null, gen: 0 };
-    const SEC_LABEL = { intro: 'Intro', idea: 'The idea', why: 'Why it matters', example: 'Example', workbook: 'Workbook', today: 'Do it today', check: 'Quick check', end: 'End' };
+    const SEC_LABEL = { intro: 'Intro', idea: 'The idea', why: 'Why it matters', example: 'Example', examples: 'Examples from the book', workbook: 'Workbook', today: 'Do it today', check: 'Quick check', end: 'End' };
     const ABBR = [[/\bCPL\b/g, 'cost per lead'], [/\bCPA\b/g, 'cost per acquisition'], [/\bCAC\b/g, 'customer acquisition cost'], [/\bROAS\b/g, 'return on ad spend'], [/\bCTA\b/g, 'call to action'], [/\bCTAs\b/g, 'calls to action'], [/\bCTR\b/g, 'click-through rate'], [/\bGHL\b/g, 'GoHighLevel'], [/\bCBO\b/g, 'campaign budget optimization'], [/\bCAPI\b/g, 'Conversions A P I'], [/\bVOC\b/g, 'voice of customer'], [/\bUGC\b/g, 'U G C'], [/\bSOP\b/g, 'S O P'], [/\bSOPs\b/g, 'S O Ps'], [/\bVSL\b/g, 'V S L'], [/\bPMT\b/g, 'P M T'], [/\bZDub\b/g, 'Z Dub'], [/\bROI\b/g, 'R O I'], [/\bDMs\b/g, 'D Ms'], [/\bDM\b/g, 'D M'], [/\be\.g\.,?/gi, 'for example,'], [/\bi\.e\.,?/gi, 'that is,'], [/\bvs\.?(?=\s)/gi, 'versus'], [/\bw\//gi, 'with '], [/\bApprox\.?/gi, 'approximately']];
     function speakable(s) {
       let t = String(s == null ? '' : s);
@@ -711,6 +807,11 @@
         if (ex.after) { add('example', 'After.'); blocks(ex.after).forEach(b => add('example', b)); }
         blocks(ex.body).forEach(b => add('example', b));
       }
+      (l.examples || []).forEach((x, xi) => {
+        add('examples', (xi === 0 ? 'Examples from the book. ' : 'Next example. ') + x.title + (x.brand || x.year ? ', ' + [x.brand, x.year].filter(Boolean).join(', ') : '') + '. ' + (x.format || '') + '.', 0.3);
+        add('examples', x.what); add('examples', 'The idea: ' + x.idea);
+        (x.elements || []).forEach(e => add('examples', `Element ${e.n}, ${e.name}. ${e.detail}`));
+      });
       if (pref.get('workbook', true)) {
         (l.practice || []).forEach((p, pi) => {
           add('workbook', pi === 0 ? 'Your turn. Workbook.' : 'Next exercise.', 0.3);
@@ -952,7 +1053,7 @@
       if (!ov) { ov = document.createElement('div'); ov.id = 'reader'; ov.className = 'reader'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'rdTitle'); document.body.appendChild(ov); }
       const showHelp = !pref.get('readerHelpSeen', false);
       const items = script(t, l);
-      const heads = /^(The idea|Key points|Here is the table|Table:|Why it matters|Example|Before|After|Your turn|Next exercise|Self check|Do it today|Quick check|End of lesson)/;
+      const heads = /^(The idea|Key points|Here is the table|Table:|Why it matters|Examples from the book|Next example|Example|Before|After|Your turn|Next exercise|Self check|Do it today|Quick check|End of lesson)/;
       const meta = items.filter(it => it.sec === 'intro').slice(0, -1).map(it => esc(it.text)).join(' ');
       const body = items.filter(it => it.sec !== 'intro').map(it => heads.test(it.text) ? `<h3>${esc(it.text)}</h3>` : `<p>${esc(it.text)}</p>`).join('');
       ov.innerHTML = `<div class="rd-bar"><button class="btn small" id="rdDone">Done</button></div>

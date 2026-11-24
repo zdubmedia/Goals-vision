@@ -28,7 +28,8 @@ window.HUB = {
     if (!ex) { this.tabs.push(Object.assign({ parts: [], lessons: [] }, t)); return; }
     (t.parts || []).forEach(p => { if (!ex.parts.some(q => q.id === p.id)) ex.parts.push(p); });
     ex.lessons = ex.lessons.concat(t.lessons || []);
-    ['tools', 'trackers'].forEach(k => { if (t[k]) ex[k] = (ex[k] || []).concat(t[k]); });
+    (t.tools || []).forEach(tl => { const same = (ex.tools = ex.tools || []).find(x => x.id === tl.id); if (same) { if (tl.cards) same.cards = (same.cards || []).concat(tl.cards); } else ex.tools.push(tl); });
+    if (t.trackers) ex.trackers = (ex.trackers || []).concat(t.trackers);
     if (!t.chunk) ['title', 'short', 'icon', 'tagline', 'intro', 'kind'].forEach(k => { if (t[k] && !ex[k]) ex[k] = t[k]; });
   },
   reference(r) { this.ref = r; },
@@ -67,6 +68,15 @@ window.HUB = {
 <script src="data/23-book-adweek-copywriting-4.js"></script>
 <script src="data/23-book-adweek-copywriting-5.js"></script>
 <script src="data/23-book-adweek-copywriting-6.js"></script>
+<script src="data/24-book-ogilvy-digital-0.js"></script>
+<script src="data/24-book-ogilvy-digital-1.js"></script>
+<script src="data/24-book-ogilvy-digital-2.js"></script>
+<script src="data/24-book-ogilvy-digital-3.js"></script>
+<script src="data/24-book-ogilvy-digital-4.js"></script>
+<script src="data/24-book-ogilvy-digital-5.js"></script>
+<script src="data/24-book-ogilvy-digital-6.js"></script>
+<script src="data/24-book-ogilvy-digital-7.js"></script>
+<script src="data/24-book-ogilvy-digital-8.js"></script>
 <script src="data/90-reference.js"></script>
 <script src="data/91-review.js"></script>
 <script src="app.js"></script>
