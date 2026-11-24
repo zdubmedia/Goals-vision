@@ -307,7 +307,7 @@
     $('#pintoggle').onclick = () => { const s = settings(); s.pinned = pinned ? s.pinned.filter(x => x !== t.id) : [...s.pinned, t.id]; touch('settings'); renderTop(t.id); renderTab(t, lessonId); toast(pinned ? 'Unpinned' : 'Pinned to Today'); };
     app.querySelectorAll('[data-sub]').forEach(b => b.onclick = () => { view.sub[t.id] = b.dataset.sub; if (lessonId) { location.hash = 't-' + t.id; } else renderTab(t); });
     const body = $('#tabbody');
-    if (sub.startsWith('tool:')) return renderWorkshop(body, t, t.tools.find(x => 'tool:' + x.id === sub));
+    if (sub.startsWith('tool:')) { const tl = t.tools.find(x => 'tool:' + x.id === sub); return tl.type === 'flashcards' ? renderFlashcards(body, t, tl) : renderWorkshop(body, t, tl); }
     if (sub.startsWith('trk:')) return renderTracker(body, t, t.trackers.find(x => 'trk:' + x.id === sub));
     if (!l) { body.innerHTML = '<div class="col empty">Lessons for this topic are coming soon.</div>'; return; }
     body.innerHTML = `<div class="tabgrid"><aside class="toc-wrap">${tocHtml(t, l.id)}</aside><div style="min-width:0">${!lessonId && t.intro && d === 0 ? `<div class="prose small muted" style="margin-bottom:14px">${md(t.intro)}</div>` : ''}<article class="lesson" id="lesson"></article></div></div>`;
@@ -336,7 +336,7 @@
         <h1>${esc(l.title)}</h1>
         ${(l.tags || []).length ? `<div class="tags">${l.tags.map(g => `<span class="tag ${tagClass(g)}">${esc(g === 'Platform fact (re-check)' ? 'Platform fact · re-check' : g)}</span>`).join('')}</div>` : ''}
         <div class="row"><button class="btn listen-btn" id="listenbtn" aria-label="Listen to this lesson">${icon('headphones')} Listen <span class="muted" style="font:12px var(--f-mono)">· ${Listen.minutes(t, l)} min</span></button>${Listen.isApple ? `<button class="btn ghost small" id="speakbtn" aria-label="Open a Speak Screen view to hear this lesson in your iPhone's Premium voice">${icon('book')} Premium voice (Speak Screen)</button>` : ''}</div>
-        ${l.pages ? `<div class="readalong">${icon('book')}<div><b>Read along:</b> ${l.chapterTitle ? `${typeof l.chapter === 'number' ? 'Chapter ' + l.chapter + ', ' : ''}“${esc(l.chapterTitle)}”, ` : ''}page${/[–-]/.test(l.pages) ? 's' : ''} ${esc(l.pages)} in your PDF of <i>${esc(t.title)}</i>. Read it first, then work through this lesson.</div></div>` : ''}
+        ${l.pages ? `<div class="readalong">${icon('book')}<div><b>Read along:</b> ${l.chapterTitle ? `${typeof l.chapter === 'number' ? 'Chapter ' + l.chapter + ', ' : ''}“${esc(l.chapterTitle)}”, ` : ''}${l.pdfPages ? `book page${/[–-]/.test(l.pages) ? 's' : ''} ${esc(l.pages)}, which is <b>PDF page${/[–-]/.test(l.pdfPages) ? 's' : ''} ${esc(l.pdfPages)}</b> in your copy of <i>${esc(t.title)}</i>` : `page${/[–-]/.test(l.pages) ? 's' : ''} ${esc(l.pages)} in your PDF of <i>${esc(t.title)}</i>`}. Read it first, then work through this lesson.</div></div>` : ''}
         <div class="source">${(l.source || []).map(s => `<span><b>${esc(s.doc)}</b>${s.section ? ' · ' + esc(s.section) : ''}${s.who ? ' · ' + esc(s.who) : ''}</span>`).join('')}${(l.alsoIn || []).length ? `<span>Also covered in: ${esc(l.alsoIn.join('; '))}</span>` : ''}</div>
       </section>
       <section data-sec="idea">
@@ -496,6 +496,69 @@
     $('#wscopy').onclick = async () => { flushWs(); const txt = tool.sections.map(s => `${s.label.toUpperCase()}\n${w.sections[s.id] || ''}`).join('\n\n'); if (await copyText(txt)) toast('Ad copied'); else toast('Copy blocked here. Select the text instead.'); };
   }
 
+  /* ---------------- FLASHCARDS (memory drill) ----------------
+     Cards move up a box each "Got it" (0 new/again → 3 mastered) and drop to 0 on "Again".
+     The deck always shows the weakest cards first. Progress is stored per card, keyed by a hash of its front. */
+  const cardKey = c => { let h = 5381; const s = String(c.front); for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return 'c' + (h >>> 0).toString(36); };
+  const fc = {}; // per tool view state: { tag, order, i, flipped }
+  function renderFlashcards(body, t, tool) {
+    const key = `f_${t.id}__${tool.id}`;
+    const doc = S.docs[key] || (S.docs[key] = { cards: {}, updatedAt: 0 });
+    const v = fc[key] || (fc[key] = { tag: 'All', order: null, i: 0, flipped: false });
+    const tags = ['All', ...new Set(tool.cards.map(c => c.tag).filter(Boolean))];
+    const box = c => (doc.cards[cardKey(c)] || {}).box || 0;
+    const pool = tool.cards.filter(c => v.tag === 'All' || c.tag === v.tag);
+    const mastered = pool.filter(c => box(c) >= 3).length, learning = pool.filter(c => box(c) > 0 && box(c) < 3).length;
+    if (!v.order || v.order.tag !== v.tag) {
+      const shuffled = pool.slice().sort(() => Math.random() - 0.5).sort((a, b) => box(a) - box(b));
+      v.order = { tag: v.tag, list: shuffled }; v.i = 0; v.flipped = false;
+    }
+    const list = v.order.list; const c = list[v.i % Math.max(1, list.length)];
+    const pct = pool.length ? Math.round(mastered / pool.length * 100) : 0;
+    body.innerHTML = `<div class="col stack fc-wrap">
+      <div class="panel">
+        <div><div class="eyebrow">${pool.length} cards</div><h2>${esc(tool.title)}</h2></div>
+        ${tool.intro ? `<div class="prose small">${md(tool.intro)}</div>` : ''}
+        <div class="fc-tags" role="group" aria-label="Deck">${tags.map(g => `<button class="fc-tag" aria-pressed="${g === v.tag}" data-tag="${esc(g)}">${esc(g)} <span>${g === 'All' ? tool.cards.length : tool.cards.filter(x => x.tag === g).length}</span></button>`).join('')}</div>
+        <div class="fc-stats"><div class="bar" aria-hidden="true"><i style="width:${pct}%"></i></div><span><b>${mastered}</b> mastered · ${learning} learning · ${pool.length - mastered - learning} new</span></div>
+      </div>
+      ${c ? `<div class="fc-card ${v.flipped ? 'flipped' : ''}" id="fcCard">
+        <div class="fc-meta"><span class="tag">${esc(c.tag || 'Card')}</span><span>Card ${v.i % list.length + 1} of ${list.length} · ${['new', 'learning', 'learning', 'mastered'][Math.min(3, box(c))]}</span></div>
+        <div class="fc-front">${md(c.front)}</div>
+        ${v.flipped ? `<div class="fc-back"><div class="eyebrow">Answer</div><div class="prose">${md(c.back)}</div>${c.ref ? `<div class="fc-ref">${esc(c.ref)}</div>` : ''}</div>` : ''}
+        <div class="row fc-actions">${v.flipped
+          ? `<button class="btn" id="fcAgain">Again</button><button class="btn good" id="fcGot">${icon('check')} Got it</button>`
+          : `<button class="btn primary" id="fcFlip">Show answer</button><span class="muted" style="font-size:13.5px">Say it out loud first.</span>`}</div>
+      </div>` : '<div class="empty">No cards in this deck.</div>'}
+      <div class="row"><button class="btn small ghost" id="fcShuffle">Shuffle</button><button class="btn small ghost" id="fcReset">Reset progress for this deck</button></div>
+    </div>`;
+    body.querySelectorAll('[data-tag]').forEach(b => b.onclick = () => { v.tag = b.dataset.tag; v.order = null; renderFlashcards(body, t, tool); });
+    const flip = () => { v.flipped = true; renderFlashcards(body, t, tool); const g = $('#fcGot'); if (g) g.focus(); };
+    const mark = got => {
+      const k = cardKey(c); const st = doc.cards[k] || { box: 0, seen: 0 };
+      st.box = got ? Math.min(3, (st.box || 0) + 1) : 0; st.seen = (st.seen || 0) + 1; st.last = Date.now();
+      doc.cards[k] = st; touch(key); bumpDay();
+      if (!got) { list.splice(v.i % list.length, 1); list.splice(Math.min(list.length, v.i % (list.length + 1) + 4), 0, c); }
+      else v.i = (v.i + 1) % list.length;
+      v.flipped = false; renderFlashcards(body, t, tool);
+    };
+    const fl = $('#fcFlip'); if (fl) fl.onclick = flip;
+    const cd = $('#fcCard'); if (cd && !v.flipped) cd.onclick = e => { if (!e.target.closest('button')) flip(); };
+    const ag = $('#fcAgain'); if (ag) ag.onclick = () => mark(false);
+    const gt = $('#fcGot'); if (gt) gt.onclick = () => mark(true);
+    $('#fcShuffle').onclick = () => { v.order = null; renderFlashcards(body, t, tool); };
+    const rs = $('#fcReset'); rs.onclick = () => {
+      if (!rs.dataset.armed) { rs.dataset.armed = '1'; rs.textContent = 'Tap again to reset this deck'; return; }
+      pool.forEach(x => { delete doc.cards[cardKey(x)]; }); touch(key); v.order = null; renderFlashcards(body, t, tool); toast('Deck reset');
+    };
+    document.onkeydown = e => {
+      if (!document.getElementById('fcCard') || /INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName || '')) return;
+      if (e.key === ' ' && !v.flipped) { e.preventDefault(); flip(); }
+      else if (v.flipped && (e.key === '1' || e.key === 'ArrowLeft')) mark(false);
+      else if (v.flipped && (e.key === '2' || e.key === 'ArrowRight' || e.key === 'Enter')) mark(true);
+    };
+  }
+
   /* ---------------- TRACKERS ---------------- */
   function renderTracker(body, t, trk) {
     const key = `t_${t.id}__${trk.id}`;
@@ -629,7 +692,7 @@
       const S = []; const add = (sec, text, pause) => { const s = speakable(text); if (s) S.push({ sec, text: end(s), pause }); };
       const idx = t.lessons.indexOf(l); const part = (t.parts || []).find(p => p.id === l.part);
       if (part) add('intro', part.title.replace(/\s*·\s*/, '. ').replace(/\s*\(Ch [^)]*\)/, ''));
-      if (t.kind === 'book' && typeof l.chapter === 'number') add('intro', `Chapter ${l.chapter}${l.chapterTitle ? ', ' + l.chapterTitle : ''}. Pages ${l.pages || ''}. About ${l.minutes || 10} minutes.`);
+      if (t.kind === 'book' && l.chapter != null) add('intro', `${typeof l.chapter === 'number' ? 'Chapter ' + l.chapter : l.chapter}${l.chapterTitle && l.chapterTitle !== l.chapter ? ', ' + l.chapterTitle : ''}. ${l.pdfPages ? 'Book pages ' + l.pages + ', P D F pages ' + l.pdfPages : 'Pages ' + (l.pages || '')}. About ${l.minutes || 10} minutes.`);
       else add('intro', `Lesson ${idx + 1} of ${t.lessons.length}. About ${l.minutes || 10} minutes.`);
       add('intro', l.title, 0.6);
       add('idea', 'The idea.', 0.3);

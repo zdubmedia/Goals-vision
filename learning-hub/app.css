@@ -215,6 +215,24 @@ td { min-width: 120px; }
 .pull blockquote { margin: 0; font: italic 21px/1.45 var(--f-read); color: var(--ink); text-wrap: pretty; }
 .pull figcaption { margin-top: 6px; font: 500 11.5px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 
+/* flashcards */
+.fc-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.fc-tag { border: 1px solid var(--line); background: var(--sheet); border-radius: 999px; padding: 6px 11px; font-weight: 600; font-size: 13.5px; cursor: pointer; color: var(--muted); }
+.fc-tag span { font: 500 11px var(--f-mono); opacity: .8; margin-left: 2px; }
+.fc-tag[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.fc-stats { display: grid; gap: 6px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.fc-stats b { color: var(--good); }
+.fc-card { background: var(--sheet); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: clamp(18px, 4vw, 30px); display: grid; gap: 16px; min-height: 260px; align-content: start; cursor: pointer; }
+.fc-card.flipped { cursor: default; border-color: var(--accent); }
+.fc-meta { display: flex; justify-content: space-between; gap: 8px; align-items: center; font: 500 12px var(--f-mono); color: var(--muted); }
+.fc-front { font: 650 clamp(20px, 4.4vw, 26px)/1.3 var(--f-display); text-wrap: balance; }
+.fc-front p { margin: 0 0 .4em; }
+.fc-back { border-top: 1px dashed var(--line); padding-top: 14px; display: grid; gap: 6px; }
+.fc-back .prose { font-size: 17px; }
+.fc-ref { font: 12px var(--f-mono); color: var(--muted); }
+.fc-actions .btn { min-width: 120px; }
+.fc-wrap .panel, .fc-wrap .fc-card { animation: none; }
+
 /* workbook */
 .workbook { background: color-mix(in srgb, var(--accent-soft) 45%, var(--sheet)); }
 .task { display: grid; gap: 12px; }
