@@ -341,7 +341,7 @@
       </section>
       <section data-sec="idea">
         <div class="h-label">The idea</div>
-        ${(l.quotes || []).length ? `<div class="quotes">${l.quotes.map(q => `<figure class="pull"><blockquote>${esc(q.text)}</blockquote><figcaption>${esc(bookAuthor(t, l))}${q.page ? ', p. ' + esc(q.page) : ''}</figcaption></figure>`).join('')}</div>` : ''}
+        ${(l.quotes || []).length ? `<div class="quotes">${l.quotes.map(q => `<figure class="pull"><blockquote>${esc(q.text)}</blockquote><figcaption>${esc(q.who || bookAuthor(t, l))}${q.page ? ', p. ' + esc(q.page) : ''}</figcaption></figure>`).join('')}</div>` : ''}
         <div class="prose">${md(l.idea)}</div>
         ${(l.keyPoints || []).length ? `<div class="keypoints"><div class="eyebrow">Key points</div><ul>${l.keyPoints.map(k => `<li>${inline(k)}</li>`).join('')}</ul></div>` : ''}
         ${l.table ? tableHtml(l.table) : ''}
@@ -792,7 +792,7 @@
       else add('intro', `Lesson ${idx + 1} of ${t.lessons.length}. About ${l.minutes || 10} minutes.`);
       add('intro', l.title, 0.6);
       add('idea', 'The idea.', 0.3);
-      (l.quotes || []).forEach((q, qi) => add('idea', (qi === 0 ? 'In his words: ' : 'And: ') + q.text, 0.5));
+      (l.quotes || []).forEach((q, qi) => add('idea', (q.who ? q.who + ': ' : qi === 0 ? 'In his words: ' : 'And: ') + q.text, 0.5));
       blocks(l.idea).forEach(b => add('idea', b));
       if ((l.keyPoints || []).length) { add('idea', 'Key points.', 0.3); l.keyPoints.forEach(k => add('idea', k)); }
       if (l.table && l.table.rows) {
